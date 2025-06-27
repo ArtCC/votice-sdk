@@ -13,6 +13,7 @@
 		802F7E932E0F1A2700F1BDF6 /* VoticeDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E912E0F1A2700F1BDF6 /* VoticeDemoTests.swift */; };
 		802F7E972E0F1A2900F1BDF6 /* VoticeDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E942E0F1A2900F1BDF6 /* VoticeDemoUITests.swift */; };
 		802F7E982E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E952E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift */; };
+		80DFD2732E0F1D6B00DD20F2 /* Votice in Frameworks */ = {isa = PBXBuildFile; productRef = 80DFD2722E0F1D6B00DD20F2 /* Votice */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80DFD2732E0F1D6B00DD20F2 /* Votice in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +135,7 @@
 			);
 			name = VoticeDemo;
 			packageProductDependencies = (
+				80DFD2722E0F1D6B00DD20F2 /* Votice */,
 			);
 			productName = VoticeDemo;
 			productReference = 802F7E602E0F198400F1BDF6 /* VoticeDemo.app */;
@@ -210,6 +213,9 @@
 			);
 			mainGroup = 802F7E572E0F198400F1BDF6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				80DFD2712E0F1D6B00DD20F2 /* XCLocalSwiftPackageReference "../../../votice-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 802F7E612E0F198400F1BDF6 /* Products */;
 			projectDirPath = "";
@@ -581,6 +587,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		80DFD2712E0F1D6B00DD20F2 /* XCLocalSwiftPackageReference "../../../votice-sdk" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../../votice-sdk";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		80DFD2722E0F1D6B00DD20F2 /* Votice */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Votice;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 802F7E582E0F198400F1BDF6 /* Project object */;
 }
