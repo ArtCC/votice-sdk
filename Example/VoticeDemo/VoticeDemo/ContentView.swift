@@ -19,7 +19,9 @@ struct ContentView: View {
         .padding()
         .onAppear {
             do {
-                try Votice.configure(apiKey: "", apiSecret: "")
+                try Votice.configure(
+                    apiKey: "101769679e916ab73153f290", apiSecret: "ef17a3f32faa587429830d59bc79db7b5b5466b8df1d62ae"
+                )
             } catch {
                 debugPrint("Configuration failed: \(error)")
             }
