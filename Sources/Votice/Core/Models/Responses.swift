@@ -38,7 +38,27 @@ public struct SuggestionsResponse: Codable, Sendable {
     }
 }
 
+public struct VoteSuggestionResponse: Codable, Sendable {
+    public let message: String
+    public let voteStatus: VoteStatusEntity
+
+    public init(message: String, voteStatus: VoteStatusEntity) {
+        self.message = message
+        self.voteStatus = voteStatus
+    }
+}
+
 // MARK: - Comment Responses
+
+public struct CreateCommentResponse: Codable, Sendable {
+    public let message: String
+    public let id: String
+
+    public init(message: String, id: String) {
+        self.message = message
+        self.id = id
+    }
+}
 
 public struct CommentsResponse: Codable, Sendable {
     public let comments: [CommentEntity]
@@ -47,6 +67,11 @@ public struct CommentsResponse: Codable, Sendable {
         self.comments = comments
     }
 }
+
+// MARK: - Type Aliases for Use Cases
+
+public typealias FetchSuggestionsResponse = SuggestionsResponse
+public typealias FetchCommentsResponse = CommentsResponse
 
 // MARK: - Error Response
 
