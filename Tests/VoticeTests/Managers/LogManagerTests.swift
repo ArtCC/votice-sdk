@@ -29,7 +29,7 @@ func testLogManagerTypes() async {
     // Restore original state
     LogManager.debug = originalDebugState
 
-    #expect(true) // If we reach here without crashing, the test passes
+    #expect(Bool(true)) // If we reach here without crashing, the test passes
 }
 
 @Test("LogManager should handle UTF8 data logging")
@@ -49,7 +49,7 @@ func testLogManagerWithData() async {
     // Restore original state
     LogManager.debug = originalDebugState
 
-    #expect(true)
+    #expect(Bool(true))
 }
 
 @Test("LogManager should handle userInfo logging")
@@ -72,7 +72,7 @@ func testLogManagerWithUserInfo() async {
     // Restore original state
     LogManager.debug = originalDebugState
 
-    #expect(true)
+    #expect(Bool(true))
 }
 
 @Test("LogManager should respect debug flag")
@@ -92,7 +92,7 @@ func testLogManagerDebugFlag() async {
     // Restore original state
     LogManager.debug = originalDebugState
 
-    #expect(true)
+    #expect(Bool(true))
 }
 
 @Test("LogManager should handle function name parameter")
@@ -109,5 +109,5 @@ func testLogManagerFunctionName() async {
     // Restore original state
     LogManager.debug = originalDebugState
 
-    #expect(true)
+    #expect(Bool(true))
 }

@@ -38,7 +38,7 @@ enum HTTPMethod: String, Sendable {
     case DELETE = "DELETE"
 }
 
-enum NetworkError: Error, Sendable {
+enum NetworkError: Error, Sendable, Equatable {
     case invalidURL
     case noData
     case invalidResponse

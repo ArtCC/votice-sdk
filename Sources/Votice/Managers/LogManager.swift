@@ -52,10 +52,12 @@ struct LogManager: LogManagerProtocol {
             log(logType, "\(function): \(message)\n\(userInfo)")
         }
     }
+}
 
-    // MARK: - Private
+// MARK: - Private
 
-    private func log(_ logType: LogManagerType, _ message: String) {
+private extension LogManager {
+    func log(_ logType: LogManagerType, _ message: String) {
         if Self.debug {
             switch logType {
             case .canceled:

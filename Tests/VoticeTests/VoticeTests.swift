@@ -8,11 +8,9 @@
 import Testing
 @testable import Votice
 
-@Test
-struct VoticeTests {
-    func testInitializePrintsSomething() {
-        Votice.initialize()
+@Test("Votice should initialize successfully")
+func testInitializePrintsSomething() {
+    Votice.initialize()
 
-        #expect(true)
-    }
+    #expect(Bool(true))
 }
