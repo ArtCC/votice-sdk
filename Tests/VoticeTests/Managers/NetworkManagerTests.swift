@@ -124,7 +124,7 @@ func testNetworkEndpointCreation() async {
     let endpoint = NetworkEndpoint(
         path: "/test",
         method: .POST,
-        body: Data("test", encoding: .utf8),
+        body: Data("test".utf8),
         headers: ["Custom-Header": "value"]
     )
 
@@ -197,7 +197,7 @@ func testSuccessfulPostRequest() async throws {
 func testAuthenticationError() async {
     // Given
     let mockSession = MockURLSession()
-    mockSession.mockData = Data(string: "Unauthorized", encoding: .utf8)
+    mockSession.mockData = Data("Unauthorized".utf8)
     mockSession.mockResponse = HTTPURLResponse(
         url: URL(string: "https://test.com/api")!,
         statusCode: 401,
@@ -224,7 +224,7 @@ func testAuthenticationError() async {
 func testServerError() async {
     // Given
     let mockSession = MockURLSession()
-    mockSession.mockData = Data(string: "Internal Server Error", encoding: .utf8)
+    mockSession.mockData = Data("Internal Server Error".utf8)
     mockSession.mockResponse = HTTPURLResponse(
         url: URL(string: "https://test.com/api")!,
         statusCode: 500,
@@ -271,7 +271,7 @@ func testInvalidURL() async {
 func testDecodingError() async {
     // Given
     let mockSession = MockURLSession()
-    mockSession.mockData = Data(string: "invalid json", encoding: .utf8)
+    mockSession.mockData = Data("invalid json".utf8)
     mockSession.mockResponse = HTTPURLResponse(
         url: URL(string: "https://test.com/api")!,
         statusCode: 200,
