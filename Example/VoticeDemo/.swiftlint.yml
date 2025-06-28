@@ -1,0 +1,7 @@
+# SwiftLint configuration for Votice SDK
+# This configuration covers both the library and the demo app
+
+# Paths to include for linting
+included:
+  - ../../Sources/
+  - ../../Tests/

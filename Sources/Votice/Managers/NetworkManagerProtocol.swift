@@ -32,10 +32,10 @@ struct NetworkEndpoint: Sendable {
 }
 
 enum HTTPMethod: String, Sendable {
-    case GET = "GET"
-    case POST = "POST"
-    case PUT = "PUT"
-    case DELETE = "DELETE"
+    case GET
+    case POST
+    case PUT
+    case DELETE
 }
 
 enum NetworkError: Error, Sendable, Equatable {
