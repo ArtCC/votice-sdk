@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		802F7E8E2E0F1A2500F1BDF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */; };
-		802F7E8F2E0F1A2500F1BDF6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* ContentView.swift */; };
-		802F7E902E0F1A2500F1BDF6 /* VoticeDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8C2E0F1A2500F1BDF6 /* VoticeDemoApp.swift */; };
+		802F7E8F2E0F1A2500F1BDF6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */; };
+		802F7E902E0F1A2500F1BDF6 /* AppVoticeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */; };
 		802F7E932E0F1A2700F1BDF6 /* VoticeDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E912E0F1A2700F1BDF6 /* VoticeDemoTests.swift */; };
 		802F7E972E0F1A2900F1BDF6 /* VoticeDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E942E0F1A2900F1BDF6 /* VoticeDemoUITests.swift */; };
 		802F7E982E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E952E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift */; };
@@ -38,8 +38,8 @@
 		802F7E6D2E0F198500F1BDF6 /* VoticeDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		802F7E772E0F198500F1BDF6 /* VoticeDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		802F7E8B2E0F1A2500F1BDF6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		802F7E8C2E0F1A2500F1BDF6 /* VoticeDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemoApp.swift; sourceTree = "<group>"; };
+		802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVoticeDemo.swift; sourceTree = "<group>"; };
 		802F7E912E0F1A2700F1BDF6 /* VoticeDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemoTests.swift; sourceTree = "<group>"; };
 		802F7E942E0F1A2900F1BDF6 /* VoticeDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemoUITests.swift; sourceTree = "<group>"; };
 		802F7E952E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -94,9 +94,9 @@
 		802F7E8D2E0F1A2500F1BDF6 /* VoticeDemo */ = {
 			isa = PBXGroup;
 			children = (
+				802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */,
 				802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */,
-				802F7E8B2E0F1A2500F1BDF6 /* ContentView.swift */,
-				802F7E8C2E0F1A2500F1BDF6 /* VoticeDemoApp.swift */,
+				802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */,
 			);
 			path = VoticeDemo;
 			sourceTree = "<group>";
@@ -128,6 +128,7 @@
 				802F7E5C2E0F198400F1BDF6 /* Sources */,
 				802F7E5D2E0F198400F1BDF6 /* Frameworks */,
 				802F7E5E2E0F198400F1BDF6 /* Resources */,
+				804E55282E0FCB56004EED37 /* SwiftLint Script */,
 			);
 			buildRules = (
 			);
@@ -215,6 +216,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				80DFD2712E0F1D6B00DD20F2 /* XCLocalSwiftPackageReference "../../../votice-sdk" */,
+				804E55272E0FCB2D004EED37 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 802F7E612E0F198400F1BDF6 /* Products */;
@@ -253,13 +255,35 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		804E55282E0FCB56004EED37 /* SwiftLint Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SWIFT_PACKAGE_DIR=\"${BUILD_DIR%Build/*}SourcePackages/artifacts\"\nSWIFTLINT_CMD=$(ls \"$SWIFT_PACKAGE_DIR\"/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle/swiftlint-*-macos/bin/swiftlint | head -n 1)\n\nif test -f \"$SWIFTLINT_CMD\" 2>&1\nthen\n    \"$SWIFTLINT_CMD\"\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		802F7E5C2E0F198400F1BDF6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				802F7E8F2E0F1A2500F1BDF6 /* ContentView.swift in Sources */,
-				802F7E902E0F1A2500F1BDF6 /* VoticeDemoApp.swift in Sources */,
+				802F7E8F2E0F1A2500F1BDF6 /* HomeView.swift in Sources */,
+				802F7E902E0F1A2500F1BDF6 /* AppVoticeDemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +450,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
@@ -457,6 +482,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
@@ -594,6 +620,17 @@
 			relativePath = "../../../votice-sdk";
 		};
 /* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		804E55272E0FCB2D004EED37 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.59.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		80DFD2722E0F1D6B00DD20F2 /* Votice */ = {

@@ -3,16 +3,15 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 27/6/25.
+//  Copyright © 2025 ArtCC. All rights reserved.
 //
 
 import Testing
 @testable import Votice
 
-@Test
-struct VoticeTests {
-    func testInitializePrintsSomething() {
-        Votice.initialize()
+@Test("Votice should initialize successfully")
+func testInitializePrintsSomething() {
+    Votice.initialize()
 
-        #expect(true)
-    }
+    #expect(Bool(true))
 }
