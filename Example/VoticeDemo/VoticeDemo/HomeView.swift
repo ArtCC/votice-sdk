@@ -152,9 +152,9 @@ private extension HomeView {
     func configurateSDK() {
         do {
             try Votice.configure(
-                apiKey: "5e4941c3e9290417b05a6312",
-                apiSecret: "c9d3ba1daddfb30bc3ace2ee647276cf2e0f3aac367eac50",
-                appId: "r5MsoIdBunUryWERDsep"
+                apiKey: "f2ba766c1f5311abb15cb49c",
+                apiSecret: "d20d4556d837924dee6e3bc4a4b43ce260a0ea221c2f5500",
+                appId: "kJnOJXuO1T8hKRQ0Qo9V"
             )
 
             debugPrint("✅ Votice SDK configured successfully!")
