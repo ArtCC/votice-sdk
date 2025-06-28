@@ -22,6 +22,7 @@ func testConfigurationManagerInitialization() async {
     #expect(manager.baseURL == "https://us-central1-memorypost-artcc01.cloudfunctions.net/api")
     #expect(manager.apiKey.isEmpty)
     #expect(manager.apiSecret.isEmpty)
+    #expect(manager.appId.isEmpty)
     #expect(!manager.configurationId.isEmpty)
 }
 
@@ -31,12 +32,13 @@ func testConfigurationManagerValidConfiguration() async throws {
     let manager = ConfigurationManager()
 
     // When
-    try manager.configure(apiKey: "test-api-key", apiSecret: "test-api-secret")
+    try manager.configure(apiKey: "test-api-key", apiSecret: "test-api-secret", appId: "test-appId")
 
     // Then
     #expect(manager.isConfigured == true)
     #expect(manager.apiKey == "test-api-key")
     #expect(manager.apiSecret == "test-api-secret")
+    #expect(manager.appId == "test-appId")
 }
 
 @Test("ConfigurationManager should trim whitespace from credentials")
@@ -45,11 +47,12 @@ func testConfigurationManagerTrimsWhitespace() async throws {
     let manager = ConfigurationManager()
 
     // When
-    try manager.configure(apiKey: "  test-api-key  ", apiSecret: "  test-api-secret  ")
+    try manager.configure(apiKey: "  test-api-key  ", apiSecret: "  test-api-secret  ", appId: "  test-appId  ")
 
     // Then
     #expect(manager.apiKey == "test-api-key")
     #expect(manager.apiSecret == "test-api-secret")
+    #expect(manager.appId == "test-appId")
 }
 
 @Test("ConfigurationManager should throw error for empty API key")
@@ -59,7 +62,7 @@ func testConfigurationManagerEmptyAPIKey() async {
 
     // When/Then
     #expect(throws: ConfigurationError.invalidAPIKey) {
-        try manager.configure(apiKey: "", apiSecret: "valid-secret")
+        try manager.configure(apiKey: "", apiSecret: "valid-secret", appId: "valid-appId")
     }
 
     #expect(manager.isConfigured == false)
@@ -72,7 +75,7 @@ func testConfigurationManagerWhitespaceAPIKey() async {
 
     // When/Then
     #expect(throws: ConfigurationError.invalidAPIKey) {
-        try manager.configure(apiKey: "   ", apiSecret: "valid-secret")
+        try manager.configure(apiKey: "   ", apiSecret: "valid-secret", appId: "valid-appId")
     }
 
     #expect(manager.isConfigured == false)
@@ -85,7 +88,7 @@ func testConfigurationManagerEmptyAPISecret() async {
 
     // When/Then
     #expect(throws: ConfigurationError.invalidAPISecret) {
-        try manager.configure(apiKey: "valid-key", apiSecret: "")
+        try manager.configure(apiKey: "valid-key", apiSecret: "", appId: "valid-appId")
     }
 
     #expect(manager.isConfigured == false)
@@ -98,7 +101,7 @@ func testConfigurationManagerWhitespaceAPISecret() async {
 
     // When/Then
     #expect(throws: ConfigurationError.invalidAPISecret) {
-        try manager.configure(apiKey: "valid-key", apiSecret: "   ")
+        try manager.configure(apiKey: "valid-key", apiSecret: "   ", appId: "valid-appId")
     }
 
     #expect(manager.isConfigured == false)
@@ -108,23 +111,24 @@ func testConfigurationManagerWhitespaceAPISecret() async {
 func testConfigurationManagerAlreadyConfigured() async throws {
     // Given
     let manager = ConfigurationManager()
-    try manager.configure(apiKey: "test-key", apiSecret: "test-secret")
+    try manager.configure(apiKey: "test-key", apiSecret: "test-secret", appId: "test-appId")
 
     // When/Then
     #expect(throws: ConfigurationError.alreadyConfigured) {
-        try manager.configure(apiKey: "new-key", apiSecret: "new-secret")
+        try manager.configure(apiKey: "new-key", apiSecret: "new-secret", appId: "new-appId")
     }
 
     // Should maintain original configuration
     #expect(manager.apiKey == "test-key")
     #expect(manager.apiSecret == "test-secret")
+    #expect(manager.appId == "test-appId")
 }
 
 @Test("ConfigurationManager reset should clear configuration")
 func testConfigurationManagerReset() async throws {
     // Given
     let manager = ConfigurationManager()
-    try manager.configure(apiKey: "test-key", apiSecret: "test-secret")
+    try manager.configure(apiKey: "test-key", apiSecret: "test-secret", appId: "test-appId")
     #expect(manager.isConfigured == true)
 
     // When
@@ -134,6 +138,7 @@ func testConfigurationManagerReset() async throws {
     #expect(manager.isConfigured == false)
     #expect(manager.apiKey.isEmpty)
     #expect(manager.apiSecret.isEmpty)
+    #expect(manager.appId.isEmpty)
     #expect(manager.baseURL == "https://us-central1-memorypost-artcc01.cloudfunctions.net/api") // baseURL should remain
 }
 
@@ -141,7 +146,7 @@ func testConfigurationManagerReset() async throws {
 func testConfigurationManagerValidateConfigurationSuccess() async throws {
     // Given
     let manager = ConfigurationManager()
-    try manager.configure(apiKey: "test-key", apiSecret: "test-secret")
+    try manager.configure(apiKey: "test-key", apiSecret: "test-secret", appId: "test-appId")
 
     // When/Then - Should not throw
     try manager.validateConfiguration()
@@ -168,7 +173,7 @@ func testConfigurationManagerThreadSafety() async throws {
         for index in 0..<10 {
             group.addTask {
                 do {
-                    try manager.configure(apiKey: "key-\(index)", apiSecret: "secret-\(index)")
+                    try manager.configure(apiKey: "key-\(index)", apiSecret: "secret-\(index)", appId: "app-\(index)")
                 } catch {
                     // Expected - only one should succeed
                 }
@@ -180,6 +185,7 @@ func testConfigurationManagerThreadSafety() async throws {
     #expect(manager.isConfigured == true)
     #expect(!manager.apiKey.isEmpty)
     #expect(!manager.apiSecret.isEmpty)
+    #expect(!manager.appId.isEmpty)
 }
 
 @Test("ConfigurationManager should have unique configuration ID")

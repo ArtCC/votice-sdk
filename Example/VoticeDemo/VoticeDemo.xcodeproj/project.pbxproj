@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		802F7E8E2E0F1A2500F1BDF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */; };
-		802F7E8F2E0F1A2500F1BDF6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* ContentView.swift */; };
-		802F7E902E0F1A2500F1BDF6 /* VoticeDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8C2E0F1A2500F1BDF6 /* VoticeDemoApp.swift */; };
+		802F7E8F2E0F1A2500F1BDF6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */; };
+		802F7E902E0F1A2500F1BDF6 /* AppVoticeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */; };
 		802F7E932E0F1A2700F1BDF6 /* VoticeDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E912E0F1A2700F1BDF6 /* VoticeDemoTests.swift */; };
 		802F7E972E0F1A2900F1BDF6 /* VoticeDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E942E0F1A2900F1BDF6 /* VoticeDemoUITests.swift */; };
 		802F7E982E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E952E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift */; };
@@ -38,8 +38,8 @@
 		802F7E6D2E0F198500F1BDF6 /* VoticeDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		802F7E772E0F198500F1BDF6 /* VoticeDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		802F7E8B2E0F1A2500F1BDF6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		802F7E8C2E0F1A2500F1BDF6 /* VoticeDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemoApp.swift; sourceTree = "<group>"; };
+		802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVoticeDemo.swift; sourceTree = "<group>"; };
 		802F7E912E0F1A2700F1BDF6 /* VoticeDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemoTests.swift; sourceTree = "<group>"; };
 		802F7E942E0F1A2900F1BDF6 /* VoticeDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemoUITests.swift; sourceTree = "<group>"; };
 		802F7E952E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -94,9 +94,9 @@
 		802F7E8D2E0F1A2500F1BDF6 /* VoticeDemo */ = {
 			isa = PBXGroup;
 			children = (
+				802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */,
 				802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */,
-				802F7E8B2E0F1A2500F1BDF6 /* ContentView.swift */,
-				802F7E8C2E0F1A2500F1BDF6 /* VoticeDemoApp.swift */,
+				802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */,
 			);
 			path = VoticeDemo;
 			sourceTree = "<group>";
@@ -282,8 +282,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				802F7E8F2E0F1A2500F1BDF6 /* ContentView.swift in Sources */,
-				802F7E902E0F1A2500F1BDF6 /* VoticeDemoApp.swift in Sources */,
+				802F7E8F2E0F1A2500F1BDF6 /* HomeView.swift in Sources */,
+				802F7E902E0F1A2500F1BDF6 /* AppVoticeDemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

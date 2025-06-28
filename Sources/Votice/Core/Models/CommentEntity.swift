@@ -15,9 +15,9 @@ struct CommentEntity: Codable, Sendable, Identifiable {
     let suggestionId: String
     let appId: String
     let text: String
-    let nickname: String?           // SDK only
-    let createdBy: String           // userId for dashboard, deviceId for SDK
-    let deviceId: String?           // SDK only
+    let nickname: String? // SDK only
+    let createdBy: String // userId for dashboard, deviceId for SDK
+    let deviceId: String? // SDK only
     let createdAt: Date
 
     // MARK: - Init

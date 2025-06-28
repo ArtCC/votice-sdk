@@ -15,6 +15,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
 
     private var _apiKey: String = ""
     private var _apiSecret: String = ""
+    private var _appId: String = ""
     private var _isConfigured: Bool = false
 
     private let lock = NSLock()
@@ -43,13 +44,17 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
         lock.withLock { _apiSecret }
     }
 
+    var appId: String {
+        lock.withLock { _appId }
+    }
+
     // MARK: - Init
 
     internal init() {}
 
     // MARK: - Public functions
 
-    func configure(apiKey: String, apiSecret: String) throws {
+    func configure(apiKey: String, apiSecret: String, appId: String) throws {
         try lock.withLock {
             guard !_isConfigured else {
                 LogManager.shared.devLog(.warning, "Configuration manager is already configured")
@@ -71,8 +76,16 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
                 throw ConfigurationError.invalidAPISecret
             }
 
+            // Validate app ID
+            guard !appId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                LogManager.shared.devLog(.error, "Invalid app ID provided")
+
+                throw ConfigurationError.invalidAppId
+            }
+
             _apiKey = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
             _apiSecret = apiSecret.trimmingCharacters(in: .whitespacesAndNewlines)
+            _appId = appId.trimmingCharacters(in: .whitespacesAndNewlines)
             _isConfigured = true
 
             LogManager.shared.devLog(.success, "Configuration manager successfully configured")
@@ -83,6 +96,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
         lock.withLock {
             _apiKey = ""
             _apiSecret = ""
+            _appId = ""
             _isConfigured = false
 
             LogManager.shared.devLog(.info, "Configuration manager reset")

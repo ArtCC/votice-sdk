@@ -15,6 +15,7 @@ enum ConfigurationError: Error, LocalizedError {
     case notConfigured
     case invalidAPIKey
     case invalidAPISecret
+    case invalidAppId
 
     // MARK: - Properties
 
@@ -28,6 +29,8 @@ enum ConfigurationError: Error, LocalizedError {
             return "Invalid API key provided"
         case .invalidAPISecret:
             return "Invalid API secret provided"
+        case .invalidAppId:
+            return "Invalid App ID provided"
         }
     }
 }

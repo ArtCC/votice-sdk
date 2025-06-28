@@ -36,12 +36,15 @@ struct NetworkManager: NetworkManagerProtocol {
         do {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
+
             let result = try decoder.decode(responseType, from: data)
 
             LogManager.shared.devLog(.success, "Successfully decoded response for \(endpoint.path)")
+
             return result
         } catch {
             LogManager.shared.devLog(.error, "Decoding error for \(endpoint.path): \(error.localizedDescription)")
+
             throw NetworkError.decodingError(error.localizedDescription)
         }
     }

@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  HomeView.swift
 //  VoticeDemo
 //
 //  Created by Arturo Carretero Calvo on 27/6/25.
@@ -8,9 +8,14 @@
 import SwiftUI
 import Votice
 
-struct ContentView: View {
+struct HomeView: View {
+    // MARK: - Properties
+
     @State private var showingFeedbackSheet = false
     @State private var showingEmbeddedView = false
+    @State private var isConfigured = false
+
+    // MARK: - View
 
     var body: some View {
         NavigationView {
@@ -20,11 +25,9 @@ struct ContentView: View {
                     Image(systemName: "star.bubble")
                         .font(.system(size: 60))
                         .foregroundColor(.blue)
-
                     Text("Votice SDK Demo")
                         .font(.largeTitle)
                         .fontWeight(.bold)
-
                     Text("Test all the feedback features")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
@@ -38,7 +41,6 @@ struct ContentView: View {
                     VStack(spacing: 8) {
                         Text("Option 1: Modal Presentation")
                             .font(.headline)
-
                         Button("Show Feedback Sheet") {
                             showingFeedbackSheet = true
                         }
@@ -50,7 +52,6 @@ struct ContentView: View {
                     VStack(spacing: 8) {
                         Text("Option 2: Navigation Push")
                             .font(.headline)
-
                         NavigationLink("Navigate to Feedback") {
                             Votice.feedbackView()
                         }
@@ -62,7 +63,6 @@ struct ContentView: View {
                     VStack(spacing: 8) {
                         Text("Option 3: Embedded View")
                             .font(.headline)
-
                         Button(showingEmbeddedView ? "Hide Embedded View" : "Show Embedded View") {
                             showingEmbeddedView.toggle()
                         }
@@ -74,7 +74,6 @@ struct ContentView: View {
                     VStack(spacing: 8) {
                         Text("Option 4: SDK Button Component")
                             .font(.headline)
-
                         Votice.feedbackButton(title: "Give Feedback 💡")
                     }
 
@@ -82,7 +81,6 @@ struct ContentView: View {
                     VStack(spacing: 8) {
                         Text("Option 5: Custom Theme")
                             .font(.headline)
-
                         Button("Feedback with Custom Theme") {
                             // This will be handled by the sheet with custom theme
                             showingFeedbackSheet = true
@@ -98,14 +96,13 @@ struct ContentView: View {
                 // Configuration Status
                 VStack(spacing: 4) {
                     HStack {
-                        Image(systemName: Votice.isConfigured ? "checkmark.circle.fill" : "xmark.circle.fill")
-                            .foregroundColor(Votice.isConfigured ? .green : .red)
-                        Text("SDK Configuration: \(Votice.isConfigured ? "✅ Ready" : "❌ Not Configured")")
+                        Image(systemName: isConfigured ? "checkmark.circle.fill" : "xmark.circle.fill")
+                            .foregroundColor(isConfigured ? .green : .red)
+                        Text("SDK Configuration: \(isConfigured ? "✅ Ready" : "❌ Not Configured")")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
-
-                    if Votice.isConfigured {
+                    if isConfigured {
                         Text("Ready to collect feedback!")
                             .font(.caption2)
                             .foregroundColor(.green)
@@ -146,20 +143,35 @@ struct ContentView: View {
             configurateSDK()
         }
     }
+}
 
-    private func configurateSDK() {
+// MARK: - Private
+
+private extension HomeView {
+    /// Configures the Votice SDK with the provided API key, secret, and app ID.
+    func configurateSDK() {
         do {
             try Votice.configure(
                 apiKey: "101769679e916ab73153f290",
-                apiSecret: "ef17a3f32faa587429830d59bc79db7b5b5466b8df1d62ae"
+                apiSecret: "ef17a3f32faa587429830d59bc79db7b5b5466b8df1d62ae",
+                appId: "1oSa2icpFbGk7M6hcKkW"
             )
-            print("✅ Votice SDK configured successfully!")
+
+            debugPrint("✅ Votice SDK configured successfully!")
+
+            // Update configuration status
+            isConfigured = Votice.isConfigured
         } catch {
-            print("❌ Configuration failed: \(error)")
+            debugPrint("❌ Configuration failed: \(error)")
+
+            // Update configuration status
+            isConfigured = false
         }
     }
 }
 
+// MARK: - Preview
+
 #Preview {
-    ContentView()
+    HomeView()
 }

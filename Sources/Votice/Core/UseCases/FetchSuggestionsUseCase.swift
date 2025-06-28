@@ -9,7 +9,7 @@
 import Foundation
 
 protocol FetchSuggestionsUseCaseProtocol: Sendable {
-    func execute(limit: Int?, offset: Int?, status: String?) async throws -> FetchSuggestionsResponse
+    func execute() async throws -> FetchSuggestionsResponse
 }
 
 final class FetchSuggestionsUseCase: FetchSuggestionsUseCaseProtocol {
@@ -33,31 +33,12 @@ final class FetchSuggestionsUseCase: FetchSuggestionsUseCaseProtocol {
 
     // MARK: - FetchSuggestionsUseCaseProtocol
 
-    func execute(limit: Int? = nil,
-                 offset: Int? = nil,
-                 status: String? = nil) async throws -> FetchSuggestionsResponse {
+    func execute() async throws -> FetchSuggestionsResponse {
         // Validate configuration
         try configurationManager.validateConfiguration()
 
-        // Validate limit if provided
-        if let limit = limit, limit <= 0 {
-            throw VoticeError.invalidInput("Limit must be greater than 0")
-        }
-
-        // Validate offset if provided
-        if let offset = offset, offset < 0 {
-            throw VoticeError.invalidInput("Offset must be greater than or equal to 0")
-        }
-
         // Create request
-        let request = FetchSuggestionsRequest(
-            deviceId: deviceManager.deviceId,
-            limit: limit,
-            offset: offset,
-            status: status,
-            platform: deviceManager.platform,
-            language: deviceManager.language
-        )
+        let request = FetchSuggestionsRequest(appId: configurationManager.appId)
 
         // Execute request
         return try await suggestionRepository.fetchSuggestions(request: request)

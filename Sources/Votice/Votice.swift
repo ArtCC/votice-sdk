@@ -16,9 +16,10 @@ public struct Votice {
     /// - Parameters:
     ///   - apiKey: Your app's API key from Votice Dashboard
     ///   - apiSecret: Your app's API secret from Votice Dashboard
+    ///   - appId: Your app's unique identifier (optional, defaults to "default")
     /// - Throws: ConfigurationError if credentials are invalid or already configured
-    public static func configure(apiKey: String, apiSecret: String) throws {
-        try ConfigurationManager.shared.configure(apiKey: apiKey, apiSecret: apiSecret)
+    public static func configure(apiKey: String, apiSecret: String, appId: String) throws {
+        try ConfigurationManager.shared.configure(apiKey: apiKey, apiSecret: apiSecret, appId: appId)
         LogManager.debug = true // Enable debug logging for development
     }
 

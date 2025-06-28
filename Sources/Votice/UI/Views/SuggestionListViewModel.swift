@@ -46,11 +46,7 @@ final class SuggestionListViewModel: ObservableObject {
         hasMoreSuggestions = true
 
         do {
-            let response = try await fetchSuggestionsUseCase.execute(
-                limit: pageSize,
-                offset: currentOffset,
-                status: selectedFilter?.rawValue
-            )
+            let response = try await fetchSuggestionsUseCase.execute()
 
             suggestions = response.suggestions
             currentOffset = response.suggestions.count
@@ -68,11 +64,7 @@ final class SuggestionListViewModel: ObservableObject {
         isLoading = true
 
         do {
-            let response = try await fetchSuggestionsUseCase.execute(
-                limit: pageSize,
-                offset: currentOffset,
-                status: selectedFilter?.rawValue
-            )
+            let response = try await fetchSuggestionsUseCase.execute()
 
             suggestions.append(contentsOf: response.suggestions)
             currentOffset += response.suggestions.count

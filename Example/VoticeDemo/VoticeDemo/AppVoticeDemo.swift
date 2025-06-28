@@ -1,5 +1,5 @@
 //
-//  VoticeDemoApp.swift
+//  AppVoticeDemo.swift
 //  VoticeDemo
 //
 //  Created by Arturo Carretero Calvo on 27/6/25.
@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct VoticeDemoApp: App {
+struct AppVoticeDemo: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
         }
     }
 }

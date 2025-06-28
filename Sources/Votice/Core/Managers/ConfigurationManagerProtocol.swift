@@ -15,10 +15,11 @@ protocol ConfigurationManagerProtocol: Sendable {
     var baseURL: String { get }
     var apiKey: String { get }
     var apiSecret: String { get }
+    var appId: String { get }
 
     // MARK: - Public functions
 
-    func configure(apiKey: String, apiSecret: String) throws
+    func configure(apiKey: String, apiSecret: String, appId: String) throws
     func reset()
     func validateConfiguration() throws
 }
