@@ -16,7 +16,7 @@ import Foundation
 func testVoticeErrorInvalidInput() async {
     // Given
     let error = VoticeError.invalidInput("Title cannot be empty")
-    
+
     // Then
     #expect(error.errorDescription == "Invalid input: Title cannot be empty")
 }
@@ -24,9 +24,11 @@ func testVoticeErrorInvalidInput() async {
 @Test("VoticeError networkError should provide correct description")
 func testVoticeErrorNetworkError() async {
     // Given
-    let underlyingError = NSError(domain: "NetworkDomain", code: 500, userInfo: [NSLocalizedDescriptionKey: "Server error"])
+    let underlyingError = NSError(domain: "NetworkDomain",
+                                  code: 500,
+                                  userInfo: [NSLocalizedDescriptionKey: "Server error"])
     let error = VoticeError.networkError(underlyingError)
-    
+
     // Then
     #expect(error.errorDescription == "Network error: Server error")
 }
@@ -36,7 +38,7 @@ func testVoticeErrorConfigurationError() async {
     // Given
     let configError = ConfigurationError.notConfigured
     let error = VoticeError.configurationError(configError)
-    
+
     // Then
     #expect(error.errorDescription == configError.errorDescription)
 }
@@ -45,7 +47,7 @@ func testVoticeErrorConfigurationError() async {
 func testVoticeErrorUnknownError() async {
     // Given
     let error = VoticeError.unknownError("Something unexpected happened")
-    
+
     // Then
     #expect(error.errorDescription == "Unknown error: Something unexpected happened")
 }
@@ -54,12 +56,12 @@ func testVoticeErrorUnknownError() async {
 func testVoticeErrorSendable() async {
     // Given
     let error = VoticeError.invalidInput("Test")
-    
+
     // When - This compiles, proving it's Sendable
     Task {
-        let _ = error
+        _ = error
     }
-    
+
     // Then - No assertion needed, compilation proves Sendable conformance
 }
 
@@ -67,10 +69,10 @@ func testVoticeErrorSendable() async {
 func testVoticeErrorLocalizedError() async {
     // Given
     let error = VoticeError.invalidInput("Test message")
-    
+
     // When
     let localizedError = error as LocalizedError
-    
+
     // Then
     #expect(localizedError.errorDescription != nil)
 }

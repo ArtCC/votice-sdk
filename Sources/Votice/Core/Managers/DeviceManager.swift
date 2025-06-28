@@ -64,7 +64,7 @@ final class DeviceManager: DeviceManagerProtocol {
 
     // MARK: - Initialization
 
-    private init(userDefaults: UserDefaults = .standard) {
+    internal init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
 
         // Ensure we have a device ID on initialization (without locks to avoid deadlock)

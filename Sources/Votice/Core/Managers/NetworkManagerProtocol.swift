@@ -13,7 +13,6 @@ protocol NetworkManagerProtocol: Sendable {
         endpoint: NetworkEndpoint,
         responseType: T.Type
     ) async throws -> T
-
     func request(endpoint: NetworkEndpoint) async throws
 }
 

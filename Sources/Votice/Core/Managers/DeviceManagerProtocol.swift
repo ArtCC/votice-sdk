@@ -9,9 +9,13 @@
 import Foundation
 
 protocol DeviceManagerProtocol: Sendable {
+    // MARK: - Properties
+
     var deviceId: String { get }
     var platform: String { get }
     var language: String { get }
+
+    // MARK: - Public functions
 
     func generateNewDeviceId() -> String
     func resetDeviceId()

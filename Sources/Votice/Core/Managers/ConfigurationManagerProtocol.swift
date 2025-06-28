@@ -9,10 +9,14 @@
 import Foundation
 
 protocol ConfigurationManagerProtocol: Sendable {
+    // MARK: - Properties
+
     var isConfigured: Bool { get }
     var baseURL: String { get }
     var apiKey: String { get }
     var apiSecret: String { get }
+
+    // MARK: - Public functions
 
     func configure(apiKey: String, apiSecret: String) throws
     func reset()

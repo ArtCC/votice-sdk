@@ -13,11 +13,13 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
 
     static let shared = ConfigurationManager()
 
-    private let lock = NSLock()
-    private let _baseURL: String = "https://us-central1-memorypost-artcc01.cloudfunctions.net/api"
     private var _apiKey: String = ""
     private var _apiSecret: String = ""
     private var _isConfigured: Bool = false
+
+    private let lock = NSLock()
+    private let _baseURL: String = "https://us-central1-memorypost-artcc01.cloudfunctions.net/api"
+    private let _configurationId: String = UUID().uuidString
 
     // MARK: - Public
 
@@ -29,6 +31,10 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
         return _baseURL
     }
 
+    var configurationId: String {
+        return _configurationId
+    }
+
     var apiKey: String {
         lock.withLock { _apiKey }
     }
@@ -37,11 +43,11 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
         lock.withLock { _apiSecret }
     }
 
-    // MARK: - Initialization
+    // MARK: - Init
 
-    private init() {}
+    internal init() {}
 
-    // MARK: - Functions
+    // MARK: - Public functions
 
     func configure(apiKey: String, apiSecret: String) throws {
         try lock.withLock {
@@ -79,8 +85,6 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
             LogManager.shared.devLog(.info, "Configuration manager reset")
         }
     }
-
-    // MARK: - Internal
 
     func validateConfiguration() throws {
         guard isConfigured else {
