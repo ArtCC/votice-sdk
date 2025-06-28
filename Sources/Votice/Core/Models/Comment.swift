@@ -3,12 +3,12 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
-//  Copyright © 2024 ArtCC. All rights reserved.
+//  Copyright © 2025 ArtCC. All rights reserved.
 //
 
 import Foundation
 
-public struct Comment: Codable, Sendable, Identifiable {
+public struct CommentEntity: Codable, Sendable, Identifiable {
     // MARK: - Properties
 
     public let id: String
@@ -45,7 +45,7 @@ public struct Comment: Codable, Sendable, Identifiable {
 
 // MARK: - Extensions
 
-public extension Comment {
+public extension CommentEntity {
     /// Returns the display name for the comment author
     var displayName: String {
         return nickname ?? "Anonymous"

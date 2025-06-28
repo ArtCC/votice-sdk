@@ -3,12 +3,12 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
-//  Copyright © 2024 ArtCC. All rights reserved.
+//  Copyright © 2025 ArtCC. All rights reserved.
 //
 
 import Foundation
 
-public struct User: Codable, Sendable, Identifiable {
+public struct UserEntity: Codable, Sendable, Identifiable {
     // MARK: - Properties
 
     public let id: String
@@ -56,7 +56,7 @@ public enum UserPlan: String, Codable, Sendable, CaseIterable {
 
 // MARK: - Extensions
 
-public extension User {
+public extension UserEntity {
     /// Returns whether the user has push notifications enabled
     var hasPushNotifications: Bool {
         return fcmToken != nil && !fcmToken!.isEmpty

@@ -3,7 +3,7 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
-//  Copyright © 2024 ArtCC. All rights reserved.
+//  Copyright © 2025 ArtCC. All rights reserved.
 //
 
 import Foundation
@@ -22,17 +22,27 @@ final class DeviceManager: DeviceManagerProtocol {
 
     static let shared = DeviceManager()
 
-    private nonisolated(unsafe) let userDefaults = UserDefaults.standard
+    private nonisolated(unsafe) let userDefaults: UserDefaults
     private let deviceIdKey = "VoticeSDK_DeviceId"
     private let lock = NSLock()
 
     // MARK: - Initialization
 
-    private init() {
+    private init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+
         // Ensure we have a device ID on initialization
         if getCurrentDeviceId().isEmpty {
             _ = generateNewDeviceId()
         }
+    }
+
+    // MARK: - Testing Initialization
+
+    internal static func createForTesting(
+        userDefaults: UserDefaults = UserDefaults(suiteName: "VoticeSDKTests")!
+    ) -> DeviceManager {
+        return DeviceManager(userDefaults: userDefaults)
     }
 
     // MARK: - Public
@@ -73,12 +83,14 @@ final class DeviceManager: DeviceManagerProtocol {
 
     @discardableResult
     func generateNewDeviceId() -> String {
-        let newDeviceId = UUID().uuidString
-        userDefaults.set(newDeviceId, forKey: deviceIdKey)
-        userDefaults.synchronize()
+        return lock.withLock {
+            let newDeviceId = UUID().uuidString
+            userDefaults.set(newDeviceId, forKey: deviceIdKey)
+            userDefaults.synchronize()
 
-        LogManager.shared.devLog(.info, "Generated new device ID: \(newDeviceId)")
-        return newDeviceId
+            LogManager.shared.devLog(.info, "Generated new device ID: \(newDeviceId)")
+            return newDeviceId
+        }
     }
 
     func resetDeviceId() {

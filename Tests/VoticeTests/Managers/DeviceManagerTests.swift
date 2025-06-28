@@ -3,17 +3,28 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
-//  Copyright © 2024 ArtCC. All rights reserved.
+//  Copyright © 2025 ArtCC. All rights reserved.
 //
 
 import Testing
 @testable import Votice
 import Foundation
 
+// MARK: - Test Helper
+
+private func createTestDeviceManager() -> DeviceManager {
+    // Create a unique UserDefaults for each test to avoid interference
+    let suiteName = "VoticeSDKTests_\(UUID().uuidString)"
+    let testUserDefaults = UserDefaults(suiteName: suiteName)!
+    return DeviceManager.createForTesting(userDefaults: testUserDefaults)
+}
+
+// MARK: - Tests
+
 @Test("DeviceManager should generate valid device ID")
 func testDeviceIdGeneration() async {
     // Given
-    let deviceManager = DeviceManager.shared
+    let deviceManager = createTestDeviceManager()
 
     // When
     let deviceId = deviceManager.deviceId
@@ -27,7 +38,7 @@ func testDeviceIdGeneration() async {
 @Test("DeviceManager should persist device ID")
 func testDeviceIdPersistence() async {
     // Given
-    let deviceManager = DeviceManager.shared
+    let deviceManager = createTestDeviceManager()
 
     // When
     let firstCall = deviceManager.deviceId
@@ -40,7 +51,7 @@ func testDeviceIdPersistence() async {
 @Test("DeviceManager should generate new device ID when requested")
 func testGenerateNewDeviceId() async {
     // Given
-    let deviceManager = DeviceManager.shared
+    let deviceManager = createTestDeviceManager()
     deviceManager.resetDeviceId() // Start fresh
     let originalId = deviceManager.deviceId
 
@@ -60,7 +71,7 @@ func testGenerateNewDeviceId() async {
 @Test("DeviceManager should reset device ID")
 func testResetDeviceId() async {
     // Given
-    let deviceManager = DeviceManager.shared
+    let deviceManager = createTestDeviceManager()
     let originalId = deviceManager.deviceId
 
     // When
@@ -76,7 +87,7 @@ func testResetDeviceId() async {
 @Test("DeviceManager should provide valid platform")
 func testPlatform() async {
     // Given
-    let deviceManager = DeviceManager.shared
+    let deviceManager = createTestDeviceManager()
 
     // When
     let platform = deviceManager.platform
@@ -92,7 +103,7 @@ func testPlatform() async {
 @Test("DeviceManager should provide valid language")
 func testLanguage() async {
     // Given
-    let deviceManager = DeviceManager.shared
+    let deviceManager = createTestDeviceManager()
 
     // When
     let language = deviceManager.language
@@ -105,7 +116,7 @@ func testLanguage() async {
 @Test("DeviceManager should be thread-safe")
 func testThreadSafety() async {
     // Given
-    let deviceManager = DeviceManager.shared
+    let deviceManager = createTestDeviceManager()
 
     // When - Concurrent access
     await withTaskGroup(of: String.self) { group in
@@ -128,5 +139,9 @@ func testThreadSafety() async {
 
         // Thread safety means no crashes or empty results
         #expect(results.count == 10)
+
+        // All should be the same ID (since we're accessing the same instance)
+        let uniqueIds = Set(results)
+        #expect(uniqueIds.count == 1)
     }
 }

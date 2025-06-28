@@ -3,12 +3,12 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
-//  Copyright © 2024 ArtCC. All rights reserved.
+//  Copyright © 2025 ArtCC. All rights reserved.
 //
 
 import Foundation
 
-public struct Vote: Codable, Sendable {
+public struct VoteEntity: Codable, Sendable {
     // MARK: - Properties
 
     public let suggestionId: String
@@ -33,7 +33,7 @@ public struct Vote: Codable, Sendable {
 
 // MARK: - Vote Status
 
-public struct VoteStatus: Codable, Sendable {
+public struct VoteStatusEntity: Codable, Sendable {
     // MARK: - Properties
 
     public let hasVoted: Bool
@@ -49,7 +49,7 @@ public struct VoteStatus: Codable, Sendable {
 
 // MARK: - Extensions
 
-public extension Vote {
+public extension VoteEntity {
     /// Returns whether this vote was created from the SDK
     var isFromSDK: Bool {
         return deviceId != nil

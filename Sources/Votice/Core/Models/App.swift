@@ -3,12 +3,12 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
-//  Copyright © 2024 ArtCC. All rights reserved.
+//  Copyright ArtCC. All rights reserved.
 //
 
 import Foundation
 
-public struct App: Codable, Sendable, Identifiable {
+public struct AppEntity: Codable, Sendable, Identifiable {
     // MARK: - Properties
 
     public let id: String
@@ -48,10 +48,10 @@ public struct App: Codable, Sendable, Identifiable {
 
 // MARK: - App Details
 
-public struct AppDetails: Codable, Sendable {
+public struct AppDetailsEntity: Codable, Sendable {
     // MARK: - Properties
 
-    public let app: App
+    public let app: AppEntity
     public let suggestionCount: Int
     public let pendingSuggestionCount: Int
     public let commentCount: Int
@@ -60,7 +60,7 @@ public struct AppDetails: Codable, Sendable {
     // MARK: - Initialization
 
     public init(
-        app: App,
+        app: AppEntity,
         suggestionCount: Int,
         pendingSuggestionCount: Int,
         commentCount: Int,
@@ -76,7 +76,7 @@ public struct AppDetails: Codable, Sendable {
 
 // MARK: - Extensions
 
-public extension App {
+public extension AppEntity {
     /// Returns whether the app has a description
     var hasDescription: Bool {
         return description != nil && !description!.isEmpty

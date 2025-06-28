@@ -3,12 +3,12 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
-//  Copyright © 2024 ArtCC. All rights reserved.
+//  Copyright © 2025 ArtCC. All rights reserved.
 //
 
 import Foundation
 
-public struct Suggestion: Codable, Sendable, Identifiable {
+public struct SuggestionEntity: Codable, Sendable, Identifiable {
     // MARK: - Properties
 
     public let id: String
@@ -86,7 +86,7 @@ public enum SuggestionSource: String, Codable, Sendable, CaseIterable {
 
 // MARK: - Extensions
 
-public extension Suggestion {
+public extension SuggestionEntity {
     /// Returns the display text for the suggestion
     var displayText: String {
         return text ?? title ?? ""

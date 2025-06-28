@@ -3,7 +3,7 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
-//  Copyright © 2024 ArtCC. All rights reserved.
+//  Copyright © 2025 ArtCC. All rights reserved.
 //
 
 import Foundation
@@ -31,9 +31,9 @@ public struct CreateSuggestionResponse: Codable, Sendable {
 }
 
 public struct SuggestionsResponse: Codable, Sendable {
-    public let suggestions: [Suggestion]
+    public let suggestions: [SuggestionEntity]
 
-    public init(suggestions: [Suggestion]) {
+    public init(suggestions: [SuggestionEntity]) {
         self.suggestions = suggestions
     }
 }
@@ -41,9 +41,9 @@ public struct SuggestionsResponse: Codable, Sendable {
 // MARK: - Comment Responses
 
 public struct CommentsResponse: Codable, Sendable {
-    public let comments: [Comment]
+    public let comments: [CommentEntity]
 
-    public init(comments: [Comment]) {
+    public init(comments: [CommentEntity]) {
         self.comments = comments
     }
 }
