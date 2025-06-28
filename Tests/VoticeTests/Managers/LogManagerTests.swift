@@ -39,7 +39,7 @@ func testLogManagerWithData() async {
     let originalDebugState = LogManager.debug
     LogManager.debug = true
 
-    let testData = "Test data content".data(using: .utf8)
+    let testData = Data(string: "Test data content", encoding: .utf8)
 
     // When & Then
     logManager.devLog(.info, "Test with data", utf8Data: testData)

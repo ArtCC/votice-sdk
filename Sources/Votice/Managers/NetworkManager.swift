@@ -59,6 +59,8 @@ struct NetworkManager: NetworkManagerProtocol {
 
     // MARK: - Private
 
+    // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable function_body_length
     private func performRequest(endpoint: NetworkEndpoint) async throws -> Data {
         guard let url = URL(string: baseURL + endpoint.path) else {
             LogManager.shared.devLog(.error, "Invalid URL: \(baseURL + endpoint.path)")
@@ -127,6 +129,8 @@ struct NetworkManager: NetworkManagerProtocol {
             throw NetworkError.unknownError(error.localizedDescription)
         }
     }
+    // swiftlint:enable cyclomatic_complexity
+    // swiftlint:enable function_body_length
 
     private func generateHMACSignature(data: Data) -> String {
         let key = SymmetricKey(data: Data(apiSecret.utf8))
