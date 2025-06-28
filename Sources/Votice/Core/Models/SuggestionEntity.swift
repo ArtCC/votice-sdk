@@ -12,58 +12,55 @@ struct SuggestionEntity: Codable, Sendable, Identifiable {
     // MARK: - Properties
 
     let id: String
-    let appId: String
-    let title: String?              // Dashboard only
-    let text: String?               // SDK only
-    let description: String?        // Dashboard only
+    let appId: String?
+    let title: String?
+    let text: String?
+    let description: String?
+    let nickname: String?
+    let createdAt: String?
+    let updatedAt: String?
+    let platform: String?
+    let createdBy: String?
     let status: SuggestionStatusEntity
-    let voteCount: Int
-    let commentCount: Int
     let source: SuggestionSource
-    let createdBy: String           // userId for dashboard, deviceId for SDK
-    let deviceId: String?           // SDK only
-    let nickname: String?           // SDK only
-    let platform: String?          // SDK only
-    let language: String?           // SDK only
-    let createdAt: Date
-    let updatedAt: Date
+    let commentCount: Int
+    let voteCount: Int
+    let language: String?
 
     // MARK: - Init
 
     init(
         id: String,
-        appId: String,
+        appId: String? = nil,
         title: String? = nil,
         text: String? = nil,
         description: String? = nil,
-        status: SuggestionStatusEntity,
-        voteCount: Int,
-        commentCount: Int,
-        source: SuggestionSource,
-        createdBy: String,
-        deviceId: String? = nil,
         nickname: String? = nil,
+        createdAt: String? = nil,
+        updatedAt: String? = nil,
         platform: String? = nil,
-        language: String? = nil,
-        createdAt: Date,
-        updatedAt: Date
+        createdBy: String? = nil,
+        status: SuggestionStatusEntity,
+        source: SuggestionSource,
+        commentCount: Int = 0,
+        voteCount: Int = 0,
+        language: String? = nil
     ) {
         self.id = id
         self.appId = appId
         self.title = title
         self.text = text
         self.description = description
-        self.status = status
-        self.voteCount = voteCount
-        self.commentCount = commentCount
-        self.source = source
-        self.createdBy = createdBy
-        self.deviceId = deviceId
         self.nickname = nickname
-        self.platform = platform
-        self.language = language
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.platform = platform
+        self.createdBy = createdBy
+        self.status = status
+        self.source = source
+        self.commentCount = commentCount
+        self.voteCount = voteCount
+        self.language = language
     }
 }
 

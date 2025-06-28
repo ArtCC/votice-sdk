@@ -257,10 +257,3 @@ private struct EmptyStateView: View {
         .padding(theme.spacing.xl)
     }
 }
-
-// MARK: - Preview
-
-#Preview {
-    SuggestionListView()
-        .voticeTheme(.default)
-}

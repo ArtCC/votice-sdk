@@ -103,29 +103,27 @@ final class SuggestionListViewModel: ObservableObject {
 
             // Update suggestion vote count in the list
             if let index = suggestions.firstIndex(where: { $0.id == suggestionId }) {
-                var updatedSuggestion = suggestions[index]
+                let originalSuggestion = suggestions[index]
                 // Note: Backend doesn't return updated vote count yet, so we estimate
                 if response.voteStatus.voted {
-                    updatedSuggestion = SuggestionEntity(
-                        id: updatedSuggestion.id,
-                        appId: updatedSuggestion.appId,
-                        title: updatedSuggestion.title,
-                        text: updatedSuggestion.text,
-                        description: updatedSuggestion.description,
-                        status: updatedSuggestion.status,
-                        voteCount: updatedSuggestion.voteCount + (currentVotes[suggestionId] == nil ? 1 : 0),
-                        commentCount: updatedSuggestion.commentCount,
-                        source: updatedSuggestion.source,
-                        createdBy: updatedSuggestion.createdBy,
-                        deviceId: updatedSuggestion.deviceId,
-                        nickname: updatedSuggestion.nickname,
-                        platform: updatedSuggestion.platform,
-                        language: updatedSuggestion.language,
-                        createdAt: updatedSuggestion.createdAt,
-                        updatedAt: updatedSuggestion.updatedAt
+                    let updatedSuggestion = SuggestionEntity(
+                        id: originalSuggestion.id,
+                        appId: originalSuggestion.appId,
+                        title: originalSuggestion.title,
+                        text: originalSuggestion.text,
+                        description: originalSuggestion.description,
+                        nickname: originalSuggestion.nickname,
+                        createdAt: originalSuggestion.createdAt,
+                        updatedAt: originalSuggestion.updatedAt,
+                        platform: originalSuggestion.platform,
+                        createdBy: originalSuggestion.createdBy,
+                        status: originalSuggestion.status,
+                        source: originalSuggestion.source,
+                        commentCount: originalSuggestion.commentCount,
+                        voteCount: originalSuggestion.voteCount + (currentVotes[suggestionId] == nil ? 1 : 0)
                     )
+                    suggestions[index] = updatedSuggestion
                 }
-                suggestions[index] = updatedSuggestion
             }
         } catch {
             handleError(error)

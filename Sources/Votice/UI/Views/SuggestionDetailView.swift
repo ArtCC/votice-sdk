@@ -141,9 +141,11 @@ struct SuggestionDetailView: View {
                         .foregroundColor(theme.colors.secondary)
                 }
 
-                Text(formatDate(suggestion.createdAt))
-                    .font(theme.typography.caption)
-                    .foregroundColor(theme.colors.secondary)
+                if let createdAt = suggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
+                    Text(date)
+                        .font(theme.typography.caption)
+                        .foregroundColor(theme.colors.secondary)
+                }
             }
         }
     }
@@ -308,13 +310,6 @@ private extension SuggestionDetailView {
         newComment = ""
         commentNickname = ""
     }
-
-    func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter.string(from: date)
-    }
 }
 
 // MARK: - Comment Card
@@ -333,9 +328,11 @@ private struct CommentCard: View {
 
                 Spacer()
 
-                Text(formatDate(comment.createdAt))
-                    .font(theme.typography.caption)
-                    .foregroundColor(theme.colors.secondary)
+                if let createdAt = comment.createdAt, let date = Date.formatFromISOString(createdAt) {
+                    Text(date)
+                        .font(theme.typography.caption)
+                        .foregroundColor(theme.colors.secondary)
+                }
             }
 
             Text(comment.text)
@@ -345,12 +342,6 @@ private struct CommentCard: View {
         .padding(theme.spacing.md)
         .background(theme.colors.surface)
         .cornerRadius(theme.cornerRadius.md)
-    }
-
-    private func formatDate(_ date: Date) -> String {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .abbreviated
-        return formatter.localizedString(for: date, relativeTo: Date())
     }
 }
 
@@ -430,30 +421,4 @@ private struct VoticeTextFieldStyle: TextFieldStyle {
             )
     }
     // swiftlint:enable identifier_name
-}
-
-// MARK: - Preview
-
-#Preview {
-    let sampleSuggestion = SuggestionEntity(
-        id: "1",
-        appId: "app1",
-        title: "Dark Mode Support",
-        text: nil,
-        description: "Please add dark mode support to improve user experience in low light conditions.",
-        status: .pending,
-        voteCount: 15,
-        commentCount: 3,
-        source: .sdk,
-        createdBy: "device123",
-        deviceId: "device123",
-        nickname: "John Doe",
-        platform: "iOS",
-        language: "en",
-        createdAt: Date().addingTimeInterval(-3600),
-        updatedAt: Date().addingTimeInterval(-3600)
-    )
-
-    SuggestionDetailView(suggestion: sampleSuggestion) { _ in }
-        .voticeTheme(.default)
 }

@@ -95,31 +95,3 @@ private struct VoteButton: View {
         }, perform: {})
     }
 }
-
-// MARK: - Preview
-
-#Preview {
-    VStack(spacing: 20) {
-        VotingButtons(
-            upvotes: 15,
-            downvotes: 3,
-            currentVote: .upvote,
-            onVote: { _ in }
-        )
-
-        VotingButtons(
-            upvotes: 8,
-            downvotes: 12,
-            currentVote: .downvote,
-            onVote: { _ in }
-        )
-
-        VotingButtons(
-            upvotes: 5,
-            downvotes: 2,
-            currentVote: nil,
-            onVote: { _ in }
-        )
-    }
-    .padding()
-}

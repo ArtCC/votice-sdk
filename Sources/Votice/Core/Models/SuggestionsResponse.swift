@@ -10,4 +10,5 @@ import Foundation
 
 struct SuggestionsResponse: Codable, Sendable {
     let suggestions: [SuggestionEntity]
+    let count: Int
 }

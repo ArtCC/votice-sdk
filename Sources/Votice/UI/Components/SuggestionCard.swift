@@ -104,9 +104,11 @@ struct SuggestionCard: View {
 
                         Spacer()
 
-                        Text(formatDate(suggestion.createdAt))
-                            .font(theme.typography.caption)
-                            .foregroundColor(theme.colors.secondary)
+                        if let createdAt = suggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
+                            Text(date)
+                                .font(theme.typography.caption)
+                                .foregroundColor(theme.colors.secondary)
+                        }
                     }
                 }
 
@@ -121,12 +123,6 @@ struct SuggestionCard: View {
             )
         }
         .buttonStyle(PlainButtonStyle())
-    }
-
-    private func formatDate(_ date: Date) -> String {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .abbreviated
-        return formatter.localizedString(for: date, relativeTo: Date())
     }
 }
 
@@ -178,61 +174,4 @@ private struct SourceIndicator: View {
             .font(.caption)
             .foregroundColor(theme.colors.secondary)
     }
-}
-
-// MARK: - Preview
-
-#Preview {
-    let sampleSuggestion = SuggestionEntity(
-        id: "1",
-        appId: "app1",
-        title: "Dark Mode Support",
-        text: "Please add dark mode support to improve user experience in low light conditions",
-        description: nil,
-        status: .pending,
-        voteCount: 15,
-        commentCount: 3,
-        source: .sdk,
-        createdBy: "device123",
-        deviceId: "device123",
-        nickname: "John Doe",
-        platform: "iOS",
-        language: "en",
-        createdAt: Date().addingTimeInterval(-3600),
-        updatedAt: Date().addingTimeInterval(-3600)
-    )
-
-    VStack(spacing: 16) {
-        SuggestionCard(
-            suggestion: sampleSuggestion,
-            currentVote: .upvote,
-            onVote: { _ in },
-            onTap: {}
-        )
-
-        SuggestionCard(
-            suggestion: SuggestionEntity(
-                id: "2",
-                appId: "app1",
-                title: nil,
-                text: "Add widgets support",
-                description: nil,
-                status: .completed,
-                voteCount: 8,
-                commentCount: 0,
-                source: .dashboard,
-                createdBy: "user456",
-                deviceId: nil,
-                nickname: nil,
-                platform: nil,
-                language: nil,
-                createdAt: Date().addingTimeInterval(-86400),
-                updatedAt: Date().addingTimeInterval(-3600)
-            ),
-            currentVote: nil,
-            onVote: { _ in },
-            onTap: {}
-        )
-    }
-    .padding()
 }

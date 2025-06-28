@@ -152,9 +152,9 @@ private extension HomeView {
     func configurateSDK() {
         do {
             try Votice.configure(
-                apiKey: "101769679e916ab73153f290",
-                apiSecret: "ef17a3f32faa587429830d59bc79db7b5b5466b8df1d62ae",
-                appId: "1oSa2icpFbGk7M6hcKkW"
+                apiKey: "5e4941c3e9290417b05a6312",
+                apiSecret: "c9d3ba1daddfb30bc3ace2ee647276cf2e0f3aac367eac50",
+                appId: "r5MsoIdBunUryWERDsep"
             )
 
             debugPrint("✅ Votice SDK configured successfully!")
@@ -168,10 +168,4 @@ private extension HomeView {
             isConfigured = false
         }
     }
-}
-
-// MARK: - Preview
-
-#Preview {
-    HomeView()
 }

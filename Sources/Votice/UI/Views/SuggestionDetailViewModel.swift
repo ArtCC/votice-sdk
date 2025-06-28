@@ -47,7 +47,7 @@ final class SuggestionDetailViewModel: ObservableObject {
                 offset: nil
             )
 
-            comments = response.comments.sorted { $0.createdAt < $1.createdAt }
+            comments = response.comments.sorted { $0.createdAt! < $1.createdAt! }
         } catch {
             handleError(error)
         }
@@ -71,12 +71,12 @@ final class SuggestionDetailViewModel: ObservableObject {
             let comment = CommentEntity(
                 id: response.id,
                 suggestionId: suggestionId,
-                appId: "current-app",
+                appId: ConfigurationManager.shared.appId,
                 text: content,
                 nickname: nickname,
                 createdBy: DeviceManager.shared.deviceId,
                 deviceId: DeviceManager.shared.deviceId,
-                createdAt: Date()
+                createdAt: Date().ISO8601Format()
             )
 
             comments.append(comment)

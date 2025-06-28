@@ -228,21 +228,19 @@ final class CreateSuggestionViewModel: ObservableObject {
             // In a real scenario, we'd get this from the backend response
             let suggestion = SuggestionEntity(
                 id: response.id,
-                appId: "current-app", // This would come from configuration
+                appId: ConfigurationManager.shared.appId, // This would come from configuration
                 title: title,
                 text: nil,
                 description: description,
-                status: .pending,
-                voteCount: 0,
-                commentCount: 0,
-                source: .sdk,
-                createdBy: DeviceManager.shared.deviceId,
-                deviceId: DeviceManager.shared.deviceId,
                 nickname: nickname,
+                createdAt: Date().ISO8601Format(),
+                updatedAt: Date().ISO8601Format(),
                 platform: DeviceManager.shared.platform,
-                language: DeviceManager.shared.language,
-                createdAt: Date(),
-                updatedAt: Date()
+                createdBy: DeviceManager.shared.deviceId,
+                status: .pending,
+                source: .sdk,
+                commentCount: 0,
+                voteCount: 0
             )
 
             return suggestion
@@ -257,11 +255,4 @@ final class CreateSuggestionViewModel: ObservableObject {
         showingError = true
         LogManager.shared.devLog(.error, "CreateSuggestionViewModel error: \(error)")
     }
-}
-
-// MARK: - Preview
-
-#Preview {
-    CreateSuggestionView { _ in }
-        .voticeTheme(.default)
 }

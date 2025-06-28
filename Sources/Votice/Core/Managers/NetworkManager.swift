@@ -56,6 +56,7 @@ struct NetworkManager: NetworkManagerProtocol {
 
     // MARK: - Private
 
+    // swiftlint:disable cyclomatic_complexity
     // swiftlint:disable function_body_length
     private func performRequest(endpoint: NetworkEndpoint) async throws -> Data {
         try configurationManager.validateConfiguration()
@@ -143,6 +144,7 @@ struct NetworkManager: NetworkManagerProtocol {
             throw NetworkError.unknownError(error.localizedDescription)
         }
     }
+    // swiftlint:enable cyclomatic_complexity
     // swiftlint:enable function_body_length
 
     private func generateHMACSignature(data: Data, secret: String) -> String {

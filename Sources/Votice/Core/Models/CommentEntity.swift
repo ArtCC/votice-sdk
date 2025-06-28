@@ -18,7 +18,7 @@ struct CommentEntity: Codable, Sendable, Identifiable {
     let nickname: String? // SDK only
     let createdBy: String // userId for dashboard, deviceId for SDK
     let deviceId: String? // SDK only
-    let createdAt: Date
+    let createdAt: String?
 
     // MARK: - Init
 
@@ -30,7 +30,7 @@ struct CommentEntity: Codable, Sendable, Identifiable {
         nickname: String? = nil,
         createdBy: String,
         deviceId: String? = nil,
-        createdAt: Date
+        createdAt: String? = nil
     ) {
         self.id = id
         self.suggestionId = suggestionId

@@ -20,7 +20,7 @@ func testCommentInitialization() async {
     let nickname = "Jane"
     let createdBy = "device-123"
     let deviceId = "device-123"
-    let createdAt = Date()
+    let createdAt = "2025-06-28T13:25:50.930Z"
 
     // When
     let comment = CommentEntity(
@@ -56,7 +56,7 @@ func testCommentCodable() async throws {
         nickname: "Jane",
         createdBy: "device-123",
         deviceId: "device-123",
-        createdAt: Date(timeIntervalSince1970: 1640995200)
+        createdAt: "2025-06-28T13:25:50.930Z"
     )
 
     // When
@@ -95,7 +95,7 @@ func testCommentDisplayName() async {
 
     let commentWithEmptyNickname = CommentEntity(
         id: "3", suggestionId: "suggestion", appId: "app", text: "text",
-        nickname: "", createdBy: "device", createdAt: Date()
+        nickname: "", createdBy: "device", createdAt: "2025-06-28T13:25:50.930Z"
     )
     #expect(commentWithEmptyNickname.displayName == "")
 }
