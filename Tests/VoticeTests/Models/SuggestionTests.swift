@@ -16,7 +16,7 @@ func testSuggestionInitialization() async {
     let id = "suggestion-123"
     let appId = "app-456"
     let text = "Add dark mode support"
-    let status = SuggestionStatus.pending
+    let status = SuggestionStatusEntity.pending
     let source = SuggestionSource.sdk
     let createdBy = "device-789"
     let nickname = "John"
@@ -147,8 +147,8 @@ func testSuggestionSourceDetection() async {
 
 @Test("SuggestionEntity voting eligibility should work correctly")
 func testSuggestionVotingEligibility() async {
-    let votableStatuses: [SuggestionStatus] = [.pending, .accepted, .inProgress]
-    let nonVotableStatuses: [SuggestionStatus] = [.completed, .rejected]
+    let votableStatuses: [SuggestionStatusEntity] = [.pending, .accepted, .inProgress]
+    let nonVotableStatuses: [SuggestionStatusEntity] = [.completed, .rejected]
 
     // Test votable statuses
     for status in votableStatuses {
@@ -173,12 +173,12 @@ func testSuggestionVotingEligibility() async {
 
 @Test("SuggestionStatus should have all expected cases")
 func testSuggestionStatusCases() async {
-    let expectedStatuses: [SuggestionStatus] = [.pending, .accepted, .inProgress, .completed, .rejected]
+    let expectedStatuses: [SuggestionStatusEntity] = [.pending, .accepted, .inProgress, .completed, .rejected]
 
-    #expect(SuggestionStatus.allCases.count == 5)
+    #expect(SuggestionStatusEntity.allCases.count == 5)
 
     for status in expectedStatuses {
-        #expect(SuggestionStatus.allCases.contains(status))
+        #expect(SuggestionStatusEntity.allCases.contains(status))
     }
 }
 

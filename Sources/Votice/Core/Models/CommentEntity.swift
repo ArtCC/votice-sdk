@@ -1,5 +1,5 @@
 //
-//  Vote.swift
+//  CommentEntity.swift
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
@@ -8,13 +8,14 @@
 
 import Foundation
 
-struct VoteEntity: Codable, Sendable {
+struct CommentEntity: Codable, Sendable, Identifiable {
     // MARK: - Properties
 
     let id: String
     let suggestionId: String
     let appId: String
-    let voteType: String            // "upvote" or "downvote"
+    let text: String
+    let nickname: String?           // SDK only
     let createdBy: String           // userId for dashboard, deviceId for SDK
     let deviceId: String?           // SDK only
     let createdAt: Date
@@ -25,7 +26,8 @@ struct VoteEntity: Codable, Sendable {
         id: String,
         suggestionId: String,
         appId: String,
-        voteType: String,
+        text: String,
+        nickname: String? = nil,
         createdBy: String,
         deviceId: String? = nil,
         createdAt: Date
@@ -33,38 +35,28 @@ struct VoteEntity: Codable, Sendable {
         self.id = id
         self.suggestionId = suggestionId
         self.appId = appId
-        self.voteType = voteType
+        self.text = text
+        self.nickname = nickname
         self.createdBy = createdBy
         self.deviceId = deviceId
         self.createdAt = createdAt
     }
 }
 
-// MARK: - Vote Status Entity
-
-struct VoteStatusEntity: Codable, Sendable {
-    // MARK: - Properties
-
-    let voted: Bool
-    let voteType: String?           // "upvote", "downvote", or nil
-
-    // MARK: - Init
-
-    init(voted: Bool, voteType: String? = nil) {
-        self.voted = voted
-        self.voteType = voteType
-    }
-}
-
 // MARK: - Extensions
 
-extension VoteEntity {
-    /// Returns whether this vote was created from the SDK
+extension CommentEntity {
+    /// Returns the display name for the comment author
+    var displayName: String {
+        return nickname ?? "Anonymous"
+    }
+
+    /// Returns whether this comment was created from the SDK
     var isFromSDK: Bool {
         return deviceId != nil
     }
 
-    /// Returns whether this vote was created from the Dashboard
+    /// Returns whether this comment was created from the Dashboard
     var isFromDashboard: Bool {
         return deviceId == nil
     }

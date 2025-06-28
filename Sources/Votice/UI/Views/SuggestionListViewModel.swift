@@ -17,7 +17,7 @@ final class SuggestionListViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var showingError = false
     @Published var errorMessage = ""
-    @Published var selectedFilter: SuggestionStatus?
+    @Published var selectedFilter: SuggestionStatusEntity?
     @Published var hasMoreSuggestions = true
 
     private var currentVotes: [String: VoteType] = [:]
@@ -88,7 +88,7 @@ final class SuggestionListViewModel: ObservableObject {
         await loadSuggestions()
     }
 
-    func setFilter(_ status: SuggestionStatus?) {
+    func setFilter(_ status: SuggestionStatusEntity?) {
         selectedFilter = status
         Task {
             await loadSuggestions()

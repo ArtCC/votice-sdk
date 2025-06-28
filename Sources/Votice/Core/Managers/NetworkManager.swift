@@ -53,7 +53,6 @@ struct NetworkManager: NetworkManagerProtocol {
 
     // MARK: - Private
 
-    // swiftlint:disable cyclomatic_complexity
     // swiftlint:disable function_body_length
     private func performRequest(endpoint: NetworkEndpoint) async throws -> Data {
         try configurationManager.validateConfiguration()
@@ -77,11 +76,10 @@ struct NetworkManager: NetworkManagerProtocol {
         // Add API key
         request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
 
-        // Generate HMAC signature if we have body
-        if let body = endpoint.body {
-            let signature = generateHMACSignature(data: body, secret: apiSecret)
-            request.setValue(signature, forHTTPHeaderField: "x-signature")
-        }
+        // Generate HMAC signature (always, even if no body)
+        let signatureData = endpoint.body ?? Data()
+        let signature = generateHMACSignature(data: signatureData, secret: apiSecret)
+        request.setValue(signature, forHTTPHeaderField: "x-signature")
 
         // Add custom headers
         for (key, value) in endpoint.headers {
@@ -134,7 +132,6 @@ struct NetworkManager: NetworkManagerProtocol {
             throw NetworkError.unknownError(error.localizedDescription)
         }
     }
-    // swiftlint:enable cyclomatic_complexity
     // swiftlint:enable function_body_length
 
     private func generateHMACSignature(data: Data, secret: String) -> String {

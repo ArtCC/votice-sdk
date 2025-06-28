@@ -1,5 +1,5 @@
 //
-//  Suggestion.swift
+//  SuggestionEntity.swift
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
@@ -16,7 +16,7 @@ struct SuggestionEntity: Codable, Sendable, Identifiable {
     let title: String?              // Dashboard only
     let text: String?               // SDK only
     let description: String?        // Dashboard only
-    let status: SuggestionStatus
+    let status: SuggestionStatusEntity
     let voteCount: Int
     let commentCount: Int
     let source: SuggestionSource
@@ -36,7 +36,7 @@ struct SuggestionEntity: Codable, Sendable, Identifiable {
         title: String? = nil,
         text: String? = nil,
         description: String? = nil,
-        status: SuggestionStatus,
+        status: SuggestionStatusEntity,
         voteCount: Int,
         commentCount: Int,
         source: SuggestionSource,
@@ -65,23 +65,6 @@ struct SuggestionEntity: Codable, Sendable, Identifiable {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
-}
-
-// MARK: - Suggestion Status
-
-enum SuggestionStatus: String, Codable, Sendable, CaseIterable {
-    case pending = "pending"
-    case accepted = "accepted"
-    case inProgress = "in-progress"
-    case completed = "completed"
-    case rejected = "rejected"
-}
-
-// MARK: - Suggestion Source
-
-enum SuggestionSource: String, Codable, Sendable, CaseIterable {
-    case dashboard
-    case sdk
 }
 
 // MARK: - Extensions

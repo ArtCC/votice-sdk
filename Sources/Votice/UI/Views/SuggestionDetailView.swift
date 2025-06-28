@@ -359,7 +359,7 @@ private struct CommentCard: View {
 private struct StatusBadge: View {
     @Environment(\.voticeTheme) private var theme
 
-    let status: SuggestionStatus
+    let status: SuggestionStatusEntity
 
     private var statusColor: Color {
         switch status {
