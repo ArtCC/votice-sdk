@@ -10,11 +10,18 @@ import Testing
 @testable import Votice
 import Foundation
 
+// MARK: - Test Helper
+
+private func createTestConfigurationManager() -> ConfigurationManager {
+    return ConfigurationManager.createForTesting()
+}
+
+// MARK: - Tests
+
 @Test("ConfigurationManager should start unconfigured")
 func testInitialState() async {
     // Given
-    let configManager = ConfigurationManager.shared
-    configManager.reset() // Ensure clean state
+    let configManager = createTestConfigurationManager()
 
     // Then
     #expect(!configManager.isConfigured)
@@ -26,8 +33,7 @@ func testInitialState() async {
 @Test("ConfigurationManager should configure successfully with valid parameters")
 func testValidConfiguration() async throws {
     // Given
-    let configManager = ConfigurationManager.shared
-    configManager.reset()
+    let configManager = createTestConfigurationManager()
 
     let baseURL = "https://api.votice.com"
     let apiKey = "test-api-key"
@@ -41,16 +47,12 @@ func testValidConfiguration() async throws {
     #expect(configManager.baseURL == baseURL)
     #expect(configManager.apiKey == apiKey)
     #expect(configManager.apiSecret == apiSecret)
-
-    // Cleanup
-    configManager.reset()
 }
 
 @Test("ConfigurationManager should reject invalid base URL")
 func testInvalidBaseURL() async {
     // Given
-    let configManager = ConfigurationManager.shared
-    configManager.reset()
+    let configManager = createTestConfigurationManager()
 
     // When & Then - Empty URL
     do {
@@ -62,11 +64,10 @@ func testInvalidBaseURL() async {
         #expect(Bool(false)) // Unexpected error
     }
 
-    configManager.reset()
-
     // Whitespace only URL
+    let configManager2 = createTestConfigurationManager()
     do {
-        try configManager.configure(baseURL: "   ", apiKey: "test-key", apiSecret: "test-secret")
+        try configManager2.configure(baseURL: "   ", apiKey: "test-key", apiSecret: "test-secret")
         #expect(Bool(false)) // Should not reach here
     } catch ConfigurationError.invalidBaseURL {
         #expect(Bool(true)) // Expected
@@ -78,44 +79,39 @@ func testInvalidBaseURL() async {
 @Test("ConfigurationManager should reject empty API key")
 func testInvalidAPIKey() async {
     // Given
-    let configManager = ConfigurationManager.shared
-    configManager.reset()
+    let configManager = createTestConfigurationManager()
 
     // When & Then
     await #expect(throws: ConfigurationError.invalidAPIKey) {
         try configManager.configure(baseURL: "https://api.test.com", apiKey: "", apiSecret: "test-secret")
     }
 
-    configManager.reset()
-
+    let configManager2 = createTestConfigurationManager()
     await #expect(throws: ConfigurationError.invalidAPIKey) {
-        try configManager.configure(baseURL: "https://api.test.com", apiKey: "   ", apiSecret: "test-secret")
+        try configManager2.configure(baseURL: "https://api.test.com", apiKey: "   ", apiSecret: "test-secret")
     }
 }
 
 @Test("ConfigurationManager should reject empty API secret")
 func testInvalidAPISecret() async {
     // Given
-    let configManager = ConfigurationManager.shared
-    configManager.reset()
+    let configManager = createTestConfigurationManager()
 
     // When & Then
     await #expect(throws: ConfigurationError.invalidAPISecret) {
         try configManager.configure(baseURL: "https://api.test.com", apiKey: "test-key", apiSecret: "")
     }
 
-    configManager.reset()
-
+    let configManager2 = createTestConfigurationManager()
     await #expect(throws: ConfigurationError.invalidAPISecret) {
-        try configManager.configure(baseURL: "https://api.test.com", apiKey: "test-key", apiSecret: "   ")
+        try configManager2.configure(baseURL: "https://api.test.com", apiKey: "test-key", apiSecret: "   ")
     }
 }
 
 @Test("ConfigurationManager should prevent double configuration")
 func testDoubleConfiguration() async throws {
     // Given
-    let configManager = ConfigurationManager.shared
-    configManager.reset()
+    let configManager = createTestConfigurationManager()
 
     // First configuration
     try configManager.configure(
@@ -132,16 +128,12 @@ func testDoubleConfiguration() async throws {
             apiSecret: "test-secret2"
         )
     }
-
-    // Cleanup
-    configManager.reset()
 }
 
 @Test("ConfigurationManager should validate configuration correctly")
 func testValidateConfiguration() async throws {
     // Given
-    let configManager = ConfigurationManager.shared
-    configManager.reset()
+    let configManager = createTestConfigurationManager()
 
     // When not configured
     await #expect(throws: ConfigurationError.notConfigured) {
@@ -157,16 +149,12 @@ func testValidateConfiguration() async throws {
 
     // Should not throw
     try configManager.validateConfiguration()
-
-    // Cleanup
-    configManager.reset()
 }
 
 @Test("ConfigurationManager should reset successfully")
 func testReset() async throws {
     // Given
-    let configManager = ConfigurationManager.shared
-    configManager.reset() // Start clean
+    let configManager = createTestConfigurationManager()
 
     try configManager.configure(
         baseURL: "https://api.test.com",

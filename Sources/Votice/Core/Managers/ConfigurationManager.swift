@@ -23,6 +23,12 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
 
     private init() {}
 
+    // MARK: - Testing Initialization
+
+    internal static func createForTesting() -> ConfigurationManager {
+        return ConfigurationManager()
+    }
+
     // MARK: - Public
 
     var isConfigured: Bool {
