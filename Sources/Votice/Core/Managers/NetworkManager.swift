@@ -79,8 +79,16 @@ struct NetworkManager: NetworkManagerProtocol {
         // Add API key
         request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
 
-        // Generate HMAC signature (always, even if no body)
-        let signatureData = endpoint.body ?? Data()
+        // Generate HMAC signature
+        let signatureData: Data
+        if let bodyData = endpoint.body {
+            // For requests with body, use the body data
+            signatureData = bodyData
+        } else {
+            // For requests without body (like GET), use empty JSON object "{}"
+            // This matches the backend behavior: JSON.stringify(req.body) for empty body
+            signatureData = Data("{}".utf8)
+        }
         let signature = generateHMACSignature(data: signatureData, secret: apiSecret)
         request.setValue(signature, forHTTPHeaderField: "x-signature")
 
