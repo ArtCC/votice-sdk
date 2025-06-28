@@ -26,28 +26,6 @@ final class DeviceManager: DeviceManagerProtocol {
     private let deviceIdKey = "VoticeSDK_DeviceId"
     private let lock = NSLock()
 
-    // MARK: - Initialization
-
-    private init(userDefaults: UserDefaults = .standard) {
-        self.userDefaults = userDefaults
-
-        // Ensure we have a device ID on initialization (without locks to avoid deadlock)
-        if (userDefaults.string(forKey: deviceIdKey) ?? "").isEmpty {
-            let newDeviceId = UUID().uuidString
-            userDefaults.set(newDeviceId, forKey: deviceIdKey)
-            userDefaults.synchronize()
-            LogManager.shared.devLog(.info, "Generated initial device ID: \(newDeviceId)")
-        }
-    }
-
-    // MARK: - Testing Initialization
-
-    internal static func createForTesting(
-        userDefaults: UserDefaults = UserDefaults(suiteName: "VoticeSDKTests")!
-    ) -> DeviceManager {
-        return DeviceManager(userDefaults: userDefaults)
-    }
-
     // MARK: - Public
 
     var deviceId: String {
@@ -83,6 +61,23 @@ final class DeviceManager: DeviceManagerProtocol {
     var language: String {
         return Locale.current.language.languageCode?.identifier ?? "en"
     }
+
+    // MARK: - Initialization
+
+    private init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+
+        // Ensure we have a device ID on initialization (without locks to avoid deadlock)
+        if (userDefaults.string(forKey: deviceIdKey) ?? "").isEmpty {
+            let newDeviceId = UUID().uuidString
+            userDefaults.set(newDeviceId, forKey: deviceIdKey)
+            userDefaults.synchronize()
+
+            LogManager.shared.devLog(.info, "Generated initial device ID: \(newDeviceId)")
+        }
+    }
+
+    // MARK: - Functions
 
     @discardableResult
     func generateNewDeviceId() -> String {

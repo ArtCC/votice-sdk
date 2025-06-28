@@ -19,16 +19,6 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
     private var _apiSecret: String = ""
     private var _isConfigured: Bool = false
 
-    // MARK: - Initialization
-
-    private init() {}
-
-    // MARK: - Testing Initialization
-
-    internal static func createForTesting() -> ConfigurationManager {
-        return ConfigurationManager()
-    }
-
     // MARK: - Public
 
     var isConfigured: Bool {
@@ -46,6 +36,12 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
     var apiSecret: String {
         lock.withLock { _apiSecret }
     }
+
+    // MARK: - Initialization
+
+    private init() {}
+
+    // MARK: - Functions
 
     func configure(baseURL: String, apiKey: String, apiSecret: String) throws {
         try lock.withLock {
