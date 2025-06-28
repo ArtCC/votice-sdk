@@ -8,21 +8,21 @@
 
 import Foundation
 
-public struct CommentEntity: Codable, Sendable, Identifiable {
+struct CommentEntity: Codable, Sendable, Identifiable {
     // MARK: - Properties
 
-    public let id: String
-    public let suggestionId: String
-    public let appId: String
-    public let text: String
-    public let nickname: String?           // SDK only
-    public let createdBy: String           // userId for dashboard, deviceId for SDK
-    public let deviceId: String?           // SDK only
-    public let createdAt: Date
+    let id: String
+    let suggestionId: String
+    let appId: String
+    let text: String
+    let nickname: String?           // SDK only
+    let createdBy: String           // userId for dashboard, deviceId for SDK
+    let deviceId: String?           // SDK only
+    let createdAt: Date
 
     // MARK: - Init
 
-    public init(
+    init(
         id: String,
         suggestionId: String,
         appId: String,
@@ -45,7 +45,7 @@ public struct CommentEntity: Codable, Sendable, Identifiable {
 
 // MARK: - Extensions
 
-public extension CommentEntity {
+extension CommentEntity {
     /// Returns the display name for the comment author
     var displayName: String {
         return nickname ?? "Anonymous"

@@ -8,22 +8,22 @@
 
 import Foundation
 
-public struct UserEntity: Codable, Sendable, Identifiable {
+struct UserEntity: Codable, Sendable, Identifiable {
     // MARK: - Properties
 
-    public let id: String
-    public let email: String
-    public let name: String
-    public let plan: UserPlan
-    public let appCount: Int
-    public let language: String
-    public let fcmToken: String?
-    public let createdAt: Date
-    public let updatedAt: Date
+    let id: String
+    let email: String
+    let name: String
+    let plan: UserPlan
+    let appCount: Int
+    let language: String
+    let fcmToken: String?
+    let createdAt: Date
+    let updatedAt: Date
 
     // MARK: - Init
 
-    public init(
+    init(
         id: String,
         email: String,
         name: String,
@@ -48,7 +48,7 @@ public struct UserEntity: Codable, Sendable, Identifiable {
 
 // MARK: - User Plan
 
-public enum UserPlan: String, Codable, Sendable, CaseIterable {
+enum UserPlan: String, Codable, CaseIterable, Sendable {
     case free
     case pro
     case enterprise
@@ -56,7 +56,7 @@ public enum UserPlan: String, Codable, Sendable, CaseIterable {
 
 // MARK: - Extensions
 
-public extension UserEntity {
+extension UserEntity {
     /// Returns whether the user has push notifications enabled
     var hasPushNotifications: Bool {
         return fcmToken != nil && !fcmToken!.isEmpty

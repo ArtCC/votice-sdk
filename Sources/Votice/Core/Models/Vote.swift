@@ -8,48 +8,57 @@
 
 import Foundation
 
-public struct VoteEntity: Codable, Sendable {
+struct VoteEntity: Codable, Sendable {
     // MARK: - Properties
 
-    public let suggestionId: String
-    public let userId: String?             // Dashboard only
-    public let deviceId: String?           // SDK only
-    public let createdAt: Date
+    let id: String
+    let suggestionId: String
+    let appId: String
+    let voteType: String            // "upvote" or "downvote"
+    let createdBy: String           // userId for dashboard, deviceId for SDK
+    let deviceId: String?           // SDK only
+    let createdAt: Date
 
     // MARK: - Init
 
-    public init(
+    init(
+        id: String,
         suggestionId: String,
-        userId: String? = nil,
+        appId: String,
+        voteType: String,
+        createdBy: String,
         deviceId: String? = nil,
         createdAt: Date
     ) {
+        self.id = id
         self.suggestionId = suggestionId
-        self.userId = userId
+        self.appId = appId
+        self.voteType = voteType
+        self.createdBy = createdBy
         self.deviceId = deviceId
         self.createdAt = createdAt
     }
 }
 
-// MARK: - Vote Status
+// MARK: - Vote Status Entity
 
-public struct VoteStatusEntity: Codable, Sendable {
+struct VoteStatusEntity: Codable, Sendable {
     // MARK: - Properties
 
-    public let hasVoted: Bool
-    public let voteCount: Int
+    let voted: Bool
+    let voteType: String?           // "upvote", "downvote", or nil
 
     // MARK: - Init
 
-    public init(hasVoted: Bool, voteCount: Int) {
-        self.hasVoted = hasVoted
-        self.voteCount = voteCount
+    init(voted: Bool, voteType: String? = nil) {
+        self.voted = voted
+        self.voteType = voteType
     }
 }
 
 // MARK: - Extensions
 
-public extension VoteEntity {
+extension VoteEntity {
     /// Returns whether this vote was created from the SDK
     var isFromSDK: Bool {
         return deviceId != nil
@@ -57,6 +66,6 @@ public extension VoteEntity {
 
     /// Returns whether this vote was created from the Dashboard
     var isFromDashboard: Bool {
-        return userId != nil
+        return deviceId == nil
     }
 }

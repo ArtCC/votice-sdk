@@ -8,29 +8,29 @@
 
 import Foundation
 
-public struct SuggestionEntity: Codable, Sendable, Identifiable {
+struct SuggestionEntity: Codable, Sendable, Identifiable {
     // MARK: - Properties
 
-    public let id: String
-    public let appId: String
-    public let title: String?              // Dashboard only
-    public let text: String?               // SDK only
-    public let description: String?        // Dashboard only
-    public let status: SuggestionStatus
-    public let voteCount: Int
-    public let commentCount: Int
-    public let source: SuggestionSource
-    public let createdBy: String           // userId for dashboard, deviceId for SDK
-    public let deviceId: String?           // SDK only
-    public let nickname: String?           // SDK only
-    public let platform: String?          // SDK only
-    public let language: String?           // SDK only
-    public let createdAt: Date
-    public let updatedAt: Date
+    let id: String
+    let appId: String
+    let title: String?              // Dashboard only
+    let text: String?               // SDK only
+    let description: String?        // Dashboard only
+    let status: SuggestionStatus
+    let voteCount: Int
+    let commentCount: Int
+    let source: SuggestionSource
+    let createdBy: String           // userId for dashboard, deviceId for SDK
+    let deviceId: String?           // SDK only
+    let nickname: String?           // SDK only
+    let platform: String?          // SDK only
+    let language: String?           // SDK only
+    let createdAt: Date
+    let updatedAt: Date
 
     // MARK: - Init
 
-    public init(
+    init(
         id: String,
         appId: String,
         title: String? = nil,
@@ -69,7 +69,7 @@ public struct SuggestionEntity: Codable, Sendable, Identifiable {
 
 // MARK: - Suggestion Status
 
-public enum SuggestionStatus: String, Codable, Sendable, CaseIterable {
+enum SuggestionStatus: String, Codable, Sendable, CaseIterable {
     case pending = "pending"
     case accepted = "accepted"
     case inProgress = "in-progress"
@@ -79,14 +79,14 @@ public enum SuggestionStatus: String, Codable, Sendable, CaseIterable {
 
 // MARK: - Suggestion Source
 
-public enum SuggestionSource: String, Codable, Sendable, CaseIterable {
+enum SuggestionSource: String, Codable, Sendable, CaseIterable {
     case dashboard
     case sdk
 }
 
 // MARK: - Extensions
 
-public extension SuggestionEntity {
+extension SuggestionEntity {
     /// Returns the display text for the suggestion
     var displayText: String {
         return text ?? title ?? ""

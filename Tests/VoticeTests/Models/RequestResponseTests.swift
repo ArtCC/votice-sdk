@@ -244,24 +244,24 @@ func testCreateCommentResponseDecoding() async throws {
 @Test("VoteSuggestionResponse should decode correctly")
 func testVoteSuggestionResponseDecoding() async throws {
     // Given
-    let json = """
+    let string = """
     {
         "message": "Vote recorded successfully",
         "voteStatus": {
-            "hasVoted": true,
-            "voteCount": 15
+            "voted": true,
+            "voteType": "upvote"
         }
     }
     """
-    let data = Data(json.utf8)
+    let json = Data(string.utf8)
 
     // When
-    let response = try JSONDecoder().decode(VoteSuggestionResponse.self, from: data)
+    let response = try JSONDecoder().decode(VoteSuggestionResponse.self, from: json)
 
     // Then
     #expect(response.message == "Vote recorded successfully")
-    #expect(response.voteStatus.hasVoted == true)
-    #expect(response.voteStatus.voteCount == 15)
+    #expect(response.voteStatus.voted == true)
+    #expect(response.voteStatus.voteType == "upvote")
 }
 
 @Test("SuggestionsResponse should decode correctly")

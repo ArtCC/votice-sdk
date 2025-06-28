@@ -10,105 +10,59 @@ import Foundation
 
 // MARK: - Base Response
 
-public struct BaseResponse: Codable, Sendable {
+struct BaseResponse: Codable, Sendable {
     // MARK: - Properties
 
-    public let message: String
-
-    // MARK: - Init
-
-    public init(message: String) {
-        self.message = message
-    }
+    let message: String
 }
 
 // MARK: - Suggestion Responses
 
-public struct CreateSuggestionResponse: Codable, Sendable {
+struct CreateSuggestionResponse: Codable, Sendable {
     // MARK: - Properties
 
-    public let message: String
-    public let id: String
-
-    // MARK: - Init
-
-    public init(message: String, id: String) {
-        self.message = message
-        self.id = id
-    }
+    let message: String
+    let id: String
 }
 
-public struct SuggestionsResponse: Codable, Sendable {
+struct SuggestionsResponse: Codable, Sendable {
     // MARK: - Properties
 
-    public let suggestions: [SuggestionEntity]
-
-    // MARK: - Init
-
-    public init(suggestions: [SuggestionEntity]) {
-        self.suggestions = suggestions
-    }
+    let suggestions: [SuggestionEntity]
 }
 
-public struct VoteSuggestionResponse: Codable, Sendable {
+struct VoteSuggestionResponse: Codable, Sendable {
     // MARK: - Properties
 
-    public let message: String
-    public let voteStatus: VoteStatusEntity
-
-    // MARK: - Init
-
-    public init(message: String, voteStatus: VoteStatusEntity) {
-        self.message = message
-        self.voteStatus = voteStatus
-    }
+    let message: String
+    let voteStatus: VoteStatusEntity
 }
 
 // MARK: - Comment Responses
 
-public struct CreateCommentResponse: Codable, Sendable {
+struct CreateCommentResponse: Codable, Sendable {
     // MARK: - Properties
 
-    public let message: String
-    public let id: String
-
-    // MARK: - Init
-
-    public init(message: String, id: String) {
-        self.message = message
-        self.id = id
-    }
+    let message: String
+    let id: String
 }
 
-public struct CommentsResponse: Codable, Sendable {
+struct CommentsResponse: Codable, Sendable {
     // MARK: - Properties
 
-    public let comments: [CommentEntity]
-
-    // MARK: - Init
-
-    public init(comments: [CommentEntity]) {
-        self.comments = comments
-    }
+    let comments: [CommentEntity]
 }
-
-// MARK: - Type Aliases for Use Cases
-
-public typealias FetchSuggestionsResponse = SuggestionsResponse
-public typealias FetchCommentsResponse = CommentsResponse
 
 // MARK: - Error Response
 
-public struct ErrorResponse: Codable, Sendable {
+struct ErrorResponse: Codable, Sendable {
     // MARK: - Properties
 
-    public let error: String
-    public let message: String
-
-    // MARK: - Init
-
-    public init(error: String, message: String) {
-        self.error = error
-        self.message = message
-    }
+    let error: String
+    let message: String
 }
+
+// MARK: - Type Aliases
+
+typealias FetchSuggestionsResponse = SuggestionsResponse
+typealias FetchCommentsResponse = CommentsResponse

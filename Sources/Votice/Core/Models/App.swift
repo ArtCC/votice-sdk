@@ -8,22 +8,22 @@
 
 import Foundation
 
-public struct AppEntity: Codable, Sendable, Identifiable {
+struct AppEntity: Codable, Sendable, Identifiable {
     // MARK: - Properties
 
-    public let id: String
-    public let name: String
-    public let platform: String
-    public let description: String?
-    public let apiKey: String
-    public let apiSecret: String
-    public let ownerId: String
-    public let createdAt: Date
-    public let updatedAt: Date
+    let id: String
+    let name: String
+    let platform: String
+    let description: String?
+    let apiKey: String
+    let apiSecret: String
+    let ownerId: String
+    let createdAt: Date
+    let updatedAt: Date
 
     // MARK: - Init
 
-    public init(
+    init(
         id: String,
         name: String,
         platform: String,
@@ -48,35 +48,19 @@ public struct AppEntity: Codable, Sendable, Identifiable {
 
 // MARK: - App Details
 
-public struct AppDetailsEntity: Codable, Sendable {
+struct AppDetailsEntity: Codable, Sendable {
     // MARK: - Properties
 
-    public let app: AppEntity
-    public let suggestionCount: Int
-    public let pendingSuggestionCount: Int
-    public let commentCount: Int
-    public let voteCount: Int
-
-    // MARK: - Init
-
-    public init(
-        app: AppEntity,
-        suggestionCount: Int,
-        pendingSuggestionCount: Int,
-        commentCount: Int,
-        voteCount: Int
-    ) {
-        self.app = app
-        self.suggestionCount = suggestionCount
-        self.pendingSuggestionCount = pendingSuggestionCount
-        self.commentCount = commentCount
-        self.voteCount = voteCount
-    }
+    let app: AppEntity
+    let suggestionCount: Int
+    let pendingSuggestionCount: Int
+    let commentCount: Int
+    let voteCount: Int
 }
 
 // MARK: - Extensions
 
-public extension AppEntity {
+extension AppEntity {
     /// Returns whether the app has a description
     var hasDescription: Bool {
         return description != nil && !description!.isEmpty

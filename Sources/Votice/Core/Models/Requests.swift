@@ -10,19 +10,21 @@ import Foundation
 
 // MARK: - Suggestion Requests
 
-public struct CreateSuggestionRequest: Codable, Sendable {
+// MARK: - Create Suggestion Request
+
+struct CreateSuggestionRequest: Codable, Sendable {
     // MARK: - Properties
 
-    public let title: String
-    public let description: String
-    public let deviceId: String
-    public let nickname: String?
-    public let platform: String
-    public let language: String
+    let title: String
+    let description: String
+    let deviceId: String
+    let nickname: String?
+    let platform: String
+    let language: String
 
     // MARK: - Init
 
-    public init(
+    init(
         title: String,
         description: String,
         deviceId: String,
@@ -39,19 +41,21 @@ public struct CreateSuggestionRequest: Codable, Sendable {
     }
 }
 
-public struct FetchSuggestionsRequest: Codable, Sendable {
+// MARK: - Fetch Suggestions Request
+
+struct FetchSuggestionsRequest: Codable, Sendable {
     // MARK: - Properties
 
-    public let deviceId: String
-    public let limit: Int?
-    public let offset: Int?
-    public let status: String?
-    public let platform: String
-    public let language: String
+    let deviceId: String
+    let limit: Int?
+    let offset: Int?
+    let status: String?
+    let platform: String
+    let language: String
 
     // MARK: - Init
 
-    public init(
+    init(
         deviceId: String,
         limit: Int? = nil,
         offset: Int? = nil,
@@ -68,47 +72,35 @@ public struct FetchSuggestionsRequest: Codable, Sendable {
     }
 }
 
-public struct VoteSuggestionRequest: Codable, Sendable {
+// MARK: - Vote Suggestion Request
+
+struct VoteSuggestionRequest: Codable, Sendable {
     // MARK: - Properties
 
-    public let suggestionId: String
-    public let deviceId: String
-    public let voteType: VoteType
-    public let platform: String
-    public let language: String
-
-    // MARK: - Init
-
-    public init(
-        suggestionId: String,
-        deviceId: String,
-        voteType: VoteType,
-        platform: String,
-        language: String
-    ) {
-        self.suggestionId = suggestionId
-        self.deviceId = deviceId
-        self.voteType = voteType
-        self.platform = platform
-        self.language = language
-    }
+    let suggestionId: String
+    let deviceId: String
+    let voteType: VoteType
+    let platform: String
+    let language: String
 }
 
 // MARK: - Comment Requests
 
-public struct CreateCommentRequest: Codable, Sendable {
+// MARK: - Create Comment Request
+
+struct CreateCommentRequest: Codable, Sendable {
     // MARK: - Properties
 
-    public let suggestionId: String
-    public let content: String
-    public let deviceId: String
-    public let nickname: String?
-    public let platform: String
-    public let language: String
+    let suggestionId: String
+    let content: String
+    let deviceId: String
+    let nickname: String?
+    let platform: String
+    let language: String
 
     // MARK: - Init
 
-    public init(
+    init(
         suggestionId: String,
         content: String,
         deviceId: String,
@@ -125,19 +117,21 @@ public struct CreateCommentRequest: Codable, Sendable {
     }
 }
 
-public struct FetchCommentsRequest: Codable, Sendable {
+// MARK: - Fetch Comments Request
+
+struct FetchCommentsRequest: Codable, Sendable {
     // MARK: - Properties
 
-    public let suggestionId: String
-    public let deviceId: String
-    public let limit: Int?
-    public let offset: Int?
-    public let platform: String
-    public let language: String
+    let suggestionId: String
+    let deviceId: String
+    let limit: Int?
+    let offset: Int?
+    let platform: String
+    let language: String
 
     // MARK: - Init
 
-    public init(
+    init(
         suggestionId: String,
         deviceId: String,
         limit: Int? = nil,
@@ -156,7 +150,7 @@ public struct FetchCommentsRequest: Codable, Sendable {
 
 // MARK: - Vote Type
 
-public enum VoteType: String, Codable, Sendable, CaseIterable {
+enum VoteType: String, Codable, CaseIterable, Sendable {
     case upvote
     case downvote
     case remove
