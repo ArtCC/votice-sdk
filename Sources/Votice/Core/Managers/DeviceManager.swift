@@ -37,7 +37,6 @@ final class DeviceManager: DeviceManagerProtocol {
             return currentId
         }
     }
-
     var platform: String {
 #if os(iOS)
 #if targetEnvironment(macCatalyst)
@@ -57,12 +56,11 @@ final class DeviceManager: DeviceManagerProtocol {
         return "Unknown"
 #endif
     }
-
     var language: String {
         return Locale.current.language.languageCode?.identifier ?? "en"
     }
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     internal init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
@@ -86,6 +84,7 @@ final class DeviceManager: DeviceManagerProtocol {
         userDefaults.synchronize()
 
         LogManager.shared.devLog(.info, "Generated new device ID: \(newDeviceId)")
+
         return newDeviceId
     }
 

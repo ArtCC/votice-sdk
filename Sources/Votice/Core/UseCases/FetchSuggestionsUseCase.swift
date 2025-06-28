@@ -19,7 +19,7 @@ final class FetchSuggestionsUseCase: FetchSuggestionsUseCaseProtocol {
     private let configurationManager: ConfigurationManagerProtocol
     private let deviceManager: DeviceManagerProtocol
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     init(
         suggestionRepository: SuggestionRepositoryProtocol = SuggestionRepository(),

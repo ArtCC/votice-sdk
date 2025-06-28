@@ -17,7 +17,7 @@ struct NetworkManager: NetworkManagerProtocol {
     private let session: URLSession
     private let configurationManager: ConfigurationManagerProtocol
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     init(session: URLSession = .shared,
          configurationManager: ConfigurationManagerProtocol = ConfigurationManager.shared) {
@@ -25,7 +25,7 @@ struct NetworkManager: NetworkManagerProtocol {
         self.configurationManager = configurationManager
     }
 
-    // MARK: - Public
+    // MARK: - Public functions
 
     func request<T: Codable & Sendable>(
         endpoint: NetworkEndpoint,
@@ -95,6 +95,7 @@ struct NetworkManager: NetworkManagerProtocol {
 
             guard let httpResponse = response as? HTTPURLResponse else {
                 LogManager.shared.devLog(.error, "Invalid response type")
+
                 throw NetworkError.invalidResponse
             }
 
@@ -104,26 +105,32 @@ struct NetworkManager: NetworkManagerProtocol {
             switch httpResponse.statusCode {
             case 200...299:
                 LogManager.shared.devLog(.success, "Request successful", utf8Data: data)
+
                 return data
             case 401:
                 LogManager.shared.devLog(.error, "Authentication error", utf8Data: data)
+
                 throw NetworkError.authenticationError
             case 400...499:
                 let errorMessage = String(data: data, encoding: .utf8) ?? "Client error"
                 LogManager.shared.devLog(.error, "Client error: \(errorMessage)")
+
                 throw NetworkError.serverError(httpResponse.statusCode, errorMessage)
             case 500...599:
                 let errorMessage = String(data: data, encoding: .utf8) ?? "Server error"
                 LogManager.shared.devLog(.error, "Server error: \(errorMessage)")
+
                 throw NetworkError.serverError(httpResponse.statusCode, errorMessage)
             default:
                 LogManager.shared.devLog(.error, "Unexpected status code: \(httpResponse.statusCode)")
+
                 throw NetworkError.serverError(httpResponse.statusCode, "Unexpected error")
             }
         } catch let error as NetworkError {
             throw error
         } catch {
             LogManager.shared.devLog(.error, "Network request failed: \(error.localizedDescription)")
+
             throw NetworkError.unknownError(error.localizedDescription)
         }
     }
@@ -133,6 +140,7 @@ struct NetworkManager: NetworkManagerProtocol {
     private func generateHMACSignature(data: Data, secret: String) -> String {
         let key = SymmetricKey(data: Data(secret.utf8))
         let signature = HMAC<SHA256>.authenticationCode(for: data, using: key)
+
         return Data(signature).map { String(format: "%02hhx", $0) }.joined()
     }
 }

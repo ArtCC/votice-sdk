@@ -13,7 +13,7 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
 
     private let networkManager: NetworkManagerProtocol
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
         self.networkManager = networkManager

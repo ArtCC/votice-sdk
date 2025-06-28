@@ -19,7 +19,7 @@ final class CreateCommentUseCase: CreateCommentUseCaseProtocol {
     private let configurationManager: ConfigurationManagerProtocol
     private let deviceManager: DeviceManagerProtocol
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     init(
         commentRepository: CommentRepositoryProtocol = CommentRepository(),

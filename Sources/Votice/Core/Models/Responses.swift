@@ -11,7 +11,11 @@ import Foundation
 // MARK: - Base Response
 
 public struct BaseResponse: Codable, Sendable {
+    // MARK: - Properties
+
     public let message: String
+
+    // MARK: - Init
 
     public init(message: String) {
         self.message = message
@@ -21,8 +25,12 @@ public struct BaseResponse: Codable, Sendable {
 // MARK: - Suggestion Responses
 
 public struct CreateSuggestionResponse: Codable, Sendable {
+    // MARK: - Properties
+
     public let message: String
     public let id: String
+
+    // MARK: - Init
 
     public init(message: String, id: String) {
         self.message = message
@@ -31,7 +39,11 @@ public struct CreateSuggestionResponse: Codable, Sendable {
 }
 
 public struct SuggestionsResponse: Codable, Sendable {
+    // MARK: - Properties
+
     public let suggestions: [SuggestionEntity]
+
+    // MARK: - Init
 
     public init(suggestions: [SuggestionEntity]) {
         self.suggestions = suggestions
@@ -39,8 +51,12 @@ public struct SuggestionsResponse: Codable, Sendable {
 }
 
 public struct VoteSuggestionResponse: Codable, Sendable {
+    // MARK: - Properties
+
     public let message: String
     public let voteStatus: VoteStatusEntity
+
+    // MARK: - Init
 
     public init(message: String, voteStatus: VoteStatusEntity) {
         self.message = message
@@ -51,8 +67,12 @@ public struct VoteSuggestionResponse: Codable, Sendable {
 // MARK: - Comment Responses
 
 public struct CreateCommentResponse: Codable, Sendable {
+    // MARK: - Properties
+
     public let message: String
     public let id: String
+
+    // MARK: - Init
 
     public init(message: String, id: String) {
         self.message = message
@@ -61,7 +81,11 @@ public struct CreateCommentResponse: Codable, Sendable {
 }
 
 public struct CommentsResponse: Codable, Sendable {
+    // MARK: - Properties
+
     public let comments: [CommentEntity]
+
+    // MARK: - Init
 
     public init(comments: [CommentEntity]) {
         self.comments = comments
@@ -76,8 +100,12 @@ public typealias FetchCommentsResponse = CommentsResponse
 // MARK: - Error Response
 
 public struct ErrorResponse: Codable, Sendable {
+    // MARK: - Properties
+
     public let error: String
     public let message: String
+
+    // MARK: - Init
 
     public init(error: String, message: String) {
         self.error = error

@@ -16,7 +16,7 @@ public struct VoteEntity: Codable, Sendable {
     public let deviceId: String?           // SDK only
     public let createdAt: Date
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     public init(
         suggestionId: String,
@@ -39,7 +39,7 @@ public struct VoteStatusEntity: Codable, Sendable {
     public let hasVoted: Bool
     public let voteCount: Int
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     public init(hasVoted: Bool, voteCount: Int) {
         self.hasVoted = hasVoted

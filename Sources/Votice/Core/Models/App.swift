@@ -21,7 +21,7 @@ public struct AppEntity: Codable, Sendable, Identifiable {
     public let createdAt: Date
     public let updatedAt: Date
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     public init(
         id: String,
@@ -57,7 +57,7 @@ public struct AppDetailsEntity: Codable, Sendable {
     public let commentCount: Int
     public let voteCount: Int
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     public init(
         app: AppEntity,

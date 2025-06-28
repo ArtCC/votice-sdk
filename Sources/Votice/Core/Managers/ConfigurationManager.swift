@@ -53,18 +53,21 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
         try lock.withLock {
             guard !_isConfigured else {
                 LogManager.shared.devLog(.warning, "Configuration manager is already configured")
+
                 throw ConfigurationError.alreadyConfigured
             }
 
             // Validate API key
             guard !apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
                 LogManager.shared.devLog(.error, "Invalid API key provided")
+
                 throw ConfigurationError.invalidAPIKey
             }
 
             // Validate API secret
             guard !apiSecret.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
                 LogManager.shared.devLog(.error, "Invalid API secret provided")
+
                 throw ConfigurationError.invalidAPISecret
             }
 
@@ -89,29 +92,8 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
     func validateConfiguration() throws {
         guard isConfigured else {
             LogManager.shared.devLog(.error, "Configuration manager is not configured")
+
             throw ConfigurationError.notConfigured
-        }
-    }
-}
-
-// MARK: - Configuration Error
-
-enum ConfigurationError: Error, LocalizedError {
-    case alreadyConfigured
-    case notConfigured
-    case invalidAPIKey
-    case invalidAPISecret
-
-    var errorDescription: String? {
-        switch self {
-        case .alreadyConfigured:
-            return "Votice SDK is already configured"
-        case .notConfigured:
-            return "Votice SDK is not configured. Call Votice.configure() first"
-        case .invalidAPIKey:
-            return "Invalid API key provided"
-        case .invalidAPISecret:
-            return "Invalid API secret provided"
         }
     }
 }

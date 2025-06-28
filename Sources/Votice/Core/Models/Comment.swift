@@ -20,7 +20,7 @@ public struct CommentEntity: Codable, Sendable, Identifiable {
     public let deviceId: String?           // SDK only
     public let createdAt: Date
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     public init(
         id: String,

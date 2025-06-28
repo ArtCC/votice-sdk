@@ -19,7 +19,7 @@ final class VoteSuggestionUseCase: VoteSuggestionUseCaseProtocol {
     private let configurationManager: ConfigurationManagerProtocol
     private let deviceManager: DeviceManagerProtocol
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     init(
         suggestionRepository: SuggestionRepositoryProtocol = SuggestionRepository(),

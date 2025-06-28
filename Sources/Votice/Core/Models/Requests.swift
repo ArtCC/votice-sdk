@@ -11,12 +11,16 @@ import Foundation
 // MARK: - Suggestion Requests
 
 public struct CreateSuggestionRequest: Codable, Sendable {
+    // MARK: - Properties
+
     public let title: String
     public let description: String
     public let deviceId: String
     public let nickname: String?
     public let platform: String
     public let language: String
+
+    // MARK: - Init
 
     public init(
         title: String,
@@ -36,12 +40,16 @@ public struct CreateSuggestionRequest: Codable, Sendable {
 }
 
 public struct FetchSuggestionsRequest: Codable, Sendable {
+    // MARK: - Properties
+
     public let deviceId: String
     public let limit: Int?
     public let offset: Int?
     public let status: String?
     public let platform: String
     public let language: String
+
+    // MARK: - Init
 
     public init(
         deviceId: String,
@@ -61,11 +69,15 @@ public struct FetchSuggestionsRequest: Codable, Sendable {
 }
 
 public struct VoteSuggestionRequest: Codable, Sendable {
+    // MARK: - Properties
+
     public let suggestionId: String
     public let deviceId: String
     public let voteType: VoteType
     public let platform: String
     public let language: String
+
+    // MARK: - Init
 
     public init(
         suggestionId: String,
@@ -85,12 +97,16 @@ public struct VoteSuggestionRequest: Codable, Sendable {
 // MARK: - Comment Requests
 
 public struct CreateCommentRequest: Codable, Sendable {
+    // MARK: - Properties
+
     public let suggestionId: String
     public let content: String
     public let deviceId: String
     public let nickname: String?
     public let platform: String
     public let language: String
+
+    // MARK: - Init
 
     public init(
         suggestionId: String,
@@ -110,12 +126,16 @@ public struct CreateCommentRequest: Codable, Sendable {
 }
 
 public struct FetchCommentsRequest: Codable, Sendable {
+    // MARK: - Properties
+
     public let suggestionId: String
     public let deviceId: String
     public let limit: Int?
     public let offset: Int?
     public let platform: String
     public let language: String
+
+    // MARK: - Init
 
     public init(
         suggestionId: String,

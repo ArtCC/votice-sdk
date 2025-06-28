@@ -21,7 +21,7 @@ public struct UserEntity: Codable, Sendable, Identifiable {
     public let createdAt: Date
     public let updatedAt: Date
 
-    // MARK: - Initialization
+    // MARK: - Init
 
     public init(
         id: String,
