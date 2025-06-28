@@ -8,7 +8,7 @@
 import Foundation
 
 public struct Votice {
-    public static func helloWorld() {
+    public static func initialize() {
         debugPrint("👋 Hello, World!")
     }
 }
