@@ -14,7 +14,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
     static let shared = ConfigurationManager()
 
     private let lock = NSLock()
-    private var _baseURL: String = ""
+    private let _baseURL: String = "https://us-central1-memorypost-artcc01.cloudfunctions.net/api"
     private var _apiKey: String = ""
     private var _apiSecret: String = ""
     private var _isConfigured: Bool = false
@@ -26,7 +26,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
     }
 
     var baseURL: String {
-        lock.withLock { _baseURL }
+        return _baseURL
     }
 
     var apiKey: String {
@@ -43,18 +43,11 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
 
     // MARK: - Functions
 
-    func configure(baseURL: String, apiKey: String, apiSecret: String) throws {
+    func configure(apiKey: String, apiSecret: String) throws {
         try lock.withLock {
             guard !_isConfigured else {
                 LogManager.shared.devLog(.warning, "Configuration manager is already configured")
                 throw ConfigurationError.alreadyConfigured
-            }
-
-            // Validate base URL
-            guard !baseURL.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                  URL(string: baseURL) != nil else {
-                LogManager.shared.devLog(.error, "Invalid base URL provided: \(baseURL)")
-                throw ConfigurationError.invalidBaseURL
             }
 
             // Validate API key
@@ -69,7 +62,6 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
                 throw ConfigurationError.invalidAPISecret
             }
 
-            _baseURL = baseURL.trimmingCharacters(in: .whitespacesAndNewlines)
             _apiKey = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
             _apiSecret = apiSecret.trimmingCharacters(in: .whitespacesAndNewlines)
             _isConfigured = true
@@ -80,7 +72,6 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
 
     func reset() {
         lock.withLock {
-            _baseURL = ""
             _apiKey = ""
             _apiSecret = ""
             _isConfigured = false
@@ -95,6 +86,28 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
         guard isConfigured else {
             LogManager.shared.devLog(.error, "Configuration manager is not configured")
             throw ConfigurationError.notConfigured
+        }
+    }
+}
+
+// MARK: - Configuration Error
+
+enum ConfigurationError: Error, LocalizedError {
+    case alreadyConfigured
+    case notConfigured
+    case invalidAPIKey
+    case invalidAPISecret
+
+    var errorDescription: String? {
+        switch self {
+        case .alreadyConfigured:
+            return "Votice SDK is already configured"
+        case .notConfigured:
+            return "Votice SDK is not configured. Call Votice.configure() first"
+        case .invalidAPIKey:
+            return "Invalid API key provided"
+        case .invalidAPISecret:
+            return "Invalid API secret provided"
         }
     }
 }

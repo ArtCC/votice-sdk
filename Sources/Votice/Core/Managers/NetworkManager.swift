@@ -15,20 +15,14 @@ struct NetworkManager: NetworkManagerProtocol {
     static let shared = NetworkManager()
 
     private let session: URLSession
-    private let baseURL: String
-    private let apiKey: String
-    private let apiSecret: String
+    private let configurationManager: ConfigurationManagerProtocol
 
     // MARK: - Initialization
 
-    init(baseURL: String = "",
-         apiKey: String = "",
-         apiSecret: String = "",
-         session: URLSession = .shared) {
-        self.baseURL = baseURL
-        self.apiKey = apiKey
-        self.apiSecret = apiSecret
+    init(session: URLSession = .shared,
+         configurationManager: ConfigurationManagerProtocol = ConfigurationManager.shared) {
         self.session = session
+        self.configurationManager = configurationManager
     }
 
     // MARK: - Public
@@ -62,6 +56,12 @@ struct NetworkManager: NetworkManagerProtocol {
     // swiftlint:disable cyclomatic_complexity
     // swiftlint:disable function_body_length
     private func performRequest(endpoint: NetworkEndpoint) async throws -> Data {
+        try configurationManager.validateConfiguration()
+
+        let baseURL = configurationManager.baseURL
+        let apiKey = configurationManager.apiKey
+        let apiSecret = configurationManager.apiSecret
+
         guard let url = URL(string: baseURL + endpoint.path) else {
             LogManager.shared.devLog(.error, "Invalid URL: \(baseURL + endpoint.path)")
             throw NetworkError.invalidURL
@@ -75,13 +75,11 @@ struct NetworkManager: NetworkManagerProtocol {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         // Add API key
-        if !apiKey.isEmpty {
-            request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
-        }
+        request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
 
-        // Generate HMAC signature if we have body and secret
-        if let body = endpoint.body, !apiSecret.isEmpty {
-            let signature = generateHMACSignature(data: body)
+        // Generate HMAC signature if we have body
+        if let body = endpoint.body {
+            let signature = generateHMACSignature(data: body, secret: apiSecret)
             request.setValue(signature, forHTTPHeaderField: "x-signature")
         }
 
@@ -132,8 +130,8 @@ struct NetworkManager: NetworkManagerProtocol {
     // swiftlint:enable cyclomatic_complexity
     // swiftlint:enable function_body_length
 
-    private func generateHMACSignature(data: Data) -> String {
-        let key = SymmetricKey(data: Data(apiSecret.utf8))
+    private func generateHMACSignature(data: Data, secret: String) -> String {
+        let key = SymmetricKey(data: Data(secret.utf8))
         let signature = HMAC<SHA256>.authenticationCode(for: data, using: key)
         return Data(signature).map { String(format: "%02hhx", $0) }.joined()
     }

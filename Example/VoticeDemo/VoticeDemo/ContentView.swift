@@ -18,7 +18,11 @@ struct ContentView: View {
         }
         .padding()
         .onAppear {
-            Votice.initialize()
+            do {
+                try Votice.configure(apiKey: "", apiSecret: "")
+            } catch {
+                debugPrint("Configuration failed: \(error)")
+            }
         }
     }
 }
