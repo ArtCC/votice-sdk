@@ -8,13 +8,21 @@
 import XCTest
 
 final class VoticeDemoUITestsLaunchTests: XCTestCase {
+    // MARK: - Override to run tests for each target application UI configuration
+
+    // swiftlint:disable static_over_final_class
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
+    // swiftlint:enable static_over_final_class
+
+    // MARK: - Setup
 
     override func setUpWithError() throws {
         continueAfterFailure = false
     }
+
+    // MARK: - Test
 
     @MainActor
     func testLaunch() throws {
