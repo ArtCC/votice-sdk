@@ -8,6 +8,14 @@
 
 import Foundation
 
+protocol SuggestionRepositoryProtocol: Sendable {
+    func createSuggestion(request: CreateSuggestionRequest) async throws -> CreateSuggestionResponse
+    func fetchSuggestions(request: FetchSuggestionsRequest) async throws -> FetchSuggestionsResponse
+    func fetchVoteStatus(suggestionId: String, deviceId: String) async throws -> VoteStatusEntity
+    func voteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse
+    func unvoteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse
+}
+
 final class SuggestionRepository: SuggestionRepositoryProtocol {
     // MARK: - Properties
 
@@ -23,65 +31,39 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
 
     func createSuggestion(request: CreateSuggestionRequest) async throws -> CreateSuggestionResponse {
         let bodyData = try JSONEncoder().encode(request)
-        let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/suggestions/create",
-            method: .POST,
-            body: bodyData
-        )
-        return try await networkManager.request(
-            endpoint: endpoint,
-            responseType: CreateSuggestionResponse.self
-        )
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/suggestions/create", method: .POST, body: bodyData)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: CreateSuggestionResponse.self)
     }
 
     func fetchSuggestions(request: FetchSuggestionsRequest) async throws -> FetchSuggestionsResponse {
-        let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/suggestions/fetch?appId=\(request.appId)",
-            method: .GET,
-            body: nil
-        )
-        return try await networkManager.request(
-            endpoint: endpoint,
-            responseType: FetchSuggestionsResponse.self
-        )
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/suggestions/fetch?appId=\(request.appId)",
+                                       method: .GET,
+                                       body: nil)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: FetchSuggestionsResponse.self)
     }
 
     func fetchVoteStatus(suggestionId: String, deviceId: String) async throws -> VoteStatusEntity {
-        let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/votes/status?suggestionId=\(suggestionId)&deviceId=\(deviceId)",
-            method: .GET,
-            body: nil
-        )
-        return try await networkManager.request(
-            endpoint: endpoint,
-            responseType: VoteStatusEntity.self
-        )
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/votes/status?suggestionId=\(suggestionId)&deviceId=\(deviceId)",
+                                       method: .GET,
+                                       body: nil)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: VoteStatusEntity.self)
     }
 
     func voteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse {
         let bodyData = try JSONEncoder().encode(request)
-        let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/votes/vote",
-            method: .POST,
-            body: bodyData
-        )
-        return try await networkManager.request(
-            endpoint: endpoint,
-            responseType: VoteSuggestionResponse.self
-        )
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/votes/vote", method: .POST, body: bodyData)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: VoteSuggestionResponse.self)
     }
 
     func unvoteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse {
         let bodyData = try JSONEncoder().encode(request)
-        let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/votes/unvote",
-            method: .POST,
-            body: bodyData
-        )
-        return try await networkManager.request(
-            endpoint: endpoint,
-            responseType: VoteSuggestionResponse.self
-        )
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/votes/unvote", method: .POST, body: bodyData)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: VoteSuggestionResponse.self)
     }
 }
 

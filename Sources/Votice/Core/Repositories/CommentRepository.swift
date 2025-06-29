@@ -8,6 +8,11 @@
 
 import Foundation
 
+protocol CommentRepositoryProtocol: Sendable {
+    func createComment(request: CreateCommentRequest) async throws -> CreateCommentResponse
+    func fetchComments(request: FetchCommentsRequest) async throws -> FetchCommentsResponse
+}
+
 final class CommentRepository: CommentRepositoryProtocol {
     // MARK: - Properties
 
@@ -23,27 +28,17 @@ final class CommentRepository: CommentRepositoryProtocol {
 
     func createComment(request: CreateCommentRequest) async throws -> CreateCommentResponse {
         let bodyData = try JSONEncoder().encode(request)
-        let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/comments/create",
-            method: .POST,
-            body: bodyData
-        )
-        return try await networkManager.request(
-            endpoint: endpoint,
-            responseType: CreateCommentResponse.self
-        )
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/create", method: .POST, body: bodyData)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: CreateCommentResponse.self)
     }
 
     func fetchComments(request: FetchCommentsRequest) async throws -> FetchCommentsResponse {
-        let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/comments/fetch?suggestionId=\(request.suggestionId)",
-            method: .GET,
-            body: nil
-        )
-        return try await networkManager.request(
-            endpoint: endpoint,
-            responseType: FetchCommentsResponse.self
-        )
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/fetch?suggestionId=\(request.suggestionId)",
+                                       method: .GET,
+                                       body: nil)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: FetchCommentsResponse.self)
     }
 }
 

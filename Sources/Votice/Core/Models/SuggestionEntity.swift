@@ -29,23 +29,21 @@ struct SuggestionEntity: Codable, Sendable, Identifiable {
 
     // MARK: - Init
 
-    init(
-        id: String,
-        appId: String? = nil,
-        title: String? = nil,
-        text: String? = nil,
-        description: String? = nil,
-        nickname: String? = nil,
-        createdAt: String? = nil,
-        updatedAt: String? = nil,
-        platform: String? = nil,
-        createdBy: String? = nil,
-        status: SuggestionStatusEntity? = nil,
-        source: SuggestionSource? = nil,
-        commentCount: Int? = nil,
-        voteCount: Int? = nil,
-        language: String? = nil
-    ) {
+    init(id: String,
+         appId: String? = nil,
+         title: String? = nil,
+         text: String? = nil,
+         description: String? = nil,
+         nickname: String? = nil,
+         createdAt: String? = nil,
+         updatedAt: String? = nil,
+         platform: String? = nil,
+         createdBy: String? = nil,
+         status: SuggestionStatusEntity? = nil,
+         source: SuggestionSource? = nil,
+         commentCount: Int? = nil,
+         voteCount: Int? = nil,
+         language: String? = nil) {
         self.id = id
         self.appId = appId
         self.title = title
@@ -67,22 +65,15 @@ struct SuggestionEntity: Codable, Sendable, Identifiable {
 // MARK: - Extensions
 
 extension SuggestionEntity {
-    /// Returns the display text for the suggestion
     var displayText: String {
         return text ?? title ?? ""
     }
-
-    /// Returns whether this suggestion was created from the SDK
     var isFromSDK: Bool {
         return source == .sdk
     }
-
-    /// Returns whether this suggestion was created from the Dashboard
     var isFromDashboard: Bool {
         return source == .dashboard
     }
-
-    /// Returns whether the suggestion can be voted on
     var canBeVoted: Bool {
         return status == .pending || status == .accepted || status == .inProgress
     }

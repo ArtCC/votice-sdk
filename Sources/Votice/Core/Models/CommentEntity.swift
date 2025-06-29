@@ -9,8 +9,6 @@
 import Foundation
 
 struct CommentEntity: Codable, Sendable, Identifiable {
-    // MARK: - Properties
-
     let id: String
     let suggestionId: String
     let appId: String
@@ -26,17 +24,12 @@ struct CommentEntity: Codable, Sendable, Identifiable {
 // MARK: - Extensions
 
 extension CommentEntity {
-    /// Returns the display name for the comment author
     var displayName: String {
         return nickname ?? "Anonymous"
     }
-
-    /// Returns whether this comment was created from the SDK
     var isFromSDK: Bool {
         return deviceId != nil
     }
-
-    /// Returns whether this comment was created from the Dashboard
     var isFromDashboard: Bool {
         return deviceId == nil
     }

@@ -9,9 +9,9 @@
 import Foundation
 
 enum SuggestionStatusEntity: String, Codable, Sendable, CaseIterable {
-    case pending = "pending"
-    case accepted = "accepted"
+    case pending
+    case accepted
     case inProgress = "in-progress"
-    case completed = "completed"
-    case rejected = "rejected"
+    case completed
+    case rejected
 }

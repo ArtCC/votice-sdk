@@ -9,8 +9,6 @@
 import Foundation
 
 struct VoteEntity: Codable, Sendable {
-    // MARK: - Properties
-
     let suggestionId: String?
     let appId: String?
     let deviceId: String?

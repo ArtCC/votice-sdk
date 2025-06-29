@@ -20,14 +20,12 @@ struct CreateSuggestionRequest: Codable, Sendable {
 
     // MARK: - Init
 
-    init(
-        title: String,
-        description: String,
-        deviceId: String,
-        nickname: String? = nil,
-        platform: String,
-        language: String
-    ) {
+    init(title: String,
+         description: String,
+         deviceId: String,
+         nickname: String? = nil,
+         platform: String,
+         language: String) {
         self.title = title
         self.description = description
         self.deviceId = deviceId
