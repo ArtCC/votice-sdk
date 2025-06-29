@@ -45,8 +45,10 @@ struct LogManager: LogManagerProtocol {
                 ignoreFunctionName: Bool = true,
                 function: String = #function) {
         let functionName = ignoreFunctionName ? "" : "\(function): "
+
         if let data = utf8Data, let dataString = String(data: data, encoding: .utf8) {
             let dataMessage = (dataString.isEmpty) ? "No data" : dataString
+
             log(logType, "\(functionName)\(message)\n\(dataMessage)")
         } else {
             log(logType, "\(functionName)\(message)")
@@ -59,6 +61,7 @@ struct LogManager: LogManagerProtocol {
                 function: String = #function) {
         if let data = try? JSONSerialization.data(withJSONObject: userInfo, options: [.prettyPrinted]),
            let jsonString = String(data: data, encoding: .utf8) {
+
             log(logType, "\(function): \(message)\n\(jsonString)")
         } else {
             log(logType, "\(function): \(message)\n\(userInfo)")

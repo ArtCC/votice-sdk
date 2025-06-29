@@ -72,6 +72,7 @@ struct NetworkManager: NetworkManagerProtocol {
 
         guard let url = URL(string: baseURL + endpoint.path) else {
             LogManager.shared.devLog(.error, "Invalid URL: \(baseURL + endpoint.path)")
+
             throw NetworkError.invalidURL
         }
 
@@ -87,6 +88,7 @@ struct NetworkManager: NetworkManagerProtocol {
 
         // Generate HMAC signature
         let signatureData: Data
+
         if let bodyData = endpoint.body {
             // For requests with body, use the body data
             signatureData = bodyData
@@ -95,7 +97,9 @@ struct NetworkManager: NetworkManagerProtocol {
             // This matches the backend behavior: JSON.stringify(req.body) for empty body
             signatureData = Data("{}".utf8)
         }
+
         let signature = generateHMACSignature(data: signatureData, secret: apiSecret)
+
         request.setValue(signature, forHTTPHeaderField: "x-signature")
 
         // Add custom headers

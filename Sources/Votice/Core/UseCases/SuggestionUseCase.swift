@@ -11,7 +11,7 @@ import Foundation
 protocol SuggestionUseCaseProtocol: Sendable {
     func fetchSuggestions() async throws -> SuggestionsResponse
     func createSuggestion(title: String,
-                          description: String,
+                          description: String?,
                           nickname: String?) async throws -> CreateSuggestionResponse
     func deleteSuggestion(suggestionId: String) async throws -> DeleteSuggestionResponse
     func fetchVoteStatus(suggestionId: String) async throws -> VoteStatusEntity
@@ -46,22 +46,18 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
     }
 
     func createSuggestion(title: String,
-                          description: String,
+                          description: String?,
                           nickname: String?) async throws -> CreateSuggestionResponse {
         try configurationManager.validateConfiguration()
 
-        guard !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        guard !title.isEmpty else {
             throw VoticeError.invalidInput("Title cannot be empty")
         }
 
-        guard !description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            throw VoticeError.invalidInput("Description cannot be empty")
-        }
-
-        let request = CreateSuggestionRequest(title: title.trimmingCharacters(in: .whitespacesAndNewlines),
-                                              description: description.trimmingCharacters(in: .whitespacesAndNewlines),
+        let request = CreateSuggestionRequest(title: title,
+                                              description: description,
                                               deviceId: deviceManager.deviceId,
-                                              nickname: nickname?.trimmingCharacters(in: .whitespacesAndNewlines),
+                                              nickname: nickname,
                                               platform: deviceManager.platform,
                                               language: deviceManager.language)
 
@@ -71,14 +67,11 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
     func deleteSuggestion(suggestionId: String) async throws -> DeleteSuggestionResponse {
         try configurationManager.validateConfiguration()
 
-        guard !suggestionId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        guard !suggestionId.isEmpty else {
             throw VoticeError.invalidInput("Suggestion ID cannot be empty")
         }
 
-        let request = DeleteSuggestionRequest(
-            suggestionId: suggestionId.trimmingCharacters(in: .whitespacesAndNewlines),
-            deviceId: deviceManager.deviceId
-        )
+        let request = DeleteSuggestionRequest(suggestionId: suggestionId, deviceId: deviceManager.deviceId)
 
         return try await suggestionRepository.deleteSuggestion(request: request)
     }
@@ -86,7 +79,7 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
     func fetchVoteStatus(suggestionId: String) async throws -> VoteStatusEntity {
         try configurationManager.validateConfiguration()
 
-        guard !suggestionId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        guard !suggestionId.isEmpty else {
             throw VoticeError.invalidInput("Suggestion ID cannot be empty")
         }
 
@@ -102,7 +95,7 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
             throw VoticeError.invalidInput("Suggestion ID cannot be empty")
         }
 
-        let request = VoteSuggestionRequest(suggestionId: suggestionId.trimmingCharacters(in: .whitespacesAndNewlines),
+        let request = VoteSuggestionRequest(suggestionId: suggestionId,
                                             deviceId: deviceManager.deviceId,
                                             voteType: voteType)
 

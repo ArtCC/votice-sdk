@@ -193,6 +193,17 @@ final class SuggestionDetailViewModel: ObservableObject {
         }
     }
 
+    func deleteSuggestion(_ suggestion: SuggestionEntity) async {
+        do {
+            try await SuggestionUseCase().deleteSuggestion(suggestionId: suggestion.id)
+        } catch {
+            DispatchQueue.main.async {
+                self.errorMessage = error.localizedDescription
+                self.showingError = true
+            }
+        }
+    }
+
     // MARK: - Private Methods
 
     private func handleError(_ error: Error) {

@@ -12,7 +12,7 @@ struct CreateSuggestionRequest: Codable, Sendable {
     // MARK: - Properties
 
     let title: String
-    let description: String
+    let description: String?
     let deviceId: String
     let nickname: String?
     let platform: String
@@ -21,7 +21,7 @@ struct CreateSuggestionRequest: Codable, Sendable {
     // MARK: - Init
 
     init(title: String,
-         description: String,
+         description: String? = nil,
          deviceId: String,
          nickname: String? = nil,
          platform: String,

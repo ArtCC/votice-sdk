@@ -22,41 +22,22 @@ final class CreateSuggestionViewModel: ObservableObject {
         self.suggestionUseCase = suggestionUseCase
     }
 
-    func createSuggestion(title: String, description: String, nickname: String?) async throws -> SuggestionEntity {
+    func createSuggestion(title: String, description: String?, nickname: String?) async throws -> SuggestionEntity {
         guard !isSubmitting else { throw VoticeError.invalidInput("Already submitting") }
 
         isSubmitting = true
+
         defer { isSubmitting = false }
 
         do {
-            let response = try await suggestionUseCase.createSuggestion(
-                title: title,
-                description: description,
-                nickname: nickname
-            )
+            let response = try await suggestionUseCase.createSuggestion(title: title,
+                                                                        description: description,
+                                                                        nickname: nickname)
 
-            // Create a temporary SuggestionEntity for the UI
-            // In a real scenario, we'd get this from the backend response
-            let suggestion = SuggestionEntity(
-                id: response.id,
-                appId: ConfigurationManager.shared.appId, // This would come from configuration
-                title: title,
-                text: nil,
-                description: description,
-                nickname: nickname,
-                createdAt: Date().ISO8601Format(),
-                updatedAt: Date().ISO8601Format(),
-                platform: DeviceManager.shared.platform,
-                createdBy: DeviceManager.shared.deviceId,
-                status: .pending,
-                source: .sdk,
-                commentCount: 0,
-                voteCount: 0
-            )
-
-            return suggestion
+            return response.suggestion
         } catch {
             handleError(error)
+
             throw error
         }
     }

@@ -10,5 +10,5 @@ import Foundation
 
 struct CreateSuggestionResponse: Codable, Sendable {
     let message: String
-    let id: String
+    let suggestion: SuggestionEntity
 }

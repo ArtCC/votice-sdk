@@ -23,6 +23,7 @@ struct SuggestionDetailView: View {
     @State private var commentNickname = ""
 
     @FocusState private var isCommentFocused: Bool
+    @State private var showDeleteAlert = false
 
     var body: some View {
         NavigationView {
@@ -61,11 +62,36 @@ struct SuggestionDetailView: View {
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showingAddComment = true
-                    } label: {
-                        Image(systemName: "bubble.left")
-                            .foregroundColor(theme.colors.primary)
+                    HStack {
+                        Button {
+                            showingAddComment = true
+                        } label: {
+                            Image(systemName: "bubble.left")
+                                .foregroundColor(theme.colors.primary)
+                        }
+
+                        if suggestion.createdBy == DeviceManager.shared.deviceId {
+                            Button(role: .destructive) {
+                                showDeleteAlert = true
+                            } label: {
+                                Image(systemName: "trash")
+                                    .foregroundColor(.red)
+                            }
+                            .alert(isPresented: $showDeleteAlert) {
+                                Alert(
+                                    title: Text("Delete Suggestion"),
+                                    message: Text("Are you sure you want to delete this suggestion?"),
+                                    primaryButton: .destructive(Text("Delete")) {
+                                        Task {
+                                            await viewModel.deleteSuggestion(suggestion)
+
+                                            dismiss()
+                                        }
+                                    },
+                                    secondaryButton: .cancel()
+                                )
+                            }
+                        }
                     }
                 }
 #else
@@ -77,11 +103,35 @@ struct SuggestionDetailView: View {
                 }
 
                 ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        showingAddComment = true
-                    } label: {
-                        Image(systemName: "bubble.left")
-                            .foregroundColor(theme.colors.primary)
+                    HStack {
+                        Button {
+                            showingAddComment = true
+                        } label: {
+                            Image(systemName: "bubble.left")
+                                .foregroundColor(theme.colors.primary)
+                        }
+
+                        if suggestion.createdBy == DeviceManager.shared.deviceId {
+                            Button(role: .destructive) {
+                                showDeleteAlert = true
+                            } label: {
+                                Image(systemName: "trash")
+                                    .foregroundColor(.red)
+                            }
+                            .alert(isPresented: $showDeleteAlert) {
+                                Alert(
+                                    title: Text("Delete Suggestion"),
+                                    message: Text("Are you sure you want to delete this suggestion?"),
+                                    primaryButton: .destructive(Text("Delete")) {
+                                        Task {
+                                            await viewModel.deleteSuggestion(suggestion)
+                                            dismiss()
+                                        }
+                                    },
+                                    secondaryButton: .cancel()
+                                )
+                            }
+                        }
                     }
                 }
 #endif
