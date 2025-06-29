@@ -43,16 +43,17 @@ final class VoteSuggestionUseCase: VoteSuggestionUseCaseProtocol {
         }
 
         // Create request
-        let request = VoteSuggestionRequest(
-            suggestionId: suggestionId.trimmingCharacters(in: .whitespacesAndNewlines),
-            deviceId: deviceManager.deviceId,
-            voteType: voteType,
-            platform: deviceManager.platform,
-            language: deviceManager.language
-        )
+        let request = VoteSuggestionRequest(suggestionId: suggestionId.trimmingCharacters(in: .whitespacesAndNewlines),
+                                            deviceId: deviceManager.deviceId,
+                                            voteType: voteType)
 
         // Execute request
-        return try await suggestionRepository.voteSuggestion(request: request)
+        switch voteType {
+        case .upvote:
+            return try await suggestionRepository.voteSuggestion(request: request)
+        case .downvote:
+            return try await suggestionRepository.unvoteSuggestion(request: request)
+        }
     }
 }
 

@@ -94,11 +94,13 @@ final class SuggestionDetailViewModel: ObservableObject {
                 voteType: type
             )
 
+#warning("Revisar esto del voto en el detalle.")
+            /**
             if response.voteStatus.voted {
                 currentVote = type
             } else {
                 currentVote = nil
-            }
+            }*/
         } catch {
             handleError(error)
         }

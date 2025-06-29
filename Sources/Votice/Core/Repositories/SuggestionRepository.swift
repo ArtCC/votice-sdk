@@ -58,6 +58,19 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
             responseType: VoteSuggestionResponse.self
         )
     }
+
+    func unvoteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse {
+        let bodyData = try JSONEncoder().encode(request)
+        let endpoint = NetworkEndpoint(
+            path: "/v1/sdk/suggestions/unvote",
+            method: .POST,
+            body: bodyData
+        )
+        return try await networkManager.request(
+            endpoint: endpoint,
+            responseType: VoteSuggestionResponse.self
+        )
+    }
 }
 
 // MARK: - Sendable Conformance

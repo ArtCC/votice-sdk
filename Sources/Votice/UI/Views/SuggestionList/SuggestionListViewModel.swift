@@ -118,11 +118,12 @@ final class SuggestionListViewModel: ObservableObject {
 
     func vote(on suggestionId: String, type: VoteType) async {
         do {
-            let response = try await voteSuggestionUseCase.execute(
-                suggestionId: suggestionId,
-                voteType: type
-            )
+            let response = try await voteSuggestionUseCase.execute(suggestionId: suggestionId, voteType: type)
 
+            debugPrint("Vote response: \(response)")
+
+#warning("Revisar esto del voto.")
+            /**
             // Update local vote state
             if response.voteStatus.voted {
                 currentVotes[suggestionId] = type
@@ -153,8 +154,10 @@ final class SuggestionListViewModel: ObservableObject {
                     )
                     suggestions[index] = updatedSuggestion
                 }
-            }
+            }*/
         } catch {
+#warning("El error debería ser que ya ha votado o mejor cambiar el diseño y que sea solo un botón de voto.")
+
             handleError(error)
         }
     }
@@ -186,6 +189,7 @@ final class SuggestionListViewModel: ObservableObject {
     private func handleError(_ error: Error) {
         errorMessage = error.localizedDescription
         showingError = true
+
         LogManager.shared.devLog(.error, "SuggestionListViewModel error: \(error)")
     }
 }

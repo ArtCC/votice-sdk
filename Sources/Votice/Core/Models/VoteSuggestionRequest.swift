@@ -12,6 +12,4 @@ struct VoteSuggestionRequest: Codable, Sendable {
     let suggestionId: String
     let deviceId: String
     let voteType: VoteType
-    let platform: String
-    let language: String
 }

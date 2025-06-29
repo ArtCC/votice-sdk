@@ -11,5 +11,4 @@ import Foundation
 enum VoteType: String, Codable, CaseIterable, Sendable {
     case upvote
     case downvote
-    case remove
 }

@@ -104,11 +104,11 @@ struct SuggestionDetailView: View {
         VStack(alignment: .leading, spacing: theme.spacing.sm) {
             // Status Badge
             HStack {
-                StatusBadge(status: suggestion.status)
+                StatusBadge(status: suggestion.status ?? .pending)
 
                 Spacer()
 
-                SourceIndicator(source: suggestion.source)
+                SourceIndicator(source: suggestion.source ?? .sdk)
             }
 
             // Title/Text
@@ -155,7 +155,7 @@ private extension SuggestionDetailView {
     var votingSection: some View {
         HStack {
             VotingButtons(
-                upvotes: max(0, suggestion.voteCount),
+                upvotes: max(0, suggestion.voteCount ?? 0),
                 downvotes: 0,
                 currentVote: viewModel.currentVote,
                 onVote: { voteType in

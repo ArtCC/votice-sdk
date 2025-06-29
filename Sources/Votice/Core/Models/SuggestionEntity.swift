@@ -21,10 +21,10 @@ struct SuggestionEntity: Codable, Sendable, Identifiable {
     let updatedAt: String?
     let platform: String?
     let createdBy: String?
-    let status: SuggestionStatusEntity
-    let source: SuggestionSource
-    let commentCount: Int
-    let voteCount: Int
+    let status: SuggestionStatusEntity?
+    let source: SuggestionSource?
+    let commentCount: Int?
+    let voteCount: Int?
     let language: String?
 
     // MARK: - Init
@@ -40,10 +40,10 @@ struct SuggestionEntity: Codable, Sendable, Identifiable {
         updatedAt: String? = nil,
         platform: String? = nil,
         createdBy: String? = nil,
-        status: SuggestionStatusEntity,
-        source: SuggestionSource,
-        commentCount: Int = 0,
-        voteCount: Int = 0,
+        status: SuggestionStatusEntity? = nil,
+        source: SuggestionSource? = nil,
+        commentCount: Int? = nil,
+        voteCount: Int? = nil,
         language: String? = nil
     ) {
         self.id = id

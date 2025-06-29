@@ -10,5 +10,6 @@ import Foundation
 
 struct VoteSuggestionResponse: Codable, Sendable {
     let message: String
-    let voteStatus: VoteStatusEntity
+    let vote: VoteEntity?
+    let suggestion: SuggestionEntity?
 }

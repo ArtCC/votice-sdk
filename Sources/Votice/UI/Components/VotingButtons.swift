@@ -59,8 +59,6 @@ private struct VoteButton: View {
             return isSelected ? theme.colors.upvote : theme.colors.secondary
         case .downvote:
             return isSelected ? theme.colors.downvote : theme.colors.secondary
-        case .remove:
-            return theme.colors.secondary
         }
     }
 
@@ -70,8 +68,6 @@ private struct VoteButton: View {
             return isSelected ? "arrow.up.circle.fill" : "arrow.up.circle"
         case .downvote:
             return isSelected ? "arrow.down.circle.fill" : "arrow.down.circle"
-        case .remove:
-            return "xmark.circle"
         }
     }
 

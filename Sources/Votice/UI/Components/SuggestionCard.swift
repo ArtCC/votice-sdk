@@ -19,7 +19,7 @@ struct SuggestionCard: View {
     let onTap: () -> Void
 
     private var statusColor: Color {
-        switch suggestion.status {
+        switch suggestion.status ?? .pending {
         case .pending:
             return theme.colors.pending
         case .accepted:
@@ -34,7 +34,7 @@ struct SuggestionCard: View {
     }
 
     private var statusText: String {
-        switch suggestion.status {
+        switch suggestion.status ?? .pending {
         case .pending:
             return "Pending"
         case .accepted:
@@ -53,7 +53,7 @@ struct SuggestionCard: View {
             HStack(alignment: .top, spacing: theme.spacing.md) {
                 // Voting Section
                 VotingButtons(
-                    upvotes: max(0, suggestion.voteCount),
+                    upvotes: max(0, suggestion.voteCount ?? 0),
                     downvotes: 0, // Backend doesn't separate upvotes/downvotes yet
                     currentVote: currentVote,
                     onVote: onVote
@@ -71,12 +71,12 @@ struct SuggestionCard: View {
                     // Metadata Row
                     HStack {
                         // Status Badge
-                        StatusBadge(status: suggestion.status, color: statusColor)
+                        StatusBadge(status: suggestion.status ?? .pending, color: statusColor)
 
                         Spacer()
 
                         // Comment Count
-                        if suggestion.commentCount > 0 {
+                        if suggestion.commentCount ?? 0 > 0 {
                             HStack(spacing: 4) {
                                 Image(systemName: "bubble.left")
                                     .font(.caption)
@@ -87,7 +87,7 @@ struct SuggestionCard: View {
                         }
 
                         // Source Indicator
-                        SourceIndicator(source: suggestion.source)
+                        SourceIndicator(source: suggestion.source ?? .sdk)
                     }
 
                     // Author & Date
