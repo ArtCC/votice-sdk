@@ -6,8 +6,13 @@
 //  Copyright © 2025 ArtCC. All rights reserved.
 //
 
-import Foundation
 import CryptoKit
+import Foundation
+
+protocol NetworkManagerProtocol: Sendable {
+    func request<T: Codable & Sendable>(endpoint: NetworkEndpoint, responseType: T.Type) async throws -> T
+    func request(endpoint: NetworkEndpoint) async throws
+}
 
 struct NetworkManager: NetworkManagerProtocol {
     // MARK: - Properties

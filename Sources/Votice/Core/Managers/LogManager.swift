@@ -18,6 +18,18 @@ enum LogManagerType {
     case warning
 }
 
+protocol LogManagerProtocol {
+    func devLog(_ logType: LogManagerType,
+                _ message: String,
+                utf8Data: Data?,
+                ignoreFunctionName: Bool,
+                function: String)
+    func devLog(_ logType: LogManagerType,
+                _ message: String,
+                userInfo: [AnyHashable: Any],
+                function: String)
+}
+
 struct LogManager: LogManagerProtocol {
     // MARK: - Properties
 

@@ -17,6 +17,19 @@ import WatchKit
 import TVUIKit
 #endif
 
+protocol DeviceManagerProtocol: Sendable {
+    // MARK: - Properties
+
+    var deviceId: String { get }
+    var platform: String { get }
+    var language: String { get }
+
+    // MARK: - Public functions
+
+    func generateNewDeviceId() -> String
+    func resetDeviceId()
+}
+
 final class DeviceManager: DeviceManagerProtocol {
     // MARK: - Properties
 

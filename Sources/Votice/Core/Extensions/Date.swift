@@ -24,7 +24,9 @@ extension Date {
         return date.formattedForDevice()
     }
 
-    func formattedForDevice() -> String {
+    // MARK: - Private
+
+    private func formattedForDevice() -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
