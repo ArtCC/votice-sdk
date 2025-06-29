@@ -116,7 +116,3 @@ final class DeviceManager: DeviceManagerProtocol {
         return userDefaults.string(forKey: deviceIdKey) ?? ""
     }
 }
-
-// MARK: - Sendable Conformance
-
-extension DeviceManager: @unchecked Sendable {}

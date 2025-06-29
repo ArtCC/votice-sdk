@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum VoteType: String, Codable, CaseIterable, Sendable {
+enum VoteType: String, CaseIterable, Codable, Sendable {
     case upvote
     case downvote
 }

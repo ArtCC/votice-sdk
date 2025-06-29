@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct VoteStatusRequest {
+struct VoteStatusRequest: Codable, Sendable {
     let suggestionId: String
     let deviceId: String
 }

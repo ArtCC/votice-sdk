@@ -13,6 +13,7 @@ protocol SuggestionUseCaseProtocol: Sendable {
     func createSuggestion(title: String,
                           description: String,
                           nickname: String?) async throws -> CreateSuggestionResponse
+    func deleteSuggestion(suggestionId: String) async throws -> DeleteSuggestionResponse
     func fetchVoteStatus(suggestionId: String) async throws -> VoteStatusEntity
     func vote(suggestionId: String, voteType: VoteType) async throws -> VoteSuggestionResponse
 }
@@ -67,6 +68,21 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
         return try await suggestionRepository.createSuggestion(request: request)
     }
 
+    func deleteSuggestion(suggestionId: String) async throws -> DeleteSuggestionResponse {
+        try configurationManager.validateConfiguration()
+
+        guard !suggestionId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw VoticeError.invalidInput("Suggestion ID cannot be empty")
+        }
+
+        let request = DeleteSuggestionRequest(
+            suggestionId: suggestionId.trimmingCharacters(in: .whitespacesAndNewlines),
+            deviceId: deviceManager.deviceId
+        )
+
+        return try await suggestionRepository.deleteSuggestion(request: request)
+    }
+
     func fetchVoteStatus(suggestionId: String) async throws -> VoteStatusEntity {
         try configurationManager.validateConfiguration()
 
@@ -98,7 +114,3 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
         }
     }
 }
-
-// MARK: - Sendable Conformance
-
-extension SuggestionUseCase: @unchecked Sendable {}

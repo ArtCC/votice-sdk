@@ -127,7 +127,3 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
         }
     }
 }
-
-// MARK: - Sendable Conformance
-
-extension ConfigurationManager: @unchecked Sendable {}

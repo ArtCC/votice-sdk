@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum VoticeError: Error, LocalizedError {
+enum VoticeError: Error, LocalizedError, Sendable {
     // MARK: - Cases
 
     case invalidInput(String)
@@ -31,7 +31,3 @@ enum VoticeError: Error, LocalizedError {
         }
     }
 }
-
-// MARK: - Sendable Conformance
-
-extension VoticeError: @unchecked Sendable {}

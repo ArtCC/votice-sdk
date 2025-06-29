@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum NetworkError: Error, Sendable, Equatable {
+enum NetworkError: Error, Equatable, Sendable {
     case invalidURL
     case noData
     case invalidResponse

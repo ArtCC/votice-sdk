@@ -18,7 +18,7 @@ enum LogManagerType {
     case warning
 }
 
-protocol LogManagerProtocol {
+protocol LogManagerProtocol: Sendable {
     func devLog(_ logType: LogManagerType,
                 _ message: String,
                 utf8Data: Data?,

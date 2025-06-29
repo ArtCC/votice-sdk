@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ConfigurationError: Error, LocalizedError {
+enum ConfigurationError: Error, LocalizedError, Sendable {
     // MARK: - Cases
 
     case alreadyConfigured

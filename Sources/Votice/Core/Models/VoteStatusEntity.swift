@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct VoteStatusEntity: Codable, Hashable {
+struct VoteStatusEntity: Codable, Hashable, Sendable {
     let hasVoted: Bool
     let voteCount: Int
     let suggestionId: String

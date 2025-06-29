@@ -76,7 +76,3 @@ final class CommentUseCase: CommentUseCaseProtocol {
         try await commentRepository.deleteComment(request: request)
     }
 }
-
-// MARK: - Sendable Conformance
-
-extension CommentUseCase: @unchecked Sendable {}

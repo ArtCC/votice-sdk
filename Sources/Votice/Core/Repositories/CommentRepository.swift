@@ -49,7 +49,3 @@ final class CommentRepository: CommentRepositoryProtocol {
         try await networkManager.request(endpoint: endpoint, responseType: BaseResponse.self)
     }
 }
-
-// MARK: - Sendable Conformance
-
-extension CommentRepository: @unchecked Sendable {}

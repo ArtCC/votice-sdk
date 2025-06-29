@@ -11,6 +11,7 @@ import Foundation
 protocol SuggestionRepositoryProtocol: Sendable {
     func fetchSuggestions(request: FetchSuggestionsRequest) async throws -> SuggestionsResponse
     func createSuggestion(request: CreateSuggestionRequest) async throws -> CreateSuggestionResponse
+    func deleteSuggestion(request: DeleteSuggestionRequest) async throws -> DeleteSuggestionResponse
     func fetchVoteStatus(request: VoteStatusRequest) async throws -> VoteStatusEntity
     func voteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse
     func unvoteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse
@@ -44,6 +45,13 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
         return try await networkManager.request(endpoint: endpoint, responseType: CreateSuggestionResponse.self)
     }
 
+    func deleteSuggestion(request: DeleteSuggestionRequest) async throws -> DeleteSuggestionResponse {
+        let bodyData = try JSONEncoder().encode(request)
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/delete", method: .POST, body: bodyData)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: DeleteSuggestionResponse.self)
+    }
+
     func fetchVoteStatus(request: VoteStatusRequest) async throws -> VoteStatusEntity {
         let endpoint = NetworkEndpoint(
             path: "/v1/sdk/votes/status?suggestionId=\(request.suggestionId)&deviceId=\(request.deviceId)",
@@ -68,7 +76,3 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
         return try await networkManager.request(endpoint: endpoint, responseType: VoteSuggestionResponse.self)
     }
 }
-
-// MARK: - Sendable Conformance
-
-extension SuggestionRepository: @unchecked Sendable {}
