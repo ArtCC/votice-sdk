@@ -16,10 +16,10 @@ final class CreateSuggestionViewModel: ObservableObject {
     @Published var showingError = false
     @Published var errorMessage = ""
 
-    private let createSuggestionUseCase: CreateSuggestionUseCase
+    private let suggestionUseCase: SuggestionUseCase
 
-    init(createSuggestionUseCase: CreateSuggestionUseCase = CreateSuggestionUseCase()) {
-        self.createSuggestionUseCase = createSuggestionUseCase
+    init(suggestionUseCase: SuggestionUseCase = SuggestionUseCase()) {
+        self.suggestionUseCase = suggestionUseCase
     }
 
     func createSuggestion(title: String, description: String, nickname: String?) async throws -> SuggestionEntity {
@@ -29,7 +29,7 @@ final class CreateSuggestionViewModel: ObservableObject {
         defer { isSubmitting = false }
 
         do {
-            let response = try await createSuggestionUseCase.execute(
+            let response = try await suggestionUseCase.createSuggestion(
                 title: title,
                 description: description,
                 nickname: nickname

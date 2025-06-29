@@ -19,18 +19,13 @@ final class SuggestionDetailViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var currentVote: VoteType?
 
-    private let fetchCommentsUseCase: FetchCommentsUseCase
-    private let createCommentUseCase: CreateCommentUseCase
-    private let voteSuggestionUseCase: VoteSuggestionUseCase
+    private let commentUseCase: CommentUseCase
+    private let suggestionUseCase: SuggestionUseCase
 
-    init(
-        fetchCommentsUseCase: FetchCommentsUseCase = FetchCommentsUseCase(),
-        createCommentUseCase: CreateCommentUseCase = CreateCommentUseCase(),
-        voteSuggestionUseCase: VoteSuggestionUseCase = VoteSuggestionUseCase()
-    ) {
-        self.fetchCommentsUseCase = fetchCommentsUseCase
-        self.createCommentUseCase = createCommentUseCase
-        self.voteSuggestionUseCase = voteSuggestionUseCase
+    init(commentUseCase: CommentUseCase = CommentUseCase(),
+         suggestionUseCase: SuggestionUseCase = SuggestionUseCase()) {
+        self.commentUseCase = commentUseCase
+        self.suggestionUseCase = suggestionUseCase
     }
 
     // MARK: - Public Methods
@@ -41,7 +36,7 @@ final class SuggestionDetailViewModel: ObservableObject {
         isLoadingComments = true
 
         do {
-            let response = try await fetchCommentsUseCase.execute(suggestionId: suggestionId)
+            let response = try await commentUseCase.fetchComments(suggestionId: suggestionId)
 
             comments = response.comments.sorted { $0.createdAt! < $1.createdAt! }
         } catch {
@@ -57,7 +52,7 @@ final class SuggestionDetailViewModel: ObservableObject {
         isSubmittingComment = true
 
         do {
-            let response = try await createCommentUseCase.execute(suggestionId: suggestionId,
+            let response = try await commentUseCase.createComment(suggestionId: suggestionId,
                                                                   text: text,
                                                                   nickname: nickname)
 
@@ -71,18 +66,18 @@ final class SuggestionDetailViewModel: ObservableObject {
 
     func vote(on suggestionId: String, type: VoteType) async {
         do {
-            let response = try await voteSuggestionUseCase.execute(
+            let response = try await suggestionUseCase.vote(
                 suggestionId: suggestionId,
                 voteType: type
             )
 
 #warning("Revisar esto del voto en el detalle.")
             /**
-            if response.voteStatus.voted {
-                currentVote = type
-            } else {
-                currentVote = nil
-            }*/
+             if response.voteStatus.voted {
+             currentVote = type
+             } else {
+             currentVote = nil
+             }*/
         } catch {
             handleError(error)
         }

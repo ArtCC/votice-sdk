@@ -27,15 +27,10 @@ final class SuggestionListViewModel: ObservableObject {
     private var loadingTask: Task<Void, Never>?
 
     // Use Cases
-    private let fetchSuggestionsUseCase: FetchSuggestionsUseCase
-    private let voteSuggestionUseCase: VoteSuggestionUseCase
+    private let suggestionUseCase: SuggestionUseCase
 
-    init(
-        fetchSuggestionsUseCase: FetchSuggestionsUseCase = FetchSuggestionsUseCase(),
-        voteSuggestionUseCase: VoteSuggestionUseCase = VoteSuggestionUseCase()
-    ) {
-        self.fetchSuggestionsUseCase = fetchSuggestionsUseCase
-        self.voteSuggestionUseCase = voteSuggestionUseCase
+    init(suggestionUseCase: SuggestionUseCase = SuggestionUseCase()) {
+        self.suggestionUseCase = suggestionUseCase
     }
 
     // MARK: - Public Methods
@@ -52,7 +47,7 @@ final class SuggestionListViewModel: ObservableObject {
             hasMoreSuggestions = true
 
             do {
-                let response = try await fetchSuggestionsUseCase.execute()
+                let response = try await suggestionUseCase.fetchSuggestions()
 
                 // Check if task was cancelled
                 guard !Task.isCancelled else {
@@ -88,7 +83,7 @@ final class SuggestionListViewModel: ObservableObject {
         isLoading = true
 
         do {
-            let response = try await fetchSuggestionsUseCase.execute()
+            let response = try await suggestionUseCase.fetchSuggestions()
 
             // Check if task was cancelled
             guard !Task.isCancelled else {
@@ -131,10 +126,10 @@ final class SuggestionListViewModel: ObservableObject {
 
             if hasCurrentVote {
                 // User already voted, so this is an unvote action
-                response = try await voteSuggestionUseCase.execute(suggestionId: suggestionId, voteType: .downvote)
+                response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .downvote)
             } else {
                 // User hasn't voted, so this is a vote action
-                response = try await voteSuggestionUseCase.execute(suggestionId: suggestionId, voteType: .upvote)
+                response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .upvote)
             }
 
             // Update local vote state based on response
@@ -223,7 +218,7 @@ final class SuggestionListViewModel: ObservableObject {
 
     private func loadVoteStatus(for suggestionId: String) async {
         do {
-            let voteStatus = try await voteSuggestionUseCase.fetchVoteStatus(suggestionId: suggestionId)
+            let voteStatus = try await suggestionUseCase.fetchVoteStatus(suggestionId: suggestionId)
 
             // Update currentVotes based on the vote status
             await MainActor.run {

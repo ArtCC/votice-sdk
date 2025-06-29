@@ -21,8 +21,6 @@ struct CommentEntity: Codable, Sendable, Identifiable {
     let source: String?
 }
 
-// MARK: - Extensions
-
 extension CommentEntity {
     var displayName: String {
         return nickname ?? "Anonymous"

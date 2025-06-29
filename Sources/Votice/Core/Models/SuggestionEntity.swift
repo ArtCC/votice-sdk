@@ -62,8 +62,6 @@ struct SuggestionEntity: Codable, Sendable, Identifiable {
     }
 }
 
-// MARK: - Extensions
-
 extension SuggestionEntity {
     var displayText: String {
         return text ?? title ?? ""
