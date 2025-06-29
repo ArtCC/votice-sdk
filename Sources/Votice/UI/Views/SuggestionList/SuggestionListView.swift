@@ -169,7 +169,8 @@ struct SuggestionListView: View {
                     )
                 }
 
-                // Load More Button
+#warning("Hay que revisar la paginación, no funciona ni está habilitada en Firebase.")
+                /**
                 if viewModel.hasMoreSuggestions {
                     Button("Load More") {
                         Task {
@@ -178,7 +179,7 @@ struct SuggestionListView: View {
                     }
                     .padding()
                     .foregroundColor(theme.colors.primary)
-                }
+                }*/
             }
             .padding(theme.spacing.md)
         }

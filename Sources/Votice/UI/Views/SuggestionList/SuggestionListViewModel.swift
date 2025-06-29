@@ -20,9 +20,11 @@ final class SuggestionListViewModel: ObservableObject {
     @Published var selectedFilter: SuggestionStatusEntity?
     @Published var hasMoreSuggestions = true
 
+    private var allSuggestions: [SuggestionEntity] = []
     private var currentVotes: [String: VoteType] = [:]
     private var currentOffset = 0
     private let pageSize = 20
+    private var loadingTask: Task<Void, Never>?
 
     // Use Cases
     private let fetchSuggestionsUseCase: FetchSuggestionsUseCase
@@ -39,23 +41,41 @@ final class SuggestionListViewModel: ObservableObject {
     // MARK: - Public Methods
 
     func loadSuggestions() async {
-        guard !isLoading else { return }
+        // Cancel any existing loading task
+        loadingTask?.cancel()
 
-        isLoading = true
-        currentOffset = 0
-        hasMoreSuggestions = true
+        loadingTask = Task { @MainActor in
+            guard !isLoading else { return }
 
-        do {
-            let response = try await fetchSuggestionsUseCase.execute()
+            isLoading = true
+            currentOffset = 0
+            hasMoreSuggestions = true
 
-            suggestions = response.suggestions
-            currentOffset = response.suggestions.count
-            hasMoreSuggestions = response.suggestions.count == pageSize
-        } catch {
-            handleError(error)
+            do {
+                let response = try await fetchSuggestionsUseCase.execute()
+
+                // Check if task was cancelled
+                guard !Task.isCancelled else {
+                    isLoading = false
+                    return
+                }
+
+                allSuggestions = response.suggestions
+                applyFilter()
+                currentOffset = response.suggestions.count
+                hasMoreSuggestions = response.suggestions.count == pageSize
+            } catch {
+                guard !Task.isCancelled else {
+                    isLoading = false
+                    return
+                }
+                handleError(error)
+            }
+
+            isLoading = false
         }
 
-        isLoading = false
+        await loadingTask?.value
     }
 
     func loadMoreSuggestions() async {
@@ -66,10 +86,21 @@ final class SuggestionListViewModel: ObservableObject {
         do {
             let response = try await fetchSuggestionsUseCase.execute()
 
-            suggestions.append(contentsOf: response.suggestions)
+            // Check if task was cancelled
+            guard !Task.isCancelled else {
+                isLoading = false
+                return
+            }
+
+            allSuggestions.append(contentsOf: response.suggestions)
+            applyFilter()
             currentOffset += response.suggestions.count
             hasMoreSuggestions = response.suggestions.count == pageSize
         } catch {
+            guard !Task.isCancelled else {
+                isLoading = false
+                return
+            }
             handleError(error)
         }
 
@@ -82,9 +113,7 @@ final class SuggestionListViewModel: ObservableObject {
 
     func setFilter(_ status: SuggestionStatusEntity?) {
         selectedFilter = status
-        Task {
-            await loadSuggestions()
-        }
+        applyFilter()
     }
 
     func vote(on suggestionId: String, type: VoteType) async {
@@ -145,6 +174,14 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     // MARK: - Private Methods
+
+    private func applyFilter() {
+        if let filter = selectedFilter {
+            suggestions = allSuggestions.filter { $0.status == filter }
+        } else {
+            suggestions = allSuggestions
+        }
+    }
 
     private func handleError(_ error: Error) {
         errorMessage = error.localizedDescription
