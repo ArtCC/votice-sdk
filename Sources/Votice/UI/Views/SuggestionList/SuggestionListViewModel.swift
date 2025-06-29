@@ -120,44 +120,44 @@ final class SuggestionListViewModel: ObservableObject {
         do {
             let response = try await voteSuggestionUseCase.execute(suggestionId: suggestionId, voteType: type)
 
-            debugPrint("Vote response: \(response)")
-
-#warning("Revisar esto del voto.")
-            /**
-            // Update local vote state
-            if response.voteStatus.voted {
+            // Update local vote state based on response
+            if let vote = response.vote {
+                // Vote was registered successfully
                 currentVotes[suggestionId] = type
             } else {
+                // Vote was removed or not registered
                 currentVotes.removeValue(forKey: suggestionId)
             }
 
-            // Update suggestion vote count in the list
-            if let index = suggestions.firstIndex(where: { $0.id == suggestionId }) {
-                let originalSuggestion = suggestions[index]
-                // Note: Backend doesn't return updated vote count yet, so we estimate
-                if response.voteStatus.voted {
-                    let updatedSuggestion = SuggestionEntity(
-                        id: originalSuggestion.id,
-                        appId: originalSuggestion.appId,
-                        title: originalSuggestion.title,
-                        text: originalSuggestion.text,
-                        description: originalSuggestion.description,
-                        nickname: originalSuggestion.nickname,
-                        createdAt: originalSuggestion.createdAt,
-                        updatedAt: originalSuggestion.updatedAt,
-                        platform: originalSuggestion.platform,
-                        createdBy: originalSuggestion.createdBy,
-                        status: originalSuggestion.status,
-                        source: originalSuggestion.source,
-                        commentCount: originalSuggestion.commentCount,
-                        voteCount: originalSuggestion.voteCount + (currentVotes[suggestionId] == nil ? 1 : 0)
-                    )
-                    suggestions[index] = updatedSuggestion
-                }
-            }*/
-        } catch {
-#warning("El error debería ser que ya ha votado o mejor cambiar el diseño y que sea solo un botón de voto.")
+            // Update suggestion with real data from backend
+            if let updatedSuggestion = response.suggestion,
+               let index = allSuggestions.firstIndex(where: { $0.id == suggestionId }) {
 
+                let originalSuggestion = allSuggestions[index]
+                let newSuggestion = SuggestionEntity(
+                    id: originalSuggestion.id,
+                    appId: originalSuggestion.appId,
+                    title: originalSuggestion.title,
+                    text: originalSuggestion.text,
+                    description: originalSuggestion.description,
+                    nickname: originalSuggestion.nickname,
+                    createdAt: originalSuggestion.createdAt,
+                    updatedAt: updatedSuggestion.updatedAt, // Use updated date from backend
+                    platform: originalSuggestion.platform,
+                    createdBy: originalSuggestion.createdBy,
+                    status: originalSuggestion.status,
+                    source: originalSuggestion.source,
+                    commentCount: originalSuggestion.commentCount,
+                    voteCount: updatedSuggestion.voteCount // Use real vote count from backend
+                )
+
+                // Update in allSuggestions
+                allSuggestions[index] = newSuggestion
+
+                // Reapply filter to update displayed suggestions
+                applyFilter()
+            }
+        } catch {
             handleError(error)
         }
     }

@@ -9,6 +9,7 @@
 import Foundation
 
 protocol VoteSuggestionUseCaseProtocol: Sendable {
+    func fetchVoteStatus(for suggestionId: String) async throws -> VoteStatusEntity
     func execute(suggestionId: String, voteType: VoteType) async throws -> VoteSuggestionResponse
 }
 
@@ -32,6 +33,18 @@ final class VoteSuggestionUseCase: VoteSuggestionUseCaseProtocol {
     }
 
     // MARK: - VoteSuggestionUseCaseProtocol
+
+    func fetchVoteStatus(for suggestionId: String) async throws -> VoteStatusEntity {
+        // Validate configuration
+        try configurationManager.validateConfiguration()
+
+        // Validate input
+        guard !suggestionId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw VoticeError.invalidInput("Suggestion ID cannot be empty")
+        }
+
+        return try await suggestionRepository.fetchVoteStatus(for: suggestionId)
+    }
 
     func execute(suggestionId: String, voteType: VoteType) async throws -> VoteSuggestionResponse {
         // Validate configuration

@@ -116,6 +116,15 @@ struct NetworkManager: NetworkManagerProtocol {
             case 200...299:
                 LogManager.shared.devLog(.success, "Request successful", utf8Data: data)
 
+                // Always log the JSON response
+                if let jsonString = String(data: data, encoding: .utf8) {
+                    LogManager.shared.devLog(.info, "JSON Response for \(endpoint.path): \(jsonString)")
+                } else {
+                    LogManager.shared.devLog(
+                        .info, "JSON Response for \(endpoint.path): [Unable to decode response as UTF-8 string]"
+                    )
+                }
+
                 return data
             case 401:
                 LogManager.shared.devLog(.error, "Authentication error", utf8Data: data)

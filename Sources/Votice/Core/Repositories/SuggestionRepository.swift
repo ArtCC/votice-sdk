@@ -46,10 +46,22 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
         )
     }
 
+    func fetchVoteStatus(for suggestionId: String) async throws -> VoteStatusEntity {
+        let endpoint = NetworkEndpoint(
+            path: "/v1/sdk/votes/status?suggestionId=\(suggestionId)",
+            method: .GET,
+            body: nil
+        )
+        return try await networkManager.request(
+            endpoint: endpoint,
+            responseType: VoteStatusEntity.self
+        )
+    }
+
     func voteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse {
         let bodyData = try JSONEncoder().encode(request)
         let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/suggestions/vote",
+            path: "/v1/sdk/votes/vote",
             method: .POST,
             body: bodyData
         )
@@ -62,7 +74,7 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
     func unvoteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse {
         let bodyData = try JSONEncoder().encode(request)
         let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/suggestions/unvote",
+            path: "/v1/sdk/votes/unvote",
             method: .POST,
             body: bodyData
         )
