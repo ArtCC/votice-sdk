@@ -89,6 +89,8 @@ struct SuggestionListView: View {
                     .foregroundColor(theme.colors.primary)
                 }
 
+#warning("Hay que revisar esto para iOS, macOS y tvOS.")
+                /**
                 ToolbarItem(placement: .secondaryAction) {
                     Menu {
                         FilterButton(
@@ -124,7 +126,7 @@ struct SuggestionListView: View {
                         Image(systemName: "line.3.horizontal.decrease.circle")
                             .foregroundColor(theme.colors.primary)
                     }
-                }
+                }*/
                 #endif
             }
             .refreshable {

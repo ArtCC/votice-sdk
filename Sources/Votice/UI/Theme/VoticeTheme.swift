@@ -125,18 +125,26 @@ public struct VoticeColors {
 
 extension Color {
     static var systemBackground: Color {
-        #if canImport(UIKit)
+        #if os(iOS)
         return Color(UIColor.systemBackground)
-        #else
+        #elseif os(macOS)
         return Color(NSColor.windowBackgroundColor)
+        #elseif os(tvOS)
+        return Color.black // O el color que prefieras para fondo en tvOS
+        #else
+        return Color.white
         #endif
     }
 
     static var secondarySystemBackground: Color {
-        #if canImport(UIKit)
+        #if os(iOS)
         return Color(UIColor.secondarySystemBackground)
-        #else
+        #elseif os(macOS)
         return Color(NSColor.controlBackgroundColor)
+        #elseif os(tvOS)
+        return Color.gray // O el color que prefieras para fondo secundario en tvOS
+        #else
+        return Color.white
         #endif
     }
 }

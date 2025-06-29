@@ -14,6 +14,13 @@
 		8007275E2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007275B2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift */; };
 		8007275F2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007275C2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift */; };
 		800727622E11AAD500C43BA8 /* Votice in Frameworks */ = {isa = PBXBuildFile; productRef = 800727612E11AAD500C43BA8 /* Votice */; };
+		8007278F2E11ACEC00C43BA8 /* Votice in Frameworks */ = {isa = PBXBuildFile; productRef = 8007278E2E11ACEC00C43BA8 /* Votice */; };
+		800727922E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727902E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift */; };
+		800727972E11ACFB00C43BA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 800727932E11ACFB00C43BA8 /* Assets.xcassets */; };
+		800727982E11ACFB00C43BA8 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727942E11ACFB00C43BA8 /* HomeView.swift */; };
+		800727992E11ACFB00C43BA8 /* VoticeDemo_tvOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727952E11ACFB00C43BA8 /* VoticeDemo_tvOSApp.swift */; };
+		8007279D2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007279A2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift */; };
+		8007279E2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007279B2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift */; };
 		802F7E8E2E0F1A2500F1BDF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */; };
 		802F7E8F2E0F1A2500F1BDF6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */; };
 		802F7E902E0F1A2500F1BDF6 /* AppVoticeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */; };
@@ -37,6 +44,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 800727272E11A9FC00C43BA8;
 			remoteInfo = VoticeDemo_macOS;
+		};
+		800727742E11ACD600C43BA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 802F7E582E0F198400F1BDF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 800727662E11ACD400C43BA8;
+			remoteInfo = VoticeDemo_tvOS;
+		};
+		8007277E2E11ACD600C43BA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 802F7E582E0F198400F1BDF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 800727662E11ACD400C43BA8;
+			remoteInfo = VoticeDemo_tvOS;
 		};
 		802F7E6E2E0F198500F1BDF6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +86,15 @@
 		800727562E11AA0700C43BA8 /* VoticeDemo_macOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSApp.swift; sourceTree = "<group>"; };
 		8007275B2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSUITests.swift; sourceTree = "<group>"; };
 		8007275C2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		800727672E11ACD400C43BA8 /* VoticeDemo_tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoticeDemo_tvOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		800727732E11ACD600C43BA8 /* VoticeDemo_tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemo_tvOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8007277D2E11ACD600C43BA8 /* VoticeDemo_tvOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemo_tvOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		800727902E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSTests.swift; sourceTree = "<group>"; };
+		800727932E11ACFB00C43BA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		800727942E11ACFB00C43BA8 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		800727952E11ACFB00C43BA8 /* VoticeDemo_tvOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSApp.swift; sourceTree = "<group>"; };
+		8007279A2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSUITests.swift; sourceTree = "<group>"; };
+		8007279B2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		802F7E602E0F198400F1BDF6 /* VoticeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoticeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		802F7E6D2E0F198500F1BDF6 /* VoticeDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		802F7E772E0F198500F1BDF6 /* VoticeDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +123,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8007273C2E11A9FE00C43BA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		800727642E11ACD400C43BA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8007278F2E11ACEC00C43BA8 /* Votice in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		800727702E11ACD600C43BA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8007277A2E11ACD600C43BA8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -159,6 +211,33 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		800727912E11ACFB00C43BA8 /* VoticeDemo_tvOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				800727902E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift */,
+			);
+			path = VoticeDemo_tvOSTests;
+			sourceTree = "<group>";
+		};
+		800727962E11ACFB00C43BA8 /* VoticeDemo_tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				800727932E11ACFB00C43BA8 /* Assets.xcassets */,
+				800727942E11ACFB00C43BA8 /* HomeView.swift */,
+				800727952E11ACFB00C43BA8 /* VoticeDemo_tvOSApp.swift */,
+			);
+			path = VoticeDemo_tvOS;
+			sourceTree = "<group>";
+		};
+		8007279C2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8007279A2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift */,
+				8007279B2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift */,
+			);
+			path = VoticeDemo_tvOSUITests;
+			sourceTree = "<group>";
+		};
 		802F7E572E0F198400F1BDF6 = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +247,9 @@
 				800727572E11AA0700C43BA8 /* VoticeDemo_macOS */,
 				800727512E11AA0700C43BA8 /* VoticeDemo_macOSTests */,
 				8007275D2E11AA0700C43BA8 /* VoticeDemo_macOSUITests */,
+				800727962E11ACFB00C43BA8 /* VoticeDemo_tvOS */,
+				800727912E11ACFB00C43BA8 /* VoticeDemo_tvOSTests */,
+				8007279C2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests */,
 				800727602E11AAD500C43BA8 /* Frameworks */,
 				802F7E612E0F198400F1BDF6 /* Products */,
 			);
@@ -182,6 +264,9 @@
 				800727282E11A9FC00C43BA8 /* VoticeDemo_macOS.app */,
 				800727352E11A9FE00C43BA8 /* VoticeDemo_macOSTests.xctest */,
 				8007273F2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests.xctest */,
+				800727672E11ACD400C43BA8 /* VoticeDemo_tvOS.app */,
+				800727732E11ACD600C43BA8 /* VoticeDemo_tvOSTests.xctest */,
+				8007277D2E11ACD600C43BA8 /* VoticeDemo_tvOSUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -276,6 +361,66 @@
 			productReference = 8007273F2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		800727662E11ACD400C43BA8 /* VoticeDemo_tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 800727852E11ACD600C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_tvOS" */;
+			buildPhases = (
+				800727632E11ACD400C43BA8 /* Sources */,
+				800727642E11ACD400C43BA8 /* Frameworks */,
+				800727652E11ACD400C43BA8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VoticeDemo_tvOS;
+			packageProductDependencies = (
+				8007278E2E11ACEC00C43BA8 /* Votice */,
+			);
+			productName = VoticeDemo_tvOS;
+			productReference = 800727672E11ACD400C43BA8 /* VoticeDemo_tvOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		800727722E11ACD600C43BA8 /* VoticeDemo_tvOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 800727882E11ACD600C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_tvOSTests" */;
+			buildPhases = (
+				8007276F2E11ACD600C43BA8 /* Sources */,
+				800727702E11ACD600C43BA8 /* Frameworks */,
+				800727712E11ACD600C43BA8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				800727752E11ACD600C43BA8 /* PBXTargetDependency */,
+			);
+			name = VoticeDemo_tvOSTests;
+			packageProductDependencies = (
+			);
+			productName = VoticeDemo_tvOSTests;
+			productReference = 800727732E11ACD600C43BA8 /* VoticeDemo_tvOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8007277C2E11ACD600C43BA8 /* VoticeDemo_tvOSUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8007278B2E11ACD600C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_tvOSUITests" */;
+			buildPhases = (
+				800727792E11ACD600C43BA8 /* Sources */,
+				8007277A2E11ACD600C43BA8 /* Frameworks */,
+				8007277B2E11ACD600C43BA8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8007277F2E11ACD600C43BA8 /* PBXTargetDependency */,
+			);
+			name = VoticeDemo_tvOSUITests;
+			packageProductDependencies = (
+			);
+			productName = VoticeDemo_tvOSUITests;
+			productReference = 8007277D2E11ACD600C43BA8 /* VoticeDemo_tvOSUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		802F7E5F2E0F198400F1BDF6 /* VoticeDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 802F7E812E0F198500F1BDF6 /* Build configuration list for PBXNativeTarget "VoticeDemo" */;
@@ -358,6 +503,17 @@
 						CreatedOnToolsVersion = 16.4;
 						TestTargetID = 800727272E11A9FC00C43BA8;
 					};
+					800727662E11ACD400C43BA8 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					800727722E11ACD600C43BA8 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 800727662E11ACD400C43BA8;
+					};
+					8007277C2E11ACD600C43BA8 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 800727662E11ACD400C43BA8;
+					};
 					802F7E5F2E0F198400F1BDF6 = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -395,6 +551,9 @@
 				800727272E11A9FC00C43BA8 /* VoticeDemo_macOS */,
 				800727342E11A9FE00C43BA8 /* VoticeDemo_macOSTests */,
 				8007273E2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests */,
+				800727662E11ACD400C43BA8 /* VoticeDemo_tvOS */,
+				800727722E11ACD600C43BA8 /* VoticeDemo_tvOSTests */,
+				8007277C2E11ACD600C43BA8 /* VoticeDemo_tvOSUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -416,6 +575,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8007273D2E11A9FE00C43BA8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		800727652E11ACD400C43BA8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				800727972E11ACFB00C43BA8 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		800727712E11ACD600C43BA8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8007277B2E11ACD600C43BA8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -495,6 +676,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		800727632E11ACD400C43BA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				800727982E11ACFB00C43BA8 /* HomeView.swift in Sources */,
+				800727992E11ACFB00C43BA8 /* VoticeDemo_tvOSApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8007276F2E11ACD600C43BA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				800727922E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		800727792E11ACD600C43BA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8007279D2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift in Sources */,
+				8007279E2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		802F7E5C2E0F198400F1BDF6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -533,6 +740,16 @@
 			isa = PBXTargetDependency;
 			target = 800727272E11A9FC00C43BA8 /* VoticeDemo_macOS */;
 			targetProxy = 800727402E11A9FE00C43BA8 /* PBXContainerItemProxy */;
+		};
+		800727752E11ACD600C43BA8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 800727662E11ACD400C43BA8 /* VoticeDemo_tvOS */;
+			targetProxy = 800727742E11ACD600C43BA8 /* PBXContainerItemProxy */;
+		};
+		8007277F2E11ACD600C43BA8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 800727662E11ACD400C43BA8 /* VoticeDemo_tvOS */;
+			targetProxy = 8007277E2E11ACD600C43BA8 /* PBXContainerItemProxy */;
 		};
 		802F7E6F2E0F198500F1BDF6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -680,6 +897,142 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = VoticeDemo_macOS;
+			};
+			name = Release;
+		};
+		800727862E11ACD600C43BA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 18.5;
+			};
+			name = Debug;
+		};
+		800727872E11ACD600C43BA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 18.5;
+			};
+			name = Release;
+		};
+		800727892E11ACD600C43BA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-tvOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoticeDemo_tvOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VoticeDemo_tvOS";
+				TVOS_DEPLOYMENT_TARGET = 18.5;
+			};
+			name = Debug;
+		};
+		8007278A2E11ACD600C43BA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-tvOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoticeDemo_tvOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VoticeDemo_tvOS";
+				TVOS_DEPLOYMENT_TARGET = 18.5;
+			};
+			name = Release;
+		};
+		8007278C2E11ACD600C43BA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-tvOSUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_TARGET_NAME = VoticeDemo_tvOS;
+				TVOS_DEPLOYMENT_TARGET = 18.5;
+			};
+			name = Debug;
+		};
+		8007278D2E11ACD600C43BA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-tvOSUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_TARGET_NAME = VoticeDemo_tvOS;
+				TVOS_DEPLOYMENT_TARGET = 18.5;
 			};
 			name = Release;
 		};
@@ -966,6 +1319,33 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		800727852E11ACD600C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				800727862E11ACD600C43BA8 /* Debug */,
+				800727872E11ACD600C43BA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		800727882E11ACD600C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_tvOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				800727892E11ACD600C43BA8 /* Debug */,
+				8007278A2E11ACD600C43BA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8007278B2E11ACD600C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_tvOSUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8007278C2E11ACD600C43BA8 /* Debug */,
+				8007278D2E11ACD600C43BA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		802F7E5B2E0F198400F1BDF6 /* Build configuration list for PBXProject "VoticeDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1024,6 +1404,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		800727612E11AAD500C43BA8 /* Votice */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80DFD2712E0F1D6B00DD20F2 /* XCLocalSwiftPackageReference "../../../votice-sdk" */;
+			productName = Votice;
+		};
+		8007278E2E11ACEC00C43BA8 /* Votice */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 80DFD2712E0F1D6B00DD20F2 /* XCLocalSwiftPackageReference "../../../votice-sdk" */;
 			productName = Votice;
