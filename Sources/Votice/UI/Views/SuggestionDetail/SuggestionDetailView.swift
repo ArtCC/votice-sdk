@@ -296,7 +296,7 @@ private extension SuggestionDetailView {
 
         await viewModel.addComment(
             to: suggestion.id,
-            content: newComment,
+            text: newComment,
             nickname: trimmedNickname.isEmpty ? nil : trimmedNickname
         )
 

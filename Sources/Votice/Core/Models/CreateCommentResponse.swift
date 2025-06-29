@@ -10,5 +10,5 @@ import Foundation
 
 struct CreateCommentResponse: Codable, Sendable {
     let message: String
-    let id: String
+    let comment: CommentEntity
 }

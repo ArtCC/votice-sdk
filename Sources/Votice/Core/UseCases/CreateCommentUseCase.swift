@@ -9,7 +9,7 @@
 import Foundation
 
 protocol CreateCommentUseCaseProtocol: Sendable {
-    func execute(suggestionId: String, content: String, nickname: String?) async throws -> CreateCommentResponse
+    func execute(suggestionId: String, text: String, nickname: String?) async throws -> CreateCommentResponse
 }
 
 final class CreateCommentUseCase: CreateCommentUseCaseProtocol {
@@ -33,7 +33,7 @@ final class CreateCommentUseCase: CreateCommentUseCaseProtocol {
 
     // MARK: - CreateCommentUseCaseProtocol
 
-    func execute(suggestionId: String, content: String, nickname: String?) async throws -> CreateCommentResponse {
+    func execute(suggestionId: String, text: String, nickname: String?) async throws -> CreateCommentResponse {
         // Validate configuration
         try configurationManager.validateConfiguration()
 
@@ -42,18 +42,16 @@ final class CreateCommentUseCase: CreateCommentUseCaseProtocol {
             throw VoticeError.invalidInput("Suggestion ID cannot be empty")
         }
 
-        guard !content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             throw VoticeError.invalidInput("Comment content cannot be empty")
         }
 
         // Create request
         let request = CreateCommentRequest(
             suggestionId: suggestionId.trimmingCharacters(in: .whitespacesAndNewlines),
-            content: content.trimmingCharacters(in: .whitespacesAndNewlines),
+            text: text.trimmingCharacters(in: .whitespacesAndNewlines),
             deviceId: deviceManager.deviceId,
-            nickname: nickname?.trimmingCharacters(in: .whitespacesAndNewlines),
-            platform: deviceManager.platform,
-            language: deviceManager.language
+            nickname: nickname?.trimmingCharacters(in: .whitespacesAndNewlines)
         )
 
         // Execute request

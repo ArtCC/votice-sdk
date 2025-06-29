@@ -35,11 +35,10 @@ final class CommentRepository: CommentRepositoryProtocol {
     }
 
     func fetchComments(request: FetchCommentsRequest) async throws -> FetchCommentsResponse {
-        let bodyData = try JSONEncoder().encode(request)
         let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/comments/fetch",
+            path: "/v1/sdk/comments/fetch?suggestionId=\(request.suggestionId)",
             method: .GET,
-            body: bodyData
+            body: nil
         )
         return try await networkManager.request(
             endpoint: endpoint,

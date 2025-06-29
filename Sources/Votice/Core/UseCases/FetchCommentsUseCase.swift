@@ -9,7 +9,7 @@
 import Foundation
 
 protocol FetchCommentsUseCaseProtocol: Sendable {
-    func execute(suggestionId: String, limit: Int?, offset: Int?) async throws -> FetchCommentsResponse
+    func execute(suggestionId: String) async throws -> FetchCommentsResponse
 }
 
 final class FetchCommentsUseCase: FetchCommentsUseCaseProtocol {
@@ -33,7 +33,7 @@ final class FetchCommentsUseCase: FetchCommentsUseCaseProtocol {
 
     // MARK: - FetchCommentsUseCaseProtocol
 
-    func execute(suggestionId: String, limit: Int? = nil, offset: Int? = nil) async throws -> FetchCommentsResponse {
+    func execute(suggestionId: String) async throws -> FetchCommentsResponse {
         // Validate configuration
         try configurationManager.validateConfiguration()
 
@@ -42,25 +42,8 @@ final class FetchCommentsUseCase: FetchCommentsUseCaseProtocol {
             throw VoticeError.invalidInput("Suggestion ID cannot be empty")
         }
 
-        // Validate limit if provided
-        if let limit = limit, limit <= 0 {
-            throw VoticeError.invalidInput("Limit must be greater than 0")
-        }
-
-        // Validate offset if provided
-        if let offset = offset, offset < 0 {
-            throw VoticeError.invalidInput("Offset must be greater than or equal to 0")
-        }
-
         // Create request
-        let request = FetchCommentsRequest(
-            suggestionId: suggestionId.trimmingCharacters(in: .whitespacesAndNewlines),
-            deviceId: deviceManager.deviceId,
-            limit: limit,
-            offset: offset,
-            platform: deviceManager.platform,
-            language: deviceManager.language
-        )
+        let request = FetchCommentsRequest(suggestionId: suggestionId.trimmingCharacters(in: .whitespacesAndNewlines))
 
         // Execute request
         return try await commentRepository.fetchComments(request: request)

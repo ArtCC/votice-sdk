@@ -15,32 +15,12 @@ struct CommentEntity: Codable, Sendable, Identifiable {
     let suggestionId: String
     let appId: String
     let text: String
-    let nickname: String? // SDK only
-    let createdBy: String // userId for dashboard, deviceId for SDK
-    let deviceId: String? // SDK only
     let createdAt: String?
-
-    // MARK: - Init
-
-    init(
-        id: String,
-        suggestionId: String,
-        appId: String,
-        text: String,
-        nickname: String? = nil,
-        createdBy: String,
-        deviceId: String? = nil,
-        createdAt: String? = nil
-    ) {
-        self.id = id
-        self.suggestionId = suggestionId
-        self.appId = appId
-        self.text = text
-        self.nickname = nickname
-        self.createdBy = createdBy
-        self.deviceId = deviceId
-        self.createdAt = createdAt
-    }
+    let updatedAt: String?
+    let createdBy: String?
+    let deviceId: String?
+    let nickname: String?
+    let source: String?
 }
 
 // MARK: - Extensions

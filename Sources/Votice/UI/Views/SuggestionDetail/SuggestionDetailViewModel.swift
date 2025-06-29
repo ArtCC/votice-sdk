@@ -41,11 +41,7 @@ final class SuggestionDetailViewModel: ObservableObject {
         isLoadingComments = true
 
         do {
-            let response = try await fetchCommentsUseCase.execute(
-                suggestionId: suggestionId,
-                limit: nil,
-                offset: nil
-            )
+            let response = try await fetchCommentsUseCase.execute(suggestionId: suggestionId)
 
             comments = response.comments.sorted { $0.createdAt! < $1.createdAt! }
         } catch {
@@ -55,31 +51,17 @@ final class SuggestionDetailViewModel: ObservableObject {
         isLoadingComments = false
     }
 
-    func addComment(to suggestionId: String, content: String, nickname: String?) async {
+    func addComment(to suggestionId: String, text: String, nickname: String?) async {
         guard !isSubmittingComment else { return }
 
         isSubmittingComment = true
 
         do {
-            let response = try await createCommentUseCase.execute(
-                suggestionId: suggestionId,
-                content: content,
-                nickname: nickname
-            )
+            let response = try await createCommentUseCase.execute(suggestionId: suggestionId,
+                                                                  text: text,
+                                                                  nickname: nickname)
 
-            // Create a temporary CommentEntity for the UI
-            let comment = CommentEntity(
-                id: response.id,
-                suggestionId: suggestionId,
-                appId: ConfigurationManager.shared.appId,
-                text: content,
-                nickname: nickname,
-                createdBy: DeviceManager.shared.deviceId,
-                deviceId: DeviceManager.shared.deviceId,
-                createdAt: Date().ISO8601Format()
-            )
-
-            comments.append(comment)
+            comments.append(response.comment)
         } catch {
             handleError(error)
         }

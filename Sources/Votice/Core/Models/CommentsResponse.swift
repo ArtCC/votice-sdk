@@ -10,4 +10,5 @@ import Foundation
 
 struct CommentsResponse: Codable, Sendable {
     let comments: [CommentEntity]
+    let count: Int
 }
