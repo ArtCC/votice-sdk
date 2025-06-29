@@ -8,31 +8,41 @@
 
 import SwiftUI
 
-// MARK: - Create Suggestion View Model
-
 @MainActor
 final class CreateSuggestionViewModel: ObservableObject {
+    // MARK: - Properties
+
     @Published var isSubmitting = false
     @Published var showingError = false
     @Published var errorMessage = ""
 
     private let suggestionUseCase: SuggestionUseCase
 
+    // MARK: - Init
+
     init(suggestionUseCase: SuggestionUseCase = SuggestionUseCase()) {
         self.suggestionUseCase = suggestionUseCase
     }
 
+    // MARK: - Functions
+
     func createSuggestion(title: String, description: String?, nickname: String?) async throws -> SuggestionEntity {
-        guard !isSubmitting else { throw VoticeError.invalidInput("Already submitting") }
+        guard !isSubmitting else {
+            throw VoticeError.invalidInput("Already submitting")
+        }
 
         isSubmitting = true
 
-        defer { isSubmitting = false }
+        defer {
+            isSubmitting = false
+        }
 
         do {
-            let response = try await suggestionUseCase.createSuggestion(title: title,
-                                                                        description: description,
-                                                                        nickname: nickname)
+            let response = try await suggestionUseCase.createSuggestion(
+                title: title,
+                description: description,
+                nickname: nickname
+            )
 
             return response.suggestion
         } catch {
@@ -42,9 +52,13 @@ final class CreateSuggestionViewModel: ObservableObject {
         }
     }
 
+    // MARK: - Private
+
     private func handleError(_ error: Error) {
         errorMessage = error.localizedDescription
+
         showingError = true
+
         LogManager.shared.devLog(.error, "CreateSuggestionViewModel error: \(error)")
     }
 }

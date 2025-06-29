@@ -9,10 +9,10 @@
 import Foundation
 import Combine
 
-// MARK: - Suggestion List View Model
-
 @MainActor
 final class SuggestionListViewModel: ObservableObject {
+    // MARK: - Properties
+
     @Published var suggestions: [SuggestionEntity] = []
     @Published var isLoading = false
     @Published var showingError = false
@@ -23,24 +23,26 @@ final class SuggestionListViewModel: ObservableObject {
 
     private var allSuggestions: [SuggestionEntity] = []
     private var currentOffset = 0
-    private let pageSize = 20
     private var loadingTask: Task<Void, Never>?
 
-    // Use Cases
+    private let pageSize = 20
     private let suggestionUseCase: SuggestionUseCase
+
+    // MARK: - Init
 
     init(suggestionUseCase: SuggestionUseCase = SuggestionUseCase()) {
         self.suggestionUseCase = suggestionUseCase
     }
 
-    // MARK: - Public Methods
+    // MARK: - Functions
 
     func loadSuggestions() async {
-        // Cancel any existing loading task
         loadingTask?.cancel()
 
         loadingTask = Task { @MainActor in
-            guard !isLoading else { return }
+            guard !isLoading else {
+                return
+            }
 
             isLoading = true
             currentOffset = 0
@@ -51,25 +53,28 @@ final class SuggestionListViewModel: ObservableObject {
                 let pagination = PaginationRequest(startAfter: nil, pageLimit: 10)
                 let response = try await suggestionUseCase.fetchSuggestions(pagination: pagination)
 
-                // Check if task was cancelled
                 guard !Task.isCancelled else {
                     isLoading = false
+
                     return
                 }
 
                 allSuggestions = response.suggestions
 
-                // Load vote status for each suggestion
                 await loadVoteStatusForSuggestions(response.suggestions)
 
                 applyFilter()
+
                 currentOffset = response.suggestions.count
+
                 hasMoreSuggestions = response.suggestions.count == pageSize
             } catch {
                 guard !Task.isCancelled else {
                     isLoading = false
+
                     return
                 }
+
                 handleError(error)
             }
 
@@ -80,7 +85,9 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func loadMoreSuggestions() async {
-        guard !isLoading && hasMoreSuggestions else { return }
+        guard !isLoading && hasMoreSuggestions else {
+            return
+        }
 
         isLoading = true
 
@@ -89,25 +96,28 @@ final class SuggestionListViewModel: ObservableObject {
             let pagination = PaginationRequest(startAfter: nil, pageLimit: 10)
             let response = try await suggestionUseCase.fetchSuggestions(pagination: pagination)
 
-            // Check if task was cancelled
             guard !Task.isCancelled else {
                 isLoading = false
+
                 return
             }
 
             allSuggestions.append(contentsOf: response.suggestions)
 
-            // Load vote status for new suggestions
             await loadVoteStatusForSuggestions(response.suggestions)
 
             applyFilter()
+
             currentOffset += response.suggestions.count
+
             hasMoreSuggestions = response.suggestions.count == pageSize
         } catch {
             guard !Task.isCancelled else {
                 isLoading = false
+
                 return
             }
+
             handleError(error)
         }
 
@@ -120,6 +130,7 @@ final class SuggestionListViewModel: ObservableObject {
 
     func setFilter(_ status: SuggestionStatusEntity?) {
         selectedFilter = status
+
         applyFilter()
     }
 
@@ -129,26 +140,19 @@ final class SuggestionListViewModel: ObservableObject {
             let response: VoteSuggestionResponse
 
             if hasCurrentVote {
-                // User already voted, so this is an unvote action
                 response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .downvote)
             } else {
-                // User hasn't voted, so this is a vote action
                 response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .upvote)
             }
 
-            // Update local vote state based on response
             if let vote = response.vote {
-                // Vote was registered successfully
                 currentVotes[suggestionId] = type
             } else {
-                // Vote was removed or not registered
                 currentVotes.removeValue(forKey: suggestionId)
             }
 
-            // Update suggestion with real data from backend
             if let updatedSuggestion = response.suggestion,
                let index = allSuggestions.firstIndex(where: { $0.id == suggestionId }) {
-
                 let originalSuggestion = allSuggestions[index]
                 let newSuggestion = SuggestionEntity(
                     id: originalSuggestion.id,
@@ -167,10 +171,8 @@ final class SuggestionListViewModel: ObservableObject {
                     voteCount: updatedSuggestion.voteCount
                 )
 
-                // Update in allSuggestions
                 allSuggestions[index] = newSuggestion
 
-                // Reapply filter to update displayed suggestions
                 applyFilter()
             }
         } catch {
@@ -183,7 +185,6 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func updateSuggestion(_ suggestion: SuggestionEntity) {
-        // Update in both allSuggestions and filtered suggestions
         if let allIndex = allSuggestions.firstIndex(where: { $0.id == suggestion.id }) {
             allSuggestions[allIndex] = suggestion
         }
@@ -192,7 +193,6 @@ final class SuggestionListViewModel: ObservableObject {
             suggestions[filteredIndex] = suggestion
         }
 
-        // Also reload the vote status for this suggestion to keep currentVotes in sync
         Task {
             await loadVoteStatus(for: suggestion.id)
         }
@@ -202,7 +202,7 @@ final class SuggestionListViewModel: ObservableObject {
         return currentVotes[suggestionId]
     }
 
-    // MARK: - Private Methods
+    // MARK: - Private
 
     private func applyFilter() {
         if let filter = selectedFilter {
@@ -214,13 +214,13 @@ final class SuggestionListViewModel: ObservableObject {
 
     private func handleError(_ error: Error) {
         errorMessage = error.localizedDescription
+
         showingError = true
 
         LogManager.shared.devLog(.error, "SuggestionListViewModel error: \(error)")
     }
 
     private func loadVoteStatusForSuggestions(_ suggestions: [SuggestionEntity]) async {
-        // Load vote status for each suggestion in parallel
         await withTaskGroup(of: Void.self) { group in
             for suggestion in suggestions {
                 group.addTask { [weak self] in
@@ -234,18 +234,14 @@ final class SuggestionListViewModel: ObservableObject {
         do {
             let voteStatus = try await suggestionUseCase.fetchVoteStatus(suggestionId: suggestionId)
 
-            // Update currentVotes based on the vote status
             await MainActor.run {
                 if voteStatus.hasVoted {
-                    // Since VoteStatusEntity doesn't include the vote type,
-                    // we'll assume it's an upvote for now
                     currentVotes[suggestionId] = .upvote
                 } else {
                     currentVotes.removeValue(forKey: suggestionId)
                 }
             }
         } catch {
-            // Log error but don't fail the whole loading process
             LogManager.shared.devLog(.error, "Failed to load vote status for suggestion \(suggestionId): \(error)")
         }
     }

@@ -9,7 +9,11 @@
 import SwiftUI
 
 struct VoticeTextFieldStyle: TextFieldStyle {
+    // MARK: - Properties
+
     @Environment(\.voticeTheme) private var theme
+
+    // MARK: - View
 
     // swiftlint:disable identifier_name
     func _body(configuration: TextField<Self._Label>) -> some View {

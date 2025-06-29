@@ -8,42 +8,39 @@
 
 import SwiftUI
 
-// MARK: - Suggestion Detail View
-
 struct SuggestionDetailView: View {
+    // MARK: - Properties
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.voticeTheme) private var theme
+
+    @StateObject private var viewModel = SuggestionDetailViewModel()
+
+    @State private var showingAddComment = false
+    @State private var newComment = ""
+    @State private var commentNickname = ""
+    @State private var showDeleteAlert = false
+
+    @FocusState private var isCommentFocused: Bool
 
     let suggestion: SuggestionEntity
     let onSuggestionUpdated: (SuggestionEntity) -> Void
     let onReload: () -> Void
 
-    @StateObject private var viewModel = SuggestionDetailViewModel()
-    @State private var showingAddComment = false
-    @State private var newComment = ""
-    @State private var commentNickname = ""
-
-    @FocusState private var isCommentFocused: Bool
-    @State private var showDeleteAlert = false
+    // MARK: - View
 
     var body: some View {
         NavigationView {
             ZStack {
                 theme.colors.background.ignoresSafeArea()
-
                 ScrollView {
                     VStack(alignment: .leading, spacing: theme.spacing.lg) {
                         suggestionHeader
-
                         suggestionContent
-
                         votingSection
-
                         Divider()
                             .background(theme.colors.secondary.opacity(0.3))
-
                         commentsSection
-
                         Spacer(minLength: theme.spacing.xl)
                     }
                     .padding(theme.spacing.md)
@@ -61,7 +58,6 @@ struct SuggestionDetailView: View {
                     }
                     .foregroundColor(theme.colors.secondary)
                 }
-
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
                         Button {
@@ -70,7 +66,6 @@ struct SuggestionDetailView: View {
                             Image(systemName: "bubble.left")
                                 .foregroundColor(theme.colors.primary)
                         }
-
                         if suggestion.deviceId == DeviceManager.shared.deviceId {
                             Button(role: .destructive) {
                                 showDeleteAlert = true
@@ -104,7 +99,6 @@ struct SuggestionDetailView: View {
                     }
                     .foregroundColor(theme.colors.secondary)
                 }
-
                 ToolbarItem(placement: .primaryAction) {
                     HStack {
                         Button {
@@ -113,7 +107,6 @@ struct SuggestionDetailView: View {
                             Image(systemName: "bubble.left")
                                 .foregroundColor(theme.colors.primary)
                         }
-
                         if suggestion.createdBy == DeviceManager.shared.deviceId {
                             Button(role: .destructive) {
                                 showDeleteAlert = true
@@ -157,19 +150,18 @@ struct SuggestionDetailView: View {
             Text(viewModel.errorMessage)
         }
     }
+}
 
-    private var suggestionHeader: some View {
+// MARK: - Private
+
+private extension SuggestionDetailView {
+    var suggestionHeader: some View {
         VStack(alignment: .leading, spacing: theme.spacing.sm) {
-            // Status Badge
             HStack {
                 StatusBadge(status: suggestion.status ?? .pending)
-
                 Spacer()
-
                 SourceIndicator(source: suggestion.source ?? .sdk)
             }
-
-            // Title/Text
             Text(suggestion.displayText)
                 .font(theme.typography.title2)
                 .foregroundColor(theme.colors.onBackground)
@@ -177,17 +169,14 @@ struct SuggestionDetailView: View {
         }
     }
 
-    private var suggestionContent: some View {
+    var suggestionContent: some View {
         VStack(alignment: .leading, spacing: theme.spacing.md) {
-            // Description (if different from title)
             if let description = suggestion.description,
                description != suggestion.title {
                 Text(description)
                     .font(theme.typography.body)
                     .foregroundColor(theme.colors.onBackground)
             }
-
-            // Metadata
             VStack(alignment: .leading, spacing: theme.spacing.xs) {
                 if let nickname = suggestion.nickname {
                     Text("Suggested by \(nickname)")
@@ -198,7 +187,6 @@ struct SuggestionDetailView: View {
                         .font(theme.typography.caption)
                         .foregroundColor(theme.colors.secondary)
                 }
-
                 if let createdAt = suggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
                     Text(date)
                         .font(theme.typography.caption)
@@ -207,9 +195,7 @@ struct SuggestionDetailView: View {
             }
         }
     }
-}
 
-private extension SuggestionDetailView {
     var votingSection: some View {
         HStack {
             VotingButtons(
@@ -222,14 +208,11 @@ private extension SuggestionDetailView {
                     }
                 }
             )
-
             Spacer()
-
             VStack(alignment: .trailing, spacing: 4) {
                 Text("\(suggestion.voteCount) votes")
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.secondary)
-
                 Text("\(viewModel.comments.count) comments")
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.secondary)
@@ -242,7 +225,6 @@ private extension SuggestionDetailView {
             Text("Comments")
                 .font(theme.typography.headline)
                 .foregroundColor(theme.colors.onBackground)
-
             if viewModel.isLoadingComments {
                 HStack {
                     ProgressView()
@@ -281,27 +263,22 @@ private extension SuggestionDetailView {
                 Text("Add a comment")
                     .font(theme.typography.title2)
                     .foregroundColor(theme.colors.onBackground)
-
                 VStack(alignment: .leading, spacing: theme.spacing.sm) {
                     Text("Your Comment")
                         .font(theme.typography.headline)
                         .foregroundColor(theme.colors.onBackground)
-
                     TextField("Share your thoughts...", text: $newComment, axis: .vertical)
                         .textFieldStyle(VoticeTextFieldStyle())
                         .lineLimit(3...8)
                         .focused($isCommentFocused)
                 }
-
                 VStack(alignment: .leading, spacing: theme.spacing.sm) {
                     Text("Your Name (Optional)")
                         .font(theme.typography.headline)
                         .foregroundColor(theme.colors.onBackground)
-
                     TextField("Enter your name", text: $commentNickname)
                         .textFieldStyle(VoticeTextFieldStyle())
                 }
-
                 Spacer()
             }
             .padding(theme.spacing.md)
@@ -317,7 +294,6 @@ private extension SuggestionDetailView {
                         resetCommentForm()
                     }
                 }
-
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Post") {
                         Task {
@@ -336,7 +312,6 @@ private extension SuggestionDetailView {
                         resetCommentForm()
                     }
                 }
-
                 ToolbarItem(placement: .primaryAction) {
                     Button("Post") {
                         Task {
@@ -356,7 +331,9 @@ private extension SuggestionDetailView {
             isCommentFocused = true
         }
     }
+}
 
+private extension SuggestionDetailView {
     func postComment() async {
         let trimmedNickname = commentNickname.trimmingCharacters(in: .whitespacesAndNewlines)
 
@@ -368,6 +345,7 @@ private extension SuggestionDetailView {
 
         if !viewModel.showingError {
             showingAddComment = false
+
             resetCommentForm()
         }
     }
@@ -375,119 +353,5 @@ private extension SuggestionDetailView {
     func resetCommentForm() {
         newComment = ""
         commentNickname = ""
-    }
-}
-
-// MARK: - Comment Card
-
-private struct CommentCard: View {
-    @Environment(\.voticeTheme) private var theme
-
-    let comment: CommentEntity
-    let currentDeviceId: String
-    var onDelete: (() -> Void)?
-    @State private var showDeleteAlert = false
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: theme.spacing.sm) {
-            HStack {
-                Text(comment.displayName)
-                    .font(theme.typography.subheadline)
-                    .foregroundColor(theme.colors.onSurface)
-
-                Spacer()
-
-                if let createdAt = comment.createdAt, let date = Date.formatFromISOString(createdAt) {
-                    Text(date)
-                        .font(theme.typography.caption)
-                        .foregroundColor(theme.colors.secondary)
-                }
-                // Botón eliminar solo si el deviceId coincide
-                if let commentDeviceId = comment.deviceId, commentDeviceId == currentDeviceId, let onDelete = onDelete {
-                    Button(role: .destructive) {
-                        showDeleteAlert = true
-                    } label: {
-                        Image(systemName: "trash")
-                            .foregroundColor(.red)
-                    }
-                    .alert(isPresented: $showDeleteAlert) {
-                        Alert(
-                            title: Text("Delete Comment"),
-                            message: Text("Are you sure you want to delete this comment?"),
-                            primaryButton: .destructive(Text("Delete")) {
-                                onDelete()
-                            },
-                            secondaryButton: .cancel()
-                        )
-                    }
-                }
-            }
-
-            Text(comment.text)
-                .font(theme.typography.body)
-                .foregroundColor(theme.colors.onSurface)
-        }
-        .padding(theme.spacing.md)
-        .background(theme.colors.surface)
-        .cornerRadius(theme.cornerRadius.md)
-    }
-}
-
-// MARK: - Status Badge
-
-private struct StatusBadge: View {
-    @Environment(\.voticeTheme) private var theme
-
-    let status: SuggestionStatusEntity
-
-    private var statusColor: Color {
-        switch status {
-        case .pending: return theme.colors.pending
-        case .accepted: return theme.colors.accepted
-        case .inProgress: return theme.colors.inProgress
-        case .completed: return theme.colors.completed
-        case .rejected: return theme.colors.rejected
-        }
-    }
-
-    private var statusText: String {
-        switch status {
-        case .pending: return "Pending"
-        case .accepted: return "Accepted"
-        case .inProgress: return "In Progress"
-        case .completed: return "Completed"
-        case .rejected: return "Rejected"
-        }
-    }
-
-    var body: some View {
-        Text(statusText)
-            .font(theme.typography.caption)
-            .foregroundColor(.white)
-            .padding(.horizontal, theme.spacing.sm)
-            .padding(.vertical, theme.spacing.xs)
-            .background(statusColor)
-            .cornerRadius(theme.cornerRadius.sm)
-    }
-}
-
-// MARK: - Source Indicator
-
-private struct SourceIndicator: View {
-    @Environment(\.voticeTheme) private var theme
-
-    let source: SuggestionSource
-
-    private var icon: String {
-        switch source {
-        case .dashboard: return "desktopcomputer"
-        case .sdk: return "iphone"
-        }
-    }
-
-    var body: some View {
-        Image(systemName: icon)
-            .font(.caption)
-            .foregroundColor(theme.colors.secondary)
     }
 }

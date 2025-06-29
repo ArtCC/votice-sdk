@@ -16,24 +16,24 @@ import AppKit
 // MARK: - Votice Theme
 
 public struct VoticeTheme {
+    // MARK: Properties
+
     public let colors: VoticeColors
     public let typography: VoticeTypography
     public let spacing: VoticeSpacing
     public let cornerRadius: VoticeCornerRadius
 
-    public static let `default` = VoticeTheme(
-        colors: .default,
-        typography: .default,
-        spacing: .default,
-        cornerRadius: .default
-    )
+    public static let `default` = VoticeTheme(colors: .default,
+                                              typography: .default,
+                                              spacing: .default,
+                                              cornerRadius: .default)
 
-    public init(
-        colors: VoticeColors,
-        typography: VoticeTypography,
-        spacing: VoticeSpacing,
-        cornerRadius: VoticeCornerRadius
-    ) {
+    // MARK: Init
+
+    public init(colors: VoticeColors,
+                typography: VoticeTypography,
+                spacing: VoticeSpacing,
+                cornerRadius: VoticeCornerRadius) {
         self.colors = colors
         self.typography = typography
         self.spacing = spacing
@@ -62,45 +62,41 @@ public struct VoticeColors {
     public let completed: Color
     public let rejected: Color
 
-    public static let `default` = VoticeColors(
-        primary: Color.blue,
-        secondary: Color.gray,
-        accent: Color.orange,
-        background: Color.systemBackground,
-        surface: Color.secondarySystemBackground,
-        onSurface: Color.primary,
-        onBackground: Color.primary,
-        success: Color.green,
-        warning: Color.orange,
-        error: Color.red,
-        upvote: Color.green,
-        downvote: Color.red,
-        pending: Color.orange,
-        accepted: Color.blue,
-        inProgress: Color.purple,
-        completed: Color.green,
-        rejected: Color.red
-    )
+    public static let `default` = VoticeColors(primary: Color.blue,
+                                               secondary: Color.gray,
+                                               accent: Color.orange,
+                                               background: Color.systemBackground,
+                                               surface: Color.secondarySystemBackground,
+                                               onSurface: Color.primary,
+                                               onBackground: Color.primary,
+                                               success: Color.green,
+                                               warning: Color.orange,
+                                               error: Color.red,
+                                               upvote: Color.green,
+                                               downvote: Color.red,
+                                               pending: Color.orange,
+                                               accepted: Color.blue,
+                                               inProgress: Color.purple,
+                                               completed: Color.green,
+                                               rejected: Color.red)
 
-    public init(
-        primary: Color,
-        secondary: Color,
-        accent: Color,
-        background: Color,
-        surface: Color,
-        onSurface: Color,
-        onBackground: Color,
-        success: Color,
-        warning: Color,
-        error: Color,
-        upvote: Color,
-        downvote: Color,
-        pending: Color,
-        accepted: Color,
-        inProgress: Color,
-        completed: Color,
-        rejected: Color
-    ) {
+    public init(primary: Color,
+                secondary: Color,
+                accent: Color,
+                background: Color,
+                surface: Color,
+                onSurface: Color,
+                onBackground: Color,
+                success: Color,
+                warning: Color,
+                error: Color,
+                upvote: Color,
+                downvote: Color,
+                pending: Color,
+                accepted: Color,
+                inProgress: Color,
+                completed: Color,
+                rejected: Color) {
         self.primary = primary
         self.secondary = secondary
         self.accent = accent
@@ -125,27 +121,27 @@ public struct VoticeColors {
 
 extension Color {
     static var systemBackground: Color {
-        #if os(iOS)
+#if os(iOS)
         return Color(UIColor.systemBackground)
-        #elseif os(macOS)
+#elseif os(macOS)
         return Color(NSColor.windowBackgroundColor)
-        #elseif os(tvOS)
-        return Color.black // O el color que prefieras para fondo en tvOS
-        #else
+#elseif os(tvOS)
+        return Color.black
+#else
         return Color.white
-        #endif
+#endif
     }
 
     static var secondarySystemBackground: Color {
-        #if os(iOS)
+#if os(iOS)
         return Color(UIColor.secondarySystemBackground)
-        #elseif os(macOS)
+#elseif os(macOS)
         return Color(NSColor.controlBackgroundColor)
-        #elseif os(tvOS)
-        return Color.gray // O el color que prefieras para fondo secundario en tvOS
-        #else
+#elseif os(tvOS)
+        return Color.gray
+#else
         return Color.white
-        #endif
+#endif
     }
 }
 
@@ -164,33 +160,29 @@ public struct VoticeTypography {
     public let caption: Font
     public let caption2: Font
 
-    public static let `default` = VoticeTypography(
-        largeTitle: .largeTitle,
-        title: .title,
-        title2: .title2,
-        title3: .title3,
-        headline: .headline,
-        subheadline: .subheadline,
-        body: .body,
-        callout: .callout,
-        footnote: .footnote,
-        caption: .caption,
-        caption2: .caption2
-    )
+    public static let `default` = VoticeTypography(largeTitle: .largeTitle,
+                                                   title: .title,
+                                                   title2: .title2,
+                                                   title3: .title3,
+                                                   headline: .headline,
+                                                   subheadline: .subheadline,
+                                                   body: .body,
+                                                   callout: .callout,
+                                                   footnote: .footnote,
+                                                   caption: .caption,
+                                                   caption2: .caption2)
 
-    public init(
-        largeTitle: Font,
-        title: Font,
-        title2: Font,
-        title3: Font,
-        headline: Font,
-        subheadline: Font,
-        body: Font,
-        callout: Font,
-        footnote: Font,
-        caption: Font,
-        caption2: Font
-    ) {
+    public init(largeTitle: Font,
+                title: Font,
+                title2: Font,
+                title3: Font,
+                headline: Font,
+                subheadline: Font,
+                body: Font,
+                callout: Font,
+                footnote: Font,
+                caption: Font,
+                caption2: Font) {
         self.largeTitle = largeTitle
         self.title = title
         self.title2 = title2
@@ -238,6 +230,7 @@ public struct VoticeCornerRadius {
 
 private struct VoticeThemeKey: EnvironmentKey {
     typealias Value = VoticeTheme
+
     static let defaultValue = VoticeTheme.default
 }
 
