@@ -2,22 +2,15 @@
 //  VoteStatusEntity.swift
 //  Votice
 //
-//  Created by Arturo Carretero Calvo on 28/6/25.
+//  Created by Arturo Carretero Calvo on 29/6/25.
 //  Copyright © 2025 ArtCC. All rights reserved.
 //
 
 import Foundation
 
-struct VoteStatusEntity: Codable, Sendable {
-    // MARK: - Properties
-
-    let voted: Bool
-    let voteType: String?
-
-    // MARK: - Init
-
-    init(voted: Bool, voteType: String? = nil) {
-        self.voted = voted
-        self.voteType = voteType
-    }
+struct VoteStatusEntity: Codable, Hashable, Sendable {
+    let hasVoted: Bool
+    let voteCount: Int
+    let suggestionId: String
+    let deviceId: String
 }

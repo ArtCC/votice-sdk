@@ -17,6 +17,19 @@ import WatchKit
 import TVUIKit
 #endif
 
+protocol DeviceManagerProtocol: Sendable {
+    // MARK: - Properties
+
+    var deviceId: String { get }
+    var platform: String { get }
+    var language: String { get }
+
+    // MARK: - Public functions
+
+    func generateNewDeviceId() -> String
+    func resetDeviceId()
+}
+
 final class DeviceManager: DeviceManagerProtocol {
     // MARK: - Properties
 
@@ -31,9 +44,11 @@ final class DeviceManager: DeviceManagerProtocol {
     var deviceId: String {
         lock.withLock {
             let currentId = getCurrentDeviceId()
+
             if currentId.isEmpty {
                 return generateNewDeviceId()
             }
+
             return currentId
         }
     }
@@ -68,6 +83,7 @@ final class DeviceManager: DeviceManagerProtocol {
         // Ensure we have a device ID on initialization (without locks to avoid deadlock)
         if (userDefaults.string(forKey: deviceIdKey) ?? "").isEmpty {
             let newDeviceId = UUID().uuidString
+
             userDefaults.set(newDeviceId, forKey: deviceIdKey)
             userDefaults.synchronize()
 
@@ -80,6 +96,7 @@ final class DeviceManager: DeviceManagerProtocol {
     @discardableResult
     func generateNewDeviceId() -> String {
         let newDeviceId = UUID().uuidString
+
         userDefaults.set(newDeviceId, forKey: deviceIdKey)
         userDefaults.synchronize()
 
@@ -103,7 +120,3 @@ final class DeviceManager: DeviceManagerProtocol {
         return userDefaults.string(forKey: deviceIdKey) ?? ""
     }
 }
-
-// MARK: - Sendable Conformance
-
-extension DeviceManager: @unchecked Sendable {}

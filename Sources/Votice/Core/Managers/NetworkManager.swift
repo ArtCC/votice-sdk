@@ -6,8 +6,13 @@
 //  Copyright © 2025 ArtCC. All rights reserved.
 //
 
-import Foundation
 import CryptoKit
+import Foundation
+
+protocol NetworkManagerProtocol: Sendable {
+    func request<T: Codable & Sendable>(endpoint: NetworkEndpoint, responseType: T.Type) async throws -> T
+    func request(endpoint: NetworkEndpoint) async throws
+}
 
 struct NetworkManager: NetworkManagerProtocol {
     // MARK: - Properties
@@ -56,6 +61,7 @@ struct NetworkManager: NetworkManagerProtocol {
 
     // MARK: - Private
 
+    // swiftlint:disable cyclomatic_complexity
     // swiftlint:disable function_body_length
     private func performRequest(endpoint: NetworkEndpoint) async throws -> Data {
         try configurationManager.validateConfiguration()
@@ -66,6 +72,7 @@ struct NetworkManager: NetworkManagerProtocol {
 
         guard let url = URL(string: baseURL + endpoint.path) else {
             LogManager.shared.devLog(.error, "Invalid URL: \(baseURL + endpoint.path)")
+
             throw NetworkError.invalidURL
         }
 
@@ -81,6 +88,7 @@ struct NetworkManager: NetworkManagerProtocol {
 
         // Generate HMAC signature
         let signatureData: Data
+
         if let bodyData = endpoint.body {
             // For requests with body, use the body data
             signatureData = bodyData
@@ -89,7 +97,9 @@ struct NetworkManager: NetworkManagerProtocol {
             // This matches the backend behavior: JSON.stringify(req.body) for empty body
             signatureData = Data("{}".utf8)
         }
+
         let signature = generateHMACSignature(data: signatureData, secret: apiSecret)
+
         request.setValue(signature, forHTTPHeaderField: "x-signature")
 
         // Add custom headers
@@ -114,6 +124,15 @@ struct NetworkManager: NetworkManagerProtocol {
             switch httpResponse.statusCode {
             case 200...299:
                 LogManager.shared.devLog(.success, "Request successful", utf8Data: data)
+
+                // Always log the JSON response
+                if let jsonString = String(data: data, encoding: .utf8) {
+                    LogManager.shared.devLog(.info, "JSON Response for \(endpoint.path): \(jsonString)")
+                } else {
+                    LogManager.shared.devLog(
+                        .info, "JSON Response for \(endpoint.path): [Unable to decode response as UTF-8 string]"
+                    )
+                }
 
                 return data
             case 401:
@@ -143,6 +162,7 @@ struct NetworkManager: NetworkManagerProtocol {
             throw NetworkError.unknownError(error.localizedDescription)
         }
     }
+    // swiftlint:enable cyclomatic_complexity
     // swiftlint:enable function_body_length
 
     private func generateHMACSignature(data: Data, secret: String) -> String {

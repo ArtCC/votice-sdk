@@ -8,6 +8,22 @@
 
 import Foundation
 
+protocol ConfigurationManagerProtocol: Sendable {
+    // MARK: - Properties
+
+    var isConfigured: Bool { get }
+    var baseURL: String { get }
+    var apiKey: String { get }
+    var apiSecret: String { get }
+    var appId: String { get }
+
+    // MARK: - Public functions
+
+    func configure(apiKey: String, apiSecret: String, appId: String) throws
+    func reset()
+    func validateConfiguration() throws
+}
+
 final class ConfigurationManager: ConfigurationManagerProtocol {
     // MARK: - Properties
 
@@ -111,7 +127,3 @@ final class ConfigurationManager: ConfigurationManagerProtocol {
         }
     }
 }
-
-// MARK: - Sendable Conformance
-
-extension ConfigurationManager: @unchecked Sendable {}

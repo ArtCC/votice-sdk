@@ -8,6 +8,12 @@
 
 import Foundation
 
+protocol CommentRepositoryProtocol: Sendable {
+    func fetchComments(request: FetchCommentsRequest) async throws -> CommentsResponse
+    func createComment(request: CreateCommentRequest) async throws -> CreateCommentResponse
+    func deleteComment(request: DeleteCommentRequest) async throws
+}
+
 final class CommentRepository: CommentRepositoryProtocol {
     // MARK: - Properties
 
@@ -21,33 +27,33 @@ final class CommentRepository: CommentRepositoryProtocol {
 
     // MARK: - CommentRepositoryProtocol
 
+    func fetchComments(request: FetchCommentsRequest) async throws -> CommentsResponse {
+        var path = "/v1/sdk/comments/fetch?suggestionId=\(request.suggestionId)"
+
+        if let startAfter = request.pagination.startAfter {
+            path += "&startAfter=\(startAfter.createdAt)"
+        }
+
+        if let pageLimit = request.pagination.pageLimit {
+            path += "&pageLimit=\(pageLimit)"
+        }
+
+        let endpoint = NetworkEndpoint(path: path, method: .GET, body: nil)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: CommentsResponse.self)
+    }
+
     func createComment(request: CreateCommentRequest) async throws -> CreateCommentResponse {
         let bodyData = try JSONEncoder().encode(request)
-        let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/comments/create",
-            method: .POST,
-            body: bodyData
-        )
-        return try await networkManager.request(
-            endpoint: endpoint,
-            responseType: CreateCommentResponse.self
-        )
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/create", method: .POST, body: bodyData)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: CreateCommentResponse.self)
     }
 
-    func fetchComments(request: FetchCommentsRequest) async throws -> FetchCommentsResponse {
+    func deleteComment(request: DeleteCommentRequest) async throws {
         let bodyData = try JSONEncoder().encode(request)
-        let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/comments/fetch",
-            method: .GET,
-            body: bodyData
-        )
-        return try await networkManager.request(
-            endpoint: endpoint,
-            responseType: FetchCommentsResponse.self
-        )
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/delete", method: .POST, body: bodyData)
+
+        try await networkManager.request(endpoint: endpoint, responseType: BaseResponse.self)
     }
 }
-
-// MARK: - Sendable Conformance
-
-extension CommentRepository: @unchecked Sendable {}
