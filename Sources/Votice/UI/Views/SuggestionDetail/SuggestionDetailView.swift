@@ -16,6 +16,7 @@ struct SuggestionDetailView: View {
 
     let suggestion: SuggestionEntity
     let onSuggestionUpdated: (SuggestionEntity) -> Void
+    let onReload: () -> Void
 
     @StateObject private var viewModel = SuggestionDetailViewModel()
     @State private var showingAddComment = false
@@ -70,7 +71,7 @@ struct SuggestionDetailView: View {
                                 .foregroundColor(theme.colors.primary)
                         }
 
-                        if suggestion.createdBy == DeviceManager.shared.deviceId {
+                        if suggestion.deviceId == DeviceManager.shared.deviceId {
                             Button(role: .destructive) {
                                 showDeleteAlert = true
                             } label: {
@@ -84,6 +85,8 @@ struct SuggestionDetailView: View {
                                     primaryButton: .destructive(Text("Delete")) {
                                         Task {
                                             await viewModel.deleteSuggestion(suggestion)
+
+                                            onReload()
 
                                             dismiss()
                                         }

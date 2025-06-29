@@ -21,6 +21,7 @@ struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
     let updatedAt: String?
     let platform: String?
     let createdBy: String?
+    let deviceId: String?
     let status: SuggestionStatusEntity?
     let source: SuggestionSource?
     let commentCount: Int?
@@ -39,6 +40,7 @@ struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
          updatedAt: String? = nil,
          platform: String? = nil,
          createdBy: String? = nil,
+         deviceId: String? = nil,
          status: SuggestionStatusEntity? = nil,
          source: SuggestionSource? = nil,
          commentCount: Int? = nil,
@@ -54,6 +56,7 @@ struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
         self.updatedAt = updatedAt
         self.platform = platform
         self.createdBy = createdBy
+        self.deviceId = deviceId
         self.status = status
         self.source = source
         self.commentCount = commentCount

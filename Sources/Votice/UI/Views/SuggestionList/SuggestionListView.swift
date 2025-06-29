@@ -138,6 +138,10 @@ struct SuggestionListView: View {
             .sheet(item: $selectedSuggestion) { suggestion in
                 SuggestionDetailView(suggestion: suggestion) { updatedSuggestion in
                     viewModel.updateSuggestion(updatedSuggestion)
+                } onReload: {
+                    Task {
+                        await viewModel.loadSuggestions()
+                    }
                 }
             }
         }

@@ -47,7 +47,7 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
 
     func deleteSuggestion(request: DeleteSuggestionRequest) async throws -> DeleteSuggestionResponse {
         let bodyData = try JSONEncoder().encode(request)
-        let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/delete", method: .POST, body: bodyData)
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/suggestions/delete", method: .POST, body: bodyData)
 
         return try await networkManager.request(endpoint: endpoint, responseType: DeleteSuggestionResponse.self)
     }
