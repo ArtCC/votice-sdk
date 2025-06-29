@@ -9,8 +9,9 @@
 import Foundation
 
 protocol CommentRepositoryProtocol: Sendable {
-    func createComment(request: CreateCommentRequest) async throws -> CreateCommentResponse
     func fetchComments(request: FetchCommentsRequest) async throws -> FetchCommentsResponse
+    func createComment(request: CreateCommentRequest) async throws -> CreateCommentResponse
+    func deleteComment(request: DeleteCommentRequest) async throws
 }
 
 final class CommentRepository: CommentRepositoryProtocol {
@@ -26,6 +27,14 @@ final class CommentRepository: CommentRepositoryProtocol {
 
     // MARK: - CommentRepositoryProtocol
 
+    func fetchComments(request: FetchCommentsRequest) async throws -> FetchCommentsResponse {
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/fetch?suggestionId=\(request.suggestionId)",
+                                       method: .GET,
+                                       body: nil)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: FetchCommentsResponse.self)
+    }
+
     func createComment(request: CreateCommentRequest) async throws -> CreateCommentResponse {
         let bodyData = try JSONEncoder().encode(request)
         let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/create", method: .POST, body: bodyData)
@@ -33,12 +42,11 @@ final class CommentRepository: CommentRepositoryProtocol {
         return try await networkManager.request(endpoint: endpoint, responseType: CreateCommentResponse.self)
     }
 
-    func fetchComments(request: FetchCommentsRequest) async throws -> FetchCommentsResponse {
-        let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/fetch?suggestionId=\(request.suggestionId)",
-                                       method: .GET,
-                                       body: nil)
+    func deleteComment(request: DeleteCommentRequest) async throws {
+        let bodyData = try JSONEncoder().encode(request)
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/delete", method: .POST, body: bodyData)
 
-        return try await networkManager.request(endpoint: endpoint, responseType: FetchCommentsResponse.self)
+        try await networkManager.request(endpoint: endpoint, responseType: BaseResponse.self)
     }
 }
 

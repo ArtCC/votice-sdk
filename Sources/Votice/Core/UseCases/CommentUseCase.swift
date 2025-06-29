@@ -11,6 +11,7 @@ import Foundation
 protocol CommentUseCaseProtocol: Sendable {
     func fetchComments(suggestionId: String) async throws -> FetchCommentsResponse
     func createComment(suggestionId: String, text: String, nickname: String?) async throws -> CreateCommentResponse
+    func deleteComment(commentId: String) async throws
 }
 
 final class CommentUseCase: CommentUseCaseProtocol {
@@ -61,6 +62,18 @@ final class CommentUseCase: CommentUseCaseProtocol {
                                            nickname: nickname?.trimmingCharacters(in: .whitespacesAndNewlines))
 
         return try await commentRepository.createComment(request: request)
+    }
+
+    func deleteComment(commentId: String) async throws {
+        try configurationManager.validateConfiguration()
+
+        guard !commentId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw VoticeError.invalidInput("Comment ID cannot be empty")
+        }
+
+        let request = DeleteCommentRequest(commentId: commentId, deviceId: deviceManager.deviceId)
+
+        try await commentRepository.deleteComment(request: request)
     }
 }
 

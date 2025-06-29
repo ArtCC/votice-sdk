@@ -19,9 +19,9 @@ final class SuggestionListViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var selectedFilter: SuggestionStatusEntity?
     @Published var hasMoreSuggestions = true
+    @Published var currentVotes: [String: VoteType] = [:]
 
     private var allSuggestions: [SuggestionEntity] = []
-    private var currentVotes: [String: VoteType] = [:]
     private var currentOffset = 0
     private let pageSize = 20
     private var loadingTask: Task<Void, Never>?
@@ -179,8 +179,18 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func updateSuggestion(_ suggestion: SuggestionEntity) {
-        if let index = suggestions.firstIndex(where: { $0.id == suggestion.id }) {
-            suggestions[index] = suggestion
+        // Update in both allSuggestions and filtered suggestions
+        if let allIndex = allSuggestions.firstIndex(where: { $0.id == suggestion.id }) {
+            allSuggestions[allIndex] = suggestion
+        }
+
+        if let filteredIndex = suggestions.firstIndex(where: { $0.id == suggestion.id }) {
+            suggestions[filteredIndex] = suggestion
+        }
+
+        // Also reload the vote status for this suggestion to keep currentVotes in sync
+        Task {
+            await loadVoteStatus(for: suggestion.id)
         }
     }
 

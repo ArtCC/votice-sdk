@@ -57,14 +57,12 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
             throw VoticeError.invalidInput("Description cannot be empty")
         }
 
-        let request = CreateSuggestionRequest(
-            title: title.trimmingCharacters(in: .whitespacesAndNewlines),
-            description: description.trimmingCharacters(in: .whitespacesAndNewlines),
-            deviceId: deviceManager.deviceId,
-            nickname: nickname?.trimmingCharacters(in: .whitespacesAndNewlines),
-            platform: deviceManager.platform,
-            language: deviceManager.language
-        )
+        let request = CreateSuggestionRequest(title: title.trimmingCharacters(in: .whitespacesAndNewlines),
+                                              description: description.trimmingCharacters(in: .whitespacesAndNewlines),
+                                              deviceId: deviceManager.deviceId,
+                                              nickname: nickname?.trimmingCharacters(in: .whitespacesAndNewlines),
+                                              platform: deviceManager.platform,
+                                              language: deviceManager.language)
 
         return try await suggestionRepository.createSuggestion(request: request)
     }
@@ -76,7 +74,7 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
             throw VoticeError.invalidInput("Suggestion ID cannot be empty")
         }
 
-        let request: VoteStatusRequest = .init(suggestionId: suggestionId, deviceId: deviceManager.deviceId)
+        let request = VoteStatusRequest(suggestionId: suggestionId, deviceId: deviceManager.deviceId)
 
         return try await suggestionRepository.fetchVoteStatus(request: request)
     }

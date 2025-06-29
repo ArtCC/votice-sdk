@@ -18,6 +18,8 @@ final class SuggestionDetailViewModel: ObservableObject {
     @Published var showingError = false
     @Published var errorMessage = ""
     @Published var currentVote: VoteType?
+    @Published var suggestionEntity: SuggestionEntity?
+    @Published var reload = false
 
     private let commentUseCase: CommentUseCase
     private let suggestionUseCase: SuggestionUseCase
@@ -29,6 +31,13 @@ final class SuggestionDetailViewModel: ObservableObject {
     }
 
     // MARK: - Public Methods
+
+    func loadInitialData(for suggestion: SuggestionEntity) async {
+        self.suggestionEntity = suggestion
+
+        await loadComments(for: suggestion.id)
+        await loadVoteStatus(for: suggestion.id)
+    }
 
     func loadComments(for suggestionId: String) async {
         guard !isLoadingComments else { return }
@@ -46,6 +55,23 @@ final class SuggestionDetailViewModel: ObservableObject {
         isLoadingComments = false
     }
 
+    func loadVoteStatus(for suggestionId: String) async {
+        do {
+            let voteStatus = try await suggestionUseCase.fetchVoteStatus(suggestionId: suggestionId)
+
+            if voteStatus.hasVoted {
+                // Since VoteStatusEntity doesn't include the vote type,
+                // we'll assume it's an upvote for now
+                currentVote = .upvote
+            } else {
+                currentVote = nil
+            }
+        } catch {
+            // Log error but don't fail - vote status is not critical
+            LogManager.shared.devLog(.error, "Failed to load vote status: \(error)")
+        }
+    }
+
     func addComment(to suggestionId: String, text: String, nickname: String?) async {
         guard !isSubmittingComment else { return }
 
@@ -57,6 +83,29 @@ final class SuggestionDetailViewModel: ObservableObject {
                                                                   nickname: nickname)
 
             comments.append(response.comment)
+
+            // Update suggestionEntity with new comment count
+            if let current = suggestionEntity {
+                let newCommentCount = (current.commentCount ?? 0) + 1
+                suggestionEntity = SuggestionEntity(
+                    id: current.id,
+                    appId: current.appId,
+                    title: current.title,
+                    text: current.text,
+                    description: current.description,
+                    nickname: current.nickname,
+                    createdAt: current.createdAt,
+                    updatedAt: current.updatedAt,
+                    platform: current.platform,
+                    createdBy: current.createdBy,
+                    status: current.status,
+                    source: current.source,
+                    commentCount: newCommentCount,
+                    voteCount: current.voteCount
+                )
+            }
+
+            reload = true
         } catch {
             handleError(error)
         }
@@ -66,18 +115,46 @@ final class SuggestionDetailViewModel: ObservableObject {
 
     func vote(on suggestionId: String, type: VoteType) async {
         do {
-            let response = try await suggestionUseCase.vote(
-                suggestionId: suggestionId,
-                voteType: type
-            )
+            let hasCurrentVote = currentVote != nil
+            let response: VoteSuggestionResponse
 
-#warning("Revisar esto del voto en el detalle.")
-            /**
-             if response.voteStatus.voted {
-             currentVote = type
-             } else {
-             currentVote = nil
-             }*/
+            if hasCurrentVote {
+                // User already voted, so this is an unvote action
+                response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .downvote)
+            } else {
+                // User hasn't voted, so this is a vote action
+                response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .upvote)
+            }
+
+            // Update local vote state based on response
+            if let vote = response.vote {
+                currentVote = type
+            } else {
+                currentVote = nil
+            }
+
+            // Update suggestionEntity with new vote count from backend
+            if let updatedSuggestion = response.suggestion,
+               let current = suggestionEntity {
+                suggestionEntity = SuggestionEntity(
+                    id: current.id,
+                    appId: current.appId,
+                    title: current.title,
+                    text: current.text,
+                    description: current.description,
+                    nickname: current.nickname,
+                    createdAt: current.createdAt,
+                    updatedAt: updatedSuggestion.updatedAt,
+                    platform: current.platform,
+                    createdBy: current.createdBy,
+                    status: current.status,
+                    source: current.source,
+                    commentCount: current.commentCount,
+                    voteCount: updatedSuggestion.voteCount
+                )
+            }
+
+            reload = true
         } catch {
             handleError(error)
         }

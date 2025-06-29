@@ -88,7 +88,12 @@ struct SuggestionDetailView: View {
             }
         }
         .task {
-            await viewModel.loadComments(for: suggestion.id)
+            await viewModel.loadInitialData(for: suggestion)
+        }
+        .onDisappear {
+            if viewModel.reload, let suggestionEntity = viewModel.suggestionEntity {
+                onSuggestionUpdated(suggestionEntity)
+            }
         }
         .sheet(isPresented: $showingAddComment) {
             addCommentSheet

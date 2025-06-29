@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SuggestionEntity: Codable, Sendable, Identifiable {
+struct SuggestionEntity: Codable, Equatable, Sendable, Identifiable {
     // MARK: - Properties
 
     let id: String
