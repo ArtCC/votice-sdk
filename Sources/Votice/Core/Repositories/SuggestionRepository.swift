@@ -9,8 +9,8 @@
 import Foundation
 
 protocol SuggestionRepositoryProtocol: Sendable {
+    func fetchSuggestions(request: FetchSuggestionsRequest) async throws -> SuggestionsResponse
     func createSuggestion(request: CreateSuggestionRequest) async throws -> CreateSuggestionResponse
-    func fetchSuggestions(request: FetchSuggestionsRequest) async throws -> FetchSuggestionsResponse
     func fetchVoteStatus(request: VoteStatusRequest) async throws -> VoteStatusEntity
     func voteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse
     func unvoteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse
@@ -29,19 +29,19 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
 
     // MARK: - SuggestionRepositoryProtocol
 
+    func fetchSuggestions(request: FetchSuggestionsRequest) async throws -> SuggestionsResponse {
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/suggestions/fetch?appId=\(request.appId)",
+                                       method: .GET,
+                                       body: nil)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: SuggestionsResponse.self)
+    }
+
     func createSuggestion(request: CreateSuggestionRequest) async throws -> CreateSuggestionResponse {
         let bodyData = try JSONEncoder().encode(request)
         let endpoint = NetworkEndpoint(path: "/v1/sdk/suggestions/create", method: .POST, body: bodyData)
 
         return try await networkManager.request(endpoint: endpoint, responseType: CreateSuggestionResponse.self)
-    }
-
-    func fetchSuggestions(request: FetchSuggestionsRequest) async throws -> FetchSuggestionsResponse {
-        let endpoint = NetworkEndpoint(path: "/v1/sdk/suggestions/fetch?appId=\(request.appId)",
-                                       method: .GET,
-                                       body: nil)
-
-        return try await networkManager.request(endpoint: endpoint, responseType: FetchSuggestionsResponse.self)
     }
 
     func fetchVoteStatus(request: VoteStatusRequest) async throws -> VoteStatusEntity {

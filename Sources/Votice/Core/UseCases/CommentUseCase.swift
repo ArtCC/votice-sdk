@@ -9,7 +9,7 @@
 import Foundation
 
 protocol CommentUseCaseProtocol: Sendable {
-    func fetchComments(suggestionId: String) async throws -> FetchCommentsResponse
+    func fetchComments(suggestionId: String) async throws -> CommentsResponse
     func createComment(suggestionId: String, text: String, nickname: String?) async throws -> CreateCommentResponse
     func deleteComment(commentId: String) async throws
 }
@@ -33,7 +33,7 @@ final class CommentUseCase: CommentUseCaseProtocol {
 
     // MARK: - CommentUseCaseProtocol
 
-    func fetchComments(suggestionId: String) async throws -> FetchCommentsResponse {
+    func fetchComments(suggestionId: String) async throws -> CommentsResponse {
         try configurationManager.validateConfiguration()
 
         guard !suggestionId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {

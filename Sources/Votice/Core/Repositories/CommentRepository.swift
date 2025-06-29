@@ -9,7 +9,7 @@
 import Foundation
 
 protocol CommentRepositoryProtocol: Sendable {
-    func fetchComments(request: FetchCommentsRequest) async throws -> FetchCommentsResponse
+    func fetchComments(request: FetchCommentsRequest) async throws -> CommentsResponse
     func createComment(request: CreateCommentRequest) async throws -> CreateCommentResponse
     func deleteComment(request: DeleteCommentRequest) async throws
 }
@@ -27,12 +27,12 @@ final class CommentRepository: CommentRepositoryProtocol {
 
     // MARK: - CommentRepositoryProtocol
 
-    func fetchComments(request: FetchCommentsRequest) async throws -> FetchCommentsResponse {
+    func fetchComments(request: FetchCommentsRequest) async throws -> CommentsResponse {
         let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/fetch?suggestionId=\(request.suggestionId)",
                                        method: .GET,
                                        body: nil)
 
-        return try await networkManager.request(endpoint: endpoint, responseType: FetchCommentsResponse.self)
+        return try await networkManager.request(endpoint: endpoint, responseType: CommentsResponse.self)
     }
 
     func createComment(request: CreateCommentRequest) async throws -> CreateCommentResponse {

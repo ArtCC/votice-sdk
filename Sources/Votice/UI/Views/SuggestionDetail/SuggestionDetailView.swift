@@ -207,7 +207,15 @@ private extension SuggestionDetailView {
             } else {
                 LazyVStack(alignment: .leading, spacing: theme.spacing.md) {
                     ForEach(viewModel.comments) { comment in
-                        CommentCard(comment: comment)
+                        CommentCard(
+                            comment: comment,
+                            currentDeviceId: DeviceManager.shared.deviceId,
+                            onDelete: {
+                                Task {
+                                    await viewModel.deleteComment(comment)
+                                }
+                            }
+                        )
                     }
                 }
             }
@@ -323,6 +331,9 @@ private struct CommentCard: View {
     @Environment(\.voticeTheme) private var theme
 
     let comment: CommentEntity
+    let currentDeviceId: String
+    var onDelete: (() -> Void)?
+    @State private var showDeleteAlert = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: theme.spacing.sm) {
@@ -337,6 +348,25 @@ private struct CommentCard: View {
                     Text(date)
                         .font(theme.typography.caption)
                         .foregroundColor(theme.colors.secondary)
+                }
+                // Botón eliminar solo si el deviceId coincide
+                if let commentDeviceId = comment.deviceId, commentDeviceId == currentDeviceId, let onDelete = onDelete {
+                    Button(role: .destructive) {
+                        showDeleteAlert = true
+                    } label: {
+                        Image(systemName: "trash")
+                            .foregroundColor(.red)
+                    }
+                    .alert(isPresented: $showDeleteAlert) {
+                        Alert(
+                            title: Text("Delete Comment"),
+                            message: Text("Are you sure you want to delete this comment?"),
+                            primaryButton: .destructive(Text("Delete")) {
+                                onDelete()
+                            },
+                            secondaryButton: .cancel()
+                        )
+                    }
                 }
             }
 

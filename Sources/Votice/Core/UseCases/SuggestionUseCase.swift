@@ -9,7 +9,7 @@
 import Foundation
 
 protocol SuggestionUseCaseProtocol: Sendable {
-    func fetchSuggestions() async throws -> FetchSuggestionsResponse
+    func fetchSuggestions() async throws -> SuggestionsResponse
     func createSuggestion(title: String,
                           description: String,
                           nickname: String?) async throws -> CreateSuggestionResponse
@@ -36,7 +36,7 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
 
     // MARK: - SuggestionUseCaseProtocol
 
-    func fetchSuggestions() async throws -> FetchSuggestionsResponse {
+    func fetchSuggestions() async throws -> SuggestionsResponse {
         try configurationManager.validateConfiguration()
 
         let request = FetchSuggestionsRequest(appId: configurationManager.appId)

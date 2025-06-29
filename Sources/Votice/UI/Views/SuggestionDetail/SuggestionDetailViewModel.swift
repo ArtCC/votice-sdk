@@ -113,6 +113,39 @@ final class SuggestionDetailViewModel: ObservableObject {
         isSubmittingComment = false
     }
 
+    func deleteComment(_ comment: CommentEntity) async {
+        do {
+            try await commentUseCase.deleteComment(commentId: comment.id)
+            comments.removeAll { $0.id == comment.id }
+            // Actualiza el contador de comentarios en la sugerencia
+            if let current = suggestionEntity {
+                let newCount = max((current.commentCount ?? 1) - 1, 0)
+
+                suggestionEntity = SuggestionEntity(
+                    id: current.id,
+                    appId: current.appId,
+                    title: current.title,
+                    text: current.text,
+                    description: current.description,
+                    nickname: current.nickname,
+                    createdAt: current.createdAt,
+                    updatedAt: current.updatedAt,
+                    platform: current.platform,
+                    createdBy: current.createdBy,
+                    status: current.status,
+                    source: current.source,
+                    commentCount: newCount,
+                    voteCount: current.voteCount
+                )
+
+                reload = true
+            }
+            reload = true
+        } catch {
+            handleError(error)
+        }
+    }
+
     func vote(on suggestionId: String, type: VoteType) async {
         do {
             let hasCurrentVote = currentVote != nil
