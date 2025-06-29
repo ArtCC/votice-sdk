@@ -9,7 +9,7 @@
 import Foundation
 
 protocol SuggestionUseCaseProtocol: Sendable {
-    func fetchSuggestions() async throws -> SuggestionsResponse
+    func fetchSuggestions(pagination: PaginationRequest) async throws -> SuggestionsResponse
     func createSuggestion(title: String,
                           description: String?,
                           nickname: String?) async throws -> CreateSuggestionResponse
@@ -37,10 +37,10 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
 
     // MARK: - SuggestionUseCaseProtocol
 
-    func fetchSuggestions() async throws -> SuggestionsResponse {
+    func fetchSuggestions(pagination: PaginationRequest) async throws -> SuggestionsResponse {
         try configurationManager.validateConfiguration()
 
-        let request = FetchSuggestionsRequest(appId: configurationManager.appId)
+        let request = FetchSuggestionsRequest(appId: configurationManager.appId, pagination: pagination)
 
         return try await suggestionRepository.fetchSuggestions(request: request)
     }

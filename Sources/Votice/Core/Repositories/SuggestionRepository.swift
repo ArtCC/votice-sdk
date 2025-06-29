@@ -31,9 +31,17 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
     // MARK: - SuggestionRepositoryProtocol
 
     func fetchSuggestions(request: FetchSuggestionsRequest) async throws -> SuggestionsResponse {
-        let endpoint = NetworkEndpoint(path: "/v1/sdk/suggestions/fetch?appId=\(request.appId)",
-                                       method: .GET,
-                                       body: nil)
+        var path = "/v1/sdk/suggestions/fetch?appId=\(request.appId)"
+
+        if let startAfter = request.pagination.startAfter {
+            path += "&startAfter={\"voteCount\":\(startAfter.voteCount),\"createdAt\":\(startAfter.createdAt)}"
+        }
+
+        if let pageLimit = request.pagination.pageLimit {
+            path += "&pageLimit=\(pageLimit)"
+        }
+
+        let endpoint = NetworkEndpoint(path: path, method: .GET, body: nil)
 
         return try await networkManager.request(endpoint: endpoint, responseType: SuggestionsResponse.self)
     }

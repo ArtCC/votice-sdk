@@ -28,9 +28,17 @@ final class CommentRepository: CommentRepositoryProtocol {
     // MARK: - CommentRepositoryProtocol
 
     func fetchComments(request: FetchCommentsRequest) async throws -> CommentsResponse {
-        let endpoint = NetworkEndpoint(path: "/v1/sdk/comments/fetch?suggestionId=\(request.suggestionId)",
-                                       method: .GET,
-                                       body: nil)
+        var path = "/v1/sdk/comments/fetch?suggestionId=\(request.suggestionId)"
+
+        if let startAfter = request.pagination.startAfter {
+            path += "&startAfter=\(startAfter.createdAt)"
+        }
+
+        if let pageLimit = request.pagination.pageLimit {
+            path += "&pageLimit=\(pageLimit)"
+        }
+
+        let endpoint = NetworkEndpoint(path: path, method: .GET, body: nil)
 
         return try await networkManager.request(endpoint: endpoint, responseType: CommentsResponse.self)
     }

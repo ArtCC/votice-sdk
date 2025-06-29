@@ -45,7 +45,9 @@ final class SuggestionDetailViewModel: ObservableObject {
         isLoadingComments = true
 
         do {
-            let response = try await commentUseCase.fetchComments(suggestionId: suggestionId)
+            // let startAfter = StartAfterRequest(voteCount: nil, createdAt: "")
+            let pagination = PaginationRequest(startAfter: nil, pageLimit: 10)
+            let response = try await commentUseCase.fetchComments(suggestionId: suggestionId, pagination: pagination)
 
             comments = response.comments.sorted { $0.createdAt! < $1.createdAt! }
         } catch {

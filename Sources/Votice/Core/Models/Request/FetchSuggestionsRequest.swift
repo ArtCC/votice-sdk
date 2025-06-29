@@ -10,4 +10,5 @@ import Foundation
 
 struct FetchSuggestionsRequest: Codable, Sendable {
     let appId: String
+    let pagination: PaginationRequest
 }

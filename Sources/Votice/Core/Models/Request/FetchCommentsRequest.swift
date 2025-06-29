@@ -10,4 +10,5 @@ import Foundation
 
 struct FetchCommentsRequest: Codable, Sendable {
     let suggestionId: String
+    let pagination: PaginationRequest
 }

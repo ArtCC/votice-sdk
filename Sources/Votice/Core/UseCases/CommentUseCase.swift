@@ -9,7 +9,7 @@
 import Foundation
 
 protocol CommentUseCaseProtocol: Sendable {
-    func fetchComments(suggestionId: String) async throws -> CommentsResponse
+    func fetchComments(suggestionId: String, pagination: PaginationRequest) async throws -> CommentsResponse
     func createComment(suggestionId: String, text: String, nickname: String?) async throws -> CreateCommentResponse
     func deleteComment(commentId: String) async throws
 }
@@ -33,14 +33,14 @@ final class CommentUseCase: CommentUseCaseProtocol {
 
     // MARK: - CommentUseCaseProtocol
 
-    func fetchComments(suggestionId: String) async throws -> CommentsResponse {
+    func fetchComments(suggestionId: String, pagination: PaginationRequest) async throws -> CommentsResponse {
         try configurationManager.validateConfiguration()
 
         guard !suggestionId.isEmpty else {
             throw VoticeError.invalidInput("Suggestion ID cannot be empty")
         }
 
-        let request = FetchCommentsRequest(suggestionId: suggestionId)
+        let request = FetchCommentsRequest(suggestionId: suggestionId, pagination: pagination)
 
         return try await commentRepository.fetchComments(request: request)
     }

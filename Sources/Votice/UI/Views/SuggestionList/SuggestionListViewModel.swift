@@ -47,7 +47,9 @@ final class SuggestionListViewModel: ObservableObject {
             hasMoreSuggestions = true
 
             do {
-                let response = try await suggestionUseCase.fetchSuggestions()
+                // let startAfter = StartAfterRequest(voteCount: nil, createdAt: "")
+                let pagination = PaginationRequest(startAfter: nil, pageLimit: 10)
+                let response = try await suggestionUseCase.fetchSuggestions(pagination: pagination)
 
                 // Check if task was cancelled
                 guard !Task.isCancelled else {
@@ -83,7 +85,9 @@ final class SuggestionListViewModel: ObservableObject {
         isLoading = true
 
         do {
-            let response = try await suggestionUseCase.fetchSuggestions()
+            // let startAfter = StartAfterRequest(voteCount: nil, createdAt: "")
+            let pagination = PaginationRequest(startAfter: nil, pageLimit: 10)
+            let response = try await suggestionUseCase.fetchSuggestions(pagination: pagination)
 
             // Check if task was cancelled
             guard !Task.isCancelled else {
