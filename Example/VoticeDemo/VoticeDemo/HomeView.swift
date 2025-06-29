@@ -126,3 +126,9 @@ private extension HomeView {
         }
     }
 }
+
+// MARK: - Preview
+
+#Preview {
+    HomeView()
+}

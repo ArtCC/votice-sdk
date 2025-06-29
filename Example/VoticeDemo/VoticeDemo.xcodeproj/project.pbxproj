@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		800727522E11AA0700C43BA8 /* VoticeDemo_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727502E11AA0700C43BA8 /* VoticeDemo_macOSTests.swift */; };
+		800727582E11AA0700C43BA8 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727542E11AA0700C43BA8 /* HomeView.swift */; };
+		800727592E11AA0700C43BA8 /* VoticeDemo_macOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727562E11AA0700C43BA8 /* VoticeDemo_macOSApp.swift */; };
+		8007275A2E11AA0700C43BA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 800727532E11AA0700C43BA8 /* Assets.xcassets */; };
+		8007275E2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007275B2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift */; };
+		8007275F2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007275C2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift */; };
+		800727622E11AAD500C43BA8 /* Votice in Frameworks */ = {isa = PBXBuildFile; productRef = 800727612E11AAD500C43BA8 /* Votice */; };
 		802F7E8E2E0F1A2500F1BDF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */; };
 		802F7E8F2E0F1A2500F1BDF6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */; };
 		802F7E902E0F1A2500F1BDF6 /* AppVoticeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */; };
@@ -17,6 +24,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		800727362E11A9FE00C43BA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 802F7E582E0F198400F1BDF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 800727272E11A9FC00C43BA8;
+			remoteInfo = VoticeDemo_macOS;
+		};
+		800727402E11A9FE00C43BA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 802F7E582E0F198400F1BDF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 800727272E11A9FC00C43BA8;
+			remoteInfo = VoticeDemo_macOS;
+		};
 		802F7E6E2E0F198500F1BDF6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 802F7E582E0F198400F1BDF6 /* Project object */;
@@ -34,6 +55,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		800727282E11A9FC00C43BA8 /* VoticeDemo_macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoticeDemo_macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		800727352E11A9FE00C43BA8 /* VoticeDemo_macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemo_macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8007273F2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemo_macOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		800727502E11AA0700C43BA8 /* VoticeDemo_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSTests.swift; sourceTree = "<group>"; };
+		800727532E11AA0700C43BA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		800727542E11AA0700C43BA8 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		800727552E11AA0700C43BA8 /* VoticeDemo_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoticeDemo_macOS.entitlements; sourceTree = "<group>"; };
+		800727562E11AA0700C43BA8 /* VoticeDemo_macOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSApp.swift; sourceTree = "<group>"; };
+		8007275B2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSUITests.swift; sourceTree = "<group>"; };
+		8007275C2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		802F7E602E0F198400F1BDF6 /* VoticeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoticeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		802F7E6D2E0F198500F1BDF6 /* VoticeDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		802F7E772E0F198500F1BDF6 /* VoticeDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +77,28 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		800727252E11A9FC00C43BA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				800727622E11AAD500C43BA8 /* Votice in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		800727322E11A9FE00C43BA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8007273C2E11A9FE00C43BA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		802F7E5D2E0F198400F1BDF6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -71,12 +124,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		800727512E11AA0700C43BA8 /* VoticeDemo_macOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				800727502E11AA0700C43BA8 /* VoticeDemo_macOSTests.swift */,
+			);
+			path = VoticeDemo_macOSTests;
+			sourceTree = "<group>";
+		};
+		800727572E11AA0700C43BA8 /* VoticeDemo_macOS */ = {
+			isa = PBXGroup;
+			children = (
+				800727532E11AA0700C43BA8 /* Assets.xcassets */,
+				800727542E11AA0700C43BA8 /* HomeView.swift */,
+				800727552E11AA0700C43BA8 /* VoticeDemo_macOS.entitlements */,
+				800727562E11AA0700C43BA8 /* VoticeDemo_macOSApp.swift */,
+			);
+			path = VoticeDemo_macOS;
+			sourceTree = "<group>";
+		};
+		8007275D2E11AA0700C43BA8 /* VoticeDemo_macOSUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8007275B2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift */,
+				8007275C2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift */,
+			);
+			path = VoticeDemo_macOSUITests;
+			sourceTree = "<group>";
+		};
+		800727602E11AAD500C43BA8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		802F7E572E0F198400F1BDF6 = {
 			isa = PBXGroup;
 			children = (
 				802F7E8D2E0F1A2500F1BDF6 /* VoticeDemo */,
 				802F7E922E0F1A2700F1BDF6 /* VoticeDemoTests */,
 				802F7E962E0F1A2900F1BDF6 /* VoticeDemoUITests */,
+				800727572E11AA0700C43BA8 /* VoticeDemo_macOS */,
+				800727512E11AA0700C43BA8 /* VoticeDemo_macOSTests */,
+				8007275D2E11AA0700C43BA8 /* VoticeDemo_macOSUITests */,
+				800727602E11AAD500C43BA8 /* Frameworks */,
 				802F7E612E0F198400F1BDF6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,6 +179,9 @@
 				802F7E602E0F198400F1BDF6 /* VoticeDemo.app */,
 				802F7E6D2E0F198500F1BDF6 /* VoticeDemoTests.xctest */,
 				802F7E772E0F198500F1BDF6 /* VoticeDemoUITests.xctest */,
+				800727282E11A9FC00C43BA8 /* VoticeDemo_macOS.app */,
+				800727352E11A9FE00C43BA8 /* VoticeDemo_macOSTests.xctest */,
+				8007273F2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,6 +216,66 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		800727272E11A9FC00C43BA8 /* VoticeDemo_macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8007274D2E11A9FE00C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_macOS" */;
+			buildPhases = (
+				800727242E11A9FC00C43BA8 /* Sources */,
+				800727252E11A9FC00C43BA8 /* Frameworks */,
+				800727262E11A9FC00C43BA8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VoticeDemo_macOS;
+			packageProductDependencies = (
+				800727612E11AAD500C43BA8 /* Votice */,
+			);
+			productName = VoticeDemo_macOS;
+			productReference = 800727282E11A9FC00C43BA8 /* VoticeDemo_macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		800727342E11A9FE00C43BA8 /* VoticeDemo_macOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8007274E2E11A9FE00C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_macOSTests" */;
+			buildPhases = (
+				800727312E11A9FE00C43BA8 /* Sources */,
+				800727322E11A9FE00C43BA8 /* Frameworks */,
+				800727332E11A9FE00C43BA8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				800727372E11A9FE00C43BA8 /* PBXTargetDependency */,
+			);
+			name = VoticeDemo_macOSTests;
+			packageProductDependencies = (
+			);
+			productName = VoticeDemo_macOSTests;
+			productReference = 800727352E11A9FE00C43BA8 /* VoticeDemo_macOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8007273E2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8007274F2E11A9FE00C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_macOSUITests" */;
+			buildPhases = (
+				8007273B2E11A9FE00C43BA8 /* Sources */,
+				8007273C2E11A9FE00C43BA8 /* Frameworks */,
+				8007273D2E11A9FE00C43BA8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				800727412E11A9FE00C43BA8 /* PBXTargetDependency */,
+			);
+			name = VoticeDemo_macOSUITests;
+			packageProductDependencies = (
+			);
+			productName = VoticeDemo_macOSUITests;
+			productReference = 8007273F2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		802F7E5F2E0F198400F1BDF6 /* VoticeDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 802F7E812E0F198500F1BDF6 /* Build configuration list for PBXNativeTarget "VoticeDemo" */;
@@ -192,6 +347,17 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					800727272E11A9FC00C43BA8 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					800727342E11A9FE00C43BA8 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 800727272E11A9FC00C43BA8;
+					};
+					8007273E2E11A9FE00C43BA8 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 800727272E11A9FC00C43BA8;
+					};
 					802F7E5F2E0F198400F1BDF6 = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -226,11 +392,36 @@
 				802F7E5F2E0F198400F1BDF6 /* VoticeDemo */,
 				802F7E6C2E0F198500F1BDF6 /* VoticeDemoTests */,
 				802F7E762E0F198500F1BDF6 /* VoticeDemoUITests */,
+				800727272E11A9FC00C43BA8 /* VoticeDemo_macOS */,
+				800727342E11A9FE00C43BA8 /* VoticeDemo_macOSTests */,
+				8007273E2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		800727262E11A9FC00C43BA8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8007275A2E11AA0700C43BA8 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		800727332E11A9FE00C43BA8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8007273D2E11A9FE00C43BA8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		802F7E5E2E0F198400F1BDF6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -278,6 +469,32 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		800727242E11A9FC00C43BA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				800727582E11AA0700C43BA8 /* HomeView.swift in Sources */,
+				800727592E11AA0700C43BA8 /* VoticeDemo_macOSApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		800727312E11A9FE00C43BA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				800727522E11AA0700C43BA8 /* VoticeDemo_macOSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8007273B2E11A9FE00C43BA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8007275E2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift in Sources */,
+				8007275F2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		802F7E5C2E0F198400F1BDF6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -307,6 +524,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		800727372E11A9FE00C43BA8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 800727272E11A9FC00C43BA8 /* VoticeDemo_macOS */;
+			targetProxy = 800727362E11A9FE00C43BA8 /* PBXContainerItemProxy */;
+		};
+		800727412E11A9FE00C43BA8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 800727272E11A9FC00C43BA8 /* VoticeDemo_macOS */;
+			targetProxy = 800727402E11A9FE00C43BA8 /* PBXContainerItemProxy */;
+		};
 		802F7E6F2E0F198500F1BDF6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 802F7E5F2E0F198400F1BDF6 /* VoticeDemo */;
@@ -320,6 +547,142 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		800727472E11A9FE00C43BA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VoticeDemo_macOS/VoticeDemo_macOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		800727482E11A9FE00C43BA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VoticeDemo_macOS/VoticeDemo_macOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		800727492E11A9FE00C43BA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoticeDemo_macOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VoticeDemo_macOS";
+			};
+			name = Debug;
+		};
+		8007274A2E11A9FE00C43BA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoticeDemo_macOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VoticeDemo_macOS";
+			};
+			name = Release;
+		};
+		8007274B2E11A9FE00C43BA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOSUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = VoticeDemo_macOS;
+			};
+			name = Debug;
+		};
+		8007274C2E11A9FE00C43BA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4X55987WE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOSUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = VoticeDemo_macOS;
+			};
+			name = Release;
+		};
 		802F7E7F2E0F198500F1BDF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -576,6 +939,33 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8007274D2E11A9FE00C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				800727472E11A9FE00C43BA8 /* Debug */,
+				800727482E11A9FE00C43BA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8007274E2E11A9FE00C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_macOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				800727492E11A9FE00C43BA8 /* Debug */,
+				8007274A2E11A9FE00C43BA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8007274F2E11A9FE00C43BA8 /* Build configuration list for PBXNativeTarget "VoticeDemo_macOSUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8007274B2E11A9FE00C43BA8 /* Debug */,
+				8007274C2E11A9FE00C43BA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		802F7E5B2E0F198400F1BDF6 /* Build configuration list for PBXProject "VoticeDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -633,6 +1023,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		800727612E11AAD500C43BA8 /* Votice */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80DFD2712E0F1D6B00DD20F2 /* XCLocalSwiftPackageReference "../../../votice-sdk" */;
+			productName = Votice;
+		};
 		80DFD2722E0F1D6B00DD20F2 /* Votice */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Votice;
