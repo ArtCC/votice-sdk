@@ -239,11 +239,3 @@ extension EnvironmentValues {
         set { self[VoticeThemeKey.self] = newValue }
     }
 }
-
-// MARK: - Theme Modifier
-
-extension View {
-    func voticeTheme(_ theme: VoticeTheme) -> some View {
-        environment(\.voticeTheme, theme)
-    }
-}

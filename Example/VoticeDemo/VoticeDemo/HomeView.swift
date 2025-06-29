@@ -12,7 +12,7 @@ struct HomeView: View {
     // MARK: - Properties
 
     @State private var showingFeedbackSheet = false
-    @State private var showingEmbeddedView = false
+    @State private var showingFeedbackSheetWithCustomTheme = false
     @State private var isConfigured = false
 
     // MARK: - View
@@ -20,7 +20,6 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 30) {
-                // Header
                 VStack(spacing: 10) {
                     Image(systemName: "star.bubble")
                         .font(.system(size: 60))
@@ -32,9 +31,7 @@ struct HomeView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
-
                 Divider()
-
                 // Demo Options
                 VStack(spacing: 20) {
                     // Option 1: Sheet/Modal
@@ -47,7 +44,6 @@ struct HomeView: View {
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                     }
-
                     // Option 2: Navigation
                     VStack(spacing: 8) {
                         Text("Option 2: Navigation Push")
@@ -55,44 +51,21 @@ struct HomeView: View {
                         NavigationLink("Navigate to Feedback") {
                             Votice.feedbackView()
                         }
-                        .buttonStyle(.bordered)
+                        .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                     }
-
-                    // Option 3: Embedded View Toggle
-                    VStack(spacing: 8) {
-                        Text("Option 3: Embedded View")
-                            .font(.headline)
-                        Button(showingEmbeddedView ? "Hide Embedded View" : "Show Embedded View") {
-                            showingEmbeddedView.toggle()
-                        }
-                        .buttonStyle(.bordered)
-                        .controlSize(.large)
-                    }
-
-                    // Option 4: SDK Button Component
-                    VStack(spacing: 8) {
-                        Text("Option 4: SDK Button Component")
-                            .font(.headline)
-                        Votice.feedbackButton(title: "Give Feedback 💡")
-                    }
-
                     // Custom Theme Example
                     VStack(spacing: 8) {
-                        Text("Option 5: Custom Theme")
+                        Text("Option 3: Custom Theme")
                             .font(.headline)
                         Button("Feedback with Custom Theme") {
-                            // This will be handled by the sheet with custom theme
-                            showingFeedbackSheet = true
+                            showingFeedbackSheetWithCustomTheme = true
                         }
-                        .buttonStyle(.bordered)
+                        .buttonStyle(.borderedProminent)
                         .controlSize(.large)
-                        .tint(.purple)
                     }
                 }
-
                 Spacer()
-
                 // Configuration Status
                 VStack(spacing: 4) {
                     HStack {
@@ -113,29 +86,13 @@ struct HomeView: View {
             .navigationTitle("Votice Demo")
             .navigationBarTitleDisplayMode(.inline)
         }
-        // Show embedded view when toggled
-        .sheet(isPresented: $showingEmbeddedView) {
-            NavigationView {
-                Votice.feedbackView()
-                    .navigationTitle("Embedded Feedback")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("Done") {
-                                showingEmbeddedView = false
-                            }
-                        }
-                    }
-            }
-        }
-        // Show feedback sheet
         .sheet(isPresented: $showingFeedbackSheet) {
-            // Custom theme example
-            let customTheme = Votice.createTheme(
-                primaryColor: .purple,
-                backgroundColor: Color(.systemBackground),
-                surfaceColor: Color(.secondarySystemBackground)
-            )
+            Votice.feedbackView()
+        }
+        .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
+            let customTheme = Votice.createTheme(primaryColor: .red,
+                                                 backgroundColor: Color(.systemBackground),
+                                                 surfaceColor: Color(.secondarySystemBackground))
 
             Votice.feedbackView(theme: customTheme)
         }

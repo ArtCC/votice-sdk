@@ -403,22 +403,3 @@ private struct SourceIndicator: View {
             .foregroundColor(theme.colors.secondary)
     }
 }
-
-// MARK: - Text Field Style
-
-private struct VoticeTextFieldStyle: TextFieldStyle {
-    @Environment(\.voticeTheme) private var theme
-
-    // swiftlint:disable identifier_name
-    func _body(configuration: TextField<Self._Label>) -> some View {
-        configuration
-            .padding(theme.spacing.md)
-            .background(theme.colors.surface)
-            .cornerRadius(theme.cornerRadius.md)
-            .overlay(
-                RoundedRectangle(cornerRadius: theme.cornerRadius.md)
-                    .stroke(theme.colors.secondary.opacity(0.3), lineWidth: 1)
-            )
-    }
-    // swiftlint:enable identifier_name
-}

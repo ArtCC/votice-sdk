@@ -20,6 +20,7 @@ public struct Votice {
     /// - Throws: ConfigurationError if credentials are invalid or already configured
     public static func configure(apiKey: String, apiSecret: String, appId: String) throws {
         try ConfigurationManager.shared.configure(apiKey: apiKey, apiSecret: apiSecret, appId: appId)
+
         LogManager.debug = true // Enable debug logging for development
     }
 
@@ -54,14 +55,6 @@ public struct Votice {
                 SuggestionListView()
                     .voticeTheme(theme ?? .default)
             }
-    }
-
-    /// Create a button that presents the Votice feedback interface
-    /// - Parameters:
-    ///   - title: Button title (default: "Feedback")
-    ///   - theme: Custom theme for the UI (optional)
-    public static func feedbackButton(title: String = "Feedback", theme: VoticeTheme? = nil) -> some View {
-        FeedbackButton(title: title, theme: theme ?? .default)
     }
 
     // MARK: - Theme Configuration
@@ -100,12 +93,7 @@ public struct Votice {
             )
         }
 
-        return VoticeTheme(
-            colors: colors,
-            typography: .default,
-            spacing: .default,
-            cornerRadius: .default
-        )
+        return VoticeTheme(colors: colors, typography: .default, spacing: .default, cornerRadius: .default)
     }
 
     // MARK: - Legacy (deprecated)
@@ -113,24 +101,5 @@ public struct Votice {
     @available(*, deprecated, message: "Use configure(apiKey:apiSecret:) instead")
     public static func initialize() {
         debugPrint("👋 Hello, World!")
-    }
-}
-
-// MARK: - Feedback Button
-
-private struct FeedbackButton: View {
-    let title: String
-    let theme: VoticeTheme
-
-    @State private var showingFeedback = false
-
-    var body: some View {
-        Button(title) {
-            showingFeedback = true
-        }
-        .sheet(isPresented: $showingFeedback) {
-            SuggestionListView()
-                .voticeTheme(theme)
-        }
     }
 }
