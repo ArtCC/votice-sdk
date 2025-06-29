@@ -46,9 +46,9 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
         )
     }
 
-    func fetchVoteStatus(for suggestionId: String) async throws -> VoteStatusEntity {
+    func fetchVoteStatus(suggestionId: String, deviceId: String) async throws -> VoteStatusEntity {
         let endpoint = NetworkEndpoint(
-            path: "/v1/sdk/votes/status?suggestionId=\(suggestionId)",
+            path: "/v1/sdk/votes/status?suggestionId=\(suggestionId)&deviceId=\(deviceId)",
             method: .GET,
             body: nil
         )

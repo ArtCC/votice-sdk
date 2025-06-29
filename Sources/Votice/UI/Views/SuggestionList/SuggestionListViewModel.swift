@@ -61,6 +61,10 @@ final class SuggestionListViewModel: ObservableObject {
                 }
 
                 allSuggestions = response.suggestions
+
+                // Load vote status for each suggestion
+                await loadVoteStatusForSuggestions(response.suggestions)
+
                 applyFilter()
                 currentOffset = response.suggestions.count
                 hasMoreSuggestions = response.suggestions.count == pageSize
@@ -93,6 +97,10 @@ final class SuggestionListViewModel: ObservableObject {
             }
 
             allSuggestions.append(contentsOf: response.suggestions)
+
+            // Load vote status for new suggestions
+            await loadVoteStatusForSuggestions(response.suggestions)
+
             applyFilter()
             currentOffset += response.suggestions.count
             hasMoreSuggestions = response.suggestions.count == pageSize
@@ -118,7 +126,16 @@ final class SuggestionListViewModel: ObservableObject {
 
     func vote(on suggestionId: String, type: VoteType) async {
         do {
-            let response = try await voteSuggestionUseCase.execute(suggestionId: suggestionId, voteType: type)
+            let hasCurrentVote = currentVotes[suggestionId] != nil
+            let response: VoteSuggestionResponse
+
+            if hasCurrentVote {
+                // User already voted, so this is an unvote action
+                response = try await voteSuggestionUseCase.execute(suggestionId: suggestionId, voteType: .downvote)
+            } else {
+                // User hasn't voted, so this is a vote action
+                response = try await voteSuggestionUseCase.execute(suggestionId: suggestionId, voteType: .upvote)
+            }
 
             // Update local vote state based on response
             if let vote = response.vote {
@@ -142,13 +159,13 @@ final class SuggestionListViewModel: ObservableObject {
                     description: originalSuggestion.description,
                     nickname: originalSuggestion.nickname,
                     createdAt: originalSuggestion.createdAt,
-                    updatedAt: updatedSuggestion.updatedAt, // Use updated date from backend
+                    updatedAt: updatedSuggestion.updatedAt,
                     platform: originalSuggestion.platform,
                     createdBy: originalSuggestion.createdBy,
                     status: originalSuggestion.status,
                     source: originalSuggestion.source,
                     commentCount: originalSuggestion.commentCount,
-                    voteCount: updatedSuggestion.voteCount // Use real vote count from backend
+                    voteCount: updatedSuggestion.voteCount
                 )
 
                 // Update in allSuggestions
@@ -191,5 +208,36 @@ final class SuggestionListViewModel: ObservableObject {
         showingError = true
 
         LogManager.shared.devLog(.error, "SuggestionListViewModel error: \(error)")
+    }
+
+    private func loadVoteStatusForSuggestions(_ suggestions: [SuggestionEntity]) async {
+        // Load vote status for each suggestion in parallel
+        await withTaskGroup(of: Void.self) { group in
+            for suggestion in suggestions {
+                group.addTask { [weak self] in
+                    await self?.loadVoteStatus(for: suggestion.id)
+                }
+            }
+        }
+    }
+
+    private func loadVoteStatus(for suggestionId: String) async {
+        do {
+            let voteStatus = try await voteSuggestionUseCase.fetchVoteStatus(suggestionId: suggestionId)
+
+            // Update currentVotes based on the vote status
+            await MainActor.run {
+                if voteStatus.hasVoted {
+                    // Since VoteStatusEntity doesn't include the vote type,
+                    // we'll assume it's an upvote for now
+                    currentVotes[suggestionId] = .upvote
+                } else {
+                    currentVotes.removeValue(forKey: suggestionId)
+                }
+            }
+        } catch {
+            // Log error but don't fail the whole loading process
+            LogManager.shared.devLog(.error, "Failed to load vote status for suggestion \(suggestionId): \(error)")
+        }
     }
 }
