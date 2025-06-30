@@ -20,9 +20,13 @@ final class SuggestionDetailViewModel: ObservableObject {
     @Published var currentVote: VoteType?
     @Published var suggestionEntity: SuggestionEntity?
     @Published var reload = false
+    @Published var hasMoreComments = true
+
+    private var lastLoadedCreatedAt: String?
 
     private let commentUseCase: CommentUseCase
     private let suggestionUseCase: SuggestionUseCase
+    private let pageSize = 10
 
     // MARK: - Init
 
@@ -49,11 +53,41 @@ final class SuggestionDetailViewModel: ObservableObject {
         isLoadingComments = true
 
         do {
-            // let startAfter = StartAfterRequest(voteCount: nil, createdAt: "")
-            let pagination = PaginationRequest(startAfter: nil, pageLimit: 10)
+            let pagination = PaginationRequest(startAfter: nil, pageLimit: pageSize)
             let response = try await commentUseCase.fetchComments(suggestionId: suggestionId, pagination: pagination)
 
             comments = response.comments.sorted { $0.createdAt! < $1.createdAt! }
+
+            lastLoadedCreatedAt = response.nextPageTokenString
+
+            hasMoreComments = response.comments.count == pageSize
+        } catch {
+            handleError(error)
+        }
+
+        isLoadingComments = false
+    }
+
+    func loadMoreComments(for suggestionId: String) async {
+        guard !isLoadingComments && hasMoreComments else {
+            return
+        }
+
+        isLoadingComments = true
+
+        do {
+            let startAfter = lastLoadedCreatedAt != nil ?
+            StartAfterRequest(voteCount: nil, createdAt: lastLoadedCreatedAt!) :
+            nil
+            let pagination = PaginationRequest(startAfter: startAfter, pageLimit: pageSize)
+            let response = try await commentUseCase.fetchComments(suggestionId: suggestionId, pagination: pagination)
+            let newComments = response.comments.sorted { $0.createdAt! < $1.createdAt! }
+
+            comments.append(contentsOf: newComments)
+
+            lastLoadedCreatedAt = comments.last?.createdAt
+
+            hasMoreComments = newComments.count == pageSize
         } catch {
             handleError(error)
         }

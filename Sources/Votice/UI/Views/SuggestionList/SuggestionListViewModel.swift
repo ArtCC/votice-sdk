@@ -25,7 +25,7 @@ final class SuggestionListViewModel: ObservableObject {
     private var currentOffset = 0
     private var loadingTask: Task<Void, Never>?
 
-    private let pageSize = 20
+    private let pageSize = 10
     private let suggestionUseCase: SuggestionUseCase
 
     // MARK: - Init

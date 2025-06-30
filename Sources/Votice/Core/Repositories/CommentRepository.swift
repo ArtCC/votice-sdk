@@ -31,7 +31,7 @@ final class CommentRepository: CommentRepositoryProtocol {
         var path = "/v1/sdk/comments/fetch?suggestionId=\(request.suggestionId)"
 
         if let startAfter = request.pagination.startAfter {
-            path += "&startAfter=\"\(startAfter.createdAt)\""
+            path += "&startAfter=\(startAfter.createdAt)"
         }
 
         if let pageLimit = request.pagination.pageLimit {

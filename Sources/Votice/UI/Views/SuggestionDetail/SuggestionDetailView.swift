@@ -203,7 +203,7 @@ private extension SuggestionDetailView {
                     .padding()
             } else {
                 LazyVStack(alignment: .leading, spacing: theme.spacing.md) {
-                    ForEach(viewModel.comments) { comment in
+                    ForEach(Array(viewModel.comments.enumerated()), id: \.element.id) { index, comment in
                         CommentCard(
                             comment: comment,
                             currentDeviceId: DeviceManager.shared.deviceId,
@@ -213,6 +213,24 @@ private extension SuggestionDetailView {
                                 }
                             }
                         )
+                        .onAppear {
+                            if index >= viewModel.comments.count - 3 &&
+                                viewModel.hasMoreComments &&
+                                !viewModel.isLoadingComments {
+                                Task {
+                                    await viewModel.loadMoreComments(for: suggestion.id)
+                                }
+                            }
+                        }
+                    }
+                    if viewModel.isLoadingComments && viewModel.comments.count > 0 {
+                        HStack {
+                            Spacer()
+                            ProgressView()
+                                .scaleEffect(0.8)
+                                .padding()
+                            Spacer()
+                        }
                     }
                 }
             }
