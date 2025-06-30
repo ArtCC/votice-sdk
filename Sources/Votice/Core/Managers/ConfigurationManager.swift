@@ -126,4 +126,62 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
             throw ConfigurationError.notConfigured
         }
     }
+
+    // MARK: - Texts
+
+    enum Texts {
+        // General
+        static let cancel = "Cancel"
+        static let error = "Error"
+        static let ok = "OK"
+        static let submit = "Submit"
+        // SuggestionListView
+        static let loadingSuggestions = "Loading suggestions..."
+        static let noSuggestionsYet = "No suggestions yet."
+        static let beFirstToSuggest = "Be the first to suggest something!"
+        static let featureRequests = "Feature Requests"
+        static let all = "All"
+        // Status
+        static let pending = "Pending"
+        static let accepted = "Accepted"
+        static let inProgress = "In Progress"
+        static let completed = "Completed"
+        static let rejected = "Rejected"
+        // SuggestionDetailView
+        static let suggestionTitle = "Suggestion"
+        static let close = "Close"
+        static let deleteSuggestionTitle = "Delete Suggestion"
+        static let deleteSuggestionMessage = "Are you sure you want to delete this suggestion?"
+        static let delete = "Delete"
+        static let suggestedBy = "Suggested by"
+        static let suggestedAnonymously = "Suggested anonymously"
+        static let votes = "votes"
+        static let comments = "comments"
+        static let commentsSection = "Comments"
+        static let loadingComments = "Loading comments..."
+        static let noComments = "No comments yet. Be the first to comment!"
+        static let addComment = "Add a comment"
+        static let yourComment = "Your Comment"
+        static let shareYourThoughts = "Share your thoughts..."
+        static let yourNameOptional = "Your Name (Optional)"
+        static let enterYourName = "Enter your name"
+        static let newComment = "New Comment"
+        static let post = "Post"
+        static let deleteCommentTitle = "Delete Comment"
+        static let deleteCommentMessage = "Are you sure you want to delete this comment?"
+        static let deleteCommentPrimary = "Delete"
+        // CreateSuggestionView
+        static let newSuggestion = "New Suggestion"
+        static let shareYourIdea = "Share your idea"
+        static let helpUsImprove = "Help us improve by suggesting new features or improvements."
+        static let title = "Title"
+        static let titlePlaceholder = "Enter a brief title for your suggestion"
+        static let keepItShort = "Keep it short and descriptive"
+        static let descriptionOptional = "Description (Optional)"
+        static let descriptionPlaceholder = "Describe your suggestion in detail..."
+        static let explainWhyUseful = "Explain why this feature would be useful"
+        static let yourNameOptionalCreate = "Your Name (Optional)"
+        static let enterYourNameCreate = "Enter your name"
+        static let leaveEmptyAnonymous = "Leave empty to submit anonymously"
+    }
 }

@@ -30,15 +30,15 @@ struct StatusBadge: View {
     private var statusText: String {
         switch status {
         case .pending:
-            return "Pending"
+            return ConfigurationManager.Texts.pending
         case .accepted:
-            return "Accepted"
+            return ConfigurationManager.Texts.accepted
         case .inProgress:
-            return "In Progress"
+            return ConfigurationManager.Texts.inProgress
         case .completed:
-            return "Completed"
+            return ConfigurationManager.Texts.completed
         case .rejected:
-            return "Rejected"
+            return ConfigurationManager.Texts.rejected
         }
     }
 

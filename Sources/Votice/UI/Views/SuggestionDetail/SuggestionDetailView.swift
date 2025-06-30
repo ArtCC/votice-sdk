@@ -49,12 +49,12 @@ struct SuggestionDetailView: View {
                     .padding(theme.spacing.md)
                 }
             }
-            .navigationTitle("Suggestion")
+            .navigationTitle(ConfigurationManager.Texts.suggestionTitle)
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Close") {
+                    Button(ConfigurationManager.Texts.close) {
                         dismiss()
                     }
                     .foregroundColor(theme.colors.secondary)
@@ -76,9 +76,9 @@ struct SuggestionDetailView: View {
                             }
                             .alert(isPresented: $showDeleteAlert) {
                                 Alert(
-                                    title: Text("Delete Suggestion"),
-                                    message: Text("Are you sure you want to delete this suggestion?"),
-                                    primaryButton: .destructive(Text("Delete")) {
+                                    title: Text(ConfigurationManager.Texts.deleteSuggestionTitle),
+                                    message: Text(ConfigurationManager.Texts.deleteSuggestionMessage),
+                                    primaryButton: .destructive(Text(ConfigurationManager.Texts.delete)) {
                                         Task {
                                             await viewModel.deleteSuggestion(currentSuggestion)
 
@@ -107,8 +107,8 @@ struct SuggestionDetailView: View {
         .sheet(isPresented: $showingAddComment) {
             addCommentSheet
         }
-        .alert("Error", isPresented: $viewModel.showingError) {
-            Button("OK") {}
+        .alert(ConfigurationManager.Texts.error, isPresented: $viewModel.showingError) {
+            Button(ConfigurationManager.Texts.ok) {}
         } message: {
             Text(viewModel.errorMessage)
         }
@@ -144,11 +144,11 @@ private extension SuggestionDetailView {
             }
             VStack(alignment: .leading, spacing: theme.spacing.xs) {
                 if let nickname = currentSuggestion.nickname {
-                    Text("Suggested by \(nickname)")
+                    Text("\(ConfigurationManager.Texts.suggestedBy) \(nickname)")
                         .font(theme.typography.caption)
                         .foregroundColor(theme.colors.secondary)
                 } else {
-                    Text("Suggested anonymously")
+                    Text(ConfigurationManager.Texts.suggestedAnonymously)
                         .font(theme.typography.caption)
                         .foregroundColor(theme.colors.secondary)
                 }
@@ -175,10 +175,10 @@ private extension SuggestionDetailView {
             )
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
-                Text("\(currentSuggestion.voteCount) votes")
+                Text("\(currentSuggestion.voteCount) \(ConfigurationManager.Texts.votes)")
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.secondary)
-                Text("\(viewModel.comments.count) comments")
+                Text("\(viewModel.comments.count) \(ConfigurationManager.Texts.comments)")
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.secondary)
             }
@@ -187,20 +187,20 @@ private extension SuggestionDetailView {
 
     var commentsSection: some View {
         VStack(alignment: .leading, spacing: theme.spacing.md) {
-            Text("Comments")
+            Text(ConfigurationManager.Texts.commentsSection)
                 .font(theme.typography.headline)
                 .foregroundColor(theme.colors.onBackground)
             if viewModel.isLoadingComments {
                 HStack {
                     ProgressView()
                         .scaleEffect(0.8)
-                    Text("Loading comments...")
+                    Text(ConfigurationManager.Texts.loadingComments)
                         .font(theme.typography.body)
                         .foregroundColor(theme.colors.secondary)
                 }
                 .padding()
             } else if viewModel.comments.isEmpty {
-                Text("No comments yet. Be the first to comment!")
+                Text(ConfigurationManager.Texts.noComments)
                     .font(theme.typography.body)
                     .foregroundColor(theme.colors.secondary)
                     .padding()
@@ -210,9 +210,9 @@ private extension SuggestionDetailView {
                         CommentCard(
                             comment: comment,
                             currentDeviceId: DeviceManager.shared.deviceId,
-                            alert: AlertEntity(title: "Delete Comment",
-                                               message: "Are you sure you want to delete this comment?",
-                                               primaryButtonTitle: "Delete"),
+                            alert: AlertEntity(title: ConfigurationManager.Texts.deleteCommentTitle,
+                                               message: ConfigurationManager.Texts.deleteCommentMessage,
+                                               primaryButtonTitle: ConfigurationManager.Texts.deleteCommentPrimary),
                             onDelete: {
                                 Task {
                                     await viewModel.deleteComment(comment)
@@ -246,41 +246,45 @@ private extension SuggestionDetailView {
     var addCommentSheet: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: theme.spacing.lg) {
-                Text("Add a comment")
+                Text(ConfigurationManager.Texts.addComment)
                     .font(theme.typography.title2)
                     .foregroundColor(theme.colors.onBackground)
                 VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                    Text("Your Comment")
+                    Text(ConfigurationManager.Texts.yourComment)
                         .font(theme.typography.headline)
                         .foregroundColor(theme.colors.onBackground)
-                    TextField("Share your thoughts...", text: $viewModel.newComment, axis: .vertical)
-                        .textFieldStyle(VoticeTextFieldStyle())
-                        .lineLimit(3...8)
-                        .focused($isCommentFocused)
+                    TextField(
+                        ConfigurationManager.Texts.shareYourThoughts,
+                        text: $viewModel.newComment,
+                        axis: .vertical
+                    )
+                    .textFieldStyle(VoticeTextFieldStyle())
+                    .lineLimit(3...8)
+                    .focused($isCommentFocused)
                 }
                 VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                    Text("Your Name (Optional)")
+                    Text(ConfigurationManager.Texts.yourNameOptional)
                         .font(theme.typography.headline)
                         .foregroundColor(theme.colors.onBackground)
-                    TextField("Enter your name", text: $viewModel.commentNickname)
+                    TextField(ConfigurationManager.Texts.enterYourName, text: $viewModel.commentNickname)
                         .textFieldStyle(VoticeTextFieldStyle())
                 }
                 Spacer()
             }
             .padding(theme.spacing.md)
-            .navigationTitle("New Comment")
+            .navigationTitle(ConfigurationManager.Texts.newComment)
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(ConfigurationManager.Texts.cancel) {
                         showingAddComment = false
 
                         viewModel.resetCommentForm()
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Post") {
+                    Button(ConfigurationManager.Texts.post) {
                         Task {
                             await viewModel.submitComment(for: currentSuggestion.id) {
                                 showingAddComment = false

@@ -49,11 +49,11 @@ struct SuggestionCard: View {
                     }
                     HStack {
                         if let nickname = suggestion.nickname {
-                            Text("by \(nickname)")
+                            Text("\(ConfigurationManager.Texts.suggestedBy) \(nickname)")
                                 .font(theme.typography.caption)
                                 .foregroundColor(theme.colors.secondary)
                         } else {
-                            Text("by Anonymous")
+                            Text("\(ConfigurationManager.Texts.suggestedAnonymously)")
                                 .font(theme.typography.caption)
                                 .foregroundColor(theme.colors.secondary)
                         }
