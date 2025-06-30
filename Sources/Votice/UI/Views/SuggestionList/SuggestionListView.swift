@@ -31,17 +31,30 @@ struct SuggestionListView: View {
                 } else {
                     suggestionsList
                 }
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button {
+                            showingCreateSuggestion = true
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.system(size: 22, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(theme.colors.primary)
+                                .clipShape(Circle())
+                                .shadow(radius: 4)
+                        }
+                        .padding()
+                        .accessibilityLabel("Create new suggestion")
+                    }
+                }
             }
             .navigationTitle("Feature Requests")
 #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("New") {
-                        showingCreateSuggestion = true
-                    }
-                    .foregroundColor(theme.colors.primary)
-                }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Menu {
                         FilterButton(
@@ -103,10 +116,14 @@ struct SuggestionListView: View {
             Text(viewModel.errorMessage)
         }
     }
+}
 
-    // MARK: - Private
+// MARK: - Private
 
-    private var suggestionsList: some View {
+private extension SuggestionListView {
+    // MARK: - Properties
+
+    var suggestionsList: some View {
         ScrollView {
             LazyVStack(spacing: theme.spacing.md) {
                 ForEach(viewModel.suggestions) { suggestion in

@@ -115,6 +115,8 @@ struct SuggestionDetailView: View {
 // MARK: - Private
 
 private extension SuggestionDetailView {
+    // MARK: - Properties
+
     var suggestionHeader: some View {
         VStack(alignment: .leading, spacing: theme.spacing.sm) {
             HStack {
@@ -273,6 +275,8 @@ private extension SuggestionDetailView {
 }
 
 private extension SuggestionDetailView {
+    // MARK: - Functions
+
     func postComment() async {
         let trimmedNickname = commentNickname.trimmingCharacters(in: .whitespacesAndNewlines)
 

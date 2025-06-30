@@ -76,10 +76,14 @@ struct CreateSuggestionView: View {
             Text(viewModel.errorMessage)
         }
     }
+}
 
-    // MARK: - Private
+// MARK: - Private
 
-    private var headerSection: some View {
+private extension CreateSuggestionView {
+    // MARK: - Properties
+
+    var headerSection: some View {
         VStack(alignment: .leading, spacing: theme.spacing.sm) {
             Text("Share your idea")
                 .font(theme.typography.title2)
@@ -90,7 +94,7 @@ struct CreateSuggestionView: View {
         }
     }
 
-    private var formSection: some View {
+    var formSection: some View {
         VStack(alignment: .leading, spacing: theme.spacing.lg) {
             VStack(alignment: .leading, spacing: theme.spacing.sm) {
                 Text("Title")
@@ -129,7 +133,9 @@ struct CreateSuggestionView: View {
         }
     }
 
-    private func submitSuggestion() async {
+    // MARK: - Functions
+
+    func submitSuggestion() async {
         let trimmedNickname = nickname.trimmingCharacters(in: .whitespacesAndNewlines)
 
         do {

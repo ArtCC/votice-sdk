@@ -205,10 +205,12 @@ final class SuggestionDetailViewModel: ObservableObject {
             }
         }
     }
+}
 
-    // MARK: - Private
+// MARK: - Private
 
-    private func handleError(_ error: Error) {
+private extension SuggestionDetailViewModel {
+    func handleError(_ error: Error) {
         errorMessage = error.localizedDescription
 
         showingError = true

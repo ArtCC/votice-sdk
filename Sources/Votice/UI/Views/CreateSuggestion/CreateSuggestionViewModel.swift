@@ -51,10 +51,12 @@ final class CreateSuggestionViewModel: ObservableObject {
             throw error
         }
     }
+}
 
-    // MARK: - Private
+// MARK: - Private
 
-    private func handleError(_ error: Error) {
+private extension CreateSuggestionViewModel {
+    func handleError(_ error: Error) {
         errorMessage = error.localizedDescription
 
         showingError = true

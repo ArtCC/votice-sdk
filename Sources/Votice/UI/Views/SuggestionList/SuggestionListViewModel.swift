@@ -181,7 +181,11 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func addSuggestion(_ suggestion: SuggestionEntity) {
-        suggestions.insert(suggestion, at: 0)
+        selectedFilter = nil
+
+        Task {
+            await loadSuggestions()
+        }
     }
 
     func updateSuggestion(_ suggestion: SuggestionEntity) {
@@ -201,10 +205,12 @@ final class SuggestionListViewModel: ObservableObject {
     func getCurrentVote(for suggestionId: String) -> VoteType? {
         return currentVotes[suggestionId]
     }
+}
 
-    // MARK: - Private
+// MARK: - Private
 
-    private func applyFilter() {
+private extension SuggestionListViewModel {
+    func applyFilter() {
         if let filter = selectedFilter {
             suggestions = allSuggestions.filter { $0.status == filter }
         } else {
@@ -212,7 +218,7 @@ final class SuggestionListViewModel: ObservableObject {
         }
     }
 
-    private func handleError(_ error: Error) {
+    func handleError(_ error: Error) {
         errorMessage = error.localizedDescription
 
         showingError = true
@@ -220,7 +226,7 @@ final class SuggestionListViewModel: ObservableObject {
         LogManager.shared.devLog(.error, "SuggestionListViewModel error: \(error)")
     }
 
-    private func loadVoteStatusForSuggestions(_ suggestions: [SuggestionEntity]) async {
+    func loadVoteStatusForSuggestions(_ suggestions: [SuggestionEntity]) async {
         await withTaskGroup(of: Void.self) { group in
             for suggestion in suggestions {
                 group.addTask { [weak self] in
@@ -230,7 +236,7 @@ final class SuggestionListViewModel: ObservableObject {
         }
     }
 
-    private func loadVoteStatus(for suggestionId: String) async {
+    func loadVoteStatus(for suggestionId: String) async {
         do {
             let voteStatus = try await suggestionUseCase.fetchVoteStatus(suggestionId: suggestionId)
 
