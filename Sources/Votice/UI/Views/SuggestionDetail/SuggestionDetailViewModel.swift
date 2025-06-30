@@ -122,6 +122,10 @@ final class SuggestionDetailViewModel: ObservableObject {
 
         isSubmittingComment = true
 
+        defer {
+            isSubmittingComment = false
+        }
+
         do {
             let response = try await commentUseCase.createComment(
                 suggestionId: suggestionId,
@@ -132,32 +136,13 @@ final class SuggestionDetailViewModel: ObservableObject {
             comments.append(response.comment)
 
             if let current = suggestionEntity {
-                let newCommentCount = (current.commentCount ?? 0) + 1
-
-                suggestionEntity = SuggestionEntity(
-                    id: current.id,
-                    appId: current.appId,
-                    title: current.title,
-                    text: current.text,
-                    description: current.description,
-                    nickname: current.nickname,
-                    createdAt: current.createdAt,
-                    updatedAt: current.updatedAt,
-                    platform: current.platform,
-                    createdBy: current.createdBy,
-                    status: current.status,
-                    source: current.source,
-                    commentCount: newCommentCount,
-                    voteCount: current.voteCount
-                )
+                suggestionEntity = current.copyWith(commentCount: (current.commentCount ?? 0) + 1)
             }
 
             reload = true
         } catch {
             handleError(error)
         }
-
-        isSubmittingComment = false
     }
 
     func deleteComment(_ comment: CommentEntity) async {
@@ -167,24 +152,7 @@ final class SuggestionDetailViewModel: ObservableObject {
             comments.removeAll { $0.id == comment.id }
 
             if let current = suggestionEntity {
-                let newCount = max((current.commentCount ?? 1) - 1, 0)
-
-                suggestionEntity = SuggestionEntity(
-                    id: current.id,
-                    appId: current.appId,
-                    title: current.title,
-                    text: current.text,
-                    description: current.description,
-                    nickname: current.nickname,
-                    createdAt: current.createdAt,
-                    updatedAt: current.updatedAt,
-                    platform: current.platform,
-                    createdBy: current.createdBy,
-                    status: current.status,
-                    source: current.source,
-                    commentCount: newCount,
-                    voteCount: current.voteCount
-                )
+                suggestionEntity = current.copyWith(commentCount: max((current.commentCount ?? 1) - 1, 0))
             }
 
             reload = true
@@ -204,30 +172,11 @@ final class SuggestionDetailViewModel: ObservableObject {
                 response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .upvote)
             }
 
-            if let vote = response.vote {
-                LogManager.shared.devLog(.info, "Vote \(vote) for suggestion \(suggestionId)")
+            currentVote = response.vote != nil ? type : nil
 
-                currentVote = type
-            } else {
-                currentVote = nil
-            }
-
-            if let updatedSuggestion = response.suggestion,
-               let current = suggestionEntity {
-                suggestionEntity = SuggestionEntity(
-                    id: current.id,
-                    appId: current.appId,
-                    title: current.title,
-                    text: current.text,
-                    description: current.description,
-                    nickname: current.nickname,
-                    createdAt: current.createdAt,
+            if let updatedSuggestion = response.suggestion, let current = suggestionEntity {
+                suggestionEntity = current.copyWith(
                     updatedAt: updatedSuggestion.updatedAt,
-                    platform: current.platform,
-                    createdBy: current.createdBy,
-                    status: current.status,
-                    source: current.source,
-                    commentCount: current.commentCount,
                     voteCount: updatedSuggestion.voteCount
                 )
             }
