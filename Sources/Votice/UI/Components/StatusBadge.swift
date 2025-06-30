@@ -28,7 +28,7 @@ struct StatusBadge: View {
         }
     }
     private var statusText: String {
-        let texts = ConfigurationManager.currentTexts
+        let texts = TextManager.shared.texts
 
         switch status {
         case .pending:

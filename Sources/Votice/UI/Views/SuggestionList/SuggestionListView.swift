@@ -22,11 +22,11 @@ struct SuggestionListView: View {
             ZStack {
                 theme.colors.background.ignoresSafeArea()
                 if viewModel.isLoading && viewModel.suggestions.isEmpty {
-                    LoadingView(message: ConfigurationManager.currentTexts.loadingSuggestions)
+                    LoadingView(message: TextManager.shared.texts.loadingSuggestions)
                 } else if viewModel.suggestions.isEmpty && !viewModel.isLoading {
                     EmptyStateView(
-                        title: ConfigurationManager.currentTexts.noSuggestionsYet,
-                        message: ConfigurationManager.currentTexts.beFirstToSuggest
+                        title: TextManager.shared.texts.noSuggestionsYet,
+                        message: TextManager.shared.texts.beFirstToSuggest
                     )
                 } else {
                     suggestionsList
@@ -50,25 +50,25 @@ struct SuggestionListView: View {
                     }
                 }
             }
-            .navigationTitle(ConfigurationManager.currentTexts.featureRequests)
+            .navigationTitle(TextManager.shared.texts.featureRequests)
 #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Menu {
-                        FilterButton(title: ConfigurationManager.currentTexts.all,
+                        FilterButton(title: TextManager.shared.texts.all,
                                      isSelected: viewModel.selectedFilter == nil,
                                      action: { viewModel.setFilter(nil) })
-                        FilterButton(title: ConfigurationManager.currentTexts.pending,
+                        FilterButton(title: TextManager.shared.texts.pending,
                                      isSelected: viewModel.selectedFilter == .pending,
                                      action: { viewModel.setFilter(.pending) })
-                        FilterButton(title: ConfigurationManager.currentTexts.accepted,
+                        FilterButton(title: TextManager.shared.texts.accepted,
                                      isSelected: viewModel.selectedFilter == .accepted,
                                      action: { viewModel.setFilter(.accepted) })
-                        FilterButton(title: ConfigurationManager.currentTexts.inProgress,
+                        FilterButton(title: TextManager.shared.texts.inProgress,
                                      isSelected: viewModel.selectedFilter == .inProgress,
                                      action: { viewModel.setFilter(.inProgress) })
-                        FilterButton(title: ConfigurationManager.currentTexts.completed,
+                        FilterButton(title: TextManager.shared.texts.completed,
                                      isSelected: viewModel.selectedFilter == .completed,
                                      action: { viewModel.setFilter(.completed) })
                     } label: {
@@ -99,8 +99,8 @@ struct SuggestionListView: View {
         .task {
             await viewModel.loadSuggestions()
         }
-        .alert(ConfigurationManager.currentTexts.error, isPresented: $viewModel.showingError) {
-            Button(ConfigurationManager.currentTexts.ok) {}
+        .alert(TextManager.shared.texts.error, isPresented: $viewModel.showingError) {
+            Button(TextManager.shared.texts.ok) {}
         } message: {
             Text(viewModel.errorMessage)
         }

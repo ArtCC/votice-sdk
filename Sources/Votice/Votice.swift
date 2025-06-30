@@ -317,25 +317,6 @@ public struct Votice {
 
     // MARK: - Text Customization
 
-    /// Set custom texts using the VoticeTextsProtocol.
-    /// This is the recommended way to customize texts in the SDK.
-    ///
-    /// Example usage:
-    /// ```swift
-    /// // Using default English texts
-    /// Votice.setTexts(DefaultVoticeTexts())
-    ///
-    /// // Using localized texts from your app bundle
-    /// Votice.setTexts(LocalizedVoticeTexts(bundle: .main))
-    ///
-    /// // Using custom implementation
-    /// struct SpanishTexts: VoticeTextsProtocol {
-    ///     let cancel = "Cancelar"
-    ///     let error = "Error"
-    ///     // ... implement all required properties
-    /// }
-    /// Votice.setTexts(SpanishTexts())
-    /// ```
     public static func setTexts(_ texts: VoticeTextsProtocol) {
         TextManager.shared.setTexts(texts)
     }
@@ -343,17 +324,6 @@ public struct Votice {
     /// Reset texts to the default English implementation
     public static func resetTextsToDefault() {
         TextManager.shared.resetToDefault()
-    }
-
-    /// Get a localized texts implementation for automatic translation support.
-    /// Requires proper .strings files in your app bundle.
-    ///
-    /// - Parameters:
-    ///   - bundle: Bundle containing the localization files (default: .main)
-    ///   - tableName: Table name for strings files (default: nil for Localizable.strings)
-    /// - Returns: LocalizedVoticeTexts instance
-    public static func localizedTexts(bundle: Bundle = .main, tableName: String? = nil) -> LocalizedVoticeTexts {
-        LocalizedVoticeTexts(bundle: bundle, tableName: tableName)
     }
 
     // MARK: - Legacy (deprecated)
