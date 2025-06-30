@@ -21,14 +21,15 @@ struct SuggestionDetailView: View {
 
     @FocusState private var isCommentFocused: Bool
 
-    let suggestion: SuggestionEntity
-    let onSuggestionUpdated: (SuggestionEntity) -> Void
-    let onReload: () -> Void
+    // MARK: - Private computed property
 
-    // MARK: - Private computed property para sugerencia actual
     private var currentSuggestion: SuggestionEntity {
         viewModel.suggestionEntity ?? suggestion
     }
+
+    let suggestion: SuggestionEntity
+    let onSuggestionUpdated: (SuggestionEntity) -> Void
+    let onReload: () -> Void
 
     // MARK: - View
 
@@ -49,12 +50,12 @@ struct SuggestionDetailView: View {
                     .padding(theme.spacing.md)
                 }
             }
-            .navigationTitle(ConfigurationManager.Texts.suggestionTitle)
+            .navigationTitle(ConfigurationManager.currentTexts.suggestionTitle)
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(ConfigurationManager.Texts.close) {
+                    Button(ConfigurationManager.currentTexts.close) {
                         dismiss()
                     }
                     .foregroundColor(theme.colors.secondary)
@@ -76,9 +77,9 @@ struct SuggestionDetailView: View {
                             }
                             .alert(isPresented: $showDeleteAlert) {
                                 Alert(
-                                    title: Text(ConfigurationManager.Texts.deleteSuggestionTitle),
-                                    message: Text(ConfigurationManager.Texts.deleteSuggestionMessage),
-                                    primaryButton: .destructive(Text(ConfigurationManager.Texts.delete)) {
+                                    title: Text(ConfigurationManager.currentTexts.deleteSuggestionTitle),
+                                    message: Text(ConfigurationManager.currentTexts.deleteSuggestionMessage),
+                                    primaryButton: .destructive(Text(ConfigurationManager.currentTexts.delete)) {
                                         Task {
                                             await viewModel.deleteSuggestion(currentSuggestion)
 
@@ -107,8 +108,8 @@ struct SuggestionDetailView: View {
         .sheet(isPresented: $showingAddComment) {
             addCommentSheet
         }
-        .alert(ConfigurationManager.Texts.error, isPresented: $viewModel.showingError) {
-            Button(ConfigurationManager.Texts.ok) {}
+        .alert(ConfigurationManager.currentTexts.error, isPresented: $viewModel.showingError) {
+            Button(ConfigurationManager.currentTexts.ok) {}
         } message: {
             Text(viewModel.errorMessage)
         }
@@ -143,14 +144,16 @@ private extension SuggestionDetailView {
                     .foregroundColor(theme.colors.onBackground)
             }
             VStack(alignment: .leading, spacing: theme.spacing.xs) {
-                if let nickname = currentSuggestion.nickname {
-                    Text("\(ConfigurationManager.Texts.suggestedBy) \(nickname)")
-                        .font(theme.typography.caption)
-                        .foregroundColor(theme.colors.secondary)
-                } else {
-                    Text(ConfigurationManager.Texts.suggestedAnonymously)
-                        .font(theme.typography.caption)
-                        .foregroundColor(theme.colors.secondary)
+                VStack(alignment: .leading, spacing: theme.spacing.md) {
+                    if let nickname = currentSuggestion.nickname {
+                        Text("\(ConfigurationManager.currentTexts.suggestedBy) \(nickname)")
+                            .font(theme.typography.caption)
+                            .foregroundColor(theme.colors.secondary)
+                    } else {
+                        Text(ConfigurationManager.currentTexts.suggestedAnonymously)
+                            .font(theme.typography.caption)
+                            .foregroundColor(theme.colors.secondary)
+                    }
                 }
                 if let createdAt = currentSuggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
                     Text(date)
@@ -174,69 +177,45 @@ private extension SuggestionDetailView {
                 }
             )
             Spacer()
-            VStack(alignment: .trailing, spacing: 4) {
-                Text("\(currentSuggestion.voteCount) \(ConfigurationManager.Texts.votes)")
-                    .font(theme.typography.caption)
-                    .foregroundColor(theme.colors.secondary)
-                Text("\(viewModel.comments.count) \(ConfigurationManager.Texts.comments)")
-                    .font(theme.typography.caption)
-                    .foregroundColor(theme.colors.secondary)
-            }
         }
     }
 
     var commentsSection: some View {
         VStack(alignment: .leading, spacing: theme.spacing.md) {
-            Text(ConfigurationManager.Texts.commentsSection)
+            Text(ConfigurationManager.currentTexts.commentsSection)
                 .font(theme.typography.headline)
                 .foregroundColor(theme.colors.onBackground)
             if viewModel.isLoadingComments {
                 HStack {
                     ProgressView()
                         .scaleEffect(0.8)
-                    Text(ConfigurationManager.Texts.loadingComments)
+                    Text(ConfigurationManager.currentTexts.loadingComments)
                         .font(theme.typography.body)
                         .foregroundColor(theme.colors.secondary)
                 }
                 .padding()
             } else if viewModel.comments.isEmpty {
-                Text(ConfigurationManager.Texts.noComments)
+                Text(ConfigurationManager.currentTexts.noComments)
                     .font(theme.typography.body)
                     .foregroundColor(theme.colors.secondary)
                     .padding()
             } else {
                 LazyVStack(alignment: .leading, spacing: theme.spacing.md) {
-                    ForEach(Array(viewModel.comments.enumerated()), id: \.element.id) { index, comment in
+                    ForEach(Array(viewModel.comments.enumerated()), id: \.element.id) { _, comment in
                         CommentCard(
                             comment: comment,
                             currentDeviceId: DeviceManager.shared.deviceId,
-                            alert: AlertEntity(title: ConfigurationManager.Texts.deleteCommentTitle,
-                                               message: ConfigurationManager.Texts.deleteCommentMessage,
-                                               primaryButtonTitle: ConfigurationManager.Texts.deleteCommentPrimary),
+                            alert: AlertEntity(
+                                title: ConfigurationManager.currentTexts.deleteCommentTitle,
+                                message: ConfigurationManager.currentTexts.deleteCommentMessage,
+                                primaryButtonTitle: ConfigurationManager.currentTexts.deleteCommentPrimary
+                            ),
                             onDelete: {
                                 Task {
                                     await viewModel.deleteComment(comment)
                                 }
                             }
                         )
-                        .onAppear {
-                            if index >= viewModel.comments.count - 3 &&
-                                viewModel.hasMoreComments &&
-                                !viewModel.isLoadingComments {
-                                Task {
-                                    await viewModel.loadMoreComments(for: currentSuggestion.id)
-                                }
-                            }
-                        }
-                    }
-                    if viewModel.isLoadingComments && viewModel.comments.count > 0 {
-                        HStack {
-                            Spacer()
-                            ProgressView()
-                                .scaleEffect(0.8)
-                                .padding()
-                            Spacer()
-                        }
                     }
                 }
             }
@@ -246,15 +225,15 @@ private extension SuggestionDetailView {
     var addCommentSheet: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: theme.spacing.lg) {
-                Text(ConfigurationManager.Texts.addComment)
+                Text(ConfigurationManager.currentTexts.addComment)
                     .font(theme.typography.title2)
                     .foregroundColor(theme.colors.onBackground)
                 VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                    Text(ConfigurationManager.Texts.yourComment)
+                    Text(ConfigurationManager.currentTexts.yourComment)
                         .font(theme.typography.headline)
                         .foregroundColor(theme.colors.onBackground)
                     TextField(
-                        ConfigurationManager.Texts.shareYourThoughts,
+                        ConfigurationManager.currentTexts.shareYourThoughts,
                         text: $viewModel.newComment,
                         axis: .vertical
                     )
@@ -263,28 +242,28 @@ private extension SuggestionDetailView {
                     .focused($isCommentFocused)
                 }
                 VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                    Text(ConfigurationManager.Texts.yourNameOptional)
+                    Text(ConfigurationManager.currentTexts.yourNameOptional)
                         .font(theme.typography.headline)
                         .foregroundColor(theme.colors.onBackground)
-                    TextField(ConfigurationManager.Texts.enterYourName, text: $viewModel.commentNickname)
+                    TextField(ConfigurationManager.currentTexts.enterYourName, text: $viewModel.commentNickname)
                         .textFieldStyle(VoticeTextFieldStyle())
                 }
                 Spacer()
             }
             .padding(theme.spacing.md)
-            .navigationTitle(ConfigurationManager.Texts.newComment)
+            .navigationTitle(ConfigurationManager.currentTexts.newComment)
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(ConfigurationManager.Texts.cancel) {
+                    Button(ConfigurationManager.currentTexts.cancel) {
                         showingAddComment = false
 
                         viewModel.resetCommentForm()
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(ConfigurationManager.Texts.post) {
+                    Button(ConfigurationManager.currentTexts.post) {
                         Task {
                             await viewModel.submitComment(for: currentSuggestion.id) {
                                 showingAddComment = false
@@ -295,9 +274,6 @@ private extension SuggestionDetailView {
                 }
             }
 #endif
-        }
-        .onAppear {
-            isCommentFocused = true
         }
     }
 }

@@ -28,17 +28,19 @@ struct StatusBadge: View {
         }
     }
     private var statusText: String {
+        let texts = ConfigurationManager.currentTexts
+
         switch status {
         case .pending:
-            return ConfigurationManager.Texts.pending
+            return texts.pending
         case .accepted:
-            return ConfigurationManager.Texts.accepted
+            return texts.accepted
         case .inProgress:
-            return ConfigurationManager.Texts.inProgress
+            return texts.inProgress
         case .completed:
-            return ConfigurationManager.Texts.completed
+            return texts.completed
         case .rejected:
-            return ConfigurationManager.Texts.rejected
+            return texts.rejected
         }
     }
 

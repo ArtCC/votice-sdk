@@ -3,6 +3,7 @@
 //  VoticeDemo
 //
 //  Created by Arturo Carretero Calvo on 27/6/25.
+//  Copyright © 2025 ArtCC. All rights reserved.
 //
 
 import SwiftUI
@@ -97,7 +98,8 @@ struct HomeView: View {
             Votice.feedbackView(theme: customTheme)
         }
         .onAppear {
-            configurateSDK()
+            configureVotice()
+            configureText()
         }
     }
 }
@@ -105,8 +107,7 @@ struct HomeView: View {
 // MARK: - Private
 
 private extension HomeView {
-    /// Configures the Votice SDK with the provided API key, secret, and app ID.
-    func configurateSDK() {
+    func configureVotice() {
         do {
             try Votice.configure(
                 apiKey: "f2ba766c1f5311abb15cb49c",
@@ -116,14 +117,67 @@ private extension HomeView {
 
             debugPrint("✅ Votice SDK configured successfully!")
 
-            // Update configuration status
             isConfigured = Votice.isConfigured
         } catch {
             debugPrint("❌ Configuration failed: \(error)")
 
-            // Update configuration status
             isConfigured = false
         }
+    }
+
+    func configureText() {
+        let texts = Votice.textsType(
+            cancel: "Cancelar",
+            error: "Error",
+            ok: "OK",
+            submit: "Enviar",
+            loadingSuggestions: "Cargando sugerencias...",
+            noSuggestionsYet: "Aún no hay sugerencias.",
+            beFirstToSuggest: "¡Sé el primero en sugerir algo!",
+            featureRequests: "Solicitudes de funciones",
+            all: "Todas",
+            pending: "Pendiente",
+            accepted: "Aceptada",
+            inProgress: "En progreso",
+            completed: "Completada",
+            rejected: "Rechazada",
+            suggestionTitle: "Sugerencia",
+            close: "Cerrar",
+            deleteSuggestionTitle: "Eliminar sugerencia",
+            deleteSuggestionMessage: "¿Seguro que quieres eliminar esta sugerencia?",
+            delete: "Eliminar",
+            suggestedBy: "Sugerido por",
+            suggestedAnonymously: "Sugerido anónimamente",
+            votes: "votos",
+            comments: "comentarios",
+            commentsSection: "Comentarios",
+            loadingComments: "Cargando comentarios...",
+            noComments: "Aún no hay comentarios. ¡Sé el primero en comentar!",
+            addComment: "Agregar un comentario",
+            yourComment: "Tu comentario",
+            shareYourThoughts: "Comparte tus ideas...",
+            yourNameOptional: "Tu nombre (opcional)",
+            enterYourName: "Introduce tu nombre",
+            newComment: "Nuevo comentario",
+            post: "Publicar",
+            deleteCommentTitle: "Eliminar comentario",
+            deleteCommentMessage: "¿Seguro que quieres eliminar este comentario?",
+            deleteCommentPrimary: "Eliminar",
+            newSuggestion: "Nueva sugerencia",
+            shareYourIdea: "Comparte tu idea",
+            helpUsImprove: "Ayúdanos a mejorar sugiriendo nuevas funciones o mejoras.",
+            title: "Título",
+            titlePlaceholder: "Introduce un título breve para tu sugerencia",
+            keepItShort: "Mantenlo corto y descriptivo",
+            descriptionOptional: "Descripción (opcional)",
+            descriptionPlaceholder: "Describe tu sugerencia en detalle...",
+            explainWhyUseful: "Explica por qué esta función sería útil",
+            yourNameOptionalCreate: "Tu nombre (opcional)",
+            enterYourNameCreate: "Introduce tu nombre",
+            leaveEmptyAnonymous: "Déjalo vacío para enviar anónimamente"
+        )
+
+        Votice.setTexts(texts)
     }
 }
 

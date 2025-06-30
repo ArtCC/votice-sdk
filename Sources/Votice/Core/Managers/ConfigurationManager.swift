@@ -129,59 +129,80 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
 
     // MARK: - Texts
 
-    enum Texts {
-        // General
-        static let cancel = "Cancel"
-        static let error = "Error"
-        static let ok = "OK"
-        static let submit = "Submit"
-        // SuggestionListView
-        static let loadingSuggestions = "Loading suggestions..."
-        static let noSuggestionsYet = "No suggestions yet."
-        static let beFirstToSuggest = "Be the first to suggest something!"
-        static let featureRequests = "Feature Requests"
-        static let all = "All"
-        // Status
-        static let pending = "Pending"
-        static let accepted = "Accepted"
-        static let inProgress = "In Progress"
-        static let completed = "Completed"
-        static let rejected = "Rejected"
-        // SuggestionDetailView
-        static let suggestionTitle = "Suggestion"
-        static let close = "Close"
-        static let deleteSuggestionTitle = "Delete Suggestion"
-        static let deleteSuggestionMessage = "Are you sure you want to delete this suggestion?"
-        static let delete = "Delete"
-        static let suggestedBy = "Suggested by"
-        static let suggestedAnonymously = "Suggested anonymously"
-        static let votes = "votes"
-        static let comments = "comments"
-        static let commentsSection = "Comments"
-        static let loadingComments = "Loading comments..."
-        static let noComments = "No comments yet. Be the first to comment!"
-        static let addComment = "Add a comment"
-        static let yourComment = "Your Comment"
-        static let shareYourThoughts = "Share your thoughts..."
-        static let yourNameOptional = "Your Name (Optional)"
-        static let enterYourName = "Enter your name"
-        static let newComment = "New Comment"
-        static let post = "Post"
-        static let deleteCommentTitle = "Delete Comment"
-        static let deleteCommentMessage = "Are you sure you want to delete this comment?"
-        static let deleteCommentPrimary = "Delete"
-        // CreateSuggestionView
-        static let newSuggestion = "New Suggestion"
-        static let shareYourIdea = "Share your idea"
-        static let helpUsImprove = "Help us improve by suggesting new features or improvements."
-        static let title = "Title"
-        static let titlePlaceholder = "Enter a brief title for your suggestion"
-        static let keepItShort = "Keep it short and descriptive"
-        static let descriptionOptional = "Description (Optional)"
-        static let descriptionPlaceholder = "Describe your suggestion in detail..."
-        static let explainWhyUseful = "Explain why this feature would be useful"
-        static let yourNameOptionalCreate = "Your Name (Optional)"
-        static let enterYourNameCreate = "Enter your name"
-        static let leaveEmptyAnonymous = "Leave empty to submit anonymously"
+    struct Texts {
+        // MARK: - General
+
+        var cancel = "Cancel"
+        var error = "Error"
+        var ok = "OK"
+        var submit = "Submit"
+
+        // MARK: - Suggestion List
+
+        var loadingSuggestions = "Loading suggestions..."
+        var noSuggestionsYet = "No suggestions yet."
+        var beFirstToSuggest = "Be the first to suggest something!"
+        var featureRequests = "Feature Requests"
+        var all = "All"
+        var pending = "Pending"
+        var accepted = "Accepted"
+        var inProgress = "In Progress"
+        var completed = "Completed"
+        var rejected = "Rejected"
+
+        // MARK: - Suggestion Detail
+
+        var suggestionTitle = "Suggestion"
+        var close = "Close"
+        var deleteSuggestionTitle = "Delete Suggestion"
+        var deleteSuggestionMessage = "Are you sure you want to delete this suggestion?"
+        var delete = "Delete"
+        var suggestedBy = "Suggested by"
+        var suggestedAnonymously = "Suggested anonymously"
+        var votes = "votes"
+        var comments = "comments"
+        var commentsSection = "Comments"
+        var loadingComments = "Loading comments..."
+        var noComments = "No comments yet. Be the first to comment!"
+        var addComment = "Add a comment"
+        var yourComment = "Your Comment"
+        var shareYourThoughts = "Share your thoughts..."
+        var yourNameOptional = "Your Name (Optional)"
+        var enterYourName = "Enter your name"
+        var newComment = "New Comment"
+        var post = "Post"
+        var deleteCommentTitle = "Delete Comment"
+        var deleteCommentMessage = "Are you sure you want to delete this comment?"
+        var deleteCommentPrimary = "Delete"
+
+        // MARK: - Create Suggestion
+
+        var newSuggestion = "New Suggestion"
+        var shareYourIdea = "Share your idea"
+        var helpUsImprove = "Help us improve by suggesting new features or improvements."
+        var title = "Title"
+        var titlePlaceholder = "Enter a brief title for your suggestion"
+        var keepItShort = "Keep it short and descriptive"
+        var descriptionOptional = "Description (Optional)"
+        var descriptionPlaceholder = "Describe your suggestion in detail..."
+        var explainWhyUseful = "Explain why this feature would be useful"
+        var yourNameOptionalCreate = "Your Name (Optional)"
+        var enterYourNameCreate = "Enter your name"
+        var leaveEmptyAnonymous = "Leave empty to submit anonymously"
+    }
+
+    // MARK: - Texts Customization
+
+    private(set) static var texts = Texts()
+
+    static func setTexts(_ customTexts: Texts) {
+        self.texts = customTexts
+    }
+
+    // MARK: - Texts Access
+
+    /// Get the current texts from TextManager
+    static var currentTexts: VoticeTextsProtocol {
+        TextManager.shared.texts
     }
 }

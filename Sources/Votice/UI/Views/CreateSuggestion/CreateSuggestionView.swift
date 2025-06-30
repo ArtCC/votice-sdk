@@ -39,18 +39,18 @@ struct CreateSuggestionView: View {
                     .padding(theme.spacing.md)
                 }
             }
-            .navigationTitle(ConfigurationManager.Texts.newSuggestion)
+            .navigationTitle(ConfigurationManager.currentTexts.newSuggestion)
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(ConfigurationManager.Texts.cancel) {
+                    Button(ConfigurationManager.currentTexts.cancel) {
                         dismiss()
                     }
                     .foregroundColor(theme.colors.secondary)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(ConfigurationManager.Texts.submit) {
+                    Button(ConfigurationManager.currentTexts.submit) {
                         Task {
                             await viewModel.submitSuggestion { suggestion in
                                 onSuggestionCreated(suggestion)
@@ -65,8 +65,8 @@ struct CreateSuggestionView: View {
             }
 #endif
         }
-        .alert(ConfigurationManager.Texts.error, isPresented: $viewModel.showingError) {
-            Button(ConfigurationManager.Texts.ok) {}
+        .alert(ConfigurationManager.currentTexts.error, isPresented: $viewModel.showingError) {
+            Button(ConfigurationManager.currentTexts.ok) {}
         } message: {
             Text(viewModel.errorMessage)
         }
@@ -80,10 +80,10 @@ private extension CreateSuggestionView {
 
     var headerSection: some View {
         VStack(alignment: .leading, spacing: theme.spacing.sm) {
-            Text(ConfigurationManager.Texts.shareYourIdea)
+            Text(ConfigurationManager.currentTexts.shareYourIdea)
                 .font(theme.typography.title2)
                 .foregroundColor(theme.colors.onBackground)
-            Text(ConfigurationManager.Texts.helpUsImprove)
+            Text(ConfigurationManager.currentTexts.helpUsImprove)
                 .font(theme.typography.body)
                 .foregroundColor(theme.colors.secondary)
         }
@@ -92,40 +92,40 @@ private extension CreateSuggestionView {
     var formSection: some View {
         VStack(alignment: .leading, spacing: theme.spacing.lg) {
             VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                Text(ConfigurationManager.Texts.title)
+                Text(ConfigurationManager.currentTexts.title)
                     .font(theme.typography.headline)
                     .foregroundColor(theme.colors.onBackground)
-                TextField(ConfigurationManager.Texts.titlePlaceholder, text: $viewModel.title)
+                TextField(ConfigurationManager.currentTexts.titlePlaceholder, text: $viewModel.title)
                     .textFieldStyle(VoticeTextFieldStyle())
                     .focused($focusedField, equals: .title)
-                Text(ConfigurationManager.Texts.keepItShort)
+                Text(ConfigurationManager.currentTexts.keepItShort)
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.secondary)
             }
             VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                Text(ConfigurationManager.Texts.descriptionOptional)
+                Text(ConfigurationManager.currentTexts.descriptionOptional)
                     .font(theme.typography.headline)
                     .foregroundColor(theme.colors.onBackground)
                 TextField(
-                    ConfigurationManager.Texts.descriptionPlaceholder,
+                    ConfigurationManager.currentTexts.descriptionPlaceholder,
                     text: $viewModel.description,
                     axis: .vertical
                 )
                 .textFieldStyle(VoticeTextFieldStyle())
                 .lineLimit(5...10)
                 .focused($focusedField, equals: .description)
-                Text(ConfigurationManager.Texts.explainWhyUseful)
+                Text(ConfigurationManager.currentTexts.explainWhyUseful)
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.secondary)
             }
             VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                Text(ConfigurationManager.Texts.yourNameOptionalCreate)
+                Text(ConfigurationManager.currentTexts.yourNameOptionalCreate)
                     .font(theme.typography.headline)
                     .foregroundColor(theme.colors.onBackground)
-                TextField(ConfigurationManager.Texts.enterYourNameCreate, text: $viewModel.nickname)
+                TextField(ConfigurationManager.currentTexts.enterYourNameCreate, text: $viewModel.nickname)
                     .textFieldStyle(VoticeTextFieldStyle())
                     .focused($focusedField, equals: .nickname)
-                Text(ConfigurationManager.Texts.leaveEmptyAnonymous)
+                Text(ConfigurationManager.currentTexts.leaveEmptyAnonymous)
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.secondary)
             }

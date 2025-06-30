@@ -24,9 +24,9 @@ struct SuggestionCard: View {
         Button(action: onTap) {
             HStack(alignment: .top, spacing: theme.spacing.md) {
                 VotingButtons(upvotes: max(0, suggestion.voteCount ?? 0),
-                    downvotes: 0,
-                    currentVote: currentVote,
-                    onVote: onVote)
+                              downvotes: 0,
+                              currentVote: currentVote,
+                              onVote: onVote)
                 VStack(alignment: .leading, spacing: theme.spacing.sm) {
                     Text(suggestion.displayText)
                         .font(theme.typography.headline)
@@ -49,11 +49,11 @@ struct SuggestionCard: View {
                     }
                     HStack {
                         if let nickname = suggestion.nickname {
-                            Text("\(ConfigurationManager.Texts.suggestedBy) \(nickname)")
+                            Text("\(ConfigurationManager.currentTexts.suggestedBy) \(nickname)")
                                 .font(theme.typography.caption)
                                 .foregroundColor(theme.colors.secondary)
                         } else {
-                            Text("\(ConfigurationManager.Texts.suggestedAnonymously)")
+                            Text(ConfigurationManager.currentTexts.suggestedAnonymously)
                                 .font(theme.typography.caption)
                                 .foregroundColor(theme.colors.secondary)
                         }

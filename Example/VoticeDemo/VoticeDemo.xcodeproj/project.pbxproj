@@ -491,6 +491,7 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
+				ORGANIZATIONNAME = ArtCC;
 				TargetAttributes = {
 					800727272E11A9FC00C43BA8 = {
 						CreatedOnToolsVersion = 16.4;

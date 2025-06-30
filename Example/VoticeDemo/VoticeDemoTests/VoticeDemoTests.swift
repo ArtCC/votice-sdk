@@ -3,6 +3,7 @@
 //  VoticeDemoTests
 //
 //  Created by Arturo Carretero Calvo on 27/6/25.
+//  Copyright © 2025 ArtCC. All rights reserved.
 //
 
 import Testing
