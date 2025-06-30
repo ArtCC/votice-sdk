@@ -75,74 +75,11 @@ public struct Votice {
         backgroundColor: Color? = nil,
         surfaceColor: Color? = nil
     ) -> VoticeTheme {
+        // Use smart defaults if no colors are provided
         return createAdvancedTheme(
             primaryColor: primaryColor,
             backgroundColor: backgroundColor,
             surfaceColor: surfaceColor
-        )
-    }
-
-    /// Get a light theme optimized for light mode interfaces
-    /// - Returns: A pre-configured theme perfect for light backgrounds
-    public static func lightTheme() -> VoticeTheme {
-        let customColors = VoticeColors(
-            primary: Color(red: 0.0, green: 0.48, blue: 1.0),        // Bright Blue
-            secondary: Color(red: 0.48, green: 0.48, blue: 0.50),    // Medium Gray
-            accent: Color(red: 1.0, green: 0.58, blue: 0.0),         // Vibrant Orange
-            background: Color.white,
-            surface: Color(red: 0.98, green: 0.98, blue: 0.98),      // Very Light Gray
-            onSurface: Color.black,                                   // Black text on light surfaces
-            onBackground: Color.black,                                // Black text on light background
-            success: Color(red: 0.20, green: 0.78, blue: 0.35),      // Bright Green
-            warning: Color(red: 1.0, green: 0.58, blue: 0.0),        // Orange
-            error: Color(red: 1.0, green: 0.23, blue: 0.19),         // Bright Red
-            upvote: Color(red: 0.20, green: 0.78, blue: 0.35),       // Success Green
-            downvote: Color(red: 1.0, green: 0.23, blue: 0.19),      // Error Red
-            pending: Color(red: 1.0, green: 0.58, blue: 0.0),        // Warning Orange
-            accepted: Color(red: 0.0, green: 0.48, blue: 1.0),       // Primary Blue
-            inProgress: Color(red: 0.48, green: 0.40, blue: 0.93),   // Purple
-            completed: Color(red: 0.20, green: 0.78, blue: 0.35),    // Success Green
-            rejected: Color(red: 1.0, green: 0.23, blue: 0.19)       // Error Red
-        )
-
-        // Use lighter colors for background and surface
-        return VoticeTheme(
-            colors: customColors,
-            typography: .default,
-            spacing: .default,
-            cornerRadius: .default
-        )
-    }
-
-    /// Get a dark theme optimized for dark mode interfaces
-    /// - Returns: A pre-configured theme perfect for dark backgrounds
-    public static func darkTheme() -> VoticeTheme {
-        let customColors = VoticeColors(
-            primary: Color(red: 0.25, green: 0.64, blue: 1.0),       // Softer Blue
-            secondary: Color(red: 0.68, green: 0.68, blue: 0.70),    // Light Gray
-            accent: Color(red: 1.0, green: 0.70, blue: 0.25),        // Warm Orange
-            background: Color(red: 0.11, green: 0.11, blue: 0.12),   // Dark Gray
-            surface: Color(red: 0.17, green: 0.17, blue: 0.18),      // Slightly Lighter Dark
-            onSurface: Color.white,                                   // White text on dark surfaces
-            onBackground: Color.white,                                // White text on dark background
-            success: Color(red: 0.40, green: 0.85, blue: 0.55),      // Softer Green
-            warning: Color(red: 1.0, green: 0.70, blue: 0.25),       // Warm Orange
-            error: Color(red: 1.0, green: 0.40, blue: 0.40),         // Softer Red
-            upvote: Color(red: 0.40, green: 0.85, blue: 0.55),       // Success Green
-            downvote: Color(red: 1.0, green: 0.40, blue: 0.40),      // Error Red
-            pending: Color(red: 1.0, green: 0.70, blue: 0.25),       // Warning Orange
-            accepted: Color(red: 0.25, green: 0.64, blue: 1.0),      // Primary Blue
-            inProgress: Color(red: 0.60, green: 0.50, blue: 1.0),    // Lighter Purple
-            completed: Color(red: 0.40, green: 0.85, blue: 0.55),    // Success Green
-            rejected: Color(red: 1.0, green: 0.40, blue: 0.40)       // Error Red
-        )
-
-        // Use darker colors for background and surface
-        return VoticeTheme(
-            colors: customColors,
-            typography: .default,
-            spacing: .default,
-            cornerRadius: .default
         )
     }
 
@@ -169,7 +106,7 @@ public struct Votice {
             rejected: Color(red: 1.0, green: 0.23, blue: 0.19)       // Error Red
         )
 
-        // Use system colors for background and surface to adapt automatically
+        // Return the complete theme with default typography, spacing, and corner radius
         return VoticeTheme(
             colors: customColors,
             typography: .default,
