@@ -138,6 +138,8 @@ private extension SuggestionListView {
 
     var floatingActionButton: some View {
         Button {
+            HapticManager.shared.lightImpact()
+
             viewModel.presentCreateSuggestionSheet()
         } label: {
             Image(systemName: "plus")

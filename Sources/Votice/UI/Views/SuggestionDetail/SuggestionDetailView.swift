@@ -65,6 +65,8 @@ struct SuggestionDetailView: View {
                     HStack(spacing: theme.spacing.sm) {
                         if currentSuggestion.deviceId == DeviceManager.shared.deviceId {
                             Button(role: .destructive) {
+                                HapticManager.shared.warning()
+
                                 showDeleteAlert = true
                             } label: {
                                 ZStack {
@@ -81,9 +83,13 @@ struct SuggestionDetailView: View {
                                     title: Text(TextManager.shared.texts.deleteSuggestionTitle),
                                     message: Text(TextManager.shared.texts.deleteSuggestionMessage),
                                     primaryButton: .destructive(Text(TextManager.shared.texts.delete)) {
+                                        HapticManager.shared.heavyImpact()
+
                                         Task {
                                             await viewModel.deleteSuggestion(currentSuggestion)
+
                                             onReload()
+
                                             dismiss()
                                         }
                                     },
@@ -204,7 +210,7 @@ private extension SuggestionDetailView {
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
                 HStack(spacing: 4) {
-                    Image(systemName: "hand.thumbsup.fill")
+                    Image(systemName: "hand.thumpsup.fill")
                         .font(.caption2)
                         .foregroundColor(theme.colors.primary)
                     Text("\(currentSuggestion.voteCount ?? 0) \(TextManager.shared.texts.votes)")

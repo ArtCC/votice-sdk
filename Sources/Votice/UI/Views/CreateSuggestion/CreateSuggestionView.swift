@@ -56,8 +56,12 @@ struct CreateSuggestionView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(TextManager.shared.texts.submit) {
+                        HapticManager.shared.mediumImpact()
+
                         Task {
                             await viewModel.submitSuggestion { suggestion in
+                                HapticManager.shared.success()
+
                                 onSuggestionCreated(suggestion)
 
                                 dismiss()

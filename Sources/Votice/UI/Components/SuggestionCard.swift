@@ -123,6 +123,8 @@ struct SuggestionCard: View {
                 isPressed = pressing
             }
         } perform: {
+            HapticManager.shared.lightImpact()
+
             onTap()
         }
     }

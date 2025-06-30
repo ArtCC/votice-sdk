@@ -48,6 +48,8 @@ struct CommentCard: View {
                 }
                 if let commentDeviceId = comment.deviceId, commentDeviceId == currentDeviceId {
                     Button(role: .destructive) {
+                        HapticManager.shared.warning()
+
                         showDeleteAlert = true
                     } label: {
                         ZStack {
