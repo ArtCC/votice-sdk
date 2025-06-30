@@ -33,6 +33,7 @@ public protocol VoticeTextsProtocol: Sendable {
     var completed: String { get }
     var rejected: String { get }
     var tapPlusToGetStarted: String { get }
+    var loadingMore: String { get }
 
     // MARK: - Suggestion Detail
 
@@ -89,7 +90,7 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let submit = "Submit"
 
     // MARK: - Suggestion List
-
+    
     public let loadingSuggestions = "Loading suggestions..."
     public let noSuggestionsYet = "No suggestions yet."
     public let beFirstToSuggest = "Be the first to suggest something!"
@@ -101,6 +102,7 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let completed = "Completed"
     public let rejected = "Rejected"
     public let tapPlusToGetStarted = "Tap + to get started"
+    public let loadingMore = "Loading more..."
 
     // MARK: - Suggestion Detail
 

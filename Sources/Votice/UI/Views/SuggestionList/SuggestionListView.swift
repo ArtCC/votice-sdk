@@ -122,7 +122,7 @@ private extension SuggestionListView {
                     HStack {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                        Text("Loading more...")
+                        Text(TextManager.shared.texts.loadingMore)
                             .font(theme.typography.caption)
                             .foregroundColor(theme.colors.secondary)
                     }

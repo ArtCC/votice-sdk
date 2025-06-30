@@ -142,7 +142,7 @@ struct SpanishTexts: VoticeTextsProtocol {
     let submit = "Enviar"
 
     // MARK: - Suggestion List
-
+   
     let loadingSuggestions = "Cargando sugerencias..."
     let noSuggestionsYet = "Aún no hay sugerencias."
     let beFirstToSuggest = "¡Sé el primero en sugerir algo!"
@@ -154,6 +154,7 @@ struct SpanishTexts: VoticeTextsProtocol {
     let completed = "Completada"
     let rejected = "Rechazada"
     let tapPlusToGetStarted = "Toca + para empezar"
+    let loadingMore = "Cargando más..."
 
     // MARK: - Suggestion Detail
 
