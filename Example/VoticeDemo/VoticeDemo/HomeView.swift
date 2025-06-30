@@ -50,7 +50,7 @@ struct HomeView: View {
                         Text("Option 2: Navigation Push")
                             .font(.headline)
                         NavigationLink("Navigate to Feedback") {
-                            Votice.feedbackView(theme: Votice.lightTheme())
+                            Votice.feedbackView(theme: Votice.systemTheme())
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)

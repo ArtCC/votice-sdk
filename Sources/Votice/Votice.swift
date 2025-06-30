@@ -85,45 +85,96 @@ public struct Votice {
     /// Get a light theme optimized for light mode interfaces
     /// - Returns: A pre-configured theme perfect for light backgrounds
     public static func lightTheme() -> VoticeTheme {
-        return createAdvancedTheme(
-            primaryColor: Color(red: 0.0, green: 0.48, blue: 1.0),        // Bright Blue
-            secondaryColor: Color(red: 0.48, green: 0.48, blue: 0.50),    // Medium Gray
-            accentColor: Color(red: 1.0, green: 0.58, blue: 0.0),         // Vibrant Orange
-            backgroundColor: Color.white,
-            surfaceColor: Color(red: 0.98, green: 0.98, blue: 0.98),      // Very Light Gray
-            destructiveColor: Color(red: 1.0, green: 0.23, blue: 0.19),   // Bright Red
-            successColor: Color(red: 0.20, green: 0.78, blue: 0.35),      // Bright Green
-            warningColor: Color(red: 1.0, green: 0.58, blue: 0.0)         // Orange
+        let customColors = VoticeColors(
+            primary: Color(red: 0.0, green: 0.48, blue: 1.0),        // Bright Blue
+            secondary: Color(red: 0.48, green: 0.48, blue: 0.50),    // Medium Gray
+            accent: Color(red: 1.0, green: 0.58, blue: 0.0),         // Vibrant Orange
+            background: Color.white,
+            surface: Color(red: 0.98, green: 0.98, blue: 0.98),      // Very Light Gray
+            onSurface: Color.black,                                   // Black text on light surfaces
+            onBackground: Color.black,                                // Black text on light background
+            success: Color(red: 0.20, green: 0.78, blue: 0.35),      // Bright Green
+            warning: Color(red: 1.0, green: 0.58, blue: 0.0),        // Orange
+            error: Color(red: 1.0, green: 0.23, blue: 0.19),         // Bright Red
+            upvote: Color(red: 0.20, green: 0.78, blue: 0.35),       // Success Green
+            downvote: Color(red: 1.0, green: 0.23, blue: 0.19),      // Error Red
+            pending: Color(red: 1.0, green: 0.58, blue: 0.0),        // Warning Orange
+            accepted: Color(red: 0.0, green: 0.48, blue: 1.0),       // Primary Blue
+            inProgress: Color(red: 0.48, green: 0.40, blue: 0.93),   // Purple
+            completed: Color(red: 0.20, green: 0.78, blue: 0.35),    // Success Green
+            rejected: Color(red: 1.0, green: 0.23, blue: 0.19)       // Error Red
+        )
+
+        // Use lighter colors for background and surface
+        return VoticeTheme(
+            colors: customColors,
+            typography: .default,
+            spacing: .default,
+            cornerRadius: .default
         )
     }
 
     /// Get a dark theme optimized for dark mode interfaces
     /// - Returns: A pre-configured theme perfect for dark backgrounds
     public static func darkTheme() -> VoticeTheme {
-        return createAdvancedTheme(
-            primaryColor: Color(red: 0.25, green: 0.64, blue: 1.0),       // Softer Blue
-            secondaryColor: Color(red: 0.68, green: 0.68, blue: 0.70),    // Light Gray
-            accentColor: Color(red: 1.0, green: 0.70, blue: 0.25),        // Warm Orange
-            backgroundColor: Color(red: 0.11, green: 0.11, blue: 0.12),   // Dark Gray
-            surfaceColor: Color(red: 0.17, green: 0.17, blue: 0.18),      // Slightly Lighter Dark
-            destructiveColor: Color(red: 1.0, green: 0.40, blue: 0.40),   // Softer Red
-            successColor: Color(red: 0.40, green: 0.85, blue: 0.55),      // Softer Green
-            warningColor: Color(red: 1.0, green: 0.70, blue: 0.25)        // Warm Orange
+        let customColors = VoticeColors(
+            primary: Color(red: 0.25, green: 0.64, blue: 1.0),       // Softer Blue
+            secondary: Color(red: 0.68, green: 0.68, blue: 0.70),    // Light Gray
+            accent: Color(red: 1.0, green: 0.70, blue: 0.25),        // Warm Orange
+            background: Color(red: 0.11, green: 0.11, blue: 0.12),   // Dark Gray
+            surface: Color(red: 0.17, green: 0.17, blue: 0.18),      // Slightly Lighter Dark
+            onSurface: Color.white,                                   // White text on dark surfaces
+            onBackground: Color.white,                                // White text on dark background
+            success: Color(red: 0.40, green: 0.85, blue: 0.55),      // Softer Green
+            warning: Color(red: 1.0, green: 0.70, blue: 0.25),       // Warm Orange
+            error: Color(red: 1.0, green: 0.40, blue: 0.40),         // Softer Red
+            upvote: Color(red: 0.40, green: 0.85, blue: 0.55),       // Success Green
+            downvote: Color(red: 1.0, green: 0.40, blue: 0.40),      // Error Red
+            pending: Color(red: 1.0, green: 0.70, blue: 0.25),       // Warning Orange
+            accepted: Color(red: 0.25, green: 0.64, blue: 1.0),      // Primary Blue
+            inProgress: Color(red: 0.60, green: 0.50, blue: 1.0),    // Lighter Purple
+            completed: Color(red: 0.40, green: 0.85, blue: 0.55),    // Success Green
+            rejected: Color(red: 1.0, green: 0.40, blue: 0.40)       // Error Red
+        )
+
+        // Use darker colors for background and surface
+        return VoticeTheme(
+            colors: customColors,
+            typography: .default,
+            spacing: .default,
+            cornerRadius: .default
         )
     }
 
     /// Get a system theme that automatically adapts to the user's appearance preference
     /// - Returns: A theme that follows system light/dark mode automatically
     public static func systemTheme() -> VoticeTheme {
-        return createAdvancedTheme(
-            primaryColor: Color(red: 0.0, green: 0.48, blue: 1.0),        // iOS System Blue
-            secondaryColor: Color(red: 0.56, green: 0.56, blue: 0.58),    // iOS System Gray
-            accentColor: Color(red: 1.0, green: 0.58, blue: 0.0),         // iOS System Orange
-            backgroundColor: Color.systemBackground,                       // Adapts automatically
-            surfaceColor: Color.secondarySystemBackground,                 // Adapts automatically
-            destructiveColor: Color(red: 1.0, green: 0.23, blue: 0.19),   // iOS System Red
-            successColor: Color(red: 0.20, green: 0.78, blue: 0.35),      // iOS System Green
-            warningColor: Color(red: 1.0, green: 0.58, blue: 0.0)         // iOS System Orange
+        let customColors = VoticeColors(
+            primary: Color(red: 0.0, green: 0.48, blue: 1.0),        // iOS System Blue
+            secondary: Color(red: 0.56, green: 0.56, blue: 0.58),    // iOS System Gray
+            accent: Color(red: 1.0, green: 0.58, blue: 0.0),         // iOS System Orange
+            background: Color.systemBackground,                       // Adapts automatically
+            surface: Color.secondarySystemBackground,                 // Adapts automatically
+            onSurface: Color.primary,                                 // Adapts automatically
+            onBackground: Color.primary,                              // Adapts automatically
+            success: Color(red: 0.20, green: 0.78, blue: 0.35),      // iOS System Green
+            warning: Color(red: 1.0, green: 0.58, blue: 0.0),        // iOS System Orange
+            error: Color(red: 1.0, green: 0.23, blue: 0.19),         // iOS System Red
+            upvote: Color(red: 0.20, green: 0.78, blue: 0.35),       // Success Green
+            downvote: Color(red: 1.0, green: 0.23, blue: 0.19),      // Error Red
+            pending: Color(red: 1.0, green: 0.58, blue: 0.0),        // Warning Orange
+            accepted: Color(red: 0.0, green: 0.48, blue: 1.0),       // Primary Blue
+            inProgress: Color(red: 0.48, green: 0.40, blue: 0.93),   // Purple
+            completed: Color(red: 0.20, green: 0.78, blue: 0.35),    // Success Green
+            rejected: Color(red: 1.0, green: 0.23, blue: 0.19)       // Error Red
+        )
+
+        // Use system colors for background and surface to adapt automatically
+        return VoticeTheme(
+            colors: customColors,
+            typography: .default,
+            spacing: .default,
+            cornerRadius: .default
         )
     }
 
@@ -179,6 +230,21 @@ public struct Votice {
         let finalCompleted = completedColor ?? finalSuccess
         let finalRejected = rejectedColor ?? finalDestructive
 
+        // Smart text colors - if using system colors, use dynamic text colors
+        // If using custom colors, use appropriate contrasting colors
+        let finalOnSurface: Color
+        let finalOnBackground: Color
+
+        if backgroundColor == nil && surfaceColor == nil {
+            // Using system colors, use dynamic text colors
+            finalOnSurface = defaultColors.onSurface
+            finalOnBackground = defaultColors.onBackground
+        } else {
+            // Using custom colors, use appropriate contrasting colors
+            finalOnSurface = defaultColors.onSurface
+            finalOnBackground = defaultColors.onBackground
+        }
+
         // Create the custom theme with the finalized colors
         let customColors = VoticeColors(
             primary: finalPrimary,
@@ -186,8 +252,8 @@ public struct Votice {
             accent: finalAccent,
             background: finalBackground,
             surface: finalSurface,
-            onSurface: defaultColors.onSurface,
-            onBackground: defaultColors.onBackground,
+            onSurface: finalOnSurface,
+            onBackground: finalOnBackground,
             success: finalSuccess,
             warning: finalWarning,
             error: finalError,
@@ -209,6 +275,11 @@ public struct Votice {
         )
     }
 
+    /// Get a default theme
+    public static func defaultTheme() -> VoticeTheme {
+        return createTheme()
+    }
+
     // MARK: - Text Customization
 
     public static func setTexts(_ texts: VoticeTextsProtocol) {
@@ -224,6 +295,6 @@ public struct Votice {
 
     @available(*, deprecated, message: "Use configure(apiKey:apiSecret:appId:) instead")
     public static func initialize() {
-        debugPrint("👋 Hello, World!")
+        debugPrint("Hello, World!")
     }
 }
