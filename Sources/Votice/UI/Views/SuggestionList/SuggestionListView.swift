@@ -159,6 +159,7 @@ private extension SuggestionListView {
             filterButton(title: TextManager.shared.texts.pending, filter: .pending)
             filterButton(title: TextManager.shared.texts.accepted, filter: .accepted)
             filterButton(title: TextManager.shared.texts.inProgress, filter: .inProgress)
+            filterButton(title: TextManager.shared.texts.rejected, filter: .rejected)
             filterButton(title: TextManager.shared.texts.completed, filter: .completed)
         } label: {
             HStack(spacing: 4) {

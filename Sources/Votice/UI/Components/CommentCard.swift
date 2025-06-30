@@ -50,8 +50,14 @@ struct CommentCard: View {
                     Button(role: .destructive) {
                         showDeleteAlert = true
                     } label: {
-                        Image(systemName: "trash")
-                            .foregroundColor(.red)
+                        ZStack {
+                            Circle()
+                                .fill(Color.red.opacity(0.1))
+                                .frame(width: 28, height: 28)
+                            Image(systemName: "trash.fill")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(.red)
+                        }
                     }
                     .alert(isPresented: $showDeleteAlert) {
                         Alert(

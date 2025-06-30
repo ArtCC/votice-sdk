@@ -67,8 +67,14 @@ struct SuggestionDetailView: View {
                             Button(role: .destructive) {
                                 showDeleteAlert = true
                             } label: {
-                                Image(systemName: "trash")
-                                    .foregroundColor(.red)
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.red.opacity(0.1))
+                                        .frame(width: 32, height: 32)
+                                    Image(systemName: "trash.fill")
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundColor(.red)
+                                }
                             }
                             .alert(isPresented: $showDeleteAlert) {
                                 Alert(
@@ -77,9 +83,7 @@ struct SuggestionDetailView: View {
                                     primaryButton: .destructive(Text(TextManager.shared.texts.delete)) {
                                         Task {
                                             await viewModel.deleteSuggestion(currentSuggestion)
-
                                             onReload()
-
                                             dismiss()
                                         }
                                     },
