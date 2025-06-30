@@ -164,13 +164,8 @@ final class SuggestionDetailViewModel: ObservableObject {
     func vote(on suggestionId: String, type: VoteType) async {
         do {
             let hasCurrentVote = currentVote != nil
-            let response: VoteSuggestionResponse
-
-            if hasCurrentVote {
-                response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .downvote)
-            } else {
-                response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .upvote)
-            }
+            let voteTypeToSend: VoteType = hasCurrentVote ? .downvote : .upvote
+            let response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: voteTypeToSend)
 
             currentVote = response.vote != nil ? type : nil
 

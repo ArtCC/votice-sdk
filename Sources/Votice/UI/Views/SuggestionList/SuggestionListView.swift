@@ -15,9 +15,6 @@ struct SuggestionListView: View {
 
     @StateObject private var viewModel = SuggestionListViewModel()
 
-    @State private var showingCreateSuggestion = false
-    @State private var selectedSuggestion: SuggestionEntity?
-
     // MARK: - View
 
     var body: some View {
@@ -36,7 +33,7 @@ struct SuggestionListView: View {
                     HStack {
                         Spacer()
                         Button {
-                            showingCreateSuggestion = true
+                            viewModel.presentCreateSuggestionSheet()
                         } label: {
                             Image(systemName: "plus")
                                 .font(.system(size: 22, weight: .semibold))
@@ -81,12 +78,12 @@ struct SuggestionListView: View {
             .refreshable {
                 await viewModel.refresh()
             }
-            .sheet(isPresented: $showingCreateSuggestion) {
+            .sheet(isPresented: $viewModel.showingCreateSuggestion) {
                 CreateSuggestionView { suggestion in
                     viewModel.addSuggestion(suggestion)
                 }
             }
-            .sheet(item: $selectedSuggestion) { suggestion in
+            .sheet(item: $viewModel.selectedSuggestion) { suggestion in
                 SuggestionDetailView(suggestion: suggestion) { updatedSuggestion in
                     viewModel.updateSuggestion(updatedSuggestion)
                 } onReload: {
@@ -125,12 +122,12 @@ private extension SuggestionListView {
                             }
                         },
                         onTap: {
-                            selectedSuggestion = suggestion
+                            viewModel.selectSuggestion(suggestion)
                         }
                     )
                     .onAppear {
-                        if index >= viewModel.suggestions.count - 3 &&
-                            viewModel.hasMoreSuggestions &&
+                        if index >= viewModel.suggestions.count - 3
+                            && viewModel.hasMoreSuggestions &&
                             !viewModel.isLoading {
                             Task {
                                 await viewModel.loadMoreSuggestions()

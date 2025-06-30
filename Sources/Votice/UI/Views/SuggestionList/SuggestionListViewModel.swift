@@ -20,6 +20,8 @@ final class SuggestionListViewModel: ObservableObject {
     @Published var selectedFilter: SuggestionStatusEntity?
     @Published var hasMoreSuggestions = true
     @Published var currentVotes: [String: VoteType] = [:]
+    @Published var showingCreateSuggestion = false
+    @Published var selectedSuggestion: SuggestionEntity?
 
     private var allSuggestions: [SuggestionEntity] = []
     private var currentOffset = 0
@@ -139,43 +141,18 @@ final class SuggestionListViewModel: ObservableObject {
     func vote(on suggestionId: String, type: VoteType) async {
         do {
             let hasCurrentVote = currentVotes[suggestionId] != nil
-            let response: VoteSuggestionResponse
+            let voteTypeToSend: VoteType = hasCurrentVote ? .downvote : .upvote
+            let response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: voteTypeToSend)
 
-            if hasCurrentVote {
-                response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .downvote)
-            } else {
-                response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .upvote)
-            }
-
-            if let vote = response.vote {
-                LogManager.shared.devLog(.info, "Vote \(vote) for suggestion \(suggestionId)")
-
-                currentVotes[suggestionId] = type
-            } else {
-                currentVotes.removeValue(forKey: suggestionId)
-            }
+            currentVotes[suggestionId] = response.vote != nil ? type : nil
 
             if let updatedSuggestion = response.suggestion,
                let index = allSuggestions.firstIndex(where: { $0.id == suggestionId }) {
-                let originalSuggestion = allSuggestions[index]
-                let newSuggestion = SuggestionEntity(
-                    id: originalSuggestion.id,
-                    appId: originalSuggestion.appId,
-                    title: originalSuggestion.title,
-                    text: originalSuggestion.text,
-                    description: originalSuggestion.description,
-                    nickname: originalSuggestion.nickname,
-                    createdAt: originalSuggestion.createdAt,
+
+                allSuggestions[index] = allSuggestions[index].copyWith(
                     updatedAt: updatedSuggestion.updatedAt,
-                    platform: originalSuggestion.platform,
-                    createdBy: originalSuggestion.createdBy,
-                    status: originalSuggestion.status,
-                    source: originalSuggestion.source,
-                    commentCount: originalSuggestion.commentCount,
                     voteCount: updatedSuggestion.voteCount
                 )
-
-                allSuggestions[index] = newSuggestion
 
                 applyFilter()
             }
@@ -208,6 +185,22 @@ final class SuggestionListViewModel: ObservableObject {
 
     func getCurrentVote(for suggestionId: String) -> VoteType? {
         currentVotes[suggestionId]
+    }
+
+    func presentCreateSuggestionSheet() {
+        showingCreateSuggestion = true
+    }
+
+    func dismissCreateSuggestionSheet() {
+        showingCreateSuggestion = false
+    }
+
+    func selectSuggestion(_ suggestion: SuggestionEntity) {
+        selectedSuggestion = suggestion
+    }
+
+    func deselectSuggestion() {
+        selectedSuggestion = nil
     }
 }
 

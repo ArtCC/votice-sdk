@@ -25,6 +25,11 @@ struct SuggestionDetailView: View {
     let onSuggestionUpdated: (SuggestionEntity) -> Void
     let onReload: () -> Void
 
+    // MARK: - Private computed property para sugerencia actual
+    private var currentSuggestion: SuggestionEntity {
+        viewModel.suggestionEntity ?? suggestion
+    }
+
     // MARK: - View
 
     var body: some View {
@@ -62,7 +67,7 @@ struct SuggestionDetailView: View {
                             Image(systemName: "bubble.left")
                                 .foregroundColor(theme.colors.primary)
                         }
-                        if suggestion.deviceId == DeviceManager.shared.deviceId {
+                        if currentSuggestion.deviceId == DeviceManager.shared.deviceId {
                             Button(role: .destructive) {
                                 showDeleteAlert = true
                             } label: {
@@ -75,7 +80,7 @@ struct SuggestionDetailView: View {
                                     message: Text("Are you sure you want to delete this suggestion?"),
                                     primaryButton: .destructive(Text("Delete")) {
                                         Task {
-                                            await viewModel.deleteSuggestion(suggestion)
+                                            await viewModel.deleteSuggestion(currentSuggestion)
 
                                             onReload()
 
@@ -92,7 +97,7 @@ struct SuggestionDetailView: View {
 #endif
         }
         .task {
-            await viewModel.loadInitialData(for: suggestion)
+            await viewModel.loadInitialData(for: currentSuggestion)
         }
         .onDisappear {
             if viewModel.reload, let suggestionEntity = viewModel.suggestionEntity {
@@ -118,11 +123,11 @@ private extension SuggestionDetailView {
     var suggestionHeader: some View {
         VStack(alignment: .leading, spacing: theme.spacing.sm) {
             HStack {
-                StatusBadge(status: suggestion.status ?? .pending)
+                StatusBadge(status: currentSuggestion.status ?? .pending)
                 Spacer()
-                SourceIndicator(source: suggestion.source ?? .sdk)
+                SourceIndicator(source: currentSuggestion.source ?? .sdk)
             }
-            Text(suggestion.displayText)
+            Text(currentSuggestion.displayText)
                 .font(theme.typography.title2)
                 .foregroundColor(theme.colors.onBackground)
                 .multilineTextAlignment(.leading)
@@ -131,14 +136,14 @@ private extension SuggestionDetailView {
 
     var suggestionContent: some View {
         VStack(alignment: .leading, spacing: theme.spacing.md) {
-            if let description = suggestion.description,
-               description != suggestion.title {
+            if let description = currentSuggestion.description,
+               description != currentSuggestion.title {
                 Text(description)
                     .font(theme.typography.body)
                     .foregroundColor(theme.colors.onBackground)
             }
             VStack(alignment: .leading, spacing: theme.spacing.xs) {
-                if let nickname = suggestion.nickname {
+                if let nickname = currentSuggestion.nickname {
                     Text("Suggested by \(nickname)")
                         .font(theme.typography.caption)
                         .foregroundColor(theme.colors.secondary)
@@ -147,7 +152,7 @@ private extension SuggestionDetailView {
                         .font(theme.typography.caption)
                         .foregroundColor(theme.colors.secondary)
                 }
-                if let createdAt = suggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
+                if let createdAt = currentSuggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
                     Text(date)
                         .font(theme.typography.caption)
                         .foregroundColor(theme.colors.secondary)
@@ -159,18 +164,18 @@ private extension SuggestionDetailView {
     var votingSection: some View {
         HStack {
             VotingButtons(
-                upvotes: max(0, suggestion.voteCount ?? 0),
+                upvotes: max(0, currentSuggestion.voteCount ?? 0),
                 downvotes: 0,
                 currentVote: viewModel.currentVote,
                 onVote: { voteType in
                     Task {
-                        await viewModel.vote(on: suggestion.id, type: voteType)
+                        await viewModel.vote(on: currentSuggestion.id, type: voteType)
                     }
                 }
             )
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
-                Text("\(suggestion.voteCount) votes")
+                Text("\(currentSuggestion.voteCount) votes")
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.secondary)
                 Text("\(viewModel.comments.count) comments")
@@ -219,7 +224,7 @@ private extension SuggestionDetailView {
                                 viewModel.hasMoreComments &&
                                 !viewModel.isLoadingComments {
                                 Task {
-                                    await viewModel.loadMoreComments(for: suggestion.id)
+                                    await viewModel.loadMoreComments(for: currentSuggestion.id)
                                 }
                             }
                         }
@@ -277,7 +282,7 @@ private extension SuggestionDetailView {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Post") {
                         Task {
-                            await viewModel.submitComment(for: suggestion.id) {
+                            await viewModel.submitComment(for: currentSuggestion.id) {
                                 showingAddComment = false
                             }
                         }
