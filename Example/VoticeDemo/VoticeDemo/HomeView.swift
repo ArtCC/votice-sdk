@@ -140,13 +140,14 @@ struct SpanishTexts: VoticeTextsProtocol {
     let error = "Error"
     let ok = "OK"
     let submit = "Enviar"
+    let optional = "Opcional"
 
     // MARK: - Suggestion List
-   
+
     let loadingSuggestions = "Cargando sugerencias..."
     let noSuggestionsYet = "Aún no hay sugerencias."
     let beFirstToSuggest = "¡Sé el primero en sugerir algo!"
-    let featureRequests = "Solicitudes de funciones"
+    let featureRequests = "Sugerencias"
     let all = "Todas"
     let pending = "Pendiente"
     let accepted = "Aceptada"

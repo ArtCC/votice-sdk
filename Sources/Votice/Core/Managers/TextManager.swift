@@ -19,6 +19,7 @@ public protocol VoticeTextsProtocol: Sendable {
     var error: String { get }
     var ok: String { get }
     var submit: String { get }
+    var optional: String { get }
 
     // MARK: - Suggestion List
 
@@ -88,6 +89,7 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let error = "Error"
     public let ok = "OK"
     public let submit = "Submit"
+    public let optional = "Optional"
 
     // MARK: - Suggestion List
 
