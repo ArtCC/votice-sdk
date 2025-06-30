@@ -34,7 +34,7 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
         var path = "/v1/sdk/suggestions/fetch?appId=\(request.appId)"
 
         if let startAfter = request.pagination.startAfter {
-            path += "&startAfter={\"voteCount\":\(startAfter.voteCount),\"createdAt\":\(startAfter.createdAt)}"
+            path += "&startAfter={\"voteCount\":\(startAfter.voteCount ?? 0),\"createdAt\":\"\(startAfter.createdAt)\"}"
         }
 
         if let pageLimit = request.pagination.pageLimit {

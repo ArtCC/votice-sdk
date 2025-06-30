@@ -49,8 +49,7 @@ final class SuggestionListViewModel: ObservableObject {
             hasMoreSuggestions = true
 
             do {
-                // let startAfter = StartAfterRequest(voteCount: nil, createdAt: "")
-                let pagination = PaginationRequest(startAfter: nil, pageLimit: 10)
+                let pagination = PaginationRequest(startAfter: nil, pageLimit: pageSize)
                 let response = try await suggestionUseCase.fetchSuggestions(pagination: pagination)
 
                 guard !Task.isCancelled else {
@@ -92,8 +91,11 @@ final class SuggestionListViewModel: ObservableObject {
         isLoading = true
 
         do {
-            // let startAfter = StartAfterRequest(voteCount: nil, createdAt: "")
-            let pagination = PaginationRequest(startAfter: nil, pageLimit: 10)
+            let last = allSuggestions.last
+            let startAfter = last != nil ?
+            StartAfterRequest(voteCount: last?.voteCount, createdAt: last?.createdAt ?? "") :
+            nil
+            let pagination = PaginationRequest(startAfter: startAfter, pageLimit: pageSize)
             let response = try await suggestionUseCase.fetchSuggestions(pagination: pagination)
 
             guard !Task.isCancelled else {
@@ -205,7 +207,7 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func getCurrentVote(for suggestionId: String) -> VoteType? {
-        return currentVotes[suggestionId]
+        currentVotes[suggestionId]
     }
 }
 

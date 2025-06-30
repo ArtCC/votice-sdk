@@ -126,7 +126,7 @@ private extension SuggestionListView {
     var suggestionsList: some View {
         ScrollView {
             LazyVStack(spacing: theme.spacing.md) {
-                ForEach(viewModel.suggestions) { suggestion in
+                ForEach(Array(viewModel.suggestions.enumerated()), id: \ .element.id) { index, suggestion in
                     SuggestionCard(
                         suggestion: suggestion,
                         currentVote: viewModel.getCurrentVote(for: suggestion.id),
@@ -139,18 +139,20 @@ private extension SuggestionListView {
                             selectedSuggestion = suggestion
                         }
                     )
-                }
-#warning("Hay que revisar la paginación, no funciona ni está habilitada en Firebase.")
-                /**
-                if viewModel.hasMoreSuggestions {
-                    Button("Load More") {
-                        Task {
-                            await viewModel.loadMoreSuggestions()
+                    .onAppear {
+                        if index >= viewModel.suggestions.count - 3 &&
+                            viewModel.hasMoreSuggestions &&
+                            !viewModel.isLoading {
+                            Task {
+                                await viewModel.loadMoreSuggestions()
+                            }
                         }
                     }
-                    .padding()
-                    .foregroundColor(theme.colors.primary)
-                }*/
+                }
+                if viewModel.isLoading && viewModel.suggestions.count > 0 {
+                    ProgressView()
+                        .padding()
+                }
             }
             .padding(theme.spacing.md)
         }
