@@ -17,8 +17,6 @@ struct SuggestionDetailView: View {
     @StateObject private var viewModel = SuggestionDetailViewModel()
 
     @State private var showingAddComment = false
-    @State private var newComment = ""
-    @State private var commentNickname = ""
     @State private var showDeleteAlert = false
 
     @FocusState private var isCommentFocused: Bool
@@ -250,7 +248,7 @@ private extension SuggestionDetailView {
                     Text("Your Comment")
                         .font(theme.typography.headline)
                         .foregroundColor(theme.colors.onBackground)
-                    TextField("Share your thoughts...", text: $newComment, axis: .vertical)
+                    TextField("Share your thoughts...", text: $viewModel.newComment, axis: .vertical)
                         .textFieldStyle(VoticeTextFieldStyle())
                         .lineLimit(3...8)
                         .focused($isCommentFocused)
@@ -259,7 +257,7 @@ private extension SuggestionDetailView {
                     Text("Your Name (Optional)")
                         .font(theme.typography.headline)
                         .foregroundColor(theme.colors.onBackground)
-                    TextField("Enter your name", text: $commentNickname)
+                    TextField("Enter your name", text: $viewModel.commentNickname)
                         .textFieldStyle(VoticeTextFieldStyle())
                 }
                 Spacer()
@@ -272,19 +270,19 @@ private extension SuggestionDetailView {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
                         showingAddComment = false
-                        resetCommentForm()
+
+                        viewModel.resetCommentForm()
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Post") {
                         Task {
-                            await postComment()
+                            await viewModel.submitComment(for: suggestion.id) {
+                                showingAddComment = false
+                            }
                         }
                     }
-                    .disabled(
-                        newComment.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
-                        viewModel.isSubmittingComment
-                    )
+                    .disabled(!viewModel.isCommentFormValid || viewModel.isSubmittingComment)
                 }
             }
 #endif
@@ -292,30 +290,5 @@ private extension SuggestionDetailView {
         .onAppear {
             isCommentFocused = true
         }
-    }
-}
-
-private extension SuggestionDetailView {
-    // MARK: - Functions
-
-    func postComment() async {
-        let trimmedNickname = commentNickname.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        await viewModel.addComment(
-            to: suggestion.id,
-            text: newComment,
-            nickname: trimmedNickname.isEmpty ? nil : trimmedNickname
-        )
-
-        if !viewModel.showingError {
-            showingAddComment = false
-
-            resetCommentForm()
-        }
-    }
-
-    func resetCommentForm() {
-        newComment = ""
-        commentNickname = ""
     }
 }

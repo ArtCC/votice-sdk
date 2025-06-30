@@ -21,12 +21,18 @@ final class SuggestionDetailViewModel: ObservableObject {
     @Published var suggestionEntity: SuggestionEntity?
     @Published var reload = false
     @Published var hasMoreComments = true
+    @Published var newComment = ""
+    @Published var commentNickname = ""
 
     private var lastLoadedCreatedAt: String?
 
     private let commentUseCase: CommentUseCase
     private let suggestionUseCase: SuggestionUseCase
     private let pageSize = 10
+
+    var isCommentFormValid: Bool {
+        !newComment.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
 
     // MARK: - Init
 
@@ -127,6 +133,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             if let current = suggestionEntity {
                 let newCommentCount = (current.commentCount ?? 0) + 1
+
                 suggestionEntity = SuggestionEntity(
                     id: current.id,
                     appId: current.appId,
@@ -240,6 +247,23 @@ final class SuggestionDetailViewModel: ObservableObject {
                 self.showingError = true
             }
         }
+    }
+
+    func submitComment(for suggestionId: String, onSuccess: @escaping () -> Void) async {
+        let trimmedNickname = commentNickname.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        await addComment(to: suggestionId, text: newComment, nickname: trimmedNickname.isEmpty ? nil : trimmedNickname)
+
+        if !showingError {
+            resetCommentForm()
+
+            onSuccess()
+        }
+    }
+
+    func resetCommentForm() {
+        newComment = ""
+        commentNickname = ""
     }
 }
 
