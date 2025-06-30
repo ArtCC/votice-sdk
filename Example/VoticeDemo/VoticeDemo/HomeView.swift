@@ -55,11 +55,11 @@ struct HomeView: View {
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                     }
-                    // Custom Theme Example
+                    // Option 3: Custom Theme Sheet/Modal
                     VStack(spacing: 8) {
-                        Text("Option 3: Custom Theme")
+                        Text("Option 3: Modal Presentation with Custom Theme")
                             .font(.headline)
-                        Button("Feedback with Custom Theme") {
+                        Button("Show Feedback Sheet with Custom Theme") {
                             showingFeedbackSheetWithCustomTheme = true
                         }
                         .buttonStyle(.borderedProminent)
@@ -91,9 +91,16 @@ struct HomeView: View {
             Votice.feedbackView()
         }
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
-            let customTheme = Votice.createTheme(primaryColor: .red,
-                                                 backgroundColor: Color(.systemBackground),
-                                                 surfaceColor: Color(.secondarySystemBackground))
+            // Example of advanced theme customization
+            let customTheme = Votice.createAdvancedTheme(
+                primaryColor: .purple,
+                accentColor: .pink,
+                backgroundColor: Color(.systemBackground),
+                surfaceColor: Color(.secondarySystemBackground),
+                destructiveColor: .red,
+                successColor: .mint,
+                warningColor: .orange
+            )
 
             Votice.feedbackView(theme: customTheme)
         }

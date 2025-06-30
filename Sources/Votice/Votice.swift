@@ -75,31 +75,93 @@ public struct Votice {
         backgroundColor: Color? = nil,
         surfaceColor: Color? = nil
     ) -> VoticeTheme {
-        var colors = VoticeColors.default
+        return createAdvancedTheme(
+            primaryColor: primaryColor,
+            backgroundColor: backgroundColor,
+            surfaceColor: surfaceColor
+        )
+    }
 
-        if let primaryColor = primaryColor {
-            colors = VoticeColors(
-                primary: primaryColor,
-                secondary: colors.secondary,
-                accent: colors.accent,
-                background: backgroundColor ?? colors.background,
-                surface: surfaceColor ?? colors.surface,
-                onSurface: colors.onSurface,
-                onBackground: colors.onBackground,
-                success: colors.success,
-                warning: colors.warning,
-                error: colors.error,
-                upvote: colors.upvote,
-                downvote: colors.downvote,
-                pending: colors.pending,
-                accepted: colors.accepted,
-                inProgress: colors.inProgress,
-                completed: colors.completed,
-                rejected: colors.rejected
-            )
-        }
+    /// Create a custom theme with advanced color configuration
+    /// - Parameters:
+    ///   - primaryColor: Primary color for buttons and main accents
+    ///   - secondaryColor: Secondary color for less prominent elements
+    ///   - accentColor: Accent color for highlights and secondary actions
+    ///   - backgroundColor: Background color for the interface
+    ///   - surfaceColor: Surface color for cards and components
+    ///   - destructiveColor: Color for destructive actions (delete buttons)
+    ///   - successColor: Color for success states and confirmations
+    ///   - warningColor: Color for warnings and pending states
+    ///   - errorColor: Color for errors and failed states
+    ///   - pendingColor: Color for pending suggestion status
+    ///   - acceptedColor: Color for accepted suggestion status
+    ///   - inProgressColor: Color for in-progress suggestion status
+    ///   - completedColor: Color for completed suggestion status
+    ///   - rejectedColor: Color for rejected suggestion status
+    public static func createAdvancedTheme(
+        primaryColor: Color? = nil,
+        secondaryColor: Color? = nil,
+        accentColor: Color? = nil,
+        backgroundColor: Color? = nil,
+        surfaceColor: Color? = nil,
+        destructiveColor: Color? = nil,
+        successColor: Color? = nil,
+        warningColor: Color? = nil,
+        errorColor: Color? = nil,
+        pendingColor: Color? = nil,
+        acceptedColor: Color? = nil,
+        inProgressColor: Color? = nil,
+        completedColor: Color? = nil,
+        rejectedColor: Color? = nil
+    ) -> VoticeTheme {
+        let defaultColors = VoticeColors.default
 
-        return VoticeTheme(colors: colors, typography: .default, spacing: .default, cornerRadius: .default)
+        // Use provided colors or fall back to smart defaults
+        let finalPrimary = primaryColor ?? defaultColors.primary
+        let finalSecondary = secondaryColor ?? defaultColors.secondary
+        let finalAccent = accentColor ?? defaultColors.accent
+        let finalBackground = backgroundColor ?? defaultColors.background
+        let finalSurface = surfaceColor ?? defaultColors.surface
+        let finalDestructive = destructiveColor ?? errorColor ?? defaultColors.error
+        let finalSuccess = successColor ?? defaultColors.success
+        let finalWarning = warningColor ?? defaultColors.warning
+        let finalError = errorColor ?? destructiveColor ?? defaultColors.error
+
+        // Smart defaults for status colors based on main colors
+        let finalPending = pendingColor ?? finalWarning
+        let finalAccepted = acceptedColor ?? finalPrimary
+        let finalInProgress = inProgressColor ?? defaultColors.inProgress
+        let finalCompleted = completedColor ?? finalSuccess
+        let finalRejected = rejectedColor ?? finalDestructive
+
+        // Create the custom theme with the finalized colors
+        let customColors = VoticeColors(
+            primary: finalPrimary,
+            secondary: finalSecondary,
+            accent: finalAccent,
+            background: finalBackground,
+            surface: finalSurface,
+            onSurface: defaultColors.onSurface,
+            onBackground: defaultColors.onBackground,
+            success: finalSuccess,
+            warning: finalWarning,
+            error: finalError,
+            upvote: finalSuccess,
+            downvote: finalDestructive,
+            pending: finalPending,
+            accepted: finalAccepted,
+            inProgress: finalInProgress,
+            completed: finalCompleted,
+            rejected: finalRejected
+        )
+
+        // Return the complete theme with default typography, spacing, and corner radius
+        return VoticeTheme(
+            colors: customColors,
+            typography: .default,
+            spacing: .default,
+            cornerRadius: .default
+        )
     }
 
     // MARK: - Text Customization
