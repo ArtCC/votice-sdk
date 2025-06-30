@@ -126,9 +126,8 @@ private extension HomeView {
     }
 
     func configureText() {
+        // Set custom texts for the Votice SDK, isn't necessary but can be useful for localization (default is English)
         Votice.setTexts(SpanishTexts())
-
-        // Votice.setTexts(DefaultVoticeTexts()) // For English defaults
     }
 }
 
