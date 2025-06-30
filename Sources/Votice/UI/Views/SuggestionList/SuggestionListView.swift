@@ -15,12 +15,22 @@ struct SuggestionListView: View {
 
     @StateObject private var viewModel = SuggestionListViewModel()
 
+    @State private var showCreateButton = true
+
     // MARK: - View
 
     var body: some View {
         NavigationView {
             ZStack {
-                theme.colors.background.ignoresSafeArea()
+                LinearGradient(
+                    colors: [
+                        theme.colors.background,
+                        theme.colors.background.opacity(0.95)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
                 if viewModel.isLoading && viewModel.suggestions.isEmpty {
                     LoadingView(message: TextManager.shared.texts.loadingSuggestions)
                 } else if viewModel.suggestions.isEmpty && !viewModel.isLoading {
@@ -35,46 +45,18 @@ struct SuggestionListView: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        Button {
-                            viewModel.presentCreateSuggestionSheet()
-                        } label: {
-                            Image(systemName: "plus")
-                                .font(.system(size: 22, weight: .semibold))
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(theme.colors.primary)
-                                .clipShape(Circle())
-                                .shadow(radius: 4)
-                        }
-                        .padding()
+                        floatingActionButton
                     }
+                    .padding(.trailing, theme.spacing.lg)
+                    .padding(.bottom, theme.spacing.lg)
                 }
             }
             .navigationTitle(TextManager.shared.texts.featureRequests)
 #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Menu {
-                        FilterButton(title: TextManager.shared.texts.all,
-                                     isSelected: viewModel.selectedFilter == nil,
-                                     action: { viewModel.setFilter(nil) })
-                        FilterButton(title: TextManager.shared.texts.pending,
-                                     isSelected: viewModel.selectedFilter == .pending,
-                                     action: { viewModel.setFilter(.pending) })
-                        FilterButton(title: TextManager.shared.texts.accepted,
-                                     isSelected: viewModel.selectedFilter == .accepted,
-                                     action: { viewModel.setFilter(.accepted) })
-                        FilterButton(title: TextManager.shared.texts.inProgress,
-                                     isSelected: viewModel.selectedFilter == .inProgress,
-                                     action: { viewModel.setFilter(.inProgress) })
-                        FilterButton(title: TextManager.shared.texts.completed,
-                                     isSelected: viewModel.selectedFilter == .completed,
-                                     action: { viewModel.setFilter(.completed) })
-                    } label: {
-                        Image(systemName: "line.3.horizontal.decrease.circle")
-                            .foregroundColor(theme.colors.primary)
-                    }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    filterMenu
                 }
             }
 #endif
@@ -110,12 +92,10 @@ struct SuggestionListView: View {
 // MARK: - Private
 
 private extension SuggestionListView {
-    // MARK: - Properties
-
     var suggestionsList: some View {
         ScrollView {
-            LazyVStack(spacing: theme.spacing.md) {
-                ForEach(Array(viewModel.suggestions.enumerated()), id: \ .element.id) { index, suggestion in
+            LazyVStack(spacing: theme.spacing.lg) {
+                ForEach(Array(viewModel.suggestions.enumerated()), id: \.element.id) { index, suggestion in
                     SuggestionCard(
                         suggestion: suggestion,
                         currentVote: viewModel.getCurrentVote(for: suggestion.id),
@@ -139,11 +119,72 @@ private extension SuggestionListView {
                     }
                 }
                 if viewModel.isLoading && viewModel.suggestions.count > 0 {
-                    ProgressView()
-                        .padding()
+                    HStack {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
+                        Text("Loading more...")
+                            .font(theme.typography.caption)
+                            .foregroundColor(theme.colors.secondary)
+                    }
+                    .padding(theme.spacing.lg)
+                }
+                Spacer()
+                    .frame(height: 80)
+            }
+            .padding(.horizontal, theme.spacing.lg)
+            .padding(.top, theme.spacing.md)
+        }
+    }
+
+    var floatingActionButton: some View {
+        Button {
+            viewModel.presentCreateSuggestionSheet()
+        } label: {
+            Image(systemName: "plus")
+                .font(.system(size: 22, weight: .semibold))
+                .foregroundColor(.white)
+                .padding()
+                .background(theme.colors.primary)
+                .clipShape(Circle())
+                .shadow(radius: 4)
+        }
+        .scaleEffect(showCreateButton ? 1.0 : 0.9)
+        .opacity(showCreateButton ? 1.0 : 0.7)
+        .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
+    }
+
+    var filterMenu: some View {
+        Menu {
+            filterButton(title: TextManager.shared.texts.all, filter: nil)
+            filterButton(title: TextManager.shared.texts.pending, filter: .pending)
+            filterButton(title: TextManager.shared.texts.accepted, filter: .accepted)
+            filterButton(title: TextManager.shared.texts.inProgress, filter: .inProgress)
+            filterButton(title: TextManager.shared.texts.completed, filter: .completed)
+        } label: {
+            HStack(spacing: 4) {
+                Image(systemName: "line.3.horizontal.decrease.circle.fill")
+                    .foregroundColor(theme.colors.primary)
+                if viewModel.selectedFilter != nil {
+                    Circle()
+                        .fill(theme.colors.accent)
+                        .frame(width: 8, height: 8)
                 }
             }
-            .padding(theme.spacing.md)
+        }
+    }
+
+    func filterButton(title: String, filter: SuggestionStatusEntity?) -> some View {
+        Button {
+            viewModel.setFilter(filter)
+        } label: {
+            HStack {
+                Text(title)
+                Spacer()
+                if viewModel.selectedFilter == filter {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(theme.colors.primary)
+                }
+            }
         }
     }
 }

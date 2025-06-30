@@ -32,6 +32,7 @@ public protocol VoticeTextsProtocol: Sendable {
     var inProgress: String { get }
     var completed: String { get }
     var rejected: String { get }
+    var tapPlusToGetStarted: String { get }
 
     // MARK: - Suggestion Detail
 
@@ -99,6 +100,7 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let inProgress = "In Progress"
     public let completed = "Completed"
     public let rejected = "Rejected"
+    public let tapPlusToGetStarted = "Tap + to get started"
 
     // MARK: - Suggestion Detail
 

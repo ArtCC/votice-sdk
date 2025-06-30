@@ -153,6 +153,7 @@ struct SpanishTexts: VoticeTextsProtocol {
     let inProgress = "En progreso"
     let completed = "Completada"
     let rejected = "Rechazada"
+    let tapPlusToGetStarted = "Toca + para empezar"
 
     // MARK: - Suggestion Detail
 
