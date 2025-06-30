@@ -64,23 +64,23 @@ public struct VoticeColors {
     public let completed: Color
     public let rejected: Color
 
-    public static let `default` = VoticeColors(primary: Color.blue,
-                                               secondary: Color.gray,
-                                               accent: Color.orange,
+    public static let `default` = VoticeColors(primary: Color(red: 0.0, green: 0.48, blue: 1.0),      // iOS Blue
+                                               secondary: Color(red: 0.56, green: 0.56, blue: 0.58),   // Modern Gray
+                                               accent: Color(red: 1.0, green: 0.58, blue: 0.0),        // Vibrant Orange
                                                background: Color.systemBackground,
                                                surface: Color.secondarySystemBackground,
                                                onSurface: Color.primary,
                                                onBackground: Color.primary,
-                                               success: Color.green,
-                                               warning: Color.orange,
-                                               error: Color.red,
-                                               upvote: Color.green,
-                                               downvote: Color.red,
-                                               pending: Color.orange,
-                                               accepted: Color.blue,
-                                               inProgress: Color.purple,
-                                               completed: Color.green,
-                                               rejected: Color.red)
+                                               success: Color(red: 0.20, green: 0.78, blue: 0.35),     // Modern Green
+                                               warning: Color(red: 1.0, green: 0.58, blue: 0.0),       // Warm Orange
+                                               error: Color(red: 1.0, green: 0.23, blue: 0.19),        // Modern Red
+                                               upvote: Color(red: 0.20, green: 0.78, blue: 0.35),      // Success Green
+                                               downvote: Color(red: 1.0, green: 0.23, blue: 0.19),     // Error Red
+                                               pending: Color(red: 1.0, green: 0.58, blue: 0.0),       // Warning Orange
+                                               accepted: Color(red: 0.0, green: 0.48, blue: 1.0),      // Primary Blue
+                                               inProgress: Color(red: 0.48, green: 0.40, blue: 0.93),  // Modern Purple
+                                               completed: Color(red: 0.20, green: 0.78, blue: 0.35),   // Success Green
+                                               rejected: Color(red: 1.0, green: 0.23, blue: 0.19))     // Error Red
 
     // MARK: Init
 

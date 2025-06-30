@@ -71,11 +71,11 @@ struct SuggestionDetailView: View {
                             } label: {
                                 ZStack {
                                     Circle()
-                                        .fill(Color.red.opacity(0.1))
+                                        .fill(theme.colors.error.opacity(0.1))
                                         .frame(width: 32, height: 32)
                                     Image(systemName: "trash.fill")
                                         .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(.red)
+                                        .foregroundColor(theme.colors.error)
                                 }
                             }
                             .alert(isPresented: $showDeleteAlert) {

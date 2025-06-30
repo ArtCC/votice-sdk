@@ -54,11 +54,11 @@ struct CommentCard: View {
                     } label: {
                         ZStack {
                             Circle()
-                                .fill(Color.red.opacity(0.1))
+                                .fill(theme.colors.error.opacity(0.1))
                                 .frame(width: 28, height: 28)
                             Image(systemName: "trash.fill")
                                 .font(.system(size: 12, weight: .medium))
-                                .foregroundColor(.red)
+                                .foregroundColor(theme.colors.error)
                         }
                     }
                     .alert(isPresented: $showDeleteAlert) {

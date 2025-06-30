@@ -43,7 +43,7 @@ struct VotingButtons: View {
                         if showHeartAnimation {
                             Image(systemName: "heart.fill")
                                 .font(.caption)
-                                .foregroundColor(.red)
+                                .foregroundColor(theme.colors.error)
                                 .offset(y: -20)
                                 .opacity(showHeartAnimation ? 0 : 1)
                                 .scaleEffect(showHeartAnimation ? 1.5 : 0.5)
