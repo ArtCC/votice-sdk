@@ -35,7 +35,7 @@ struct HomeView: View {
                 Divider()
                 // Demo Options
                 VStack(spacing: 20) {
-                    // Option 1: Sheet/Modal
+                    // Option 1: Sheet/Modal with System Theme
                     VStack(spacing: 8) {
                         Text("Option 1: Modal Presentation")
                             .font(.headline)
@@ -45,21 +45,21 @@ struct HomeView: View {
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                     }
-                    // Option 2: Navigation
+                    // Option 2: Navigation with Light Theme
                     VStack(spacing: 8) {
                         Text("Option 2: Navigation Push")
                             .font(.headline)
                         NavigationLink("Navigate to Feedback") {
-                            Votice.feedbackView()
+                            Votice.feedbackView(theme: Votice.lightTheme())
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                     }
-                    // Option 3: Custom Theme Sheet/Modal
+                    // Option 3: Custom Advanced Theme
                     VStack(spacing: 8) {
-                        Text("Option 3: Modal Presentation with Custom Theme")
+                        Text("Option 3: Custom Theme")
                             .font(.headline)
-                        Button("Show Feedback Sheet with Custom Theme") {
+                        Button("Feedback with Custom Theme") {
                             showingFeedbackSheetWithCustomTheme = true
                         }
                         .buttonStyle(.borderedProminent)
@@ -88,7 +88,8 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .sheet(isPresented: $showingFeedbackSheet) {
-            Votice.feedbackView()
+            // System theme that adapts to light/dark mode automatically
+            Votice.feedbackView(theme: Votice.systemTheme())
         }
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
             // Example of advanced theme customization

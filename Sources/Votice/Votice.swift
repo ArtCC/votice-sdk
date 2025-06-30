@@ -82,6 +82,51 @@ public struct Votice {
         )
     }
 
+    /// Get a light theme optimized for light mode interfaces
+    /// - Returns: A pre-configured theme perfect for light backgrounds
+    public static func lightTheme() -> VoticeTheme {
+        return createAdvancedTheme(
+            primaryColor: Color(red: 0.0, green: 0.48, blue: 1.0),        // Bright Blue
+            secondaryColor: Color(red: 0.48, green: 0.48, blue: 0.50),    // Medium Gray
+            accentColor: Color(red: 1.0, green: 0.58, blue: 0.0),         // Vibrant Orange
+            backgroundColor: Color.white,
+            surfaceColor: Color(red: 0.98, green: 0.98, blue: 0.98),      // Very Light Gray
+            destructiveColor: Color(red: 1.0, green: 0.23, blue: 0.19),   // Bright Red
+            successColor: Color(red: 0.20, green: 0.78, blue: 0.35),      // Bright Green
+            warningColor: Color(red: 1.0, green: 0.58, blue: 0.0)         // Orange
+        )
+    }
+
+    /// Get a dark theme optimized for dark mode interfaces
+    /// - Returns: A pre-configured theme perfect for dark backgrounds
+    public static func darkTheme() -> VoticeTheme {
+        return createAdvancedTheme(
+            primaryColor: Color(red: 0.25, green: 0.64, blue: 1.0),       // Softer Blue
+            secondaryColor: Color(red: 0.68, green: 0.68, blue: 0.70),    // Light Gray
+            accentColor: Color(red: 1.0, green: 0.70, blue: 0.25),        // Warm Orange
+            backgroundColor: Color(red: 0.11, green: 0.11, blue: 0.12),   // Dark Gray
+            surfaceColor: Color(red: 0.17, green: 0.17, blue: 0.18),      // Slightly Lighter Dark
+            destructiveColor: Color(red: 1.0, green: 0.40, blue: 0.40),   // Softer Red
+            successColor: Color(red: 0.40, green: 0.85, blue: 0.55),      // Softer Green
+            warningColor: Color(red: 1.0, green: 0.70, blue: 0.25)        // Warm Orange
+        )
+    }
+
+    /// Get a system theme that automatically adapts to the user's appearance preference
+    /// - Returns: A theme that follows system light/dark mode automatically
+    public static func systemTheme() -> VoticeTheme {
+        return createAdvancedTheme(
+            primaryColor: Color(red: 0.0, green: 0.48, blue: 1.0),        // iOS System Blue
+            secondaryColor: Color(red: 0.56, green: 0.56, blue: 0.58),    // iOS System Gray
+            accentColor: Color(red: 1.0, green: 0.58, blue: 0.0),         // iOS System Orange
+            backgroundColor: Color.systemBackground,                       // Adapts automatically
+            surfaceColor: Color.secondarySystemBackground,                 // Adapts automatically
+            destructiveColor: Color(red: 1.0, green: 0.23, blue: 0.19),   // iOS System Red
+            successColor: Color(red: 0.20, green: 0.78, blue: 0.35),      // iOS System Green
+            warningColor: Color(red: 1.0, green: 0.58, blue: 0.0)         // iOS System Orange
+        )
+    }
+
     /// Create a custom theme with advanced color configuration
     /// - Parameters:
     ///   - primaryColor: Primary color for buttons and main accents
