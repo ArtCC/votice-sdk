@@ -13,6 +13,9 @@ struct EmptyStateView: View {
 
     @Environment(\.voticeTheme) private var theme
 
+    let title: String
+    let message: String
+
     // MARK: - View
 
     var body: some View {
@@ -21,10 +24,10 @@ struct EmptyStateView: View {
                 .font(.system(size: 64))
                 .foregroundColor(theme.colors.secondary)
             VStack(spacing: theme.spacing.sm) {
-                Text("No suggestions yet")
+                Text(title)
                     .font(theme.typography.title2)
                     .foregroundColor(theme.colors.onBackground)
-                Text("Be the first to suggest a new feature!")
+                Text(message)
                     .font(theme.typography.body)
                     .foregroundColor(theme.colors.secondary)
                     .multilineTextAlignment(.center)

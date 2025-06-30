@@ -62,10 +62,12 @@ struct VotingButtons: View {
         }
         .frame(minWidth: 44, minHeight: 44)
     }
+}
 
-    // MARK: - Private
+// MARK: - Private
 
-    private func handleVote() {
+private extension VotingButtons {
+    func handleVote() {
         withAnimation(.easeInOut(duration: 0.1)) {
             isAnimating = true
         }

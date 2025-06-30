@@ -17,13 +17,18 @@ struct CommentCard: View {
 
     let comment: CommentEntity
     let currentDeviceId: String
+    let alert: AlertEntity
     let onDelete: (() -> Void)?
 
     // MARK: - Init
 
-    init(comment: CommentEntity, currentDeviceId: String, onDelete: (() -> Void)? = nil) {
+    init(comment: CommentEntity,
+         currentDeviceId: String,
+         alert: AlertEntity,
+         onDelete: (() -> Void)? = nil) {
         self.comment = comment
         self.currentDeviceId = currentDeviceId
+        self.alert = alert
         self.onDelete = onDelete
     }
 
@@ -41,7 +46,7 @@ struct CommentCard: View {
                         .font(theme.typography.caption)
                         .foregroundColor(theme.colors.secondary)
                 }
-                if let commentDeviceId = comment.deviceId, commentDeviceId == currentDeviceId, let onDelete = onDelete {
+                if let commentDeviceId = comment.deviceId, commentDeviceId == currentDeviceId {
                     Button(role: .destructive) {
                         showDeleteAlert = true
                     } label: {
@@ -50,10 +55,10 @@ struct CommentCard: View {
                     }
                     .alert(isPresented: $showDeleteAlert) {
                         Alert(
-                            title: Text("Delete Comment"),
-                            message: Text("Are you sure you want to delete this comment?"),
-                            primaryButton: .destructive(Text("Delete")) {
-                                onDelete()
+                            title: Text(alert.title),
+                            message: Text(alert.message),
+                            primaryButton: .destructive(Text(alert.primaryButtonTitle)) {
+                                onDelete?()
                             },
                             secondaryButton: .cancel()
                         )

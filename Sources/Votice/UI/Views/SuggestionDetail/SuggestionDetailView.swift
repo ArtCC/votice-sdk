@@ -207,6 +207,9 @@ private extension SuggestionDetailView {
                         CommentCard(
                             comment: comment,
                             currentDeviceId: DeviceManager.shared.deviceId,
+                            alert: AlertEntity(title: "Delete Comment",
+                                               message: "Are you sure you want to delete this comment?",
+                                               primaryButtonTitle: "Delete"),
                             onDelete: {
                                 Task {
                                     await viewModel.deleteComment(comment)

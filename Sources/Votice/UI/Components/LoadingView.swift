@@ -13,13 +13,15 @@ struct LoadingView: View {
 
     @Environment(\.voticeTheme) private var theme
 
+    let message: String
+
     // MARK: - View
 
     var body: some View {
         VStack(spacing: theme.spacing.md) {
             ProgressView()
                 .scaleEffect(1.2)
-            Text("Loading suggestions...")
+            Text(message)
                 .font(theme.typography.body)
                 .foregroundColor(theme.colors.secondary)
         }

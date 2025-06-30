@@ -25,9 +25,9 @@ struct SuggestionListView: View {
             ZStack {
                 theme.colors.background.ignoresSafeArea()
                 if viewModel.isLoading && viewModel.suggestions.isEmpty {
-                    LoadingView()
+                    LoadingView(message: "Loading suggestions...")
                 } else if viewModel.suggestions.isEmpty && !viewModel.isLoading {
-                    EmptyStateView()
+                    EmptyStateView(title: "No suggestions yet", message: "Be the first to suggest a new feature!")
                 } else {
                     suggestionsList
                 }
@@ -47,7 +47,6 @@ struct SuggestionListView: View {
                                 .shadow(radius: 4)
                         }
                         .padding()
-                        .accessibilityLabel("Create new suggestion")
                     }
                 }
             }
@@ -57,31 +56,21 @@ struct SuggestionListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Menu {
-                        FilterButton(
-                            title: "All",
-                            isSelected: viewModel.selectedFilter == nil,
-                            action: { viewModel.setFilter(nil) }
-                        )
-                        FilterButton(
-                            title: "Pending",
-                            isSelected: viewModel.selectedFilter == .pending,
-                            action: { viewModel.setFilter(.pending) }
-                        )
-                        FilterButton(
-                            title: "Accepted",
-                            isSelected: viewModel.selectedFilter == .accepted,
-                            action: { viewModel.setFilter(.accepted) }
-                        )
-                        FilterButton(
-                            title: "In Progress",
-                            isSelected: viewModel.selectedFilter == .inProgress,
-                            action: { viewModel.setFilter(.inProgress) }
-                        )
-                        FilterButton(
-                            title: "Completed",
-                            isSelected: viewModel.selectedFilter == .completed,
-                            action: { viewModel.setFilter(.completed) }
-                        )
+                        FilterButton(title: "All",
+                                     isSelected: viewModel.selectedFilter == nil,
+                                     action: { viewModel.setFilter(nil) })
+                        FilterButton(title: "Pending",
+                                     isSelected: viewModel.selectedFilter == .pending,
+                                     action: { viewModel.setFilter(.pending) })
+                        FilterButton(title: "Accepted",
+                                     isSelected: viewModel.selectedFilter == .accepted,
+                                     action: { viewModel.setFilter(.accepted) })
+                        FilterButton(title: "In Progress",
+                                     isSelected: viewModel.selectedFilter == .inProgress,
+                                     action: { viewModel.setFilter(.inProgress) })
+                        FilterButton(title: "Completed",
+                                     isSelected: viewModel.selectedFilter == .completed,
+                                     action: { viewModel.setFilter(.completed) })
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease.circle")
                             .foregroundColor(theme.colors.primary)
