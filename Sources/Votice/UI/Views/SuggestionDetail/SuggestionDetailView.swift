@@ -49,9 +49,7 @@ struct SuggestionDetailView: View {
             .navigationTitle("Suggestion")
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
-#endif
             .toolbar {
-#if os(iOS)
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Close") {
                         dismiss()
@@ -92,46 +90,8 @@ struct SuggestionDetailView: View {
                         }
                     }
                 }
-#else
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") {
-                        dismiss()
-                    }
-                    .foregroundColor(theme.colors.secondary)
-                }
-                ToolbarItem(placement: .primaryAction) {
-                    HStack {
-                        Button {
-                            showingAddComment = true
-                        } label: {
-                            Image(systemName: "bubble.left")
-                                .foregroundColor(theme.colors.primary)
-                        }
-                        if suggestion.createdBy == DeviceManager.shared.deviceId {
-                            Button(role: .destructive) {
-                                showDeleteAlert = true
-                            } label: {
-                                Image(systemName: "trash")
-                                    .foregroundColor(.red)
-                            }
-                            .alert(isPresented: $showDeleteAlert) {
-                                Alert(
-                                    title: Text("Delete Suggestion"),
-                                    message: Text("Are you sure you want to delete this suggestion?"),
-                                    primaryButton: .destructive(Text("Delete")) {
-                                        Task {
-                                            await viewModel.deleteSuggestion(suggestion)
-                                            dismiss()
-                                        }
-                                    },
-                                    secondaryButton: .cancel()
-                                )
-                            }
-                        }
-                    }
-                }
-#endif
             }
+#endif
         }
         .task {
             await viewModel.loadInitialData(for: suggestion)
@@ -285,9 +245,7 @@ private extension SuggestionDetailView {
             .navigationTitle("New Comment")
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
-#endif
             .toolbar {
-#if os(iOS)
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
                         showingAddComment = false
@@ -305,27 +263,8 @@ private extension SuggestionDetailView {
                         viewModel.isSubmittingComment
                     )
                 }
-#else
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        showingAddComment = false
-                        resetCommentForm()
-                    }
-                }
-                ToolbarItem(placement: .primaryAction) {
-                    Button("Post") {
-                        Task {
-                            await postComment()
-                        }
-                    }
-                    .disabled(
-                        newComment.trimmingCharacters(
-                            in: .whitespacesAndNewlines).isEmpty ||
-                        viewModel.isSubmittingComment
-                    )
-                }
-#endif
             }
+#endif
         }
         .onAppear {
             isCommentFocused = true

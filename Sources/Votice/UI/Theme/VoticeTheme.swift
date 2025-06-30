@@ -44,6 +44,8 @@ public struct VoticeTheme {
 // MARK: - Votice Colors
 
 public struct VoticeColors {
+    // MARK: Properties
+
     public let primary: Color
     public let secondary: Color
     public let accent: Color
@@ -79,6 +81,8 @@ public struct VoticeColors {
                                                inProgress: Color.purple,
                                                completed: Color.green,
                                                rejected: Color.red)
+
+    // MARK: Init
 
     public init(primary: Color,
                 secondary: Color,
@@ -148,6 +152,8 @@ extension Color {
 // MARK: - Votice Typography
 
 public struct VoticeTypography {
+    // MARK: Properties
+
     public let largeTitle: Font
     public let title: Font
     public let title2: Font
@@ -171,6 +177,8 @@ public struct VoticeTypography {
                                                    footnote: .footnote,
                                                    caption: .caption,
                                                    caption2: .caption2)
+
+    // MARK: Init
 
     public init(largeTitle: Font,
                 title: Font,
@@ -215,6 +223,8 @@ public struct VoticeSpacing {
 // MARK: - Votice Corner Radius
 
 public struct VoticeCornerRadius {
+    // MARK: Properties
+
     public let xs: CGFloat = 4
     public let sm: CGFloat = 8
     public let md: CGFloat = 12
@@ -223,12 +233,17 @@ public struct VoticeCornerRadius {
 
     public static let `default` = VoticeCornerRadius()
 
-    public init() {}
+    // MARK: Init
+
+    public init() {
+    }
 }
 
 // MARK: - Theme Environment Key
 
 private struct VoticeThemeKey: EnvironmentKey {
+    // MARK: Properties
+
     typealias Value = VoticeTheme
 
     static let defaultValue = VoticeTheme.default

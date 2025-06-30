@@ -33,11 +33,9 @@ struct SuggestionListView: View {
                 }
             }
             .navigationTitle("Feature Requests")
-            #if os(iOS)
+#if os(iOS)
             .navigationBarTitleDisplayMode(.large)
-            #endif
             .toolbar {
-                #if os(iOS)
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("New") {
                         showingCreateSuggestion = true
@@ -76,54 +74,8 @@ struct SuggestionListView: View {
                             .foregroundColor(theme.colors.primary)
                     }
                 }
-                #else
-                ToolbarItem(placement: .primaryAction) {
-                    Button("New") {
-                        showingCreateSuggestion = true
-                    }
-                    .foregroundColor(theme.colors.primary)
-                }
-
-#warning("Hay que revisar esto para iOS, macOS y tvOS.")
-                /**
-                ToolbarItem(placement: .secondaryAction) {
-                    Menu {
-                        FilterButton(
-                            title: "All",
-                            isSelected: viewModel.selectedFilter == nil,
-                            action: { viewModel.setFilter(nil) }
-                        )
-
-                        FilterButton(
-                            title: "Pending",
-                            isSelected: viewModel.selectedFilter == .pending,
-                            action: { viewModel.setFilter(.pending) }
-                        )
-
-                        FilterButton(
-                            title: "Accepted",
-                            isSelected: viewModel.selectedFilter == .accepted,
-                            action: { viewModel.setFilter(.accepted) }
-                        )
-
-                        FilterButton(
-                            title: "In Progress",
-                            isSelected: viewModel.selectedFilter == .inProgress,
-                            action: { viewModel.setFilter(.inProgress) }
-                        )
-
-                        FilterButton(
-                            title: "Completed",
-                            isSelected: viewModel.selectedFilter == .completed,
-                            action: { viewModel.setFilter(.completed) }
-                        )
-                    } label: {
-                        Image(systemName: "line.3.horizontal.decrease.circle")
-                            .foregroundColor(theme.colors.primary)
-                    }
-                }*/
-                #endif
             }
+#endif
             .refreshable {
                 await viewModel.refresh()
             }

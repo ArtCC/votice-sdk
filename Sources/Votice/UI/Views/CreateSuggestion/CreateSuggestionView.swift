@@ -51,9 +51,7 @@ struct CreateSuggestionView: View {
             .navigationTitle("New Suggestion")
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
-#endif
             .toolbar {
-#if os(iOS)
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
                         dismiss()
@@ -69,24 +67,8 @@ struct CreateSuggestionView: View {
                     .foregroundColor(isFormValid ? theme.colors.primary : theme.colors.secondary)
                     .disabled(!isFormValid || viewModel.isSubmitting)
                 }
-#else
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                    .foregroundColor(theme.colors.secondary)
-                }
-                ToolbarItem(placement: .primaryAction) {
-                    Button("Submit") {
-                        Task {
-                            await submitSuggestion()
-                        }
-                    }
-                    .foregroundColor(isFormValid ? theme.colors.primary : theme.colors.secondary)
-                    .disabled(!isFormValid || viewModel.isSubmitting)
-                }
-#endif
             }
+#endif
         }
         .alert("Error", isPresented: $viewModel.showingError) {
             Button("OK") {}
