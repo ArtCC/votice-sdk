@@ -90,7 +90,7 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let submit = "Submit"
 
     // MARK: - Suggestion List
-    
+
     public let loadingSuggestions = "Loading suggestions..."
     public let noSuggestionsYet = "No suggestions yet."
     public let beFirstToSuggest = "Be the first to suggest something!"
