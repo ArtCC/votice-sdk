@@ -164,6 +164,8 @@ final class SuggestionDetailViewModel: ObservableObject {
             }
 
             if let vote = response.vote {
+                LogManager.shared.devLog(.info, "Vote \(vote) for suggestion \(suggestionId)")
+
                 currentVote = type
             } else {
                 currentVote = nil

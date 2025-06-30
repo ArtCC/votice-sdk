@@ -146,6 +146,8 @@ final class SuggestionListViewModel: ObservableObject {
             }
 
             if let vote = response.vote {
+                LogManager.shared.devLog(.info, "Vote \(vote) for suggestion \(suggestionId)")
+
                 currentVotes[suggestionId] = type
             } else {
                 currentVotes.removeValue(forKey: suggestionId)

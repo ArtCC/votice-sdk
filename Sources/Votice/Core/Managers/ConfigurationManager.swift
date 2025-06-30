@@ -24,7 +24,7 @@ protocol ConfigurationManagerProtocol: Sendable {
     func validateConfiguration() throws
 }
 
-final class ConfigurationManager: ConfigurationManagerProtocol {
+final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Sendable {
     // MARK: - Properties
 
     static let shared = ConfigurationManager()
