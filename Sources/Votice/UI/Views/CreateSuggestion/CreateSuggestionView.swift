@@ -16,19 +16,10 @@ struct CreateSuggestionView: View {
 
     @StateObject private var viewModel = CreateSuggestionViewModel()
 
-    @State private var title = ""
-    @State private var description = ""
-    @State private var nickname = ""
-
     @FocusState private var focusedField: Field?
 
     private enum Field {
         case title, description, nickname
-    }
-
-    private var isFormValid: Bool {
-        !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        !description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     let onSuggestionCreated: (SuggestionEntity) -> Void
@@ -61,11 +52,15 @@ struct CreateSuggestionView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Submit") {
                         Task {
-                            await submitSuggestion()
+                            await viewModel.submitSuggestion { suggestion in
+                                onSuggestionCreated(suggestion)
+
+                                dismiss()
+                            }
                         }
                     }
-                    .foregroundColor(isFormValid ? theme.colors.primary : theme.colors.secondary)
-                    .disabled(!isFormValid || viewModel.isSubmitting)
+                    .foregroundColor(viewModel.isFormValid ? theme.colors.primary : theme.colors.secondary)
+                    .disabled(!viewModel.isFormValid || viewModel.isSubmitting)
                 }
             }
 #endif
@@ -100,7 +95,7 @@ private extension CreateSuggestionView {
                 Text("Title")
                     .font(theme.typography.headline)
                     .foregroundColor(theme.colors.onBackground)
-                TextField("Enter a brief title for your suggestion", text: $title)
+                TextField("Enter a brief title for your suggestion", text: $viewModel.title)
                     .textFieldStyle(VoticeTextFieldStyle())
                     .focused($focusedField, equals: .title)
                 Text("Keep it short and descriptive")
@@ -108,10 +103,10 @@ private extension CreateSuggestionView {
                     .foregroundColor(theme.colors.secondary)
             }
             VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                Text("Description")
+                Text("Description (Optional)")
                     .font(theme.typography.headline)
                     .foregroundColor(theme.colors.onBackground)
-                TextField("Describe your suggestion in detail...", text: $description, axis: .vertical)
+                TextField("Describe your suggestion in detail...", text: $viewModel.description, axis: .vertical)
                     .textFieldStyle(VoticeTextFieldStyle())
                     .lineLimit(5...10)
                     .focused($focusedField, equals: .description)
@@ -123,33 +118,13 @@ private extension CreateSuggestionView {
                 Text("Your Name (Optional)")
                     .font(theme.typography.headline)
                     .foregroundColor(theme.colors.onBackground)
-                TextField("Enter your name", text: $nickname)
+                TextField("Enter your name", text: $viewModel.nickname)
                     .textFieldStyle(VoticeTextFieldStyle())
                     .focused($focusedField, equals: .nickname)
                 Text("Leave empty to submit anonymously")
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.secondary)
             }
-        }
-    }
-
-    // MARK: - Functions
-
-    func submitSuggestion() async {
-        let trimmedNickname = nickname.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        do {
-            let suggestion = try await viewModel.createSuggestion(
-                title: title,
-                description: description,
-                nickname: trimmedNickname.isEmpty ? nil : trimmedNickname
-            )
-
-            onSuggestionCreated(suggestion)
-
-            dismiss()
-        } catch {
-            LogManager.shared.devLog(.error, "Failed to create suggestion: \(error)")
         }
     }
 }
