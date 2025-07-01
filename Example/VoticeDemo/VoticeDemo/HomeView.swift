@@ -107,7 +107,9 @@ struct HomeView: View {
         }
         .onAppear {
             configureVotice()
-            configureText()
+
+            // Optional: Configure custom texts for localization.
+            // configureText()
         }
     }
 }
@@ -200,7 +202,7 @@ struct SpanishTexts: VoticeTextsProtocol {
     let newSuggestion = "Nueva sugerencia"
     let shareYourIdea = "Comparte tu idea"
     let helpUsImprove = "Ayúdanos a mejorar sugiriendo nuevas funciones o mejoras."
-    let title = "Título"
+    let title = "Título (Mínimo 3 caracteres)"
     let titlePlaceholder = "Introduce un título breve para tu sugerencia"
     let keepItShort = "Mantenlo corto y descriptivo"
     let descriptionOptional = "Descripción (opcional)"
