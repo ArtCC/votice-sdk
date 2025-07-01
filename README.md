@@ -21,8 +21,6 @@ Votice is a native Swift SDK that allows you to integrate user feedback, suggest
 
 > ⚠️ Support for macOS and tvOS will be available in future releases.
 
----
-
 ## 🛠 Installation
 
 Add this line to your `Package.swift` dependencies:
@@ -60,8 +58,6 @@ let package = Package(
 )
 ```
 
----
-
 ## 🚀 Getting Started
 
 ### 1. Configure the SDK
@@ -83,8 +79,6 @@ Votice.reset()
 let configured = Votice.isConfigured
 ```
 
----
-
 ### 2. Show the Feedback UI
 
 You can embed the main interface as a SwiftUI view:
@@ -98,8 +92,6 @@ Or present it as a modal sheet:
 ```swift
 Votice.feedbackSheet(isPresented: $isShowingFeedback)
 ```
-
----
 
 ### 3. Customize Appearance
 
@@ -137,8 +129,6 @@ Then pass it into the view:
 Votice.feedbackView(theme: theme)
 ```
 
----
-
 ### 4. Localize Texts (Optional)
 
 You can provide custom localized texts by conforming to `VoticeTextsProtocol`:
@@ -153,14 +143,10 @@ To reset to the default English:
 Votice.resetTextsToDefault()
 ```
 
----
-
-## Contributing to Votice SDK
+## 👨🏻‍💻 Contributing to Votice SDK
 
 Thank you for your interest in contributing to **Votice**!  
 This guide will help you submit issues, propose changes, and open pull requests in a way that fits the project.
-
----
 
 ## 🐞 Reporting Bugs
 
@@ -173,8 +159,6 @@ If you find a bug:
   - Expected and actual behavior
   - SDK version and platform
 
----
-
 ## 🚀 Feature Requests
 
 We welcome feedback!
@@ -182,15 +166,11 @@ We welcome feedback!
 - If it's a major change, open an issue first to discuss.
 - Make sure it aligns with the lightweight philosophy of the SDK.
 
----
-
 ## 👤 Author
 
 Arturo Carretero Calvo
 
 [@artcc](https://github.com/artcc)
-
----
 
 ## License
 
