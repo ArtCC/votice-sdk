@@ -38,6 +38,28 @@ Or via Xcode:
 3. Enter the URL of the Votice repo.
 4. Choose the latest version.
 
+## 📦 Package Info
+
+```swift
+// swift-tools-version:5.9
+let package = Package(
+    name: "Votice",
+    platforms: [
+        .iOS(.v17),
+        .macOS(.v14),
+        .tvOS(.v17),
+        .watchOS(.v10)
+    ],
+    products: [
+        .library(name: "Votice", targets: ["Votice"])
+    ],
+    targets: [
+        .target(name: "Votice", path: "Sources/Votice"),
+        .testTarget(name: "VoticeTests", dependencies: ["Votice"], path: "Tests/VoticeTests")
+    ]
+)
+```
+
 ---
 
 ## 🚀 Getting Started
@@ -133,40 +155,11 @@ Votice.resetTextsToDefault()
 
 ---
 
-## 🧪 Testing
-
-You can use `Votice.reset()` and `Votice.configure(...)` multiple times in development/testing environments.
-
----
-
-## 📦 Package Info
-
-```swift
-// swift-tools-version:5.9
-let package = Package(
-    name: "Votice",
-    platforms: [
-        .iOS(.v17),
-        .macOS(.v14),
-        .tvOS(.v17),
-        .watchOS(.v10)
-    ],
-    products: [
-        .library(name: "Votice", targets: ["Votice"])
-    ],
-    targets: [
-        .target(name: "Votice", path: "Sources/Votice"),
-        .testTarget(name: "VoticeTests", dependencies: ["Votice"], path: "Tests/VoticeTests")
-    ]
-)
-```
-
----
-
 ## 👤 Author
 
-Arturo Carretero Calvo  
-[@artcc01](https://github.com/artcc)
+Arturo Carretero Calvo
+
+[@artcc](https://github.com/artcc)
 
 ---
 
