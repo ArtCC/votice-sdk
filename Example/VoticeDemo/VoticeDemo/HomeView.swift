@@ -118,9 +118,9 @@ private extension HomeView {
     func configureVotice() {
         do {
             try Votice.configure(
-                apiKey: "f2ba766c1f5311abb15cb49c",
-                apiSecret: "d20d4556d837924dee6e3bc4a4b43ce260a0ea221c2f5500",
-                appId: "kJnOJXuO1T8hKRQ0Qo9V"
+                apiKey: "f36c62a3e9fa895cc5f6f89e",
+                apiSecret: "9c5288e2584c3be913c8c216123dc757873c562720d3ab87",
+                appId: "uN2b1hDJxSXNwzse47xE"
             )
 
             Votice.setDebugLogging(enabled: true)
