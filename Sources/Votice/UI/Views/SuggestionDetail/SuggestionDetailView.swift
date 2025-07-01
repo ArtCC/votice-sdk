@@ -58,7 +58,15 @@ struct SuggestionDetailView: View {
                     Button(TextManager.shared.texts.close) {
                         dismiss()
                     }
+                    .font(theme.typography.callout)
+                    .fontWeight(.medium)
                     .foregroundColor(theme.colors.secondary)
+                    .padding(.horizontal, theme.spacing.md)
+                    .padding(.vertical, theme.spacing.xs)
+                    .background(
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(theme.colors.secondary.opacity(0.1))
+                    )
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: theme.spacing.sm) {
@@ -310,9 +318,18 @@ private extension SuggestionDetailView {
                 HStack {
                     Button(TextManager.shared.texts.cancel) {
                         showingAddComment = false
+
                         viewModel.resetCommentForm()
                     }
+                    .font(theme.typography.callout)
+                    .fontWeight(.medium)
                     .foregroundColor(theme.colors.secondary)
+                    .padding(.horizontal, theme.spacing.md)
+                    .padding(.vertical, theme.spacing.xs)
+                    .background(
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(theme.colors.secondary.opacity(0.1))
+                    )
                     Spacer()
                     Text(TextManager.shared.texts.newComment)
                         .font(theme.typography.headline)
@@ -326,12 +343,22 @@ private extension SuggestionDetailView {
                             }
                         }
                     }
-                    .disabled(!viewModel.isCommentFormValid || viewModel.isSubmittingComment)
+                    .font(theme.typography.callout)
+                    .fontWeight(.semibold)
                     .foregroundColor(
-                        viewModel.isCommentFormValid &&
-                        !viewModel.isSubmittingComment ? theme.colors.primary :
-                            theme.colors.secondary.opacity(0.5)
+                        viewModel.isCommentFormValid && !viewModel.isSubmittingComment ? .white : theme.colors.secondary
                     )
+                    .padding(.horizontal, theme.spacing.md)
+                    .padding(.vertical, theme.spacing.xs)
+                    .background(
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(
+                                viewModel.isCommentFormValid && !viewModel.isSubmittingComment
+                                ? theme.colors.primary
+                                : theme.colors.secondary.opacity(0.1)
+                            )
+                    )
+                    .disabled(!viewModel.isCommentFormValid || viewModel.isSubmittingComment)
                 }
                 .padding(.horizontal, theme.spacing.lg)
                 .padding(.top, theme.spacing.lg)
