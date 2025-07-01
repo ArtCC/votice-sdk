@@ -1,0 +1,22 @@
+# SwiftLint configuration for Votice SDK
+# This configuration covers both the library and the demo app
+
+# Paths to include for linting
+included:
+  - ../../Sources/
+  - ../../Tests/
+
+# Rules configuration
+identifier_name:
+  min_length: 1
+  max_length: 50
+  excluded:
+    - id
+    - i
+    - x
+    - y
+    - z
+file_length:
+  warning: 500
+  error: 750
+  ignore_comment_only_lines: true
