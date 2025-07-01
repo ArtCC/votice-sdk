@@ -8,10 +8,10 @@
 
 import Foundation
 
-// MARK: - Suggestion Detail View Model
-
 @MainActor
 final class SuggestionDetailViewModel: ObservableObject {
+    // MARK: - Properties
+
     @Published var comments: [CommentEntity] = []
     @Published var isLoadingComments = false
     @Published var isSubmittingComment = false
@@ -20,9 +20,21 @@ final class SuggestionDetailViewModel: ObservableObject {
     @Published var currentVote: VoteType?
     @Published var suggestionEntity: SuggestionEntity?
     @Published var reload = false
+    @Published var hasMoreComments = true
+    @Published var newComment = ""
+    @Published var commentNickname = ""
+
+    private var lastLoadedCreatedAt: String?
 
     private let commentUseCase: CommentUseCase
     private let suggestionUseCase: SuggestionUseCase
+    private let pageSize = 10
+
+    var isCommentFormValid: Bool {
+        !newComment.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    // MARK: - Init
 
     init(commentUseCase: CommentUseCase = CommentUseCase(),
          suggestionUseCase: SuggestionUseCase = SuggestionUseCase()) {
@@ -30,7 +42,7 @@ final class SuggestionDetailViewModel: ObservableObject {
         self.suggestionUseCase = suggestionUseCase
     }
 
-    // MARK: - Public Methods
+    // MARK: - Functions
 
     func loadInitialData(for suggestion: SuggestionEntity) async {
         self.suggestionEntity = suggestion
@@ -40,16 +52,48 @@ final class SuggestionDetailViewModel: ObservableObject {
     }
 
     func loadComments(for suggestionId: String) async {
-        guard !isLoadingComments else { return }
+        guard !isLoadingComments else {
+            return
+        }
 
         isLoadingComments = true
 
         do {
-            // let startAfter = StartAfterRequest(voteCount: nil, createdAt: "")
-            let pagination = PaginationRequest(startAfter: nil, pageLimit: 10)
+            let pagination = PaginationRequest(startAfter: nil, pageLimit: pageSize)
             let response = try await commentUseCase.fetchComments(suggestionId: suggestionId, pagination: pagination)
 
             comments = response.comments.sorted { $0.createdAt! < $1.createdAt! }
+
+            lastLoadedCreatedAt = response.nextPageTokenString
+
+            hasMoreComments = response.comments.count == pageSize
+        } catch {
+            handleError(error)
+        }
+
+        isLoadingComments = false
+    }
+
+    func loadMoreComments(for suggestionId: String) async {
+        guard !isLoadingComments && hasMoreComments else {
+            return
+        }
+
+        isLoadingComments = true
+
+        do {
+            let startAfter = lastLoadedCreatedAt != nil ?
+            StartAfterRequest(voteCount: nil, createdAt: lastLoadedCreatedAt!) :
+            nil
+            let pagination = PaginationRequest(startAfter: startAfter, pageLimit: pageSize)
+            let response = try await commentUseCase.fetchComments(suggestionId: suggestionId, pagination: pagination)
+            let newComments = response.comments.sorted { $0.createdAt! < $1.createdAt! }
+
+            comments.append(contentsOf: newComments)
+
+            lastLoadedCreatedAt = comments.last?.createdAt
+
+            hasMoreComments = newComments.count == pageSize
         } catch {
             handleError(error)
         }
@@ -62,86 +106,55 @@ final class SuggestionDetailViewModel: ObservableObject {
             let voteStatus = try await suggestionUseCase.fetchVoteStatus(suggestionId: suggestionId)
 
             if voteStatus.hasVoted {
-                // Since VoteStatusEntity doesn't include the vote type,
-                // we'll assume it's an upvote for now
                 currentVote = .upvote
             } else {
                 currentVote = nil
             }
         } catch {
-            // Log error but don't fail - vote status is not critical
             LogManager.shared.devLog(.error, "Failed to load vote status: \(error)")
         }
     }
 
     func addComment(to suggestionId: String, text: String, nickname: String?) async {
-        guard !isSubmittingComment else { return }
+        guard !isSubmittingComment else {
+            return
+        }
 
         isSubmittingComment = true
 
+        defer {
+            isSubmittingComment = false
+        }
+
         do {
-            let response = try await commentUseCase.createComment(suggestionId: suggestionId,
-                                                                  text: text,
-                                                                  nickname: nickname)
+            let response = try await commentUseCase.createComment(
+                suggestionId: suggestionId,
+                text: text,
+                nickname: nickname
+            )
 
             comments.append(response.comment)
 
-            // Update suggestionEntity with new comment count
             if let current = suggestionEntity {
-                let newCommentCount = (current.commentCount ?? 0) + 1
-                suggestionEntity = SuggestionEntity(
-                    id: current.id,
-                    appId: current.appId,
-                    title: current.title,
-                    text: current.text,
-                    description: current.description,
-                    nickname: current.nickname,
-                    createdAt: current.createdAt,
-                    updatedAt: current.updatedAt,
-                    platform: current.platform,
-                    createdBy: current.createdBy,
-                    status: current.status,
-                    source: current.source,
-                    commentCount: newCommentCount,
-                    voteCount: current.voteCount
-                )
+                suggestionEntity = current.copyWith(commentCount: (current.commentCount ?? 0) + 1)
             }
 
             reload = true
         } catch {
             handleError(error)
         }
-
-        isSubmittingComment = false
     }
 
     func deleteComment(_ comment: CommentEntity) async {
         do {
             try await commentUseCase.deleteComment(commentId: comment.id)
+
             comments.removeAll { $0.id == comment.id }
-            // Actualiza el contador de comentarios en la sugerencia
+
             if let current = suggestionEntity {
-                let newCount = max((current.commentCount ?? 1) - 1, 0)
-
-                suggestionEntity = SuggestionEntity(
-                    id: current.id,
-                    appId: current.appId,
-                    title: current.title,
-                    text: current.text,
-                    description: current.description,
-                    nickname: current.nickname,
-                    createdAt: current.createdAt,
-                    updatedAt: current.updatedAt,
-                    platform: current.platform,
-                    createdBy: current.createdBy,
-                    status: current.status,
-                    source: current.source,
-                    commentCount: newCount,
-                    voteCount: current.voteCount
-                )
-
-                reload = true
+                suggestionEntity = current.copyWith(commentCount: max((current.commentCount ?? 1) - 1, 0))
             }
+
             reload = true
         } catch {
             handleError(error)
@@ -151,40 +164,14 @@ final class SuggestionDetailViewModel: ObservableObject {
     func vote(on suggestionId: String, type: VoteType) async {
         do {
             let hasCurrentVote = currentVote != nil
-            let response: VoteSuggestionResponse
+            let voteTypeToSend: VoteType = hasCurrentVote ? .downvote : .upvote
+            let response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: voteTypeToSend)
 
-            if hasCurrentVote {
-                // User already voted, so this is an unvote action
-                response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .downvote)
-            } else {
-                // User hasn't voted, so this is a vote action
-                response = try await suggestionUseCase.vote(suggestionId: suggestionId, voteType: .upvote)
-            }
+            currentVote = response.vote != nil ? type : nil
 
-            // Update local vote state based on response
-            if let vote = response.vote {
-                currentVote = type
-            } else {
-                currentVote = nil
-            }
-
-            // Update suggestionEntity with new vote count from backend
-            if let updatedSuggestion = response.suggestion,
-               let current = suggestionEntity {
-                suggestionEntity = SuggestionEntity(
-                    id: current.id,
-                    appId: current.appId,
-                    title: current.title,
-                    text: current.text,
-                    description: current.description,
-                    nickname: current.nickname,
-                    createdAt: current.createdAt,
+            if let updatedSuggestion = response.suggestion, let current = suggestionEntity {
+                suggestionEntity = current.copyWith(
                     updatedAt: updatedSuggestion.updatedAt,
-                    platform: current.platform,
-                    createdBy: current.createdBy,
-                    status: current.status,
-                    source: current.source,
-                    commentCount: current.commentCount,
                     voteCount: updatedSuggestion.voteCount
                 )
             }
@@ -206,11 +193,32 @@ final class SuggestionDetailViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Private Methods
+    func submitComment(for suggestionId: String, onSuccess: @escaping () -> Void) async {
+        let trimmedNickname = commentNickname.trimmingCharacters(in: .whitespacesAndNewlines)
 
-    private func handleError(_ error: Error) {
+        await addComment(to: suggestionId, text: newComment, nickname: trimmedNickname.isEmpty ? nil : trimmedNickname)
+
+        if !showingError {
+            resetCommentForm()
+
+            onSuccess()
+        }
+    }
+
+    func resetCommentForm() {
+        newComment = ""
+        commentNickname = ""
+    }
+}
+
+// MARK: - Private
+
+private extension SuggestionDetailViewModel {
+    func handleError(_ error: Error) {
         errorMessage = error.localizedDescription
+
         showingError = true
+
         LogManager.shared.devLog(.error, "SuggestionDetailViewModel error: \(error)")
     }
 }

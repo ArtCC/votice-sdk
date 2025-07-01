@@ -56,14 +56,17 @@ struct NetworkManager: NetworkManagerProtocol {
 
     func request(endpoint: NetworkEndpoint) async throws {
         _ = try await performRequest(endpoint: endpoint)
+
         LogManager.shared.devLog(.success, "Request completed successfully for \(endpoint.path)")
     }
+}
 
-    // MARK: - Private
+// MARK: - Private
 
+private extension NetworkManager {
     // swiftlint:disable cyclomatic_complexity
     // swiftlint:disable function_body_length
-    private func performRequest(endpoint: NetworkEndpoint) async throws -> Data {
+    func performRequest(endpoint: NetworkEndpoint) async throws -> Data {
         try configurationManager.validateConfiguration()
 
         let baseURL = configurationManager.baseURL
@@ -165,7 +168,7 @@ struct NetworkManager: NetworkManagerProtocol {
     // swiftlint:enable cyclomatic_complexity
     // swiftlint:enable function_body_length
 
-    private func generateHMACSignature(data: Data, secret: String) -> String {
+    func generateHMACSignature(data: Data, secret: String) -> String {
         let key = SymmetricKey(data: Data(secret.utf8))
         let signature = HMAC<SHA256>.authenticationCode(for: data, using: key)
 

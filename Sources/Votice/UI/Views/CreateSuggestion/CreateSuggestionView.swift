@@ -8,19 +8,13 @@
 
 import SwiftUI
 
-// MARK: - Create Suggestion View
-
 struct CreateSuggestionView: View {
+    // MARK: - Properties
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.voticeTheme) private var theme
 
-    let onSuggestionCreated: (SuggestionEntity) -> Void
-
     @StateObject private var viewModel = CreateSuggestionViewModel()
-
-    @State private var title = ""
-    @State private var description = ""
-    @State private var nickname = ""
 
     @FocusState private var focusedField: Field?
 
@@ -28,152 +22,237 @@ struct CreateSuggestionView: View {
         case title, description, nickname
     }
 
-    private var isFormValid: Bool {
-        !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        !description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    }
+    let onSuggestionCreated: (SuggestionEntity) -> Void
+
+    // MARK: - View
 
     var body: some View {
         NavigationView {
             ZStack {
-                theme.colors.background.ignoresSafeArea()
-
-                ScrollView {
-                    VStack(alignment: .leading, spacing: theme.spacing.lg) {
-                        headerSection
-
-                        formSection
-
-                        Spacer(minLength: theme.spacing.xl)
-                    }
-                    .padding(theme.spacing.md)
+                LinearGradient(
+                    colors: [
+                        theme.colors.background,
+                        theme.colors.background.opacity(0.95)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+                if viewModel.isSubmitting {
+                    LoadingView(message: TextManager.shared.texts.submit)
+                } else {
+                    mainContent
                 }
             }
-            .navigationTitle("New Suggestion")
-            #if os(iOS)
+            .navigationTitle(TextManager.shared.texts.newSuggestion)
+#if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
-            #endif
             .toolbar {
-                #if os(iOS)
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(TextManager.shared.texts.cancel) {
                         dismiss()
                     }
                     .foregroundColor(theme.colors.secondary)
                 }
-
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Submit") {
-                        Task {
-                            await submitSuggestion()
-                        }
-                    }
-                    .foregroundColor(isFormValid ? theme.colors.primary : theme.colors.secondary)
-                    .disabled(!isFormValid || viewModel.isSubmitting)
-                }
-                #else
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                    .foregroundColor(theme.colors.secondary)
-                }
+                    Button(TextManager.shared.texts.submit) {
+                        HapticManager.shared.mediumImpact()
 
-                ToolbarItem(placement: .primaryAction) {
-                    Button("Submit") {
                         Task {
-                            await submitSuggestion()
+                            await viewModel.submitSuggestion { suggestion in
+                                HapticManager.shared.success()
+
+                                onSuggestionCreated(suggestion)
+
+                                dismiss()
+                            }
                         }
                     }
-                    .foregroundColor(isFormValid ? theme.colors.primary : theme.colors.secondary)
-                    .disabled(!isFormValid || viewModel.isSubmitting)
+                    .foregroundColor(viewModel.isFormValid ? theme.colors.primary : theme.colors.secondary)
+                    .disabled(!viewModel.isFormValid || viewModel.isSubmitting)
                 }
-                #endif
             }
+#endif
         }
-        .alert("Error", isPresented: $viewModel.showingError) {
-            Button("OK") {}
+        .alert(TextManager.shared.texts.error, isPresented: $viewModel.showingError) {
+            Button(TextManager.shared.texts.ok) {}
         } message: {
             Text(viewModel.errorMessage)
         }
     }
+}
 
-    private var headerSection: some View {
+// MARK: - Private
+
+private extension CreateSuggestionView {
+    var mainContent: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: theme.spacing.xl) {
+                headerCard
+                formCard
+                Spacer(minLength: theme.spacing.xl)
+            }
+            .padding(theme.spacing.lg)
+        }
+    }
+
+    var headerCard: some View {
+        VStack(alignment: .leading, spacing: theme.spacing.md) {
+            HStack {
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    theme.colors.primary.opacity(0.2),
+                                    theme.colors.accent.opacity(0.1)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 50, height: 50)
+                    Image(systemName: "lightbulb.fill")
+                        .font(.system(size: 24))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [theme.colors.primary, theme.colors.accent],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(TextManager.shared.texts.shareYourIdea)
+                        .font(theme.typography.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(theme.colors.onSurface)
+                    Text(TextManager.shared.texts.helpUsImprove)
+                        .font(theme.typography.body)
+                        .foregroundColor(theme.colors.secondary)
+                }
+
+                Spacer()
+            }
+        }
+        .padding(theme.spacing.lg)
+        .background(
+            RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                .fill(theme.colors.surface)
+                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+        )
+    }
+
+    var formCard: some View {
+        VStack(alignment: .leading, spacing: theme.spacing.xl) {
+            titleSection
+            descriptionSection
+            nicknameSection
+        }
+        .padding(theme.spacing.lg)
+        .background(
+            RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                .fill(theme.colors.surface)
+                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+        )
+    }
+
+    var titleSection: some View {
         VStack(alignment: .leading, spacing: theme.spacing.sm) {
-            Text("Share your idea")
-                .font(theme.typography.title2)
-                .foregroundColor(theme.colors.onBackground)
-
-            Text("Help us improve by suggesting new features or improvements.")
-                .font(theme.typography.body)
-                .foregroundColor(theme.colors.secondary)
-        }
-    }
-
-    private var formSection: some View {
-        VStack(alignment: .leading, spacing: theme.spacing.lg) {
-            // Title Field
-            VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                Text("Title")
+            HStack {
+                Image(systemName: "text.alignleft")
+                    .foregroundColor(theme.colors.primary)
+                    .font(.headline)
+                Text(TextManager.shared.texts.title)
                     .font(theme.typography.headline)
-                    .foregroundColor(theme.colors.onBackground)
-
-                TextField("Enter a brief title for your suggestion", text: $title)
-                    .textFieldStyle(VoticeTextFieldStyle())
-                    .focused($focusedField, equals: .title)
-
-                Text("Keep it short and descriptive")
-                    .font(theme.typography.caption)
-                    .foregroundColor(theme.colors.secondary)
+                    .fontWeight(.semibold)
+                    .foregroundColor(theme.colors.onSurface)
             }
-
-            // Description Field
-            VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                Text("Description")
-                    .font(theme.typography.headline)
-                    .foregroundColor(theme.colors.onBackground)
-
-                TextField("Describe your suggestion in detail...", text: $description, axis: .vertical)
-                    .textFieldStyle(VoticeTextFieldStyle())
-                    .lineLimit(5...10)
-                    .focused($focusedField, equals: .description)
-
-                Text("Explain why this feature would be useful")
-                    .font(theme.typography.caption)
+            TextField(TextManager.shared.texts.titlePlaceholder, text: $viewModel.title)
+                .textFieldStyle(VoticeTextFieldStyle())
+                .focused($focusedField, equals: .title)
+                .onAppear {
+                    focusedField = .title
+                }
+            HStack {
+                Image(systemName: "info.circle")
                     .foregroundColor(theme.colors.secondary)
-            }
-
-            // Optional Nickname Field
-            VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                Text("Your Name (Optional)")
-                    .font(theme.typography.headline)
-                    .foregroundColor(theme.colors.onBackground)
-
-                TextField("Enter your name", text: $nickname)
-                    .textFieldStyle(VoticeTextFieldStyle())
-                    .focused($focusedField, equals: .nickname)
-
-                Text("Leave empty to submit anonymously")
+                    .font(.caption)
+                Text(TextManager.shared.texts.keepItShort)
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.secondary)
             }
         }
     }
 
-    private func submitSuggestion() async {
-        let trimmedNickname = nickname.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        do {
-            let suggestion = try await viewModel.createSuggestion(
-                title: title,
-                description: description,
-                nickname: trimmedNickname.isEmpty ? nil : trimmedNickname
+    var descriptionSection: some View {
+        VStack(alignment: .leading, spacing: theme.spacing.sm) {
+            HStack {
+                Image(systemName: "text.alignleft")
+                    .foregroundColor(theme.colors.accent)
+                    .font(.headline)
+                Text(TextManager.shared.texts.descriptionOptional)
+                    .font(theme.typography.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(theme.colors.onSurface)
+                Spacer()
+                Text(TextManager.shared.texts.optional)
+                    .font(theme.typography.caption)
+                    .foregroundColor(theme.colors.secondary.opacity(0.7))
+                    .padding(.horizontal, theme.spacing.sm)
+                    .padding(.vertical, theme.spacing.xs)
+                    .background(theme.colors.secondary.opacity(0.1))
+                    .cornerRadius(theme.cornerRadius.sm)
+            }
+            TextField(
+                TextManager.shared.texts.descriptionPlaceholder,
+                text: $viewModel.description,
+                axis: .vertical
             )
+            .textFieldStyle(VoticeTextFieldStyle())
+            .lineLimit(3...8)
+            .focused($focusedField, equals: .description)
+            HStack {
+                Image(systemName: "info.circle")
+                    .foregroundColor(theme.colors.secondary)
+                    .font(.caption)
+                Text(TextManager.shared.texts.explainWhyUseful)
+                    .font(theme.typography.caption)
+                    .foregroundColor(theme.colors.secondary)
+            }
+        }
+    }
 
-            onSuggestionCreated(suggestion)
-            dismiss()
-        } catch {
-            // Error is handled by the ViewModel
+    var nicknameSection: some View {
+        VStack(alignment: .leading, spacing: theme.spacing.sm) {
+            HStack {
+                Image(systemName: "person.circle")
+                    .foregroundColor(theme.colors.secondary)
+                    .font(.headline)
+                Text(TextManager.shared.texts.yourNameOptionalCreate)
+                    .font(theme.typography.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(theme.colors.onSurface)
+                Spacer()
+                Text(TextManager.shared.texts.optional)
+                    .font(theme.typography.caption)
+                    .foregroundColor(theme.colors.secondary.opacity(0.7))
+                    .padding(.horizontal, theme.spacing.sm)
+                    .padding(.vertical, theme.spacing.xs)
+                    .background(theme.colors.secondary.opacity(0.1))
+                    .cornerRadius(theme.cornerRadius.sm)
+            }
+            TextField(TextManager.shared.texts.enterYourNameCreate, text: $viewModel.nickname)
+                .textFieldStyle(VoticeTextFieldStyle())
+                .focused($focusedField, equals: .nickname)
+            HStack {
+                Image(systemName: "eye.slash")
+                    .foregroundColor(theme.colors.secondary)
+                    .font(.caption)
+                Text(TextManager.shared.texts.leaveEmptyAnonymous)
+                    .font(theme.typography.caption)
+                    .foregroundColor(theme.colors.secondary)
+            }
         }
     }
 }

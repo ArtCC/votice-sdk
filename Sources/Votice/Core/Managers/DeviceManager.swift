@@ -117,6 +117,6 @@ final class DeviceManager: DeviceManagerProtocol {
     // MARK: - Private
 
     private func getCurrentDeviceId() -> String {
-        return userDefaults.string(forKey: deviceIdKey) ?? ""
+        userDefaults.string(forKey: deviceIdKey) ?? ""
     }
 }

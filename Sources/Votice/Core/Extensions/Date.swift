@@ -28,6 +28,7 @@ extension Date {
 
     private func formattedForDevice() -> String {
         let formatter = DateFormatter()
+        formatter.locale = Locale.current
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
         formatter.doesRelativeDateFormatting = true

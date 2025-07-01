@@ -8,170 +8,124 @@
 
 import SwiftUI
 
-// MARK: - Suggestion Card
-
 struct SuggestionCard: View {
+    // MARK: - Properties
+
     @Environment(\.voticeTheme) private var theme
+
+    @State private var isPressed = false
 
     let suggestion: SuggestionEntity
     let currentVote: VoteType?
     let onVote: (VoteType) -> Void
     let onTap: () -> Void
 
-    private var statusColor: Color {
-        switch suggestion.status ?? .pending {
-        case .pending:
-            return theme.colors.pending
-        case .accepted:
-            return theme.colors.accepted
-        case .inProgress:
-            return theme.colors.inProgress
-        case .completed:
-            return theme.colors.completed
-        case .rejected:
-            return theme.colors.rejected
-        }
-    }
-
-    private var statusText: String {
-        switch suggestion.status ?? .pending {
-        case .pending:
-            return "Pending"
-        case .accepted:
-            return "Accepted"
-        case .inProgress:
-            return "In Progress"
-        case .completed:
-            return "Completed"
-        case .rejected:
-            return "Rejected"
-        }
-    }
+    // MARK: - View
 
     var body: some View {
         Button(action: onTap) {
-            HStack(alignment: .top, spacing: theme.spacing.md) {
-                // Voting Section
-                VotingButtons(
-                    upvotes: max(0, suggestion.voteCount ?? 0),
-                    downvotes: 0, // Backend doesn't separate upvotes/downvotes yet
-                    currentVote: currentVote,
-                    onVote: onVote
-                )
-
-                // Content Section
-                VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                    // Title/Text
-                    Text(suggestion.displayText)
-                        .font(theme.typography.headline)
-                        .foregroundColor(theme.colors.onSurface)
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(3)
-
-                    // Metadata Row
-                    HStack {
-                        // Status Badge
-                        StatusBadge(status: suggestion.status ?? .pending, color: statusColor)
-
+            HStack(alignment: .center, spacing: theme.spacing.md) {
+                VStack(spacing: theme.spacing.xs) {
+                    VotingButtons(upvotes: max(0, suggestion.voteCount ?? 0),
+                                  downvotes: 0,
+                                  currentVote: currentVote,
+                                  onVote: onVote)
+                }
+                .padding(.trailing, theme.spacing.sm)
+                VStack(alignment: .leading, spacing: theme.spacing.md) {
+                    HStack(alignment: .top, spacing: theme.spacing.sm) {
+                        Text(suggestion.displayText)
+                            .font(theme.typography.headline)
+                            .foregroundColor(theme.colors.onSurface)
+                            .multilineTextAlignment(.leading)
+                            .lineLimit(3)
+                            .fixedSize(horizontal: false, vertical: true)
                         Spacer()
-
-                        // Comment Count
-                        if suggestion.commentCount ?? 0 > 0 {
-                            HStack(spacing: 4) {
-                                Image(systemName: "bubble.left")
-                                    .font(.caption)
-                                Text("\(suggestion.commentCount)")
-                                    .font(theme.typography.caption)
-                            }
-                            .foregroundColor(theme.colors.secondary)
-                        }
-
-                        // Source Indicator
-                        SourceIndicator(source: suggestion.source ?? .sdk)
+                        StatusBadge(status: suggestion.status ?? .pending)
                     }
-
-                    // Author & Date
                     HStack {
-                        if let nickname = suggestion.nickname {
-                            Text("by \(nickname)")
-                                .font(theme.typography.caption)
+                        HStack(spacing: 4) {
+                            Image(systemName: suggestion.nickname != nil ? "person.circle.fill" : "person.circle")
+                                .font(.caption)
                                 .foregroundColor(theme.colors.secondary)
-                        } else {
-                            Text("by Anonymous")
-                                .font(theme.typography.caption)
-                                .foregroundColor(theme.colors.secondary)
+                            if let nickname = suggestion.nickname {
+                                Text("\(TextManager.shared.texts.suggestedBy) \(nickname)")
+                                    .font(theme.typography.caption)
+                                    .foregroundColor(theme.colors.secondary)
+                            } else {
+                                Text(TextManager.shared.texts.suggestedAnonymously)
+                                    .font(theme.typography.caption)
+                                    .foregroundColor(theme.colors.secondary)
+                            }
                         }
-
                         Spacer()
-
-                        if let createdAt = suggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
+                        HStack(spacing: theme.spacing.sm) {
+                            if suggestion.commentCount ?? 0 > 0 {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "bubble.left.fill")
+                                        .font(.caption)
+                                        .foregroundColor(theme.colors.accent)
+                                    Text("\(suggestion.commentCount ?? 0)")
+                                        .font(theme.typography.caption)
+                                        .foregroundColor(theme.colors.accent)
+                                }
+                            }
+                            SourceIndicator(source: suggestion.source ?? .sdk)
+                        }
+                    }
+                    if let createdAt = suggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
+                        HStack {
+                            Image(systemName: "clock")
+                                .font(.caption2)
+                                .foregroundColor(theme.colors.secondary.opacity(0.7))
                             Text(date)
                                 .font(theme.typography.caption)
-                                .foregroundColor(theme.colors.secondary)
+                                .foregroundColor(theme.colors.secondary.opacity(0.7))
+                            Spacer()
                         }
                     }
                 }
-
-                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundColor(theme.colors.secondary.opacity(0.5))
+                    .scaleEffect(isPressed ? 1.2 : 1.0)
             }
-            .padding(theme.spacing.md)
-            .background(theme.colors.surface)
-            .cornerRadius(theme.cornerRadius.md)
-            .overlay(
-                RoundedRectangle(cornerRadius: theme.cornerRadius.md)
-                    .stroke(theme.colors.secondary.opacity(0.2), lineWidth: 1)
+            .padding(theme.spacing.lg)
+            .background(
+                RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                    .fill(theme.colors.surface)
+                    .shadow(
+                        color: theme.colors.primary.opacity(isPressed ? 0.2 : 0.08),
+                        radius: isPressed ? 12 : 6,
+                        x: 0,
+                        y: isPressed ? 6 : 3
+                    )
             )
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                    .stroke(
+                        LinearGradient(
+                            colors: [
+                                theme.colors.primary.opacity(isPressed ? 0.3 : 0.1),
+                                theme.colors.accent.opacity(isPressed ? 0.2 : 0.05)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: isPressed ? 2 : 1
+                    )
+            )
+            .scaleEffect(isPressed ? 0.98 : 1.0)
         }
         .buttonStyle(PlainButtonStyle())
-    }
-}
+        .onLongPressGesture(minimumDuration: 0) { pressing in
+            withAnimation(.easeInOut(duration: 0.15)) {
+                isPressed = pressing
+            }
+        } perform: {
+            HapticManager.shared.lightImpact()
 
-// MARK: - Status Badge
-
-private struct StatusBadge: View {
-    @Environment(\.voticeTheme) private var theme
-
-    let status: SuggestionStatusEntity
-    let color: Color
-
-    private var statusText: String {
-        switch status {
-        case .pending: return "Pending"
-        case .accepted: return "Accepted"
-        case .inProgress: return "In Progress"
-        case .completed: return "Completed"
-        case .rejected: return "Rejected"
+            onTap()
         }
-    }
-
-    var body: some View {
-        Text(statusText)
-            .font(theme.typography.caption)
-            .foregroundColor(.white)
-            .padding(.horizontal, theme.spacing.sm)
-            .padding(.vertical, theme.spacing.xs)
-            .background(color)
-            .cornerRadius(theme.cornerRadius.sm)
-    }
-}
-
-// MARK: - Source Indicator
-
-private struct SourceIndicator: View {
-    @Environment(\.voticeTheme) private var theme
-
-    let source: SuggestionSource
-
-    private var icon: String {
-        switch source {
-        case .dashboard: return "desktopcomputer"
-        case .sdk: return "iphone"
-        }
-    }
-
-    var body: some View {
-        Image(systemName: icon)
-            .font(.caption)
-            .foregroundColor(theme.colors.secondary)
     }
 }
