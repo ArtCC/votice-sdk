@@ -21,6 +21,19 @@ struct EmptyStateView: View {
     // MARK: - View
 
     var body: some View {
+        VStack {
+            Spacer()
+            contentView
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+// MARK: - Private
+
+private extension EmptyStateView {
+    var contentView: some View {
         VStack(spacing: theme.spacing.xl) {
             ZStack {
                 Circle()

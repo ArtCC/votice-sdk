@@ -17,7 +17,6 @@ struct SuggestionDetailView: View {
     @StateObject private var viewModel = SuggestionDetailViewModel()
 
     @State private var showingAddComment = false
-    @State private var showDeleteAlert = false
 
     @FocusState private var isCommentFocused: Bool
 
@@ -59,7 +58,15 @@ struct SuggestionDetailView: View {
                     Button(TextManager.shared.texts.close) {
                         dismiss()
                     }
+                    .font(theme.typography.callout)
+                    .fontWeight(.medium)
                     .foregroundColor(theme.colors.secondary)
+                    .padding(.horizontal, theme.spacing.md)
+                    .padding(.vertical, theme.spacing.xs)
+                    .background(
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(theme.colors.secondary.opacity(0.1))
+                    )
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: theme.spacing.sm) {
@@ -67,7 +74,13 @@ struct SuggestionDetailView: View {
                             Button(role: .destructive) {
                                 HapticManager.shared.warning()
 
-                                showDeleteAlert = true
+                                viewModel.showDeleteSuggestionConfirmation(for: currentSuggestion) {
+                                    HapticManager.shared.heavyImpact()
+
+                                    onReload()
+
+                                    dismiss()
+                                }
                             } label: {
                                 ZStack {
                                     Circle()
@@ -77,24 +90,6 @@ struct SuggestionDetailView: View {
                                         .font(.system(size: 14, weight: .medium))
                                         .foregroundColor(theme.colors.error)
                                 }
-                            }
-                            .alert(isPresented: $showDeleteAlert) {
-                                Alert(
-                                    title: Text(TextManager.shared.texts.deleteSuggestionTitle),
-                                    message: Text(TextManager.shared.texts.deleteSuggestionMessage),
-                                    primaryButton: .destructive(Text(TextManager.shared.texts.delete)) {
-                                        HapticManager.shared.heavyImpact()
-
-                                        Task {
-                                            await viewModel.deleteSuggestion(currentSuggestion)
-
-                                            onReload()
-
-                                            dismiss()
-                                        }
-                                    },
-                                    secondaryButton: .cancel()
-                                )
                             }
                         }
                     }
@@ -113,11 +108,10 @@ struct SuggestionDetailView: View {
         .sheet(isPresented: $showingAddComment) {
             addCommentSheet
         }
-        .alert(TextManager.shared.texts.error, isPresented: $viewModel.showingError) {
-            Button(TextManager.shared.texts.ok) {}
-        } message: {
-            Text(viewModel.errorMessage)
-        }
+        .voticeAlert(
+            isPresented: $viewModel.isShowingAlert,
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+        )
     }
 }
 
@@ -134,6 +128,8 @@ private extension SuggestionDetailView {
             }
             .padding(theme.spacing.lg)
         }
+        .scrollBounceBehavior(.basedOnSize)
+        .scrollDismissesKeyboard(.immediately)
     }
 
     var suggestionHeaderCard: some View {
@@ -290,15 +286,8 @@ private extension SuggestionDetailView {
                 CommentCard(
                     comment: comment,
                     currentDeviceId: DeviceManager.shared.deviceId,
-                    alert: AlertEntity(
-                        title: TextManager.shared.texts.deleteCommentTitle,
-                        message: TextManager.shared.texts.deleteCommentMessage,
-                        primaryButtonTitle: TextManager.shared.texts.deleteCommentPrimary
-                    ),
-                    onDelete: {
-                        Task {
-                            await viewModel.deleteComment(comment)
-                        }
+                    onDeleteConfirmation: {
+                        viewModel.showDeleteCommentConfirmation(for: comment)
                     }
                 )
                 .onAppear {
@@ -331,9 +320,18 @@ private extension SuggestionDetailView {
                 HStack {
                     Button(TextManager.shared.texts.cancel) {
                         showingAddComment = false
+
                         viewModel.resetCommentForm()
                     }
+                    .font(theme.typography.callout)
+                    .fontWeight(.medium)
                     .foregroundColor(theme.colors.secondary)
+                    .padding(.horizontal, theme.spacing.md)
+                    .padding(.vertical, theme.spacing.xs)
+                    .background(
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(theme.colors.secondary.opacity(0.1))
+                    )
                     Spacer()
                     Text(TextManager.shared.texts.newComment)
                         .font(theme.typography.headline)
@@ -347,12 +345,22 @@ private extension SuggestionDetailView {
                             }
                         }
                     }
-                    .disabled(!viewModel.isCommentFormValid || viewModel.isSubmittingComment)
+                    .font(theme.typography.callout)
+                    .fontWeight(.semibold)
                     .foregroundColor(
-                        viewModel.isCommentFormValid &&
-                        !viewModel.isSubmittingComment ? theme.colors.primary :
-                            theme.colors.secondary.opacity(0.5)
+                        viewModel.isCommentFormValid && !viewModel.isSubmittingComment ? .white : theme.colors.secondary
                     )
+                    .padding(.horizontal, theme.spacing.md)
+                    .padding(.vertical, theme.spacing.xs)
+                    .background(
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(
+                                viewModel.isCommentFormValid && !viewModel.isSubmittingComment
+                                ? theme.colors.primary
+                                : theme.colors.secondary.opacity(0.1)
+                            )
+                    )
+                    .disabled(!viewModel.isCommentFormValid || viewModel.isSubmittingComment)
                 }
                 .padding(.horizontal, theme.spacing.lg)
                 .padding(.top, theme.spacing.lg)
@@ -382,6 +390,8 @@ private extension SuggestionDetailView {
                     }
                     .padding(.horizontal, theme.spacing.lg)
                 }
+                .scrollBounceBehavior(.basedOnSize)
+                .scrollDismissesKeyboard(.immediately)
             }
         }
         .background(theme.colors.background)

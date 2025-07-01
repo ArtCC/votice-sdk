@@ -8,8 +8,116 @@
 
 import Foundation
 
-struct AlertEntity {
+// MARK: - Alert Type
+
+enum VoticeAlertType {
+    case success
+    case warning
+    case error
+    case info
+}
+
+// MARK: - Alert Button
+
+struct VoticeAlertButton {
+    // MARK: - Properties
+
+    let title: String
+    let action: () -> Void
+    let style: VoticeAlertButtonStyle
+
+    // MARK: - Init
+
+    init(title: String, style: VoticeAlertButtonStyle = .default, action: @escaping () -> Void = {}) {
+        self.title = title
+        self.style = style
+        self.action = action
+    }
+}
+
+// MARK: - Alert Button Style
+
+enum VoticeAlertButtonStyle {
+    case `default`
+    case primary
+    case destructive
+}
+
+// MARK: - Alert Entity
+
+struct VoticeAlertEntity {
+    // MARK: - Properties
+
+    let type: VoticeAlertType
     let title: String
     let message: String
-    let primaryButtonTitle: String
+    let primaryButton: VoticeAlertButton
+    let secondaryButton: VoticeAlertButton?
+
+    // MARK: - Init
+
+    init(type: VoticeAlertType = .error,
+         title: String,
+         message: String,
+         primaryButton: VoticeAlertButton? = nil,
+         secondaryButton: VoticeAlertButton? = nil) {
+        self.type = type
+        self.title = title
+        self.message = message
+        self.primaryButton = primaryButton ?? VoticeAlertButton(title: "OK", style: .default)
+        self.secondaryButton = secondaryButton
+    }
+
+    // MARK: - Convenience Initializers
+
+    static func error(title: String = "Error",
+                      message: String,
+                      okAction: @escaping () -> Void = {}) -> VoticeAlertEntity {
+        VoticeAlertEntity(
+            type: .error,
+            title: title,
+            message: message,
+            primaryButton: VoticeAlertButton(title: "OK", style: .destructive, action: okAction)
+        )
+    }
+
+    static func success(title: String = "Success",
+                        message: String,
+                        okAction: @escaping () -> Void = {}) -> VoticeAlertEntity {
+        VoticeAlertEntity(
+            type: .success,
+            title: title,
+            message: message,
+            primaryButton: VoticeAlertButton(title: "OK", style: .primary, action: okAction)
+        )
+    }
+
+    static func warning(title: String = "Warning",
+                        message: String,
+                        okAction: @escaping () -> Void = {},
+                        cancelAction: @escaping () -> Void = {}) -> VoticeAlertEntity {
+        VoticeAlertEntity(
+            type: .warning,
+            title: title,
+            message: message,
+            primaryButton: VoticeAlertButton(title: "OK", style: .primary, action: okAction),
+            secondaryButton: VoticeAlertButton(title: "Cancel", style: .default, action: cancelAction)
+        )
+    }
+
+    static func info(title: String = "Info",
+                     message: String,
+                     okAction: @escaping () -> Void = {}) -> VoticeAlertEntity {
+        VoticeAlertEntity(
+            type: .info,
+            title: title,
+            message: message,
+            primaryButton: VoticeAlertButton(title: "OK", style: .default, action: okAction)
+        )
+    }
 }
+
+// MARK: - Legacy Support
+
+@available(*, deprecated, message: "Use VoticeAlertEntity instead")
+typealias AlertEntity = VoticeAlertEntity

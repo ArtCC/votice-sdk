@@ -20,6 +20,9 @@ public protocol VoticeTextsProtocol: Sendable {
     var ok: String { get }
     var submit: String { get }
     var optional: String { get }
+    var success: String { get }
+    var warning: String { get }
+    var info: String { get }
 
     // MARK: - Suggestion List
 
@@ -90,6 +93,9 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let ok = "OK"
     public let submit = "Submit"
     public let optional = "Optional"
+    public let success = "Success"
+    public let warning = "Warning"
+    public let info = "Info"
 
     // MARK: - Suggestion List
 
@@ -136,7 +142,7 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let newSuggestion = "New Suggestion"
     public let shareYourIdea = "Share your idea"
     public let helpUsImprove = "Help us improve by suggesting new features or improvements."
-    public let title = "Title"
+    public let title = "Title (Min. 3 characters)"
     public let titlePlaceholder = "Enter a brief title for your suggestion"
     public let keepItShort = "Keep it short and descriptive"
     public let descriptionOptional = "Description (Optional)"

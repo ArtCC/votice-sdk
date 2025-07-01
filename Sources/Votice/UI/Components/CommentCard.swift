@@ -13,23 +13,18 @@ struct CommentCard: View {
 
     @Environment(\.voticeTheme) private var theme
 
-    @State private var showDeleteAlert = false
-
     let comment: CommentEntity
     let currentDeviceId: String
-    let alert: AlertEntity
-    let onDelete: (() -> Void)?
+    let onDeleteConfirmation: (() -> Void)?
 
     // MARK: - Init
 
     init(comment: CommentEntity,
          currentDeviceId: String,
-         alert: AlertEntity,
-         onDelete: (() -> Void)? = nil) {
+         onDeleteConfirmation: (() -> Void)? = nil) {
         self.comment = comment
         self.currentDeviceId = currentDeviceId
-        self.alert = alert
-        self.onDelete = onDelete
+        self.onDeleteConfirmation = onDeleteConfirmation
     }
 
     // MARK: - View
@@ -50,7 +45,7 @@ struct CommentCard: View {
                     Button(role: .destructive) {
                         HapticManager.shared.warning()
 
-                        showDeleteAlert = true
+                        onDeleteConfirmation?()
                     } label: {
                         ZStack {
                             Circle()
@@ -60,16 +55,6 @@ struct CommentCard: View {
                                 .font(.system(size: 12, weight: .medium))
                                 .foregroundColor(theme.colors.error)
                         }
-                    }
-                    .alert(isPresented: $showDeleteAlert) {
-                        Alert(
-                            title: Text(alert.title),
-                            message: Text(alert.message),
-                            primaryButton: .destructive(Text(alert.primaryButtonTitle)) {
-                                onDelete?()
-                            },
-                            secondaryButton: .cancel()
-                        )
                     }
                 }
             }

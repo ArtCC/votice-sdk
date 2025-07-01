@@ -107,7 +107,9 @@ struct HomeView: View {
         }
         .onAppear {
             configureVotice()
-            configureText()
+
+            // Optional: Configure custom texts for localization.
+            // configureText()
         }
     }
 }
@@ -118,9 +120,9 @@ private extension HomeView {
     func configureVotice() {
         do {
             try Votice.configure(
-                apiKey: "f2ba766c1f5311abb15cb49c",
-                apiSecret: "d20d4556d837924dee6e3bc4a4b43ce260a0ea221c2f5500",
-                appId: "kJnOJXuO1T8hKRQ0Qo9V"
+                apiKey: "f36c62a3e9fa895cc5f6f89e",
+                apiSecret: "9c5288e2584c3be913c8c216123dc757873c562720d3ab87",
+                appId: "uN2b1hDJxSXNwzse47xE"
             )
 
             Votice.setDebugLogging(enabled: true)
@@ -151,6 +153,9 @@ struct SpanishTexts: VoticeTextsProtocol {
     let ok = "OK"
     let submit = "Enviar"
     let optional = "Opcional"
+    let success = "Éxito"
+    let warning = "Advertencia"
+    let info = "Información"
 
     // MARK: - Suggestion List
 
@@ -197,7 +202,7 @@ struct SpanishTexts: VoticeTextsProtocol {
     let newSuggestion = "Nueva sugerencia"
     let shareYourIdea = "Comparte tu idea"
     let helpUsImprove = "Ayúdanos a mejorar sugiriendo nuevas funciones o mejoras."
-    let title = "Título"
+    let title = "Título (Mínimo 3 caracteres)"
     let titlePlaceholder = "Introduce un título breve para tu sugerencia"
     let keepItShort = "Mantenlo corto y descriptivo"
     let descriptionOptional = "Descripción (opcional)"

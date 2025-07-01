@@ -20,26 +20,30 @@ struct SuggestionListView: View {
     // MARK: - View
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                LinearGradient(
-                    colors: [
-                        theme.colors.background,
-                        theme.colors.background.opacity(0.95)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
-                if viewModel.isLoading && viewModel.suggestions.isEmpty {
-                    LoadingView(message: TextManager.shared.texts.loadingSuggestions)
-                } else if viewModel.suggestions.isEmpty && !viewModel.isLoading {
-                    EmptyStateView(
-                        title: TextManager.shared.texts.noSuggestionsYet,
-                        message: TextManager.shared.texts.beFirstToSuggest
-                    )
-                } else {
-                    suggestionsList
+        ZStack {
+            LinearGradient(
+                colors: [
+                    theme.colors.background,
+                    theme.colors.background.opacity(0.95)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            if viewModel.isLoading && viewModel.suggestions.isEmpty {
+                LoadingView(message: TextManager.shared.texts.loadingSuggestions)
+            } else {
+                VStack(spacing: 0) {
+                    headerView
+                    if viewModel.suggestions.isEmpty && !viewModel.isLoading {
+                        EmptyStateView(
+                            title: TextManager.shared.texts.noSuggestionsYet,
+                            message: TextManager.shared.texts.beFirstToSuggest
+                        )
+                    } else {
+                        suggestionsList
+                    }
                 }
                 VStack {
                     Spacer()
@@ -51,40 +55,30 @@ struct SuggestionListView: View {
                     .padding(.bottom, theme.spacing.lg)
                 }
             }
-            .navigationTitle(TextManager.shared.texts.featureRequests)
-#if os(iOS)
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    filterMenu
-                }
-            }
-#endif
-            .refreshable {
-                await viewModel.refresh()
-            }
-            .sheet(isPresented: $viewModel.showingCreateSuggestion) {
-                CreateSuggestionView { suggestion in
-                    viewModel.addSuggestion(suggestion)
-                }
-            }
-            .sheet(item: $viewModel.selectedSuggestion) { suggestion in
-                SuggestionDetailView(suggestion: suggestion) { updatedSuggestion in
-                    viewModel.updateSuggestion(updatedSuggestion)
-                } onReload: {
-                    Task {
-                        await viewModel.loadSuggestions()
-                    }
-                }
-            }
         }
         .task {
             await viewModel.loadSuggestions()
         }
-        .alert(TextManager.shared.texts.error, isPresented: $viewModel.showingError) {
-            Button(TextManager.shared.texts.ok) {}
-        } message: {
-            Text(viewModel.errorMessage)
+        .voticeAlert(
+            isPresented: $viewModel.isShowingAlert,
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+        )
+        .sheet(isPresented: $viewModel.showingCreateSuggestion) {
+            CreateSuggestionView { suggestion in
+                viewModel.addSuggestion(suggestion)
+            }
+        }
+        .sheet(item: $viewModel.selectedSuggestion) { suggestion in
+            SuggestionDetailView(suggestion: suggestion) { updatedSuggestion in
+                viewModel.updateSuggestion(updatedSuggestion)
+            } onReload: {
+                Task {
+                    await viewModel.loadSuggestions()
+                }
+            }
+        }
+        .refreshable {
+            await viewModel.refresh()
         }
     }
 }
@@ -92,6 +86,52 @@ struct SuggestionListView: View {
 // MARK: - Private
 
 private extension SuggestionListView {
+    var headerView: some View {
+        HStack {
+            Text(TextManager.shared.texts.featureRequests)
+                .font(theme.typography.largeTitle)
+                .fontWeight(.bold)
+                .foregroundColor(theme.colors.onBackground)
+            Spacer()
+            filterMenuButton
+        }
+        .padding(.horizontal, theme.spacing.lg)
+        .padding(.vertical, theme.spacing.md)
+        .background(
+            theme.colors.background
+                .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
+        )
+    }
+
+    var filterMenuButton: some View {
+        Menu {
+            filterButton(title: TextManager.shared.texts.all, filter: nil)
+            filterButton(title: TextManager.shared.texts.pending, filter: .pending)
+            filterButton(title: TextManager.shared.texts.accepted, filter: .accepted)
+            filterButton(title: TextManager.shared.texts.inProgress, filter: .inProgress)
+            filterButton(title: TextManager.shared.texts.rejected, filter: .rejected)
+            filterButton(title: TextManager.shared.texts.completed, filter: .completed)
+        } label: {
+            HStack(spacing: theme.spacing.xs) {
+                Image(systemName: "line.3.horizontal.decrease.circle.fill")
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundColor(theme.colors.primary)
+
+                if viewModel.selectedFilter != nil {
+                    Circle()
+                        .fill(theme.colors.accent)
+                        .frame(width: 8, height: 8)
+                }
+            }
+            .padding(.horizontal, theme.spacing.sm)
+            .padding(.vertical, theme.spacing.xs)
+            .background(
+                RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                    .fill(theme.colors.primary.opacity(0.1))
+            )
+        }
+    }
+
     var suggestionsList: some View {
         ScrollView {
             LazyVStack(spacing: theme.spacing.lg) {
@@ -134,6 +174,8 @@ private extension SuggestionListView {
             .padding(.horizontal, theme.spacing.lg)
             .padding(.top, theme.spacing.md)
         }
+        .scrollBounceBehavior(.basedOnSize)
+        .scrollDismissesKeyboard(.immediately)
     }
 
     var floatingActionButton: some View {
@@ -153,27 +195,6 @@ private extension SuggestionListView {
         .scaleEffect(showCreateButton ? 1.0 : 0.9)
         .opacity(showCreateButton ? 1.0 : 0.7)
         .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
-    }
-
-    var filterMenu: some View {
-        Menu {
-            filterButton(title: TextManager.shared.texts.all, filter: nil)
-            filterButton(title: TextManager.shared.texts.pending, filter: .pending)
-            filterButton(title: TextManager.shared.texts.accepted, filter: .accepted)
-            filterButton(title: TextManager.shared.texts.inProgress, filter: .inProgress)
-            filterButton(title: TextManager.shared.texts.rejected, filter: .rejected)
-            filterButton(title: TextManager.shared.texts.completed, filter: .completed)
-        } label: {
-            HStack(spacing: 4) {
-                Image(systemName: "line.3.horizontal.decrease.circle.fill")
-                    .foregroundColor(theme.colors.primary)
-                if viewModel.selectedFilter != nil {
-                    Circle()
-                        .fill(theme.colors.accent)
-                        .frame(width: 8, height: 8)
-                }
-            }
-        }
     }
 
     func filterButton(title: String, filter: SuggestionStatusEntity?) -> some View {

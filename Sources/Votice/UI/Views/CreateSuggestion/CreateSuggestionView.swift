@@ -52,7 +52,15 @@ struct CreateSuggestionView: View {
                     Button(TextManager.shared.texts.cancel) {
                         dismiss()
                     }
+                    .font(theme.typography.callout)
+                    .fontWeight(.medium)
                     .foregroundColor(theme.colors.secondary)
+                    .padding(.horizontal, theme.spacing.md)
+                    .padding(.vertical, theme.spacing.xs)
+                    .background(
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(theme.colors.secondary.opacity(0.1))
+                    )
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(TextManager.shared.texts.submit) {
@@ -68,17 +76,30 @@ struct CreateSuggestionView: View {
                             }
                         }
                     }
-                    .foregroundColor(viewModel.isFormValid ? theme.colors.primary : theme.colors.secondary)
+                    .font(theme.typography.callout)
+                    .fontWeight(.semibold)
+                    .foregroundColor(
+                        viewModel.isFormValid && !viewModel.isSubmitting ? .white : theme.colors.secondary
+                    )
+                    .padding(.horizontal, theme.spacing.md)
+                    .padding(.vertical, theme.spacing.xs)
+                    .background(
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(
+                                viewModel.isFormValid && !viewModel.isSubmitting
+                                ? theme.colors.primary
+                                : theme.colors.secondary.opacity(0.1)
+                            )
+                    )
                     .disabled(!viewModel.isFormValid || viewModel.isSubmitting)
                 }
             }
 #endif
         }
-        .alert(TextManager.shared.texts.error, isPresented: $viewModel.showingError) {
-            Button(TextManager.shared.texts.ok) {}
-        } message: {
-            Text(viewModel.errorMessage)
-        }
+        .voticeAlert(
+            isPresented: $viewModel.isShowingAlert,
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+        )
     }
 }
 
@@ -94,6 +115,8 @@ private extension CreateSuggestionView {
             }
             .padding(theme.spacing.lg)
         }
+        .scrollBounceBehavior(.basedOnSize)
+        .scrollDismissesKeyboard(.immediately)
     }
 
     var headerCard: some View {

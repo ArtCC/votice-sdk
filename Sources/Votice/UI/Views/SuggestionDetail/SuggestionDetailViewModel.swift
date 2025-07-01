@@ -3,7 +3,7 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
-//  Copyright © 2025 ArtCC. All rights reserved.
+//  Copyright Arturo Carretero Calvo 2025. All rights reserved.
 //
 
 import Foundation
@@ -15,14 +15,14 @@ final class SuggestionDetailViewModel: ObservableObject {
     @Published var comments: [CommentEntity] = []
     @Published var isLoadingComments = false
     @Published var isSubmittingComment = false
-    @Published var showingError = false
-    @Published var errorMessage = ""
     @Published var currentVote: VoteType?
     @Published var suggestionEntity: SuggestionEntity?
     @Published var reload = false
     @Published var hasMoreComments = true
     @Published var newComment = ""
     @Published var commentNickname = ""
+    @Published var currentAlert: VoticeAlertEntity?
+    @Published var isShowingAlert = false
 
     private var lastLoadedCreatedAt: String?
 
@@ -68,7 +68,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             hasMoreComments = response.comments.count == pageSize
         } catch {
-            handleError(error)
+            showError(message: error.localizedDescription)
         }
 
         isLoadingComments = false
@@ -95,7 +95,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             hasMoreComments = newComments.count == pageSize
         } catch {
-            handleError(error)
+            showError(message: error.localizedDescription)
         }
 
         isLoadingComments = false
@@ -141,7 +141,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            handleError(error)
+            showError(message: error.localizedDescription)
         }
     }
 
@@ -157,7 +157,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            handleError(error)
+            showError(message: error.localizedDescription)
         }
     }
 
@@ -178,7 +178,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            handleError(error)
+            showError(message: error.localizedDescription)
         }
     }
 
@@ -186,10 +186,7 @@ final class SuggestionDetailViewModel: ObservableObject {
         do {
             try await SuggestionUseCase().deleteSuggestion(suggestionId: suggestion.id)
         } catch {
-            DispatchQueue.main.async {
-                self.errorMessage = error.localizedDescription
-                self.showingError = true
-            }
+            showError(message: error.localizedDescription)
         }
     }
 
@@ -198,7 +195,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
         await addComment(to: suggestionId, text: newComment, nickname: trimmedNickname.isEmpty ? nil : trimmedNickname)
 
-        if !showingError {
+        if !isShowingAlert {
             resetCommentForm()
 
             onSuccess()
@@ -209,16 +206,44 @@ final class SuggestionDetailViewModel: ObservableObject {
         newComment = ""
         commentNickname = ""
     }
+
+    func showDeleteCommentConfirmation(for comment: CommentEntity) {
+        showAlert(VoticeAlertEntity.warning(
+            title: TextManager.shared.texts.deleteCommentTitle,
+            message: TextManager.shared.texts.deleteCommentMessage,
+            okAction: {
+                Task {
+                    await self.deleteComment(comment)
+                }
+            }
+        ))
+    }
+
+    func showDeleteSuggestionConfirmation(for suggestion: SuggestionEntity, onConfirm: @escaping () -> Void) {
+        showAlert(VoticeAlertEntity.warning(
+            title: TextManager.shared.texts.deleteSuggestionTitle,
+            message: TextManager.shared.texts.deleteSuggestionMessage,
+            okAction: {
+                Task {
+                    await self.deleteSuggestion(suggestion)
+
+                    onConfirm()
+                }
+            }
+        ))
+    }
 }
 
 // MARK: - Private
 
 private extension SuggestionDetailViewModel {
-    func handleError(_ error: Error) {
-        errorMessage = error.localizedDescription
+    func showAlert(_ alert: VoticeAlertEntity) {
+        currentAlert = alert
 
-        showingError = true
+        isShowingAlert = true
+    }
 
-        LogManager.shared.devLog(.error, "SuggestionDetailViewModel error: \(error)")
+    func showError(message: String) {
+        showAlert(VoticeAlertEntity.error(message: message))
     }
 }

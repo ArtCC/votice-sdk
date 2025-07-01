@@ -6,18 +6,18 @@
 //  Copyright © 2025 ArtCC. All rights reserved.
 //
 
-import SwiftUI
+import Foundation
 
 @MainActor
 final class CreateSuggestionViewModel: ObservableObject {
     // MARK: - Properties
 
     @Published var isSubmitting = false
-    @Published var showingError = false
-    @Published var errorMessage = ""
     @Published var title = ""
     @Published var description = ""
     @Published var nickname = ""
+    @Published var currentAlert: VoticeAlertEntity?
+    @Published var isShowingAlert = false
 
     var isFormValid: Bool {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -51,7 +51,7 @@ final class CreateSuggestionViewModel: ObservableObject {
 
             return response.suggestion
         } catch {
-            handleError(error)
+            showError(message: error.localizedDescription)
 
             throw error
         }
@@ -81,11 +81,13 @@ final class CreateSuggestionViewModel: ObservableObject {
 // MARK: - Private
 
 private extension CreateSuggestionViewModel {
-    func handleError(_ error: Error) {
-        errorMessage = error.localizedDescription
+    func showAlert(_ alert: VoticeAlertEntity) {
+        currentAlert = alert
 
-        showingError = true
+        isShowingAlert = true
+    }
 
-        LogManager.shared.devLog(.error, "CreateSuggestionViewModel error: \(error)")
+    func showError(message: String) {
+        showAlert(VoticeAlertEntity.error(message: message))
     }
 }
