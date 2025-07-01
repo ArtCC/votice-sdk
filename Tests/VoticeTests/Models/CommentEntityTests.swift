@@ -50,7 +50,12 @@ func testCommentEntityDisplayName() async {
         suggestionId: "s1",
         appId: "app1",
         text: "Comment text",
-        nickname: "TestUser"
+        createdAt: nil,
+        updatedAt: nil,
+        createdBy: nil,
+        deviceId: nil,
+        nickname: "TestUser",
+        source: nil
     )
     #expect(commentWithNickname.displayName == "TestUser")
 
@@ -60,7 +65,12 @@ func testCommentEntityDisplayName() async {
         suggestionId: "s1",
         appId: "app1",
         text: "Comment text",
-        nickname: nil
+        createdAt: nil,
+        updatedAt: nil,
+        createdBy: nil,
+        deviceId: nil,
+        nickname: nil,
+        source: nil
     )
     #expect(commentWithoutNickname.displayName == "Anonymous")
 
@@ -70,7 +80,12 @@ func testCommentEntityDisplayName() async {
         suggestionId: "s1",
         appId: "app1",
         text: "Comment text",
-        nickname: ""
+        createdAt: nil,
+        updatedAt: nil,
+        createdBy: nil,
+        deviceId: nil,
+        nickname: "",
+        source: nil
     )
     #expect(commentWithEmptyNickname.displayName == "") // Empty string takes precedence over nil
 }
@@ -84,7 +99,12 @@ func testCommentEntitySourceDetection() async {
         suggestionId: "s1",
         appId: "app1",
         text: "SDK comment",
-        deviceId: "device123"
+        createdAt: nil,
+        updatedAt: nil,
+        createdBy: nil,
+        deviceId: "device123",
+        nickname: nil,
+        source: nil
     )
     #expect(sdkComment.isFromSDK == true)
     #expect(sdkComment.isFromDashboard == false)
@@ -95,8 +115,12 @@ func testCommentEntitySourceDetection() async {
         suggestionId: "s1",
         appId: "app1",
         text: "Dashboard comment",
+        createdAt: nil,
+        updatedAt: nil,
         createdBy: "user123",
-        deviceId: nil
+        deviceId: nil,
+        nickname: nil,
+        source: nil
     )
     #expect(dashboardComment.isFromSDK == false)
     #expect(dashboardComment.isFromDashboard == true)
@@ -107,7 +131,12 @@ func testCommentEntitySourceDetection() async {
         suggestionId: "s1",
         appId: "app1",
         text: "Comment",
-        deviceId: ""
+        createdAt: nil,
+        updatedAt: nil,
+        createdBy: nil,
+        deviceId: "",
+        nickname: nil,
+        source: nil
     )
     #expect(emptyDeviceComment.isFromSDK == true) // Empty string is still considered "not nil"
     #expect(emptyDeviceComment.isFromDashboard == false)
@@ -120,7 +149,13 @@ func testCommentEntityIdentifiable() async {
         id: "test-id",
         suggestionId: "s1",
         appId: "app1",
-        text: "Test comment"
+        text: "Test comment",
+        createdAt: nil,
+        updatedAt: nil,
+        createdBy: nil,
+        deviceId: nil,
+        nickname: nil,
+        source: nil
     )
 
     // When/Then
@@ -128,7 +163,7 @@ func testCommentEntityIdentifiable() async {
 
     // Should work in contexts that require Identifiable
     let comments = [comment]
-    let ids = comments.map(\.id)
+    let ids = comments.map { $0.id }
     #expect(ids == ["test-id"])
 }
 
@@ -212,7 +247,12 @@ func testCommentEntitySendable() async {
         suggestionId: "s1",
         appId: "app1",
         text: "Test comment",
-        nickname: "TestUser"
+        createdAt: nil,
+        updatedAt: nil,
+        createdBy: nil,
+        deviceId: nil,
+        nickname: "TestUser",
+        source: nil
     )
 
     // When - This compiles, proving it's Sendable
@@ -236,8 +276,12 @@ func testCommentEntityFieldCombinations() async {
         suggestionId: "s1",
         appId: "app1",
         text: "SDK comment",
+        createdAt: nil,
+        updatedAt: nil,
+        createdBy: nil,
         deviceId: "device123",
-        nickname: "SDKUser"
+        nickname: "SDKUser",
+        source: nil
     )
     #expect(sdkCommentWithNickname.isFromSDK == true)
     #expect(sdkCommentWithNickname.displayName == "SDKUser")
@@ -248,8 +292,12 @@ func testCommentEntityFieldCombinations() async {
         suggestionId: "s1",
         appId: "app1",
         text: "Anonymous SDK comment",
+        createdAt: nil,
+        updatedAt: nil,
+        createdBy: nil,
         deviceId: "device456",
-        nickname: nil
+        nickname: nil,
+        source: nil
     )
     #expect(sdkCommentAnonymous.isFromSDK == true)
     #expect(sdkCommentAnonymous.displayName == "Anonymous")
@@ -260,8 +308,12 @@ func testCommentEntityFieldCombinations() async {
         suggestionId: "s1",
         appId: "app1",
         text: "Dashboard comment",
+        createdAt: nil,
+        updatedAt: nil,
         createdBy: "admin123",
-        deviceId: nil
+        deviceId: nil,
+        nickname: nil,
+        source: nil
     )
     #expect(dashboardComment.isFromDashboard == true)
     #expect(dashboardComment.displayName == "Anonymous") // No nickname, so Anonymous
