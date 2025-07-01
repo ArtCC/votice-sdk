@@ -151,6 +151,9 @@ struct SpanishTexts: VoticeTextsProtocol {
     let ok = "OK"
     let submit = "Enviar"
     let optional = "Opcional"
+    let success = "Éxito"
+    let warning = "Advertencia"
+    let info = "Información"
 
     // MARK: - Suggestion List
 

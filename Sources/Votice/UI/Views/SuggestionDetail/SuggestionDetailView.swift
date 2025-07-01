@@ -17,7 +17,6 @@ struct SuggestionDetailView: View {
     @StateObject private var viewModel = SuggestionDetailViewModel()
 
     @State private var showingAddComment = false
-    @State private var showDeleteAlert = false
 
     @FocusState private var isCommentFocused: Bool
 
@@ -67,22 +66,10 @@ struct SuggestionDetailView: View {
                             Button(role: .destructive) {
                                 HapticManager.shared.warning()
 
-                                showDeleteAlert = true
-                            } label: {
-                                ZStack {
-                                    Circle()
-                                        .fill(theme.colors.error.opacity(0.1))
-                                        .frame(width: 32, height: 32)
-                                    Image(systemName: "trash.fill")
-                                        .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(theme.colors.error)
-                                }
-                            }
-                            .alert(isPresented: $showDeleteAlert) {
-                                Alert(
-                                    title: Text(TextManager.shared.texts.deleteSuggestionTitle),
-                                    message: Text(TextManager.shared.texts.deleteSuggestionMessage),
-                                    primaryButton: .destructive(Text(TextManager.shared.texts.delete)) {
+                                viewModel.alertManager.showWarning(
+                                    title: TextManager.shared.texts.deleteSuggestionTitle,
+                                    message: TextManager.shared.texts.deleteSuggestionMessage,
+                                    okAction: {
                                         HapticManager.shared.heavyImpact()
 
                                         Task {
@@ -92,9 +79,17 @@ struct SuggestionDetailView: View {
 
                                             dismiss()
                                         }
-                                    },
-                                    secondaryButton: .cancel()
+                                    }
                                 )
+                            } label: {
+                                ZStack {
+                                    Circle()
+                                        .fill(theme.colors.error.opacity(0.1))
+                                        .frame(width: 32, height: 32)
+                                    Image(systemName: "trash.fill")
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundColor(theme.colors.error)
+                                }
                             }
                         }
                     }
@@ -113,11 +108,10 @@ struct SuggestionDetailView: View {
         .sheet(isPresented: $showingAddComment) {
             addCommentSheet
         }
-        .alert(TextManager.shared.texts.error, isPresented: $viewModel.showingError) {
-            Button(TextManager.shared.texts.ok) {}
-        } message: {
-            Text(viewModel.errorMessage)
-        }
+        .voticeAlert(
+            isPresented: $viewModel.alertManager.isShowingAlert,
+            alert: viewModel.alertManager.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+        )
     }
 }
 
@@ -290,10 +284,14 @@ private extension SuggestionDetailView {
                 CommentCard(
                     comment: comment,
                     currentDeviceId: DeviceManager.shared.deviceId,
-                    alert: AlertEntity(
+                    alert: VoticeAlertEntity.warning(
                         title: TextManager.shared.texts.deleteCommentTitle,
                         message: TextManager.shared.texts.deleteCommentMessage,
-                        primaryButtonTitle: TextManager.shared.texts.deleteCommentPrimary
+                        okAction: {
+                            Task {
+                                await viewModel.deleteComment(comment)
+                            }
+                        }
                     ),
                     onDelete: {
                         Task {

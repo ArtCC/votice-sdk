@@ -13,11 +13,10 @@ final class CreateSuggestionViewModel: ObservableObject {
     // MARK: - Properties
 
     @Published var isSubmitting = false
-    @Published var showingError = false
-    @Published var errorMessage = ""
     @Published var title = ""
     @Published var description = ""
     @Published var nickname = ""
+    @Published var alertManager = AlertManager.shared
 
     var isFormValid: Bool {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -51,7 +50,7 @@ final class CreateSuggestionViewModel: ObservableObject {
 
             return response.suggestion
         } catch {
-            handleError(error)
+            alertManager.handleError(error)
 
             throw error
         }
@@ -68,6 +67,8 @@ final class CreateSuggestionViewModel: ObservableObject {
             onSuccess(suggestion)
         } catch {
             LogManager.shared.devLog(.error, "Failed to create suggestion: \(error)")
+
+            alertManager.handleError(error)
         }
     }
 
@@ -75,17 +76,5 @@ final class CreateSuggestionViewModel: ObservableObject {
         title = ""
         description = ""
         nickname = ""
-    }
-}
-
-// MARK: - Private
-
-private extension CreateSuggestionViewModel {
-    func handleError(_ error: Error) {
-        errorMessage = error.localizedDescription
-
-        showingError = true
-
-        LogManager.shared.devLog(.error, "CreateSuggestionViewModel error: \(error)")
     }
 }

@@ -81,11 +81,10 @@ struct SuggestionListView: View {
         .task {
             await viewModel.loadSuggestions()
         }
-        .alert(TextManager.shared.texts.error, isPresented: $viewModel.showingError) {
-            Button(TextManager.shared.texts.ok) {}
-        } message: {
-            Text(viewModel.errorMessage)
-        }
+        .voticeAlert(
+            isPresented: $viewModel.alertManager.isShowingAlert,
+            alert: viewModel.alertManager.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+        )
     }
 }
 

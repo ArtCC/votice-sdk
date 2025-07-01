@@ -3,8 +3,7 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 28/6/25.
-//  Copyright © 2025 ArtCC. All rights reserved.
-//
+//  Copyright Arturo Carretero Calvo 2025. All rights reserved.
 
 import Foundation
 import Combine
@@ -15,13 +14,12 @@ final class SuggestionListViewModel: ObservableObject {
 
     @Published var suggestions: [SuggestionEntity] = []
     @Published var isLoading = false
-    @Published var showingError = false
-    @Published var errorMessage = ""
     @Published var selectedFilter: SuggestionStatusEntity?
     @Published var hasMoreSuggestions = true
     @Published var currentVotes: [String: VoteType] = [:]
     @Published var showingCreateSuggestion = false
     @Published var selectedSuggestion: SuggestionEntity?
+    @Published var alertManager = AlertManager.shared
 
     private var allSuggestions: [SuggestionEntity] = []
     private var currentOffset = 0
@@ -76,7 +74,7 @@ final class SuggestionListViewModel: ObservableObject {
                     return
                 }
 
-                handleError(error)
+                alertManager.handleError(error)
             }
 
             isLoading = false
@@ -122,7 +120,7 @@ final class SuggestionListViewModel: ObservableObject {
                 return
             }
 
-            handleError(error)
+            alertManager.handleError(error)
         }
 
         isLoading = false
@@ -157,7 +155,7 @@ final class SuggestionListViewModel: ObservableObject {
                 applyFilter()
             }
         } catch {
-            handleError(error)
+            alertManager.handleError(error)
         }
     }
 
@@ -213,14 +211,6 @@ private extension SuggestionListViewModel {
         } else {
             suggestions = allSuggestions
         }
-    }
-
-    func handleError(_ error: Error) {
-        errorMessage = error.localizedDescription
-
-        showingError = true
-
-        LogManager.shared.devLog(.error, "SuggestionListViewModel error: \(error)")
     }
 
     func loadVoteStatusForSuggestions(_ suggestions: [SuggestionEntity]) async {
