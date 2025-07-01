@@ -75,8 +75,8 @@ struct CreateSuggestionView: View {
 #endif
         }
         .voticeAlert(
-            isPresented: $viewModel.alertManager.isShowingAlert,
-            alert: viewModel.alertManager.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+            isPresented: $viewModel.isShowingAlert,
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
         )
     }
 }

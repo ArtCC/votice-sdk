@@ -16,7 +16,8 @@ final class CreateSuggestionViewModel: ObservableObject {
     @Published var title = ""
     @Published var description = ""
     @Published var nickname = ""
-    @Published var alertManager = AlertManager.shared
+    @Published var currentAlert: VoticeAlertEntity?
+    @Published var isShowingAlert = false
 
     var isFormValid: Bool {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -50,7 +51,7 @@ final class CreateSuggestionViewModel: ObservableObject {
 
             return response.suggestion
         } catch {
-            alertManager.handleError(error)
+            showError(message: error.localizedDescription)
 
             throw error
         }
@@ -67,8 +68,6 @@ final class CreateSuggestionViewModel: ObservableObject {
             onSuccess(suggestion)
         } catch {
             LogManager.shared.devLog(.error, "Failed to create suggestion: \(error)")
-
-            alertManager.handleError(error)
         }
     }
 
@@ -76,5 +75,18 @@ final class CreateSuggestionViewModel: ObservableObject {
         title = ""
         description = ""
         nickname = ""
+    }
+}
+
+// MARK: - Private
+
+private extension CreateSuggestionViewModel {
+    func showAlert(_ alert: VoticeAlertEntity) {
+        currentAlert = alert
+        isShowingAlert = true
+    }
+
+    func showError(message: String) {
+        showAlert(VoticeAlertEntity.error(message: message))
     }
 }

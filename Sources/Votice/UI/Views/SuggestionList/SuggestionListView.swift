@@ -60,8 +60,8 @@ struct SuggestionListView: View {
             await viewModel.loadSuggestions()
         }
         .voticeAlert(
-            isPresented: $viewModel.alertManager.isShowingAlert,
-            alert: viewModel.alertManager.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+            isPresented: $viewModel.isShowingAlert,
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
         )
         .sheet(isPresented: $viewModel.showingCreateSuggestion) {
             CreateSuggestionView { suggestion in

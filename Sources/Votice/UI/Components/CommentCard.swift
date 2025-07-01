@@ -13,23 +13,18 @@ struct CommentCard: View {
 
     @Environment(\.voticeTheme) private var theme
 
-    @StateObject private var alertManager = AlertManager.shared
-
     let comment: CommentEntity
     let currentDeviceId: String
-    let alert: VoticeAlertEntity
-    let onDelete: (() -> Void)?
+    let onDeleteConfirmation: (() -> Void)?
 
     // MARK: - Init
 
     init(comment: CommentEntity,
          currentDeviceId: String,
-         alert: VoticeAlertEntity,
-         onDelete: (() -> Void)? = nil) {
+         onDeleteConfirmation: (() -> Void)? = nil) {
         self.comment = comment
         self.currentDeviceId = currentDeviceId
-        self.alert = alert
-        self.onDelete = onDelete
+        self.onDeleteConfirmation = onDeleteConfirmation
     }
 
     // MARK: - View
@@ -50,7 +45,7 @@ struct CommentCard: View {
                     Button(role: .destructive) {
                         HapticManager.shared.warning()
 
-                        alertManager.showAlert(alert)
+                        onDeleteConfirmation?()
                     } label: {
                         ZStack {
                             Circle()
@@ -70,9 +65,5 @@ struct CommentCard: View {
         .padding(theme.spacing.md)
         .background(theme.colors.surface)
         .cornerRadius(theme.cornerRadius.md)
-        .voticeAlert(
-            isPresented: $alertManager.isShowingAlert,
-            alert: alertManager.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
-        )
     }
 }

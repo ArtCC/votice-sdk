@@ -66,21 +66,13 @@ struct SuggestionDetailView: View {
                             Button(role: .destructive) {
                                 HapticManager.shared.warning()
 
-                                viewModel.alertManager.showWarning(
-                                    title: TextManager.shared.texts.deleteSuggestionTitle,
-                                    message: TextManager.shared.texts.deleteSuggestionMessage,
-                                    okAction: {
-                                        HapticManager.shared.heavyImpact()
+                                viewModel.showDeleteSuggestionConfirmation(for: currentSuggestion) {
+                                    HapticManager.shared.heavyImpact()
 
-                                        Task {
-                                            await viewModel.deleteSuggestion(currentSuggestion)
+                                    onReload()
 
-                                            onReload()
-
-                                            dismiss()
-                                        }
-                                    }
-                                )
+                                    dismiss()
+                                }
                             } label: {
                                 ZStack {
                                     Circle()
@@ -109,8 +101,8 @@ struct SuggestionDetailView: View {
             addCommentSheet
         }
         .voticeAlert(
-            isPresented: $viewModel.alertManager.isShowingAlert,
-            alert: viewModel.alertManager.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+            isPresented: $viewModel.isShowingAlert,
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
         )
     }
 }
@@ -284,19 +276,8 @@ private extension SuggestionDetailView {
                 CommentCard(
                     comment: comment,
                     currentDeviceId: DeviceManager.shared.deviceId,
-                    alert: VoticeAlertEntity.warning(
-                        title: TextManager.shared.texts.deleteCommentTitle,
-                        message: TextManager.shared.texts.deleteCommentMessage,
-                        okAction: {
-                            Task {
-                                await viewModel.deleteComment(comment)
-                            }
-                        }
-                    ),
-                    onDelete: {
-                        Task {
-                            await viewModel.deleteComment(comment)
-                        }
+                    onDeleteConfirmation: {
+                        viewModel.showDeleteCommentConfirmation(for: comment)
                     }
                 )
                 .onAppear {

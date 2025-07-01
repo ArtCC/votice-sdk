@@ -21,7 +21,8 @@ final class SuggestionDetailViewModel: ObservableObject {
     @Published var hasMoreComments = true
     @Published var newComment = ""
     @Published var commentNickname = ""
-    @Published var alertManager = AlertManager.shared
+    @Published var currentAlert: VoticeAlertEntity?
+    @Published var isShowingAlert = false
 
     private var lastLoadedCreatedAt: String?
 
@@ -67,7 +68,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             hasMoreComments = response.comments.count == pageSize
         } catch {
-            alertManager.handleError(error)
+            showError(message: error.localizedDescription)
         }
 
         isLoadingComments = false
@@ -94,7 +95,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             hasMoreComments = newComments.count == pageSize
         } catch {
-            alertManager.handleError(error)
+            showError(message: error.localizedDescription)
         }
 
         isLoadingComments = false
@@ -140,7 +141,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            alertManager.handleError(error)
+            showError(message: error.localizedDescription)
         }
     }
 
@@ -156,7 +157,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            alertManager.handleError(error)
+            showError(message: error.localizedDescription)
         }
     }
 
@@ -177,7 +178,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            alertManager.handleError(error)
+            showError(message: error.localizedDescription)
         }
     }
 
@@ -185,7 +186,7 @@ final class SuggestionDetailViewModel: ObservableObject {
         do {
             try await SuggestionUseCase().deleteSuggestion(suggestionId: suggestion.id)
         } catch {
-            alertManager.handleError(error)
+            showError(message: error.localizedDescription)
         }
     }
 
@@ -194,7 +195,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
         await addComment(to: suggestionId, text: newComment, nickname: trimmedNickname.isEmpty ? nil : trimmedNickname)
 
-        if !alertManager.isShowingAlert {
+        if !isShowingAlert {
             resetCommentForm()
 
             onSuccess()
@@ -204,5 +205,45 @@ final class SuggestionDetailViewModel: ObservableObject {
     func resetCommentForm() {
         newComment = ""
         commentNickname = ""
+    }
+
+    func showDeleteCommentConfirmation(for comment: CommentEntity) {
+        showAlert(VoticeAlertEntity.warning(
+            title: TextManager.shared.texts.deleteCommentTitle,
+            message: TextManager.shared.texts.deleteCommentMessage,
+            okAction: {
+                Task {
+                    await self.deleteComment(comment)
+                }
+            }
+        ))
+    }
+
+    func showDeleteSuggestionConfirmation(for suggestion: SuggestionEntity, onConfirm: @escaping () -> Void) {
+        showAlert(VoticeAlertEntity.warning(
+            title: TextManager.shared.texts.deleteSuggestionTitle,
+            message: TextManager.shared.texts.deleteSuggestionMessage,
+            okAction: {
+                Task {
+                    await self.deleteSuggestion(suggestion)
+
+                    onConfirm()
+                }
+            }
+        ))
+    }
+}
+
+// MARK: - Private
+
+private extension SuggestionDetailViewModel {
+    func showAlert(_ alert: VoticeAlertEntity) {
+        currentAlert = alert
+
+        isShowingAlert = true
+    }
+
+    func showError(message: String) {
+        showAlert(VoticeAlertEntity.error(message: message))
     }
 }

@@ -12,8 +12,6 @@ import SwiftUI
 final class AlertManager: ObservableObject {
     // MARK: - Properties
 
-    static let shared = AlertManager()
-
     @Published var currentAlert: VoticeAlertEntity?
     @Published var isShowingAlert = false
 

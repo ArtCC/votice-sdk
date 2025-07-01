@@ -19,7 +19,8 @@ final class SuggestionListViewModel: ObservableObject {
     @Published var currentVotes: [String: VoteType] = [:]
     @Published var showingCreateSuggestion = false
     @Published var selectedSuggestion: SuggestionEntity?
-    @Published var alertManager = AlertManager.shared
+    @Published var currentAlert: VoticeAlertEntity?
+    @Published var isShowingAlert = false
 
     private var allSuggestions: [SuggestionEntity] = []
     private var currentOffset = 0
@@ -74,7 +75,7 @@ final class SuggestionListViewModel: ObservableObject {
                     return
                 }
 
-                alertManager.handleError(error)
+                showError(message: error.localizedDescription)
             }
 
             isLoading = false
@@ -120,7 +121,7 @@ final class SuggestionListViewModel: ObservableObject {
                 return
             }
 
-            alertManager.handleError(error)
+            showError(message: error.localizedDescription)
         }
 
         isLoading = false
@@ -155,7 +156,7 @@ final class SuggestionListViewModel: ObservableObject {
                 applyFilter()
             }
         } catch {
-            alertManager.handleError(error)
+            showError(message: error.localizedDescription)
         }
     }
 
@@ -237,5 +238,15 @@ private extension SuggestionListViewModel {
         } catch {
             LogManager.shared.devLog(.error, "Failed to load vote status for suggestion \(suggestionId): \(error)")
         }
+    }
+
+    func showAlert(_ alert: VoticeAlertEntity) {
+        currentAlert = alert
+
+        isShowingAlert = true
+    }
+
+    func showError(message: String) {
+        showAlert(VoticeAlertEntity.error(message: message))
     }
 }
