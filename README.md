@@ -155,6 +155,35 @@ Votice.resetTextsToDefault()
 
 ---
 
+## Contributing to Votice SDK
+
+Thank you for your interest in contributing to **Votice**!  
+This guide will help you submit issues, propose changes, and open pull requests in a way that fits the project.
+
+---
+
+## 🐞 Reporting Bugs
+
+If you find a bug:
+
+- Search [issues](https://github.com/artcc/votice-sdk/issues) first — it may already be reported.
+- Open a new issue with:
+  - A clear title
+  - Steps to reproduce
+  - Expected and actual behavior
+  - SDK version and platform
+
+---
+
+## 🚀 Feature Requests
+
+We welcome feedback!
+
+- If it's a major change, open an issue first to discuss.
+- Make sure it aligns with the lightweight philosophy of the SDK.
+
+---
+
 ## 👤 Author
 
 Arturo Carretero Calvo
