@@ -147,14 +147,18 @@ Votice.resetTextsToDefault()
 
 By default, Votice SDK runs silently to avoid cluttering your development console. If you need to troubleshoot SDK issues or see internal operations, you can enable debug logging:
 
-swift
-// Enable debug logging (useful for troubleshooting)
+Enable debug logging (useful for troubleshooting):
+```swift
 Votice.setDebugLogging(enabled: true)
+```
 
-// Check current logging status
+Check current logging status:
+```swift
 let isLoggingEnabled = Votice.isDebugLoggingEnabled
+```
 
-// Disable when no longer needed
+Disable when no longer needed:
+```swift
 Votice.setDebugLogging(enabled: false)
 ```
 
@@ -165,7 +169,6 @@ Votice.setDebugLogging(enabled: false)
 - During development/testing phases
 
 **Note:** Debug logging is automatically disabled in production builds and should only be enabled when specifically needed for debugging purposes.
-```
 
 ## 👨🏻‍💻 Contributing to Votice SDK
 
