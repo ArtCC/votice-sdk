@@ -123,6 +123,8 @@ private extension HomeView {
                 appId: "kJnOJXuO1T8hKRQ0Qo9V"
             )
 
+            Votice.setDebugLogging(enabled: true)
+
             isConfigured = Votice.isConfigured
 
             debugPrint("Votice SDK configured successfully!")
