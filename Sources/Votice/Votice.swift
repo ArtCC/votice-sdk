@@ -3,7 +3,7 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 27/6/25.
-//  Copyright © 2025 ArtCC. All rights reserved.
+//  Copyright 2025 ArtCC. All rights reserved.
 //
 
 import Foundation
@@ -27,7 +27,8 @@ public struct Votice {
     public static func configure(apiKey: String, apiSecret: String, appId: String) throws {
         try ConfigurationManager.shared.configure(apiKey: apiKey, apiSecret: apiSecret, appId: appId)
 
-        LogManager.debug = true // Enable debug logging for development
+        // Logs are disabled by default so as not to disturb the developer.
+        // They can be enabled explicitly if necessary.
     }
 
     /// Reset the SDK configuration (useful for testing)
@@ -38,6 +39,20 @@ public struct Votice {
     /// Check if the SDK is properly configured
     public static var isConfigured: Bool {
         return ConfigurationManager.shared.isConfigured
+    }
+
+    // MARK: - Debugging
+
+    /// Enable or disable debug logging for the Votice SDK
+    /// - Parameter enabled: Whether to show debug logs from the SDK
+    /// - Note: Logs are disabled by default to avoid cluttering the developer's console
+    public static func setDebugLogging(enabled: Bool) {
+        LogManager.debug = enabled
+    }
+
+    /// Check if debug logging is currently enabled
+    public static var isDebugLoggingEnabled: Bool {
+        return LogManager.debug
     }
 
     // MARK: - UI Presentation
