@@ -28,9 +28,9 @@ struct VoticeAlert: View {
                     }
                 alertCard
                     .transition(.scale.combined(with: .opacity))
-                    .animation(.spring(response: 0.6, dampingFraction: 0.8), value: isPresented.wrappedValue)
             }
         }
+        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: isPresented.wrappedValue)
     }
 }
 
@@ -137,7 +137,9 @@ private extension VoticeAlert {
     func alertButton(_ button: VoticeAlertButton, isPrimary: Bool) -> some View {
         Button {
             HapticManager.shared.lightImpact()
+
             dismissAlert()
+
             button.action()
         } label: {
             Text(button.title)

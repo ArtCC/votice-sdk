@@ -6,7 +6,6 @@
 //  Copyright Arturo Carretero Calvo 2025. All rights reserved.
 
 import Foundation
-import Combine
 
 @MainActor
 final class SuggestionListViewModel: ObservableObject {

@@ -6,7 +6,7 @@
 //  Copyright © 2025 ArtCC. All rights reserved.
 //
 
-import SwiftUI
+import Foundation
 
 @MainActor
 final class CreateSuggestionViewModel: ObservableObject {
@@ -83,6 +83,7 @@ final class CreateSuggestionViewModel: ObservableObject {
 private extension CreateSuggestionViewModel {
     func showAlert(_ alert: VoticeAlertEntity) {
         currentAlert = alert
+
         isShowingAlert = true
     }
 
