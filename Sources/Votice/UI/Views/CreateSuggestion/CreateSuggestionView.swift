@@ -115,6 +115,8 @@ private extension CreateSuggestionView {
             }
             .padding(theme.spacing.lg)
         }
+        .scrollBounceBehavior(.basedOnSize)
+        .scrollDismissesKeyboard(.immediately)
     }
 
     var headerCard: some View {

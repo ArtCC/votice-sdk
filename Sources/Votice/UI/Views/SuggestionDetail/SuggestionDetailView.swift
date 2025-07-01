@@ -128,6 +128,8 @@ private extension SuggestionDetailView {
             }
             .padding(theme.spacing.lg)
         }
+        .scrollBounceBehavior(.basedOnSize)
+        .scrollDismissesKeyboard(.immediately)
     }
 
     var suggestionHeaderCard: some View {
@@ -388,6 +390,8 @@ private extension SuggestionDetailView {
                     }
                     .padding(.horizontal, theme.spacing.lg)
                 }
+                .scrollBounceBehavior(.basedOnSize)
+                .scrollDismissesKeyboard(.immediately)
             }
         }
         .background(theme.colors.background)

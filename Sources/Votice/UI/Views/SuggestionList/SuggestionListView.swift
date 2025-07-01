@@ -174,6 +174,8 @@ private extension SuggestionListView {
             .padding(.horizontal, theme.spacing.lg)
             .padding(.top, theme.spacing.md)
         }
+        .scrollBounceBehavior(.basedOnSize)
+        .scrollDismissesKeyboard(.immediately)
     }
 
     var floatingActionButton: some View {
