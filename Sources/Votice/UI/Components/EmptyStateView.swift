@@ -88,26 +88,7 @@ private extension EmptyStateView {
                     isAnimating = true
                 }
             }
-            VStack(spacing: theme.spacing.md) {
-                Text(title)
-                    .font(theme.typography.title2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(theme.colors.onBackground)
-                    .multilineTextAlignment(.center)
-                Text(message)
-                    .font(theme.typography.body)
-                    .foregroundColor(theme.colors.secondary)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(3)
-                HStack {
-                    Image(systemName: "arrow.up.circle.fill")
-                        .foregroundColor(theme.colors.primary)
-                    Text(TextManager.shared.texts.tapPlusToGetStarted)
-                        .font(theme.typography.caption)
-                        .foregroundColor(theme.colors.primary)
-                }
-                .padding(.top, theme.spacing.sm)
-            }
+            contentTextView
         }
         .padding(theme.spacing.xl)
         .background(
@@ -116,5 +97,28 @@ private extension EmptyStateView {
                 .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
         )
         .padding(.horizontal, theme.spacing.lg)
+    }
+
+    var contentTextView: some View {
+        VStack(spacing: theme.spacing.md) {
+            Text(title)
+                .font(theme.typography.title2)
+                .fontWeight(.semibold)
+                .foregroundColor(theme.colors.onBackground)
+                .multilineTextAlignment(.center)
+            Text(message)
+                .font(theme.typography.body)
+                .foregroundColor(theme.colors.secondary)
+                .multilineTextAlignment(.center)
+                .lineLimit(3)
+            HStack {
+                Image(systemName: "arrow.up.circle.fill")
+                    .foregroundColor(theme.colors.primary)
+                Text(TextManager.shared.texts.tapPlusToGetStarted)
+                    .font(theme.typography.caption)
+                    .foregroundColor(theme.colors.primary)
+            }
+            .padding(.top, theme.spacing.sm)
+        }
     }
 }
