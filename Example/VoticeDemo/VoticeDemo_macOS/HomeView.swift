@@ -9,6 +9,7 @@
 import SwiftUI
 import Votice
 
+#warning("Votice SDK is currently only supported on iOS and iPadOS. Support for macOS and tvOS will be available in future releases.")
 struct HomeView: View {
     // MARK: - Properties
 

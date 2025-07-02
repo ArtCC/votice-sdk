@@ -34,12 +34,12 @@ struct CommentCard: View {
             HStack {
                 Text(comment.displayName)
                     .font(theme.typography.subheadline)
-                    .foregroundColor(theme.colors.onSurface)
+                    .foregroundColor(theme.colors.secondary.opacity(0.7))
                 Spacer()
                 if let createdAt = comment.createdAt, let date = Date.formatFromISOString(createdAt) {
                     Text(date)
-                        .font(theme.typography.caption)
-                        .foregroundColor(theme.colors.secondary)
+                        .font(theme.typography.subheadline)
+                        .foregroundColor(theme.colors.secondary.opacity(0.7))
                 }
                 if let commentDeviceId = comment.deviceId, commentDeviceId == currentDeviceId {
                     Button(role: .destructive) {

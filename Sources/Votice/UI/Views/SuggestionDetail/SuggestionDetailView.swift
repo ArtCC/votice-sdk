@@ -133,62 +133,74 @@ private extension SuggestionDetailView {
     }
 
     var suggestionHeaderCard: some View {
-        VStack(alignment: .leading, spacing: theme.spacing.lg) {
-            HStack(alignment: .top) {
-                StatusBadge(status: currentSuggestion.status ?? .pending)
-                Spacer()
-                SourceIndicator(source: currentSuggestion.source ?? .sdk)
+        ZStack(alignment: .topTrailing) {
+            VStack(alignment: .leading, spacing: theme.spacing.sm) {
+                VStack(spacing: theme.spacing.sm) {
+                    HStack {
+                        Text(currentSuggestion.displayText)
+                            .font(theme.typography.headline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(theme.colors.onSurface)
+                            .multilineTextAlignment(.leading)
+                        Spacer()
+                    }
+                    .padding(.top, theme.spacing.md)
+                    .padding(.leading, theme.spacing.md)
+                    .padding(.trailing, theme.spacing.xxxxl)
+                    if let description = currentSuggestion.description, description != currentSuggestion.title {
+                        HStack {
+                            Text(description)
+                                .font(theme.typography.callout)
+                                .foregroundColor(theme.colors.onSurface.opacity(0.7))
+                                .multilineTextAlignment(.leading)
+                            Spacer()
+                        }
+                        .padding(.leading, theme.spacing.md)
+                        .padding(.trailing, theme.spacing.xl)
+                        .padding(.bottom, theme.spacing.md)
+                    }
+                }
+                authorInfoSection
             }
-            Text(currentSuggestion.displayText)
-                .font(theme.typography.title2)
-                .fontWeight(.semibold)
-                .foregroundColor(theme.colors.onSurface)
-                .multilineTextAlignment(.leading)
-            if let description = currentSuggestion.description,
-               description != currentSuggestion.title {
-                Text(description)
-                    .font(theme.typography.body)
-                    .foregroundColor(theme.colors.onSurface.opacity(0.8))
-                    .multilineTextAlignment(.leading)
-            }
-            authorInfoSection
+            .background(
+                RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                    .fill(theme.colors.surface)
+                    .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+            )
+            StatusBadge(status: currentSuggestion.status ?? .pending)
+                .padding(theme.spacing.sm)
         }
-        .padding(theme.spacing.lg)
-        .background(
-            RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
-                .fill(theme.colors.surface)
-                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
-        )
     }
 
     var authorInfoSection: some View {
-        HStack {
+        VStack(alignment: .leading, spacing: theme.spacing.sm) {
             HStack(spacing: 6) {
                 Image(systemName: currentSuggestion.nickname != nil ? "person.circle.fill" : "person.circle")
-                    .foregroundColor(theme.colors.secondary)
-                    .font(.caption)
+                    .foregroundColor(theme.colors.secondary.opacity(0.7))
+                    .font(.subheadline)
                 if let nickname = currentSuggestion.nickname {
                     Text("\(TextManager.shared.texts.suggestedBy) \(nickname)")
-                        .font(theme.typography.caption)
-                        .foregroundColor(theme.colors.secondary)
+                        .font(theme.typography.subheadline)
+                        .foregroundColor(theme.colors.secondary.opacity(0.7))
                 } else {
                     Text(TextManager.shared.texts.suggestedAnonymously)
-                        .font(theme.typography.caption)
-                        .foregroundColor(theme.colors.secondary)
+                        .font(theme.typography.subheadline)
+                        .foregroundColor(theme.colors.secondary.opacity(0.7))
                 }
             }
-            Spacer()
             if let createdAt = currentSuggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
                 HStack(spacing: 4) {
                     Image(systemName: "clock")
-                        .font(.caption2)
+                        .font(.subheadline)
                         .foregroundColor(theme.colors.secondary.opacity(0.7))
                     Text(date)
-                        .font(theme.typography.caption)
+                        .font(theme.typography.subheadline)
                         .foregroundColor(theme.colors.secondary.opacity(0.7))
                 }
             }
         }
+        .padding(.horizontal, theme.spacing.md)
+        .padding(.bottom, theme.spacing.md)
     }
 
     var votingAndStatsCard: some View {
@@ -207,18 +219,18 @@ private extension SuggestionDetailView {
             VStack(alignment: .trailing, spacing: 4) {
                 HStack(spacing: 4) {
                     Image(systemName: "hand.thumpsup.fill")
-                        .font(.caption2)
+                        .font(.caption)
                         .foregroundColor(theme.colors.primary)
                     Text("\(currentSuggestion.voteCount ?? 0) \(TextManager.shared.texts.votes)")
-                        .font(theme.typography.caption)
+                        .font(theme.typography.callout)
                         .foregroundColor(theme.colors.secondary)
                 }
                 HStack(spacing: 4) {
                     Image(systemName: "bubble.left.fill")
-                        .font(.caption2)
+                        .font(.caption)
                         .foregroundColor(theme.colors.accent)
                     Text("\(viewModel.comments.count) \(TextManager.shared.texts.comments)")
-                        .font(theme.typography.caption)
+                        .font(theme.typography.callout)
                         .foregroundColor(theme.colors.secondary)
                 }
             }

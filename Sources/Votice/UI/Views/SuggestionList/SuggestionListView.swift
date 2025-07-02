@@ -89,7 +89,7 @@ private extension SuggestionListView {
     var headerView: some View {
         HStack {
             Text(TextManager.shared.texts.featureRequests)
-                .font(theme.typography.largeTitle)
+                .font(theme.typography.title)
                 .fontWeight(.bold)
                 .foregroundColor(theme.colors.onBackground)
             Spacer()
