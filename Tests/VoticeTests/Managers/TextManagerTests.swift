@@ -87,7 +87,7 @@ struct MockVoticeTexts: VoticeTextsProtocol {
 func testTextManagerInitialization() async {
     // Given
     let manager = TextManager.shared
-    
+
     // Ensure clean state first
     manager.resetToDefault()
 
