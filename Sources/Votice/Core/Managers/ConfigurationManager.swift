@@ -16,6 +16,7 @@ protocol ConfigurationManagerProtocol: Sendable {
     var apiKey: String { get }
     var apiSecret: String { get }
     var appId: String { get }
+    var commentIsEnabled: Bool { get set }
 
     // MARK: - Public functions
 
@@ -29,14 +30,15 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
 
     static let shared = ConfigurationManager()
 
-    private var _apiKey: String = ""
-    private var _apiSecret: String = ""
-    private var _appId: String = ""
-    private var _isConfigured: Bool = false
+    private var _apiKey = ""
+    private var _apiSecret = ""
+    private var _appId = ""
+    private var _isConfigured = false
+    private var _commentIsEnabled = true
 
     private let lock = NSLock()
-    private let _baseURL: String = "https://us-central1-memorypost-artcc01.cloudfunctions.net/api"
-    private let _configurationId: String = UUID().uuidString
+    private let _baseURL = "https://us-central1-memorypost-artcc01.cloudfunctions.net/api"
+    private let _configurationId = UUID().uuidString
 
     // MARK: - Public
 
@@ -45,11 +47,11 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     }
 
     var baseURL: String {
-        return _baseURL
+        _baseURL
     }
 
     var configurationId: String {
-        return _configurationId
+        _configurationId
     }
 
     var apiKey: String {
@@ -62,6 +64,15 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
 
     var appId: String {
         lock.withLock { _appId }
+    }
+
+    var commentIsEnabled: Bool {
+        get {
+            lock.withLock { _commentIsEnabled }
+        }
+        set {
+            lock.withLock { _commentIsEnabled = newValue }
+        }
     }
 
     // MARK: - Init
@@ -79,29 +90,29 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
             }
 
             // Validate API key
-            guard !apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            guard !apiKey.isEmpty else {
                 LogManager.shared.devLog(.error, "Invalid API key provided")
 
                 throw ConfigurationError.invalidAPIKey
             }
 
             // Validate API secret
-            guard !apiSecret.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            guard !apiSecret.isEmpty else {
                 LogManager.shared.devLog(.error, "Invalid API secret provided")
 
                 throw ConfigurationError.invalidAPISecret
             }
 
             // Validate app ID
-            guard !appId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            guard !appId.isEmpty else {
                 LogManager.shared.devLog(.error, "Invalid app ID provided")
 
                 throw ConfigurationError.invalidAppId
             }
 
-            _apiKey = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
-            _apiSecret = apiSecret.trimmingCharacters(in: .whitespacesAndNewlines)
-            _appId = appId.trimmingCharacters(in: .whitespacesAndNewlines)
+            _apiKey = apiKey
+            _apiSecret = apiSecret
+            _appId = appId
             _isConfigured = true
 
             LogManager.shared.devLog(.success, "Configuration manager successfully configured")
@@ -114,6 +125,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
             _apiSecret = ""
             _appId = ""
             _isConfigured = false
+            _commentIsEnabled = true
 
             LogManager.shared.devLog(.info, "Configuration manager reset")
         }

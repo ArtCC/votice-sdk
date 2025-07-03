@@ -108,15 +108,16 @@ private extension HomeView {
                 appId: ""
             )
 
-            debugPrint("✅ Votice SDK configured successfully!")
+            Votice.setDebugLogging(enabled: true)
+            Votice.setCommentIsEnabled(enabled: true)
 
-            // Update configuration status
             isConfigured = Votice.isConfigured
-        } catch {
-            debugPrint("❌ Configuration failed: \(error)")
 
-            // Update configuration status
+            debugPrint("Votice SDK configured successfully!")
+        } catch {
             isConfigured = false
+
+            debugPrint("Configuration failed: \(error)")
         }
     }
 }

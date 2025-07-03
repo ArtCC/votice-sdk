@@ -93,15 +93,13 @@ struct HomeView: View {
         }
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
             // Example of advanced theme customization
-            let customTheme = Votice.createAdvancedTheme(
-                primaryColor: .purple,
-                accentColor: .pink,
-                backgroundColor: Color(.systemBackground),
-                surfaceColor: Color(.secondarySystemBackground),
-                destructiveColor: .red,
-                successColor: .mint,
-                warningColor: .orange
-            )
+            let customTheme = Votice.createAdvancedTheme(primaryColor: .purple,
+                                                         accentColor: .pink,
+                                                         backgroundColor: Color(.systemBackground),
+                                                         surfaceColor: Color(.secondarySystemBackground),
+                                                         destructiveColor: .red,
+                                                         successColor: .mint,
+                                                         warningColor: .orange)
 
             Votice.feedbackView(theme: customTheme)
         }
@@ -126,6 +124,7 @@ private extension HomeView {
             )
 
             Votice.setDebugLogging(enabled: true)
+            Votice.setCommentIsEnabled(enabled: true)
 
             isConfigured = Votice.isConfigured
 

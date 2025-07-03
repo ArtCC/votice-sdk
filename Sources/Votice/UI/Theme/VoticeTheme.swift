@@ -215,7 +215,7 @@ public struct VoticeSpacing {
     public let xl: CGFloat = 32
     public let xxl: CGFloat = 48
     public let xxxl: CGFloat = 60
-    public let xxxxl: CGFloat = 72
+    public let xxxxl: CGFloat = 80
 
     public static let `default` = VoticeSpacing()
 

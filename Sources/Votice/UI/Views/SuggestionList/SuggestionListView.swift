@@ -37,10 +37,8 @@ struct SuggestionListView: View {
                 VStack(spacing: 0) {
                     headerView
                     if viewModel.suggestions.isEmpty && !viewModel.isLoading {
-                        EmptyStateView(
-                            title: TextManager.shared.texts.noSuggestionsYet,
-                            message: TextManager.shared.texts.beFirstToSuggest
-                        )
+                        EmptyStateView(title: TextManager.shared.texts.noSuggestionsYet,
+                                       message: TextManager.shared.texts.beFirstToSuggest)
                     } else {
                         suggestionsList
                     }
