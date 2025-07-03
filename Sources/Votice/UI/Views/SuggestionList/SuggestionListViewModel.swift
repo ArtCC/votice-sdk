@@ -73,7 +73,11 @@ final class SuggestionListViewModel: ObservableObject {
 
                 // Report version usage
                 Task {
-                    try await versionUseCase.report()
+                    do {
+                        try await versionUseCase.report()
+                    } catch {
+                        LogManager.shared.devLog(.error, "Failed to report version usage: \(error)")
+                    }
                 }
             } catch {
                 guard !Task.isCancelled else {
