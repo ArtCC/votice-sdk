@@ -68,7 +68,9 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             hasMoreComments = response.comments.count == pageSize
         } catch {
-            showError(message: error.localizedDescription)
+            LogManager.shared.devLog(.error, "Failed to load comments for suggestion \(suggestionId): \(error)")
+
+            showError()
         }
 
         isLoadingComments = false
@@ -95,7 +97,9 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             hasMoreComments = newComments.count == pageSize
         } catch {
-            showError(message: error.localizedDescription)
+            LogManager.shared.devLog(.error, "Failed to load more comments for suggestion \(suggestionId): \(error)")
+
+            showError()
         }
 
         isLoadingComments = false
@@ -141,7 +145,9 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            showError(message: error.localizedDescription)
+            LogManager.shared.devLog(.error, "Failed to add comment to suggestion \(suggestionId): \(error)")
+
+            showError()
         }
     }
 
@@ -157,7 +163,9 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            showError(message: error.localizedDescription)
+            LogManager.shared.devLog(.error, "Failed to delete comment \(comment.id): \(error)")
+
+            showError()
         }
     }
 
@@ -178,7 +186,9 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            showError(message: error.localizedDescription)
+            LogManager.shared.devLog(.error, "Failed to vote on suggestion \(suggestionId): \(error)")
+
+            showError()
         }
     }
 
@@ -186,7 +196,9 @@ final class SuggestionDetailViewModel: ObservableObject {
         do {
             try await SuggestionUseCase().deleteSuggestion(suggestionId: suggestion.id)
         } catch {
-            showError(message: error.localizedDescription)
+            LogManager.shared.devLog(.error, "Failed to delete suggestion \(suggestion.id): \(error)")
+
+            showError()
         }
     }
 
@@ -243,7 +255,7 @@ private extension SuggestionDetailViewModel {
         isShowingAlert = true
     }
 
-    func showError(message: String) {
-        showAlert(VoticeAlertEntity.error(message: message))
+    func showError() {
+        showAlert(VoticeAlertEntity.error(message: TextManager.shared.texts.genericError))
     }
 }

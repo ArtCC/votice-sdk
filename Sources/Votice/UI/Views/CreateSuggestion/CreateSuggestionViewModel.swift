@@ -51,7 +51,9 @@ final class CreateSuggestionViewModel: ObservableObject {
 
             return response.suggestion
         } catch {
-            showError(message: error.localizedDescription)
+            LogManager.shared.devLog(.error, "Failed to create suggestion: \(error)")
+
+            showError()
 
             throw error
         }
@@ -67,7 +69,7 @@ final class CreateSuggestionViewModel: ObservableObject {
 
             onSuccess(suggestion)
         } catch {
-            LogManager.shared.devLog(.error, "Failed to create suggestion: \(error)")
+            LogManager.shared.devLog(.error, "Failed to submit suggestion: \(error)")
         }
     }
 
@@ -87,7 +89,7 @@ private extension CreateSuggestionViewModel {
         isShowingAlert = true
     }
 
-    func showError(message: String) {
-        showAlert(VoticeAlertEntity.error(message: message))
+    func showError() {
+        showAlert(VoticeAlertEntity.error(message: TextManager.shared.texts.genericError))
     }
 }

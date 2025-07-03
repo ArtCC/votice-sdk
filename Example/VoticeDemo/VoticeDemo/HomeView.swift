@@ -156,6 +156,7 @@ struct SpanishTexts: VoticeTextsProtocol {
     let success = "Éxito"
     let warning = "Advertencia"
     let info = "Información"
+    let genericError = "Algo salió mal. Por favor, inténtalo de nuevo."
 
     // MARK: - Suggestion List
 

@@ -175,6 +175,10 @@ func testVoticeTextCustomization() async {
         let ok = "Aceptar"
         let submit = "Enviar"
         let optional = "Opcional"
+        let success = "Éxito"
+        let warning = "Advertencia"
+        let info = "Información"
+        let genericError = "Algo salió mal. Por favor, inténtalo de nuevo."
         let loadingSuggestions = "Cargando..."
         let noSuggestionsYet = "Sin sugerencias"
         let beFirstToSuggest = "Sé el primero"
@@ -232,6 +236,7 @@ func testVoticeTextCustomization() async {
     let textManager = TextManager.shared
     #expect(textManager.texts.cancel == "Cancelar")
     #expect(textManager.texts.featureRequests == "Funciones")
+    #expect(textManager.texts.genericError == "Algo salió mal. Por favor, inténtalo de nuevo.")
 
     // Cleanup
     Votice.resetTextsToDefault()
@@ -247,6 +252,10 @@ func testVoticeResetTexts() async {
         let ok = "OK"
         let submit = "Submit"
         let optional = "Optional"
+        let success = "Success"
+        let warning = "Warning"
+        let info = "Info"
+        let genericError = "Custom generic error"
         let loadingSuggestions = "Loading..."
         let noSuggestionsYet = "No suggestions"
         let beFirstToSuggest = "Be first"
@@ -298,6 +307,7 @@ func testVoticeResetTexts() async {
     Votice.setTexts(TestTexts())
     let textManager = TextManager.shared
     #expect(textManager.texts.cancel == "Custom Cancel")
+    #expect(textManager.texts.genericError == "Custom generic error")
 
     // When
     Votice.resetTextsToDefault()
@@ -305,6 +315,7 @@ func testVoticeResetTexts() async {
     // Then
     #expect(textManager.texts.cancel == "Cancel")
     #expect(textManager.texts.featureRequests == "Feature Requests")
+    #expect(textManager.texts.genericError == "Something went wrong. Please try again.")
 }
 // swiftlint:enable function_body_length
 

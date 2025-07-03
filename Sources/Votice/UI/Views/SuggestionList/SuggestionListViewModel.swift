@@ -74,7 +74,9 @@ final class SuggestionListViewModel: ObservableObject {
                     return
                 }
 
-                showError(message: error.localizedDescription)
+                LogManager.shared.devLog(.error, "Failed to load suggestions: \(error)")
+
+                showError()
             }
 
             isLoading = false
@@ -120,7 +122,9 @@ final class SuggestionListViewModel: ObservableObject {
                 return
             }
 
-            showError(message: error.localizedDescription)
+            LogManager.shared.devLog(.error, "Failed to load more suggestions: \(error)")
+
+            showError()
         }
 
         isLoading = false
@@ -155,7 +159,9 @@ final class SuggestionListViewModel: ObservableObject {
                 applyFilter()
             }
         } catch {
-            showError(message: error.localizedDescription)
+            LogManager.shared.devLog(.error, "Failed to vote on suggestion \(suggestionId): \(error)")
+
+            showError()
         }
     }
 
@@ -245,7 +251,7 @@ private extension SuggestionListViewModel {
         isShowingAlert = true
     }
 
-    func showError(message: String) {
-        showAlert(VoticeAlertEntity.error(message: message))
+    func showError() {
+        showAlert(VoticeAlertEntity.error(message: TextManager.shared.texts.genericError))
     }
 }
