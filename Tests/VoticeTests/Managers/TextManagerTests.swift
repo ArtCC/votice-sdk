@@ -87,6 +87,9 @@ struct MockVoticeTexts: VoticeTextsProtocol {
 func testTextManagerInitialization() async {
     // Given
     let manager = TextManager.shared
+    
+    // Ensure clean state first
+    manager.resetToDefault()
 
     // When
     let texts = manager.texts
@@ -97,6 +100,10 @@ func testTextManagerInitialization() async {
     #expect(texts.ok == "OK")
     #expect(texts.submit == "Submit")
     #expect(texts.optional == "Optional")
+    #expect(texts.success == "Success")
+    #expect(texts.warning == "Warning")
+    #expect(texts.info == "Info")
+    #expect(texts.genericError == "Something went wrong. Please try again.")
     #expect(texts.loadingSuggestions == "Loading suggestions...")
     #expect(texts.featureRequests == "Feature Requests")
     #expect(texts.newSuggestion == "New Suggestion")
@@ -308,6 +315,10 @@ func testDefaultVoticeTexts() async {
     #expect(texts.ok == "OK")
     #expect(texts.submit == "Submit")
     #expect(texts.optional == "Optional")
+    #expect(texts.success == "Success")
+    #expect(texts.warning == "Warning")
+    #expect(texts.info == "Info")
+    #expect(texts.genericError == "Something went wrong. Please try again.")
 
     // Suggestion List
     #expect(texts.loadingSuggestions == "Loading suggestions...")
@@ -337,7 +348,7 @@ func testDefaultVoticeTexts() async {
     // Create Suggestion
     #expect(texts.newSuggestion == "New Suggestion")
     #expect(texts.shareYourIdea == "Share your idea")
-    #expect(texts.title == "Title")
+    #expect(texts.title == "Title (Min. 3 characters)")
     #expect(texts.titlePlaceholder == "Enter a brief title for your suggestion")
 }
 
