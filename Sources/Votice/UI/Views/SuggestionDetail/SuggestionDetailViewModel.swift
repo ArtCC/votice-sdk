@@ -26,18 +26,18 @@ final class SuggestionDetailViewModel: ObservableObject {
 
     private var lastLoadedCreatedAt: String?
 
-    private let commentUseCase: CommentUseCase
-    private let suggestionUseCase: SuggestionUseCase
+    private let commentUseCase: CommentUseCaseProtocol
+    private let suggestionUseCase: SuggestionUseCaseProtocol
     private let pageSize = 10
 
     var isCommentFormValid: Bool {
-        !newComment.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        !newComment.isEmpty
     }
 
     // MARK: - Init
 
-    init(commentUseCase: CommentUseCase = CommentUseCase(),
-         suggestionUseCase: SuggestionUseCase = SuggestionUseCase()) {
+    init(commentUseCase: CommentUseCaseProtocol = CommentUseCase(),
+         suggestionUseCase: SuggestionUseCaseProtocol = SuggestionUseCase()) {
         self.commentUseCase = commentUseCase
         self.suggestionUseCase = suggestionUseCase
     }
@@ -203,9 +203,7 @@ final class SuggestionDetailViewModel: ObservableObject {
     }
 
     func submitComment(for suggestionId: String, onSuccess: @escaping () -> Void) async {
-        let trimmedNickname = commentNickname.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        await addComment(to: suggestionId, text: newComment, nickname: trimmedNickname.isEmpty ? nil : trimmedNickname)
+        await addComment(to: suggestionId, text: newComment, nickname: commentNickname.isEmpty ? nil : commentNickname)
 
         if !isShowingAlert {
             resetCommentForm()

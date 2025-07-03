@@ -26,12 +26,15 @@ final class SuggestionListViewModel: ObservableObject {
     private var loadingTask: Task<Void, Never>?
 
     private let pageSize = 10
-    private let suggestionUseCase: SuggestionUseCase
+    private let suggestionUseCase: SuggestionUseCaseProtocol
+    private let versionUseCase: VersionUseCaseProtocol
 
     // MARK: - Init
 
-    init(suggestionUseCase: SuggestionUseCase = SuggestionUseCase()) {
+    init(suggestionUseCase: SuggestionUseCaseProtocol = SuggestionUseCase(),
+         versionUseCase: VersionUseCaseProtocol = VersionUseCase()) {
         self.suggestionUseCase = suggestionUseCase
+        self.versionUseCase = versionUseCase
     }
 
     // MARK: - Functions
@@ -67,6 +70,11 @@ final class SuggestionListViewModel: ObservableObject {
                 currentOffset = response.suggestions.count
 
                 hasMoreSuggestions = response.suggestions.count == pageSize
+
+                // Report version usage
+                Task {
+                    try await versionUseCase.report()
+                }
             } catch {
                 guard !Task.isCancelled else {
                     isLoading = false

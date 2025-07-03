@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		800727522E11AA0700C43BA8 /* VoticeDemo_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727502E11AA0700C43BA8 /* VoticeDemo_macOSTests.swift */; };
 		800727582E11AA0700C43BA8 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727542E11AA0700C43BA8 /* HomeView.swift */; };
-		800727592E11AA0700C43BA8 /* VoticeDemo_macOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727562E11AA0700C43BA8 /* VoticeDemo_macOSApp.swift */; };
+		800727592E11AA0700C43BA8 /* AppVoticeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727562E11AA0700C43BA8 /* AppVoticeDemo.swift */; };
 		8007275A2E11AA0700C43BA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 800727532E11AA0700C43BA8 /* Assets.xcassets */; };
 		8007275E2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007275B2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift */; };
 		8007275F2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007275C2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift */; };
@@ -18,7 +18,7 @@
 		800727922E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727902E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift */; };
 		800727972E11ACFB00C43BA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 800727932E11ACFB00C43BA8 /* Assets.xcassets */; };
 		800727982E11ACFB00C43BA8 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727942E11ACFB00C43BA8 /* HomeView.swift */; };
-		800727992E11ACFB00C43BA8 /* VoticeDemo_tvOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727952E11ACFB00C43BA8 /* VoticeDemo_tvOSApp.swift */; };
+		800727992E11ACFB00C43BA8 /* AppVoticeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727952E11ACFB00C43BA8 /* AppVoticeDemo.swift */; };
 		8007279D2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007279A2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift */; };
 		8007279E2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007279B2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift */; };
 		802F7E8E2E0F1A2500F1BDF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */; };
@@ -83,7 +83,7 @@
 		800727532E11AA0700C43BA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		800727542E11AA0700C43BA8 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		800727552E11AA0700C43BA8 /* VoticeDemo_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoticeDemo_macOS.entitlements; sourceTree = "<group>"; };
-		800727562E11AA0700C43BA8 /* VoticeDemo_macOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSApp.swift; sourceTree = "<group>"; };
+		800727562E11AA0700C43BA8 /* AppVoticeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVoticeDemo.swift; sourceTree = "<group>"; };
 		8007275B2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSUITests.swift; sourceTree = "<group>"; };
 		8007275C2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		800727672E11ACD400C43BA8 /* VoticeDemo_tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoticeDemo_tvOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,7 +92,7 @@
 		800727902E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSTests.swift; sourceTree = "<group>"; };
 		800727932E11ACFB00C43BA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		800727942E11ACFB00C43BA8 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		800727952E11ACFB00C43BA8 /* VoticeDemo_tvOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSApp.swift; sourceTree = "<group>"; };
+		800727952E11ACFB00C43BA8 /* AppVoticeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVoticeDemo.swift; sourceTree = "<group>"; };
 		8007279A2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSUITests.swift; sourceTree = "<group>"; };
 		8007279B2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		802F7E602E0F198400F1BDF6 /* VoticeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoticeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,10 +187,10 @@
 		800727572E11AA0700C43BA8 /* VoticeDemo_macOS */ = {
 			isa = PBXGroup;
 			children = (
+				800727562E11AA0700C43BA8 /* AppVoticeDemo.swift */,
 				800727532E11AA0700C43BA8 /* Assets.xcassets */,
 				800727542E11AA0700C43BA8 /* HomeView.swift */,
 				800727552E11AA0700C43BA8 /* VoticeDemo_macOS.entitlements */,
-				800727562E11AA0700C43BA8 /* VoticeDemo_macOSApp.swift */,
 			);
 			path = VoticeDemo_macOS;
 			sourceTree = "<group>";
@@ -222,9 +222,9 @@
 		800727962E11ACFB00C43BA8 /* VoticeDemo_tvOS */ = {
 			isa = PBXGroup;
 			children = (
+				800727952E11ACFB00C43BA8 /* AppVoticeDemo.swift */,
 				800727932E11ACFB00C43BA8 /* Assets.xcassets */,
 				800727942E11ACFB00C43BA8 /* HomeView.swift */,
-				800727952E11ACFB00C43BA8 /* VoticeDemo_tvOSApp.swift */,
 			);
 			path = VoticeDemo_tvOS;
 			sourceTree = "<group>";
@@ -656,7 +656,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				800727582E11AA0700C43BA8 /* HomeView.swift in Sources */,
-				800727592E11AA0700C43BA8 /* VoticeDemo_macOSApp.swift in Sources */,
+				800727592E11AA0700C43BA8 /* AppVoticeDemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,7 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				800727982E11ACFB00C43BA8 /* HomeView.swift in Sources */,
-				800727992E11ACFB00C43BA8 /* VoticeDemo_tvOSApp.swift in Sources */,
+				800727992E11ACFB00C43BA8 /* AppVoticeDemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

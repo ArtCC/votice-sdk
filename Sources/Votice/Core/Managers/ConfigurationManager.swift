@@ -17,6 +17,8 @@ protocol ConfigurationManagerProtocol: Sendable {
     var apiSecret: String { get }
     var appId: String { get }
     var commentIsEnabled: Bool { get set }
+    var version: String { get }
+    var buildNumber: String { get }
 
     // MARK: - Public functions
 
@@ -39,6 +41,8 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     private let lock = NSLock()
     private let _baseURL = "https://us-central1-memorypost-artcc01.cloudfunctions.net/api"
     private let _configurationId = UUID().uuidString
+    private let _version = "1.0.0"
+    private let _buildNumber = "1"
 
     // MARK: - Public
 
@@ -73,6 +77,14 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
         set {
             lock.withLock { _commentIsEnabled = newValue }
         }
+    }
+
+    var version: String {
+        _version
+    }
+
+    var buildNumber: String {
+        _buildNumber
     }
 
     // MARK: - Init
