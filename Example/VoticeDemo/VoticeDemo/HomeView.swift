@@ -93,8 +93,8 @@ struct HomeView: View {
         }
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
             // Example of advanced theme customization
-            let customTheme = Votice.createAdvancedTheme(primaryColor: .purple,
-                                                         accentColor: .pink,
+            let customTheme = Votice.createAdvancedTheme(primaryColor: .blue,
+                                                         accentColor: .green,
                                                          backgroundColor: Color(.systemBackground),
                                                          surfaceColor: Color(.secondarySystemBackground),
                                                          destructiveColor: .red,

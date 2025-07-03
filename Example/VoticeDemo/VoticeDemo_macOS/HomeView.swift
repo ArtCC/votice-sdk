@@ -87,7 +87,7 @@ struct HomeView: View {
             Votice.feedbackView()
         }
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
-            let customTheme = Votice.createTheme(primaryColor: .red,
+            let customTheme = Votice.createTheme(primaryColor: .blue,
                                                  backgroundColor: Color(.white),
                                                  surfaceColor: Color(.blue))
 

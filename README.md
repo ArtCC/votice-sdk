@@ -68,7 +68,7 @@ Before using any Votice component, configure it with your app credentials:
 try Votice.configure(
     apiKey: "your-api-key",
     apiSecret: "your-api-secret",
-    appId: "your-app-id" // optional, defaults to "default"
+    appId: "your-app-id"
 )
 ```
 
@@ -76,6 +76,7 @@ You can reset or check configuration status:
 
 ```swift
 Votice.reset()
+
 let configured = Votice.isConfigured
 ```
 
@@ -114,13 +115,14 @@ let theme = Votice.createTheme(
 Advanced configuration is also available:
 
 ```swift
-let advancedTheme = Votice.createAdvancedTheme(
-    primaryColor: .blue,
-    successColor: .green,
-    errorColor: .red,
-    acceptedColor: .blue,
-    rejectedColor: .red
-)
+let customTheme = Votice.createAdvancedTheme(
+    primaryColor: .purple,
+    accentColor: .pink,
+    backgroundColor: Color(.systemBackground),
+    surfaceColor: Color(.secondarySystemBackground),
+    destructiveColor: .red,
+    successColor: .mint,
+    warningColor: .orange)    
 ```
 
 Then pass it into the view:
@@ -143,9 +145,17 @@ To reset to the default English:
 Votice.resetTextsToDefault()
 ```
 
+### 6. Comment on susgestions (Optional)
+
+You can allow users to comment on suggestions by enabling the comments feature (Default is enabled):
+
+```swift
+Votice.setCommentIsEnabled(enabled: Bool)
+```
+
 ### 5. Debug Logging (Optional)
 
-By default, Votice SDK runs silently to avoid cluttering your development console. If you need to troubleshoot SDK issues or see internal operations, you can enable debug logging:
+By default, Votice SDK runs silently to avoid cluttering your development console. If you need to troubleshoot SDK issues or see internal operations, you can enable debug logging (Default is disabled):
 
 Enable debug logging (useful for troubleshooting):
 ```swift

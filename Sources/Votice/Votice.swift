@@ -125,12 +125,7 @@ public struct Votice {
         )
 
         // Return the complete theme with default typography, spacing, and corner radius
-        return VoticeTheme(
-            colors: customColors,
-            typography: .default,
-            spacing: .default,
-            cornerRadius: .default
-        )
+        return VoticeTheme(colors: customColors, typography: .default, spacing: .default, cornerRadius: .default)
     }
 
     /// Create a custom theme with advanced color configuration
