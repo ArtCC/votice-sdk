@@ -1,5 +1,5 @@
 //
-//  AlertEntity.swift
+//  VoticeAlertEntity.swift
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 30/6/25.
@@ -7,43 +7,6 @@
 //
 
 import Foundation
-
-// MARK: - Alert Type
-
-enum VoticeAlertType {
-    case success
-    case warning
-    case error
-    case info
-}
-
-// MARK: - Alert Button
-
-struct VoticeAlertButton {
-    // MARK: - Properties
-
-    let title: String
-    let action: () -> Void
-    let style: VoticeAlertButtonStyle
-
-    // MARK: - Init
-
-    init(title: String, style: VoticeAlertButtonStyle = .default, action: @escaping () -> Void = {}) {
-        self.title = title
-        self.style = style
-        self.action = action
-    }
-}
-
-// MARK: - Alert Button Style
-
-enum VoticeAlertButtonStyle {
-    case `default`
-    case primary
-    case destructive
-}
-
-// MARK: - Alert Entity
 
 struct VoticeAlertEntity {
     // MARK: - Properties
@@ -116,8 +79,3 @@ struct VoticeAlertEntity {
         )
     }
 }
-
-// MARK: - Legacy Support
-
-@available(*, deprecated, message: "Use VoticeAlertEntity instead")
-typealias AlertEntity = VoticeAlertEntity
