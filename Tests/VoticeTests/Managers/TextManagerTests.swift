@@ -20,6 +20,10 @@ struct MockVoticeTexts: VoticeTextsProtocol {
     let ok = "Aceptar"
     let submit = "Enviar"
     let optional = "Opcional"
+    let success = "Éxito"
+    let warning = "Advertencia"
+    let info = "Información"
+    let genericError = "Algo salió mal. Por favor, inténtalo de nuevo."
 
     // MARK: - Suggestion List
 
@@ -219,6 +223,10 @@ func testTextManagerMultipleUpdates() async {
         let ok = "D'accord"
         let submit = "Soumettre"
         let optional = "Optionnel"
+        let success = "Success"
+        let warning = "Warning"
+        let info = "Info"
+        let genericError = "Something went wrong. Please try again."
         let loadingSuggestions = "Chargement des suggestions..."
         let noSuggestionsYet = "Pas encore de suggestions."
         let beFirstToSuggest = "Soyez le premier à suggérer quelque chose!"
