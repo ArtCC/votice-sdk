@@ -24,7 +24,7 @@ struct HomeView: View {
                 VStack(spacing: 10) {
                     Image(systemName: "star.bubble")
                         .font(.system(size: 60))
-                        .foregroundColor(.blue)
+                        .foregroundColor(.accentColor)
                     Text("Votice SDK Demo")
                         .font(.largeTitle)
                         .fontWeight(.bold)
@@ -93,15 +93,13 @@ struct HomeView: View {
         }
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
             // Example of advanced theme customization
-            let customTheme = Votice.createAdvancedTheme(
-                primaryColor: .purple,
-                accentColor: .pink,
-                backgroundColor: Color(.systemBackground),
-                surfaceColor: Color(.secondarySystemBackground),
-                destructiveColor: .red,
-                successColor: .mint,
-                warningColor: .orange
-            )
+            let customTheme = Votice.createAdvancedTheme(primaryColor: .blue,
+                                                         accentColor: .green,
+                                                         backgroundColor: Color(.systemBackground),
+                                                         surfaceColor: Color(.secondarySystemBackground),
+                                                         destructiveColor: .red,
+                                                         successColor: .mint,
+                                                         warningColor: .orange)
 
             Votice.feedbackView(theme: customTheme)
         }
@@ -126,6 +124,7 @@ private extension HomeView {
             )
 
             Votice.setDebugLogging(enabled: true)
+            Votice.setCommentIsEnabled(enabled: true)
 
             isConfigured = Votice.isConfigured
 

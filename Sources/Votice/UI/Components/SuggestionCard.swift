@@ -31,7 +31,7 @@ struct SuggestionCard: View {
                                       downvotes: 0,
                                       currentVote: currentVote,
                                       onVote: onVote)
-                        if suggestion.commentCount ?? 0 > 0 {
+                        if ConfigurationManager.shared.commentIsEnabled, suggestion.commentCount ?? 0 > 0 {
                             VStack(spacing: 4) {
                                 Image(systemName: "bubble.left.fill")
                                     .font(.subheadline)
@@ -110,12 +110,13 @@ private extension SuggestionCard {
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer()
             }
+            .padding(.trailing, theme.spacing.sm)
             if let description = suggestion.description {
                 HStack {
                     Text(description)
                         .font(theme.typography.callout)
                         .foregroundColor(theme.colors.onSurface.opacity(0.7))
-                        .lineLimit(2)
+                        .lineLimit(3)
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                 }

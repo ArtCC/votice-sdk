@@ -123,7 +123,9 @@ private extension SuggestionDetailView {
             VStack(alignment: .leading, spacing: theme.spacing.xl) {
                 suggestionHeaderCard
                 votingAndStatsCard
-                commentsSection
+                if ConfigurationManager.shared.commentIsEnabled {
+                    commentsSection
+                }
                 Spacer(minLength: theme.spacing.xl)
             }
             .padding(theme.spacing.lg)
@@ -225,13 +227,15 @@ private extension SuggestionDetailView {
                         .font(theme.typography.callout)
                         .foregroundColor(theme.colors.secondary)
                 }
-                HStack(spacing: 4) {
-                    Image(systemName: "bubble.left.fill")
-                        .font(.caption)
-                        .foregroundColor(theme.colors.accent)
-                    Text("\(viewModel.comments.count) \(TextManager.shared.texts.comments)")
-                        .font(theme.typography.callout)
-                        .foregroundColor(theme.colors.secondary)
+                if ConfigurationManager.shared.commentIsEnabled {
+                    HStack(spacing: 4) {
+                        Image(systemName: "bubble.left.fill")
+                            .font(.caption)
+                            .foregroundColor(theme.colors.accent)
+                        Text("\(viewModel.comments.count) \(TextManager.shared.texts.comments)")
+                            .font(theme.typography.callout)
+                            .foregroundColor(theme.colors.secondary)
+                    }
                 }
             }
         }

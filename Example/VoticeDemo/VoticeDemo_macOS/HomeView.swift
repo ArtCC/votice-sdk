@@ -24,7 +24,7 @@ struct HomeView: View {
             VStack(spacing: 10) {
                 Image(systemName: "star.bubble")
                     .font(.system(size: 60))
-                    .foregroundColor(.blue)
+                    .foregroundColor(.accentColor)
                 Text("Votice SDK Demo")
                     .font(.largeTitle)
                     .fontWeight(.bold)
@@ -87,7 +87,7 @@ struct HomeView: View {
             Votice.feedbackView()
         }
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
-            let customTheme = Votice.createTheme(primaryColor: .red,
+            let customTheme = Votice.createTheme(primaryColor: .blue,
                                                  backgroundColor: Color(.white),
                                                  surfaceColor: Color(.blue))
 
@@ -111,15 +111,16 @@ private extension HomeView {
                 appId: ""
             )
 
-            debugPrint("✅ Votice SDK configured successfully!")
+            Votice.setDebugLogging(enabled: true)
+            Votice.setCommentIsEnabled(enabled: true)
 
-            // Update configuration status
             isConfigured = Votice.isConfigured
-        } catch {
-            debugPrint("❌ Configuration failed: \(error)")
 
-            // Update configuration status
+            debugPrint("Votice SDK configured successfully!")
+        } catch {
             isConfigured = false
+
+            debugPrint("Configuration failed: \(error)")
         }
     }
 }

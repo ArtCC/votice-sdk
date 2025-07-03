@@ -20,14 +20,14 @@ final class CreateSuggestionViewModel: ObservableObject {
     @Published var isShowingAlert = false
 
     var isFormValid: Bool {
-        !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        !title.isEmpty
     }
 
-    private let suggestionUseCase: SuggestionUseCase
+    private let suggestionUseCase: SuggestionUseCaseProtocol
 
     // MARK: - Init
 
-    init(suggestionUseCase: SuggestionUseCase = SuggestionUseCase()) {
+    init(suggestionUseCase: SuggestionUseCaseProtocol = SuggestionUseCase()) {
         self.suggestionUseCase = suggestionUseCase
     }
 
@@ -60,12 +60,10 @@ final class CreateSuggestionViewModel: ObservableObject {
     }
 
     func submitSuggestion(onSuccess: @escaping (SuggestionEntity) -> Void) async {
-        let trimmedNickname = nickname.trimmingCharacters(in: .whitespacesAndNewlines)
-
         do {
             let suggestion = try await createSuggestion(title: title,
                                                         description: description,
-                                                        nickname: trimmedNickname.isEmpty ? nil : trimmedNickname)
+                                                        nickname: nickname.isEmpty ? nil : nickname)
 
             onSuccess(suggestion)
         } catch {

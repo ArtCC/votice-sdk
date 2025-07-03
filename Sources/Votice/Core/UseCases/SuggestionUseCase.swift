@@ -91,7 +91,7 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
     func vote(suggestionId: String, voteType: VoteType) async throws -> VoteSuggestionResponse {
         try configurationManager.validateConfiguration()
 
-        guard !suggestionId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        guard !suggestionId.isEmpty else {
             throw VoticeError.invalidInput("Suggestion ID cannot be empty")
         }
 
