@@ -10,6 +10,14 @@
 
 Votice is a native Swift SDK that allows you to integrate user feedback, suggestion boards, and voting mechanisms in your app with a clean UI and a simple setup. It connects to a custom backend using HMAC authentication and does not require Firebase or GoogleService-Info.plist.
 
+## 📱 Management App
+
+The Votice management app for handling suggestions and apps is available for download on the App Store:
+
+[![Download on the App Store](https://img.shields.io/badge/Download-App%20Store-blue)](https://apps.apple.com/us/app/id6673904950)
+
+**Available for:** iOS, iPadOS, and macOS
+
 ---
 
 ## ✅ Requirements
