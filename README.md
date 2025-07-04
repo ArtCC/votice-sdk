@@ -6,7 +6,7 @@
 [![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org/)
 [![Platforms](https://img.shields.io/badge/Platforms-iOS%2017%2B%20%7C%20iPadOS%2017%2B-lightgrey)](#)
 [![SPM](https://img.shields.io/badge/SPM-compatible-brightgreen)](https://swift.org/package-manager/)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Votice is a native Swift SDK that allows you to integrate user feedback, suggestion boards, and voting mechanisms in your app with a clean UI and a simple setup. It connects to a custom backend using HMAC authentication and does not require Firebase or GoogleService-Info.plist.
 
@@ -211,7 +211,7 @@ Arturo Carretero Calvo
 
 ## License
 
-[Apache License](LICENSE)
+Votice SDK is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
 
 ---
 
