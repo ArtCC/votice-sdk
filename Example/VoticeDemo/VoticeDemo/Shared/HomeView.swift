@@ -26,10 +26,9 @@ struct HomeView: View {
                         .font(.system(size: 60))
                         .foregroundColor(.accentColor)
                     Text("Votice SDK Demo")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
+                        .font(.poppins(.bold, size: 32))
                     Text("Test all the feedback features")
-                        .font(.subheadline)
+                        .font(.poppins(.regular, size: 16))
                         .foregroundColor(.secondary)
                 }
                 Divider()
@@ -38,11 +37,12 @@ struct HomeView: View {
                     // Option 1: Sheet/Modal with System Theme
                     VStack(spacing: 8) {
                         Text("Option 1: Modal Presentation")
-                            .font(.headline)
+                            .font(.poppins(.semiBold, size: 18))
                         Button("Show Feedback Sheet") {
                             showingFeedbackSheet = true
                         }
                         .buttonStyle(.borderedProminent)
+                        .font(.poppins(.medium, size: 16))
 #if os(iOS)
                         .controlSize(.large)
 #endif
@@ -50,11 +50,12 @@ struct HomeView: View {
                     // Option 2: Navigation with Light Theme
                     VStack(spacing: 8) {
                         Text("Option 2: Navigation Push")
-                            .font(.headline)
+                            .font(.poppins(.semiBold, size: 18))
                         NavigationLink("Navigate to Feedback") {
                             Votice.feedbackView(theme: Votice.systemTheme())
                         }
                         .buttonStyle(.borderedProminent)
+                        .font(.poppins(.medium, size: 16))
 #if os(iOS)
                         .controlSize(.large)
 #endif
@@ -62,11 +63,12 @@ struct HomeView: View {
                     // Option 3: Custom Advanced Theme
                     VStack(spacing: 8) {
                         Text("Option 3: Custom Theme")
-                            .font(.headline)
+                            .font(.poppins(.semiBold, size: 18))
                         Button("Feedback with Custom Theme") {
                             showingFeedbackSheetWithCustomTheme = true
                         }
                         .buttonStyle(.borderedProminent)
+                        .font(.poppins(.medium, size: 16))
 #if os(iOS)
                         .controlSize(.large)
 #endif
@@ -78,13 +80,13 @@ struct HomeView: View {
                     HStack {
                         Image(systemName: isConfigured ? "checkmark.circle.fill" : "xmark.circle.fill")
                             .foregroundColor(isConfigured ? .green : .red)
-                        Text("SDK Configuration: \(isConfigured ? "✅ Ready" : "❌ Not Configured")")
-                            .font(.caption)
+                        Text("SDK Configuration: \(isConfigured ? "" : "")")
+                            .font(.poppins(.regular, size: 12))
                             .foregroundColor(.secondary)
                     }
                     if isConfigured {
                         Text("Ready to collect feedback!")
-                            .font(.caption2)
+                            .font(.poppins(.regular, size: 10))
                             .foregroundColor(.green)
                     }
                 }
