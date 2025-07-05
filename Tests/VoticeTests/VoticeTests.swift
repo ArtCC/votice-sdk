@@ -3,8 +3,7 @@
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 27/6/25.
-//  Copyright © 2025 ArtCC. All rights reserved.
-//
+//  Copyright ArtCC. All rights reserved.
 
 import Testing
 import SwiftUI
@@ -42,6 +41,9 @@ struct VoticeTests {
 
     @Test("Votice should reset configuration")
     func testResetConfiguration() throws {
+        // Reset first to start clean
+        Votice.reset()
+
         // Configure first
         try Votice.configure(
             apiKey: "test-api-key",
