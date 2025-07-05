@@ -232,6 +232,62 @@ public struct Votice {
         TextManager.shared.resetToDefault()
     }
 
+    // MARK: - Font Customization
+
+    /// Configure custom fonts for the Votice SDK
+    /// - Parameter configuration: Font configuration with custom font family and weights
+    /// - Note: If no custom fonts are configured, the SDK will use system fonts
+    ///
+    /// Example usage:
+    /// ```swift
+    /// let poppinsConfig = VoticeFontConfiguration(
+    ///     fontFamily: "Poppins",
+    ///     weights: [
+    ///         .regular: "Poppins-Regular",
+    ///         .medium: "Poppins-Medium",
+    ///         .semiBold: "Poppins-SemiBold",
+    ///         .bold: "Poppins-Bold"
+    ///     ]
+    /// )
+    /// Votice.setFonts(poppinsConfig)
+    /// ```
+    public static func setFonts(_ configuration: VoticeFontConfiguration) {
+        FontManager.shared.setFontConfiguration(configuration)
+    }
+
+    /// Reset fonts to the system default fonts
+    public static func resetFontsToSystem() {
+        FontManager.shared.resetToSystemFonts()
+    }
+
+    /// Create a theme with custom fonts applied
+    /// - Parameters:
+    ///   - primaryColor: Primary color for buttons and accents
+    ///   - backgroundColor: Background color for the interface
+    ///   - surfaceColor: Surface color for cards and components
+    /// - Returns: A theme with current font configuration applied
+    public static func createThemeWithCurrentFonts(primaryColor: Color? = nil,
+                                                   backgroundColor: Color? = nil,
+                                                   surfaceColor: Color? = nil) -> VoticeTheme {
+        let colors = createAdvancedTheme(primaryColor: primaryColor,
+                                         backgroundColor: backgroundColor,
+                                         surfaceColor: surfaceColor).colors
+
+        return VoticeTheme(colors: colors,
+                           typography: .withCurrentFonts(),
+                           spacing: .default,
+                           cornerRadius: .default)
+    }
+
+    /// Get a system theme with custom fonts applied
+    /// - Returns: A system theme that uses current font configuration
+    public static func systemThemeWithCurrentFonts() -> VoticeTheme {
+        VoticeTheme(colors: systemTheme().colors,
+                    typography: .withCurrentFonts(),
+                    spacing: .default,
+                    cornerRadius: .default)
+    }
+
     // MARK: - Legacy (deprecated)
 
     @available(*, deprecated, message: "Use configure(apiKey:apiSecret:appId:) instead")

@@ -110,7 +110,7 @@ private extension SuggestionCard {
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer()
             }
-            .padding(.trailing, theme.spacing.sm)
+            .padding(.trailing, theme.spacing.llg)
             if let description = suggestion.description {
                 HStack {
                     Text(description)

@@ -38,7 +38,7 @@ struct LoadingView: View {
                 }
             }
             Text(message)
-                .font(theme.typography.headline)
+                .font(theme.typography.body)
                 .foregroundColor(theme.colors.onBackground)
                 .multilineTextAlignment(.center)
         }

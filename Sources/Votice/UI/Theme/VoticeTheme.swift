@@ -166,17 +166,17 @@ public struct VoticeTypography {
     public let caption: Font
     public let caption2: Font
 
-    public static let `default` = VoticeTypography(largeTitle: .largeTitle,
-                                                   title: .title,
-                                                   title2: .title2,
-                                                   title3: .title3,
-                                                   headline: .headline,
-                                                   subheadline: .subheadline,
-                                                   body: .body,
-                                                   callout: .callout,
-                                                   footnote: .footnote,
-                                                   caption: .caption,
-                                                   caption2: .caption2)
+    public static let `default` = VoticeTypography(largeTitle: FontManager.shared.font(for: .bold, size: 34),
+                                                   title: FontManager.shared.font(for: .bold, size: 28),
+                                                   title2: FontManager.shared.font(for: .bold, size: 22),
+                                                   title3: FontManager.shared.font(for: .semiBold, size: 20),
+                                                   headline: FontManager.shared.font(for: .semiBold, size: 17),
+                                                   subheadline: FontManager.shared.font(for: .regular, size: 15),
+                                                   body: FontManager.shared.font(for: .regular, size: 17),
+                                                   callout: FontManager.shared.font(for: .regular, size: 16),
+                                                   footnote: FontManager.shared.font(for: .regular, size: 13),
+                                                   caption: FontManager.shared.font(for: .regular, size: 12),
+                                                   caption2: FontManager.shared.font(for: .regular, size: 11))
 
     // MARK: Init
 
@@ -203,6 +203,23 @@ public struct VoticeTypography {
         self.caption = caption
         self.caption2 = caption2
     }
+
+    /// Create a typography configuration using the current font manager settings
+    public static func withCurrentFonts() -> VoticeTypography {
+        return VoticeTypography(
+            largeTitle: FontManager.shared.font(for: .bold, size: 34),
+            title: FontManager.shared.font(for: .bold, size: 28),
+            title2: FontManager.shared.font(for: .bold, size: 22),
+            title3: FontManager.shared.font(for: .semiBold, size: 20),
+            headline: FontManager.shared.font(for: .semiBold, size: 17),
+            subheadline: FontManager.shared.font(for: .regular, size: 15),
+            body: FontManager.shared.font(for: .regular, size: 17),
+            callout: FontManager.shared.font(for: .regular, size: 16),
+            footnote: FontManager.shared.font(for: .regular, size: 13),
+            caption: FontManager.shared.font(for: .regular, size: 12),
+            caption2: FontManager.shared.font(for: .regular, size: 11)
+        )
+    }
 }
 
 // MARK: - Votice Spacing
@@ -212,6 +229,7 @@ public struct VoticeSpacing {
     public let sm: CGFloat = 8
     public let md: CGFloat = 16
     public let lg: CGFloat = 24
+    public let llg: CGFloat = 28
     public let xl: CGFloat = 32
     public let xxl: CGFloat = 48
     public let xxxl: CGFloat = 60

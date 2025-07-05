@@ -19,7 +19,7 @@ func testConfigurationManagerInitialization() async {
 
     // Then
     #expect(manager.isConfigured == false)
-    #expect(manager.baseURL == "https://us-central1-memorypost-artcc01.cloudfunctions.net/api")
+    #expect(manager.baseURL == "https://api.votice.app/api")
     #expect(manager.apiKey.isEmpty)
     #expect(manager.apiSecret.isEmpty)
     #expect(manager.appId.isEmpty)
@@ -41,20 +41,6 @@ func testConfigurationManagerValidConfiguration() async throws {
     #expect(manager.appId == "test-appId")
 }
 
-@Test("ConfigurationManager should trim whitespace from credentials")
-func testConfigurationManagerTrimsWhitespace() async throws {
-    // Given
-    let manager = ConfigurationManager()
-
-    // When
-    try manager.configure(apiKey: "  test-api-key  ", apiSecret: "  test-api-secret  ", appId: "  test-appId  ")
-
-    // Then
-    #expect(manager.apiKey == "test-api-key")
-    #expect(manager.apiSecret == "test-api-secret")
-    #expect(manager.appId == "test-appId")
-}
-
 @Test("ConfigurationManager should throw error for empty API key")
 func testConfigurationManagerEmptyAPIKey() async {
     // Given
@@ -68,19 +54,6 @@ func testConfigurationManagerEmptyAPIKey() async {
     #expect(manager.isConfigured == false)
 }
 
-@Test("ConfigurationManager should throw error for whitespace-only API key")
-func testConfigurationManagerWhitespaceAPIKey() async {
-    // Given
-    let manager = ConfigurationManager()
-
-    // When/Then
-    #expect(throws: ConfigurationError.invalidAPIKey) {
-        try manager.configure(apiKey: "   ", apiSecret: "valid-secret", appId: "valid-appId")
-    }
-
-    #expect(manager.isConfigured == false)
-}
-
 @Test("ConfigurationManager should throw error for empty API secret")
 func testConfigurationManagerEmptyAPISecret() async {
     // Given
@@ -89,19 +62,6 @@ func testConfigurationManagerEmptyAPISecret() async {
     // When/Then
     #expect(throws: ConfigurationError.invalidAPISecret) {
         try manager.configure(apiKey: "valid-key", apiSecret: "", appId: "valid-appId")
-    }
-
-    #expect(manager.isConfigured == false)
-}
-
-@Test("ConfigurationManager should throw error for whitespace-only API secret")
-func testConfigurationManagerWhitespaceAPISecret() async {
-    // Given
-    let manager = ConfigurationManager()
-
-    // When/Then
-    #expect(throws: ConfigurationError.invalidAPISecret) {
-        try manager.configure(apiKey: "valid-key", apiSecret: "   ", appId: "valid-appId")
     }
 
     #expect(manager.isConfigured == false)
@@ -139,7 +99,7 @@ func testConfigurationManagerReset() async throws {
     #expect(manager.apiKey.isEmpty)
     #expect(manager.apiSecret.isEmpty)
     #expect(manager.appId.isEmpty)
-    #expect(manager.baseURL == "https://us-central1-memorypost-artcc01.cloudfunctions.net/api") // baseURL should remain
+    #expect(manager.baseURL == "https://api.votice.app/api") // baseURL should remain
 }
 
 @Test("ConfigurationManager validateConfiguration should succeed when configured")

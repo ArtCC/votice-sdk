@@ -25,6 +25,39 @@
 		802F7E932E0F1A2700F1BDF6 /* VoticeDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E912E0F1A2700F1BDF6 /* VoticeDemoTests.swift */; };
 		802F7E972E0F1A2900F1BDF6 /* VoticeDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E942E0F1A2900F1BDF6 /* VoticeDemoUITests.swift */; };
 		802F7E982E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E952E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift */; };
+		805C23D92E1968CC00AB56D0 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D42E1968CC00AB56D0 /* Poppins-Medium.ttf */; };
+		805C23DA2E1968CC00AB56D0 /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23CF2E1968CC00AB56D0 /* Poppins-Black.ttf */; };
+		805C23DB2E1968CC00AB56D0 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D32E1968CC00AB56D0 /* Poppins-Light.ttf */; };
+		805C23DC2E1968CC00AB56D0 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D22E1968CC00AB56D0 /* Poppins-ExtraLight.ttf */; };
+		805C23DD2E1968CC00AB56D0 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D02E1968CC00AB56D0 /* Poppins-Bold.ttf */; };
+		805C23DE2E1968CC00AB56D0 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D12E1968CC00AB56D0 /* Poppins-ExtraBold.ttf */; };
+		805C23DF2E1968CC00AB56D0 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D72E1968CC00AB56D0 /* Poppins-Thin.ttf */; };
+		805C23E02E1968CC00AB56D0 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D52E1968CC00AB56D0 /* Poppins-Regular.ttf */; };
+		805C23E12E1968CC00AB56D0 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D62E1968CC00AB56D0 /* Poppins-SemiBold.ttf */; };
+		805C23E22E1968CC00AB56D0 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D42E1968CC00AB56D0 /* Poppins-Medium.ttf */; };
+		805C23E32E1968CC00AB56D0 /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23CF2E1968CC00AB56D0 /* Poppins-Black.ttf */; };
+		805C23E42E1968CC00AB56D0 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D32E1968CC00AB56D0 /* Poppins-Light.ttf */; };
+		805C23E52E1968CC00AB56D0 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D22E1968CC00AB56D0 /* Poppins-ExtraLight.ttf */; };
+		805C23E62E1968CC00AB56D0 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D02E1968CC00AB56D0 /* Poppins-Bold.ttf */; };
+		805C23E72E1968CC00AB56D0 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D12E1968CC00AB56D0 /* Poppins-ExtraBold.ttf */; };
+		805C23E82E1968CC00AB56D0 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D72E1968CC00AB56D0 /* Poppins-Thin.ttf */; };
+		805C23E92E1968CC00AB56D0 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D52E1968CC00AB56D0 /* Poppins-Regular.ttf */; };
+		805C23EA2E1968CC00AB56D0 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D62E1968CC00AB56D0 /* Poppins-SemiBold.ttf */; };
+		805C23EB2E1968CC00AB56D0 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D42E1968CC00AB56D0 /* Poppins-Medium.ttf */; };
+		805C23EC2E1968CC00AB56D0 /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23CF2E1968CC00AB56D0 /* Poppins-Black.ttf */; };
+		805C23ED2E1968CC00AB56D0 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D32E1968CC00AB56D0 /* Poppins-Light.ttf */; };
+		805C23EE2E1968CC00AB56D0 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D22E1968CC00AB56D0 /* Poppins-ExtraLight.ttf */; };
+		805C23EF2E1968CC00AB56D0 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D02E1968CC00AB56D0 /* Poppins-Bold.ttf */; };
+		805C23F02E1968CC00AB56D0 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D12E1968CC00AB56D0 /* Poppins-ExtraBold.ttf */; };
+		805C23F12E1968CC00AB56D0 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D72E1968CC00AB56D0 /* Poppins-Thin.ttf */; };
+		805C23F22E1968CC00AB56D0 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D52E1968CC00AB56D0 /* Poppins-Regular.ttf */; };
+		805C23F32E1968CC00AB56D0 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 805C23D62E1968CC00AB56D0 /* Poppins-SemiBold.ttf */; };
+		805C23F62E19691C00AB56D0 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F42E19691C00AB56D0 /* Font.swift */; };
+		805C23F72E19691C00AB56D0 /* PoppinsFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F52E19691C00AB56D0 /* PoppinsFont.swift */; };
+		805C23F82E19691C00AB56D0 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F42E19691C00AB56D0 /* Font.swift */; };
+		805C23F92E19691C00AB56D0 /* PoppinsFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F52E19691C00AB56D0 /* PoppinsFont.swift */; };
+		805C23FA2E19691C00AB56D0 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F42E19691C00AB56D0 /* Font.swift */; };
+		805C23FB2E19691C00AB56D0 /* PoppinsFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F52E19691C00AB56D0 /* PoppinsFont.swift */; };
 		80A071052E190AB80068B581 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */; };
 		80A071062E190AB80068B581 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */; };
 		80DFD2732E0F1D6B00DD20F2 /* Votice in Frameworks */ = {isa = PBXBuildFile; productRef = 80DFD2722E0F1D6B00DD20F2 /* Votice */; };
@@ -102,6 +135,20 @@
 		802F7E912E0F1A2700F1BDF6 /* VoticeDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemoTests.swift; sourceTree = "<group>"; };
 		802F7E942E0F1A2900F1BDF6 /* VoticeDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemoUITests.swift; sourceTree = "<group>"; };
 		802F7E952E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		805C23CB2E19684E00AB56D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		805C23CC2E19685B00AB56D0 /* VoticeDemo-macOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoticeDemo-macOS-Info.plist"; sourceTree = SOURCE_ROOT; };
+		805C23CD2E19686400AB56D0 /* VoticeDemo-tvOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoticeDemo-tvOS-Info.plist"; sourceTree = SOURCE_ROOT; };
+		805C23CF2E1968CC00AB56D0 /* Poppins-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Black.ttf"; sourceTree = "<group>"; };
+		805C23D02E1968CC00AB56D0 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		805C23D12E1968CC00AB56D0 /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
+		805C23D22E1968CC00AB56D0 /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
+		805C23D32E1968CC00AB56D0 /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
+		805C23D42E1968CC00AB56D0 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		805C23D52E1968CC00AB56D0 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		805C23D62E1968CC00AB56D0 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		805C23D72E1968CC00AB56D0 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Thin.ttf"; sourceTree = "<group>"; };
+		805C23F42E19691C00AB56D0 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		805C23F52E19691C00AB56D0 /* PoppinsFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoppinsFont.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +235,7 @@
 				800727562E11AA0700C43BA8 /* AppVoticeDemo.swift */,
 				800727532E11AA0700C43BA8 /* Assets.xcassets */,
 				800727552E11AA0700C43BA8 /* VoticeDemo_macOS.entitlements */,
+				805C23CC2E19685B00AB56D0 /* VoticeDemo-macOS-Info.plist */,
 			);
 			path = VoticeDemo_macOS;
 			sourceTree = "<group>";
@@ -221,6 +269,7 @@
 			children = (
 				800727952E11ACFB00C43BA8 /* AppVoticeDemo.swift */,
 				800727932E11ACFB00C43BA8 /* Assets.xcassets */,
+				805C23CD2E19686400AB56D0 /* VoticeDemo-tvOS-Info.plist */,
 			);
 			path = VoticeDemo_tvOS;
 			sourceTree = "<group>";
@@ -272,7 +321,8 @@
 			children = (
 				802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */,
 				802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */,
-				802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */,
+				805C23CB2E19684E00AB56D0 /* Info.plist */,
+				805C23CE2E1968BD00AB56D0 /* Shared */,
 			);
 			path = VoticeDemo;
 			sourceTree = "<group>";
@@ -292,6 +342,33 @@
 				802F7E952E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift */,
 			);
 			path = VoticeDemoUITests;
+			sourceTree = "<group>";
+		};
+		805C23CE2E1968BD00AB56D0 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				805C23D82E1968CC00AB56D0 /* Fonts */,
+				805C23F42E19691C00AB56D0 /* Font.swift */,
+				802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */,
+				805C23F52E19691C00AB56D0 /* PoppinsFont.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		805C23D82E1968CC00AB56D0 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				805C23CF2E1968CC00AB56D0 /* Poppins-Black.ttf */,
+				805C23D02E1968CC00AB56D0 /* Poppins-Bold.ttf */,
+				805C23D12E1968CC00AB56D0 /* Poppins-ExtraBold.ttf */,
+				805C23D22E1968CC00AB56D0 /* Poppins-ExtraLight.ttf */,
+				805C23D32E1968CC00AB56D0 /* Poppins-Light.ttf */,
+				805C23D42E1968CC00AB56D0 /* Poppins-Medium.ttf */,
+				805C23D52E1968CC00AB56D0 /* Poppins-Regular.ttf */,
+				805C23D62E1968CC00AB56D0 /* Poppins-SemiBold.ttf */,
+				805C23D72E1968CC00AB56D0 /* Poppins-Thin.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -560,6 +637,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				805C23EB2E1968CC00AB56D0 /* Poppins-Medium.ttf in Resources */,
+				805C23EC2E1968CC00AB56D0 /* Poppins-Black.ttf in Resources */,
+				805C23ED2E1968CC00AB56D0 /* Poppins-Light.ttf in Resources */,
+				805C23EE2E1968CC00AB56D0 /* Poppins-ExtraLight.ttf in Resources */,
+				805C23EF2E1968CC00AB56D0 /* Poppins-Bold.ttf in Resources */,
+				805C23F02E1968CC00AB56D0 /* Poppins-ExtraBold.ttf in Resources */,
+				805C23F12E1968CC00AB56D0 /* Poppins-Thin.ttf in Resources */,
+				805C23F22E1968CC00AB56D0 /* Poppins-Regular.ttf in Resources */,
+				805C23F32E1968CC00AB56D0 /* Poppins-SemiBold.ttf in Resources */,
 				8007275A2E11AA0700C43BA8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -582,6 +668,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				805C23D92E1968CC00AB56D0 /* Poppins-Medium.ttf in Resources */,
+				805C23DA2E1968CC00AB56D0 /* Poppins-Black.ttf in Resources */,
+				805C23DB2E1968CC00AB56D0 /* Poppins-Light.ttf in Resources */,
+				805C23DC2E1968CC00AB56D0 /* Poppins-ExtraLight.ttf in Resources */,
+				805C23DD2E1968CC00AB56D0 /* Poppins-Bold.ttf in Resources */,
+				805C23DE2E1968CC00AB56D0 /* Poppins-ExtraBold.ttf in Resources */,
+				805C23DF2E1968CC00AB56D0 /* Poppins-Thin.ttf in Resources */,
+				805C23E02E1968CC00AB56D0 /* Poppins-Regular.ttf in Resources */,
+				805C23E12E1968CC00AB56D0 /* Poppins-SemiBold.ttf in Resources */,
 				800727972E11ACFB00C43BA8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -604,6 +699,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				805C23E22E1968CC00AB56D0 /* Poppins-Medium.ttf in Resources */,
+				805C23E32E1968CC00AB56D0 /* Poppins-Black.ttf in Resources */,
+				805C23E42E1968CC00AB56D0 /* Poppins-Light.ttf in Resources */,
+				805C23E52E1968CC00AB56D0 /* Poppins-ExtraLight.ttf in Resources */,
+				805C23E62E1968CC00AB56D0 /* Poppins-Bold.ttf in Resources */,
+				805C23E72E1968CC00AB56D0 /* Poppins-ExtraBold.ttf in Resources */,
+				805C23E82E1968CC00AB56D0 /* Poppins-Thin.ttf in Resources */,
+				805C23E92E1968CC00AB56D0 /* Poppins-Regular.ttf in Resources */,
+				805C23EA2E1968CC00AB56D0 /* Poppins-SemiBold.ttf in Resources */,
 				802F7E8E2E0F1A2500F1BDF6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -652,6 +756,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				800727592E11AA0700C43BA8 /* AppVoticeDemo.swift in Sources */,
+				805C23F62E19691C00AB56D0 /* Font.swift in Sources */,
+				805C23F72E19691C00AB56D0 /* PoppinsFont.swift in Sources */,
 				80A071052E190AB80068B581 /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -678,6 +784,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				800727992E11ACFB00C43BA8 /* AppVoticeDemo.swift in Sources */,
+				805C23FA2E19691C00AB56D0 /* Font.swift in Sources */,
+				805C23FB2E19691C00AB56D0 /* PoppinsFont.swift in Sources */,
 				80A071062E190AB80068B581 /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -704,6 +812,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				802F7E8F2E0F1A2500F1BDF6 /* HomeView.swift in Sources */,
+				805C23F82E19691C00AB56D0 /* Font.swift in Sources */,
+				805C23F92E19691C00AB56D0 /* PoppinsFont.swift in Sources */,
 				802F7E902E0F1A2500F1BDF6 /* AppVoticeDemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -774,6 +884,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "VoticeDemo-macOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -805,6 +916,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "VoticeDemo-macOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -907,6 +1019,7 @@
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "VoticeDemo-tvOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -936,6 +1049,7 @@
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "VoticeDemo-tvOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1165,6 +1279,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VoticeDemo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1197,6 +1312,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VoticeDemo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
