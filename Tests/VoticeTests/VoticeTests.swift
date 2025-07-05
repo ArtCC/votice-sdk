@@ -79,7 +79,7 @@ struct VoticeTests {
         #expect(theme.colors.primary != nil)
         #expect(theme.typography.title != nil)
         #expect(theme.spacing.md == 16)
-        #expect(theme.cornerRadius.lm == 16)
+        #expect(theme.cornerRadius.lg == 16)
     }
 
     @Test("Votice should create default theme")
@@ -89,7 +89,7 @@ struct VoticeTests {
         #expect(theme.colors.primary != nil)
         #expect(theme.typography.title != nil)
         #expect(theme.spacing.md == 16)
-        #expect(theme.cornerRadius.lm == 16)
+        #expect(theme.cornerRadius.lg == 16)
     }
 
     @Test("Votice should create custom theme")
