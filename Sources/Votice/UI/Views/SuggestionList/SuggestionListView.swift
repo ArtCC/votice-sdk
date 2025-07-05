@@ -114,7 +114,6 @@ private extension SuggestionListView {
                 Image(systemName: "line.3.horizontal.decrease.circle.fill")
                     .font(.system(size: 20, weight: .medium))
                     .foregroundColor(theme.colors.primary)
-
                 if viewModel.selectedFilter != nil {
                     Circle()
                         .fill(theme.colors.accent)
@@ -201,6 +200,7 @@ private extension SuggestionListView {
         } label: {
             HStack {
                 Text(title)
+                    .font(theme.typography.caption)
                 Spacer()
                 if viewModel.selectedFilter == filter {
                     Image(systemName: "checkmark.circle.fill")

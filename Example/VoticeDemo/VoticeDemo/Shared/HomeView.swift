@@ -47,12 +47,12 @@ struct HomeView: View {
                         .controlSize(.large)
 #endif
                     }
-                    // Option 2: Navigation with Light Theme
+                    // Option 2: Navigation with System Theme
                     VStack(spacing: 8) {
                         Text("Option 2: Navigation Push")
                             .font(.poppins(.semiBold, size: 18))
                         NavigationLink("Navigate to Feedback") {
-                            Votice.feedbackView(theme: Votice.systemTheme())
+                            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
                         }
                         .buttonStyle(.borderedProminent)
                         .font(.poppins(.medium, size: 16))
@@ -98,19 +98,17 @@ struct HomeView: View {
 #endif
         }
         .sheet(isPresented: $showingFeedbackSheet) {
-            // System theme that adapts to light/dark mode automatically
-            Votice.feedbackView(theme: Votice.systemTheme())
+            // System theme with Poppins fonts applied
+            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
         }
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
 #if os(iOS)
-            // Example of advanced theme customization
-            let customTheme = Votice.createAdvancedTheme(primaryColor: .blue,
-                                                         accentColor: .green,
-                                                         backgroundColor: Color(.systemBackground),
-                                                         surfaceColor: Color(.secondarySystemBackground),
-                                                         destructiveColor: .red,
-                                                         successColor: .mint,
-                                                         warningColor: .orange)
+            // Custom theme with Poppins fonts applied
+            let customTheme = Votice.createThemeWithCurrentFonts(
+                primaryColor: .blue,
+                backgroundColor: Color(.systemBackground),
+                surfaceColor: Color(.secondarySystemBackground)
+            )
 
             Votice.feedbackView(theme: customTheme)
 #endif
@@ -135,12 +133,24 @@ private extension HomeView {
                 appId: "uN2b1hDJxSXNwzse47xE"
             )
 
+            // Configure Poppins fonts for the SDK
+            let poppinsConfig = VoticeFontConfiguration(
+                fontFamily: "Poppins",
+                weights: [
+                    .regular: "Poppins-Regular",
+                    .medium: "Poppins-Medium",
+                    .semiBold: "Poppins-SemiBold",
+                    .bold: "Poppins-Bold"
+                ]
+            )
+            Votice.setFonts(poppinsConfig)
+
             Votice.setDebugLogging(enabled: false)
             Votice.setCommentIsEnabled(enabled: true)
 
             isConfigured = Votice.isConfigured
 
-            debugPrint("Votice SDK configured successfully!")
+            debugPrint("Votice SDK configured successfully with Poppins fonts!")
         } catch {
             isConfigured = false
 

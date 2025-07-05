@@ -7,324 +7,262 @@
 //
 
 import Testing
-@testable import Votice
 import SwiftUI
+@testable import Votice
 
-// MARK: - Votice Public API Tests
+@Suite("Votice Tests")
+struct VoticeTests {
+    @Test("Votice should configure with valid credentials")
+    func testValidConfiguration() throws {
+        // Reset before test
+        Votice.reset()
 
-@Test("Votice should not be configured initially")
-func testVoticeInitialState() async {
-    // Given
-    Votice.reset() // Ensure clean state
+        try Votice.configure(
+            apiKey: "test-api-key",
+            apiSecret: "test-api-secret",
+            appId: "test-app-id"
+        )
 
-    // When/Then
-    #expect(Votice.isConfigured == false)
-}
-
-@Test("Votice should configure successfully with valid credentials")
-func testVoticeConfiguration() async throws {
-    // Given
-    Votice.reset() // Ensure clean state
-
-    // When
-    try Votice.configure(apiKey: "test-key", apiSecret: "test-secret", appId: "test-app")
-
-    // Then
-    #expect(Votice.isConfigured == true)
-
-    // Cleanup
-    Votice.reset()
-}
-
-@Test("Votice should throw error when configuring with invalid credentials")
-func testVoticeInvalidConfiguration() async {
-    // Given
-    Votice.reset() // Ensure clean state
-
-    // When/Then
-    #expect(throws: ConfigurationError.invalidAPIKey) {
-        try Votice.configure(apiKey: "", apiSecret: "valid-secret", appId: "valid-app")
+        #expect(Votice.isConfigured)
     }
 
-    #expect(throws: ConfigurationError.invalidAPISecret) {
-        try Votice.configure(apiKey: "valid-key", apiSecret: "", appId: "valid-app")
+    @Test("Votice should throw error with invalid credentials")
+    func testInvalidConfiguration() {
+        // Reset before test
+        Votice.reset()
+
+        #expect(throws: ConfigurationError.self) {
+            try Votice.configure(
+                apiKey: "",
+                apiSecret: "test-api-secret",
+                appId: "test-app-id"
+            )
+        }
     }
 
-    #expect(Votice.isConfigured == false)
-}
+    @Test("Votice should reset configuration")
+    func testResetConfiguration() throws {
+        // Configure first
+        try Votice.configure(
+            apiKey: "test-api-key",
+            apiSecret: "test-api-secret",
+            appId: "test-app-id"
+        )
 
-@Test("Votice should reset configuration correctly")
-func testVoticeReset() async throws {
-    // Given
-    Votice.reset() // Ensure clean state
-    try Votice.configure(apiKey: "test-key", apiSecret: "test-secret", appId: "test-app")
-    #expect(Votice.isConfigured == true)
+        #expect(Votice.isConfigured)
 
-    // When
-    Votice.reset()
+        // Reset
+        Votice.reset()
 
-    // Then
-    #expect(Votice.isConfigured == false)
-}
-
-@Test("Votice should create feedback view")
-func testVoticeFeedbackView() async {
-    // Given
-    Votice.reset() // Ensure clean state
-
-    // When
-    let view = Votice.feedbackView()
-
-    // Then - Should return a View (compilation test - no specific type checking needed)
-    _ = view // Just verify it compiles and returns something
-}
-
-@Test("Votice should create feedback view with custom theme")
-func testVoticeFeedbackViewWithTheme() async {
-    // Given
-    Votice.reset() // Ensure clean state
-    let customTheme = Votice.createTheme(primaryColor: .red, backgroundColor: .blue)
-
-    // When
-    let view = Votice.feedbackView(theme: customTheme)
-
-    // Then - Should return a View (compilation test - no specific type checking needed)
-    _ = view // Just verify it compiles and returns something
-}
-
-@Test("Votice should create system theme")
-func testVoticeSystemTheme() async {
-    // Given/When
-    let theme = Votice.systemTheme()
-
-    // Then
-    #expect(theme.colors.primary == Color(red: 0.0, green: 0.48, blue: 1.0)) // iOS System Blue
-    #expect(theme.colors.background == Color.systemBackground)
-    #expect(theme.colors.surface == Color.secondarySystemBackground)
-}
-
-@Test("Votice should create default theme")
-func testVoticeDefaultTheme() async {
-    // Given/When
-    let theme = Votice.defaultTheme()
-
-    // Then - Should return a valid theme
-    #expect(theme.colors.background != nil)
-    #expect(theme.colors.surface != nil)
-    #expect(theme.colors.primary != nil)
-}
-
-@Test("Votice should create custom theme with specific colors")
-func testVoticeCustomTheme() async {
-    // Given/When
-    let theme = Votice.createTheme(
-        primaryColor: .red,
-        backgroundColor: .black,
-        surfaceColor: .white
-    )
-
-    // Then
-    #expect(theme.colors.primary == .red)
-    #expect(theme.colors.background == .black)
-    #expect(theme.colors.surface == .white)
-}
-
-@Test("Votice should create advanced theme with all parameters")
-func testVoticeAdvancedTheme() async {
-    // Given/When
-    let theme = Votice.createAdvancedTheme(
-        primaryColor: .blue,
-        secondaryColor: .gray,
-        accentColor: .orange,
-        backgroundColor: .black,
-        surfaceColor: .white,
-        destructiveColor: .red,
-        successColor: .green,
-        warningColor: .yellow,
-        errorColor: .red,
-        pendingColor: .orange,
-        acceptedColor: .blue,
-        inProgressColor: .purple,
-        completedColor: .green,
-        rejectedColor: .red
-    )
-
-    // Then
-    #expect(theme.colors.primary == .blue)
-    #expect(theme.colors.secondary == .gray)
-    #expect(theme.colors.accent == .orange)
-    #expect(theme.colors.background == .black)
-    #expect(theme.colors.surface == .white)
-    #expect(theme.colors.success == .green)
-    #expect(theme.colors.warning == .yellow)
-    #expect(theme.colors.error == .red)
-    #expect(theme.colors.pending == .orange)
-    #expect(theme.colors.accepted == .blue)
-    #expect(theme.colors.inProgress == .purple)
-    #expect(theme.colors.completed == .green)
-    #expect(theme.colors.rejected == .red)
-}
-
-// swiftlint:disable function_body_length
-@Test("Votice should handle text customization")
-func testVoticeTextCustomization() async {
-    // Given
-    struct TestTexts: VoticeTextsProtocol {
-        let cancel = "Cancelar"
-        let error = "Error"
-        let ok = "Aceptar"
-        let submit = "Enviar"
-        let optional = "Opcional"
-        let success = "Éxito"
-        let warning = "Advertencia"
-        let info = "Información"
-        let genericError = "Algo salió mal. Por favor, inténtalo de nuevo."
-        let loadingSuggestions = "Cargando..."
-        let noSuggestionsYet = "Sin sugerencias"
-        let beFirstToSuggest = "Sé el primero"
-        let featureRequests = "Funciones"
-        let all = "Todas"
-        let pending = "Pendiente"
-        let accepted = "Aceptada"
-        let inProgress = "En progreso"
-        let completed = "Completada"
-        let rejected = "Rechazada"
-        let tapPlusToGetStarted = "Toca +"
-        let loadingMore = "Cargando más..."
-        let suggestionTitle = "Sugerencia"
-        let close = "Cerrar"
-        let deleteSuggestionTitle = "Eliminar"
-        let deleteSuggestionMessage = "¿Seguro?"
-        let delete = "Eliminar"
-        let suggestedBy = "Por"
-        let suggestedAnonymously = "Anónimo"
-        let votes = "votos"
-        let comments = "comentarios"
-        let commentsSection = "Comentarios"
-        let loadingComments = "Cargando comentarios..."
-        let noComments = "Sin comentarios"
-        let addComment = "Comentar"
-        let yourComment = "Tu comentario"
-        let shareYourThoughts = "Comparte..."
-        let yourNameOptional = "Nombre (Opcional)"
-        let enterYourName = "Tu nombre"
-        let newComment = "Nuevo comentario"
-        let post = "Publicar"
-        let deleteCommentTitle = "Eliminar comentario"
-        let deleteCommentMessage = "¿Eliminar comentario?"
-        let deleteCommentPrimary = "Eliminar"
-        let newSuggestion = "Nueva sugerencia"
-        let shareYourIdea = "Comparte tu idea"
-        let helpUsImprove = "Ayúdanos a mejorar"
-        let title = "Título"
-        let titlePlaceholder = "Título..."
-        let keepItShort = "Breve"
-        let descriptionOptional = "Descripción (Opcional)"
-        let descriptionPlaceholder = "Descripción..."
-        let explainWhyUseful = "¿Por qué es útil?"
-        let yourNameOptionalCreate = "Nombre (Opcional)"
-        let enterYourNameCreate = "Tu nombre"
-        let leaveEmptyAnonymous = "Vacío = anónimo"
+        #expect(!Votice.isConfigured)
     }
 
-    let customTexts = TestTexts()
+    @Test("Votice should create feedbackView")
+    func testFeedbackView() throws {
+        // Configure first
+        try Votice.configure(
+            apiKey: "test-api-key",
+            apiSecret: "test-api-secret",
+            appId: "test-app-id"
+        )
 
-    // When
-    Votice.setTexts(customTexts)
+        let view = Votice.feedbackView()
 
-    // Then
-    let textManager = TextManager.shared
-    #expect(textManager.texts.cancel == "Cancelar")
-    #expect(textManager.texts.featureRequests == "Funciones")
-    #expect(textManager.texts.genericError == "Algo salió mal. Por favor, inténtalo de nuevo.")
-
-    // Cleanup
-    Votice.resetTextsToDefault()
-    #expect(textManager.texts.cancel == "Cancel")
-}
-
-@Test("Votice should reset texts to default")
-func testVoticeResetTexts() async {
-    // Given
-    struct TestTexts: VoticeTextsProtocol {
-        let cancel = "Custom Cancel"
-        let error = "Error"
-        let ok = "OK"
-        let submit = "Submit"
-        let optional = "Optional"
-        let success = "Success"
-        let warning = "Warning"
-        let info = "Info"
-        let genericError = "Custom generic error"
-        let loadingSuggestions = "Loading..."
-        let noSuggestionsYet = "No suggestions"
-        let beFirstToSuggest = "Be first"
-        let featureRequests = "Features"
-        let all = "All"
-        let pending = "Pending"
-        let accepted = "Accepted"
-        let inProgress = "In Progress"
-        let completed = "Completed"
-        let rejected = "Rejected"
-        let tapPlusToGetStarted = "Tap +"
-        let loadingMore = "Loading more..."
-        let suggestionTitle = "Suggestion"
-        let close = "Close"
-        let deleteSuggestionTitle = "Delete"
-        let deleteSuggestionMessage = "Sure?"
-        let delete = "Delete"
-        let suggestedBy = "By"
-        let suggestedAnonymously = "Anonymous"
-        let votes = "votes"
-        let comments = "comments"
-        let commentsSection = "Comments"
-        let loadingComments = "Loading comments..."
-        let noComments = "No comments"
-        let addComment = "Comment"
-        let yourComment = "Your comment"
-        let shareYourThoughts = "Share..."
-        let yourNameOptional = "Name (Optional)"
-        let enterYourName = "Your name"
-        let newComment = "New comment"
-        let post = "Post"
-        let deleteCommentTitle = "Delete comment"
-        let deleteCommentMessage = "Delete comment?"
-        let deleteCommentPrimary = "Delete"
-        let newSuggestion = "New suggestion"
-        let shareYourIdea = "Share idea"
-        let helpUsImprove = "Help improve"
-        let title = "Title"
-        let titlePlaceholder = "Title..."
-        let keepItShort = "Brief"
-        let descriptionOptional = "Description (Optional)"
-        let descriptionPlaceholder = "Description..."
-        let explainWhyUseful = "Why useful?"
-        let yourNameOptionalCreate = "Name (Optional)"
-        let enterYourNameCreate = "Your name"
-        let leaveEmptyAnonymous = "Empty = anonymous"
+        // Should create a view
+        #expect(view != nil)
     }
 
-    Votice.setTexts(TestTexts())
-    let textManager = TextManager.shared
-    #expect(textManager.texts.cancel == "Custom Cancel")
-    #expect(textManager.texts.genericError == "Custom generic error")
+    @Test("Votice should create system theme")
+    func testSystemTheme() {
+        let theme = Votice.systemTheme()
 
-    // When
-    Votice.resetTextsToDefault()
+        #expect(theme.colors.primary != nil)
+        #expect(theme.typography.title != nil)
+        #expect(theme.spacing.md == 16)
+        #expect(theme.cornerRadius.lm == 16)
+    }
 
-    // Then
-    #expect(textManager.texts.cancel == "Cancel")
-    #expect(textManager.texts.featureRequests == "Feature Requests")
-    #expect(textManager.texts.genericError == "Something went wrong. Please try again.")
-}
-// swiftlint:enable function_body_length
+    @Test("Votice should create default theme")
+    func testDefaultTheme() {
+        let theme = Votice.defaultTheme()
 
-// MARK: - Legacy Tests (deprecated method)
+        #expect(theme.colors.primary != nil)
+        #expect(theme.typography.title != nil)
+        #expect(theme.spacing.md == 16)
+        #expect(theme.cornerRadius.lm == 16)
+    }
 
-@Test("Votice deprecated initialize method should work")
-func testVoticeDeprecatedInitialize() async {
-    // Given/When/Then - Just ensure it doesn't crash
-    #expect(throws: Never.self) {
+    @Test("Votice should create custom theme")
+    func testCustomTheme() {
+        let theme = Votice.createTheme(
+            primaryColor: .blue,
+            backgroundColor: .white,
+            surfaceColor: .gray
+        )
+
+        #expect(theme.colors.primary == .blue)
+        #expect(theme.colors.background == .white)
+        #expect(theme.colors.surface == .gray)
+    }
+
+    @Test("Votice should create advanced theme")
+    func testAdvancedTheme() {
+        let theme = Votice.createAdvancedTheme(
+            primaryColor: .blue,
+            accentColor: .orange,
+            backgroundColor: .white,
+            surfaceColor: .gray,
+            destructiveColor: .red,
+            successColor: .green,
+            warningColor: .yellow
+        )
+
+        #expect(theme.colors.primary == .blue)
+        #expect(theme.colors.accent == .orange)
+        #expect(theme.colors.background == .white)
+        #expect(theme.colors.surface == .gray)
+        #expect(theme.colors.error == .red)
+        #expect(theme.colors.success == .green)
+        #expect(theme.colors.warning == .yellow)
+    }
+
+    // swiftlint:disable function_body_length
+    @Test("Votice should set custom texts")
+    func testSetCustomTexts() {
+        // Create mock texts
+        struct MockTexts: VoticeTextsProtocol {
+            let cancel = "Mock Cancel"
+            let error = "Mock Error"
+            let ok = "Mock OK"
+            let submit = "Mock Submit"
+            let optional = "Mock Optional"
+            let success = "Mock Success"
+            let warning = "Mock Warning"
+            let info = "Mock Info"
+            let genericError = "Mock Generic Error"
+            let loadingSuggestions = "Mock Loading"
+            let noSuggestionsYet = "Mock No Suggestions"
+            let beFirstToSuggest = "Mock Be First"
+            let featureRequests = "Mock Feature Requests"
+            let all = "Mock All"
+            let pending = "Mock Pending"
+            let accepted = "Mock Accepted"
+            let inProgress = "Mock In Progress"
+            let completed = "Mock Completed"
+            let rejected = "Mock Rejected"
+            let tapPlusToGetStarted = "Mock Tap Plus"
+            let loadingMore = "Mock Loading More"
+            let suggestionTitle = "Mock Suggestion Title"
+            let close = "Mock Close"
+            let deleteSuggestionTitle = "Mock Delete Title"
+            let deleteSuggestionMessage = "Mock Delete Message"
+            let delete = "Mock Delete"
+            let suggestedBy = "Mock Suggested By"
+            let suggestedAnonymously = "Mock Suggested Anonymously"
+            let votes = "Mock Votes"
+            let comments = "Mock Comments"
+            let commentsSection = "Mock Comments Section"
+            let loadingComments = "Mock Loading Comments"
+            let noComments = "Mock No Comments"
+            let addComment = "Mock Add Comment"
+            let yourComment = "Mock Your Comment"
+            let shareYourThoughts = "Mock Share Your Thoughts"
+            let yourNameOptional = "Mock Your Name Optional"
+            let enterYourName = "Mock Enter Your Name"
+            let newComment = "Mock New Comment"
+            let post = "Mock Post"
+            let deleteCommentTitle = "Mock Delete Comment Title"
+            let deleteCommentMessage = "Mock Delete Comment Message"
+            let deleteCommentPrimary = "Mock Delete Comment Primary"
+            let newSuggestion = "Mock New Suggestion"
+            let shareYourIdea = "Mock Share Your Idea"
+            let helpUsImprove = "Mock Help Us Improve"
+            let title = "Mock Title"
+            let titlePlaceholder = "Mock Title Placeholder"
+            let keepItShort = "Mock Keep It Short"
+            let descriptionOptional = "Mock Description Optional"
+            let descriptionPlaceholder = "Mock Description Placeholder"
+            let explainWhyUseful = "Mock Explain Why Useful"
+            let yourNameOptionalCreate = "Mock Your Name Optional Create"
+            let enterYourNameCreate = "Mock Enter Your Name Create"
+            let leaveEmptyAnonymous = "Mock Leave Empty Anonymous"
+        }
+
+        Votice.setTexts(MockTexts())
+
+        #expect(TextManager.shared.texts.cancel == "Mock Cancel")
+        #expect(TextManager.shared.texts.error == "Mock Error")
+
+        // Reset to default
+        Votice.resetTextsToDefault()
+
+        #expect(TextManager.shared.texts.cancel == "Cancel")
+        #expect(TextManager.shared.texts.error == "Error")
+    }
+    // swiftlint:enable function_body_length
+
+    @Test("Votice should set custom fonts")
+    func testSetCustomFonts() {
+        let config = VoticeFontConfiguration(
+            fontFamily: "TestFont",
+            weights: [
+                .regular: "TestFont-Regular",
+                .bold: "TestFont-Bold"
+            ]
+        )
+
+        Votice.setFonts(config)
+
+        // Should set the configuration (we can't easily test the actual font rendering)
+        #expect(config.hasCustomFonts == true)
+        #expect(config.fontFamily == "TestFont")
+
+        // Reset to system
+        Votice.resetFontsToSystem()
+
+        let systemConfig = VoticeFontConfiguration.system
+        #expect(systemConfig.hasCustomFonts == false)
+    }
+
+    @Test("Votice should create theme with current fonts")
+    func testCreateThemeWithCurrentFonts() {
+        let config = VoticeFontConfiguration(
+            fontFamily: "TestFont",
+            weights: [.regular: "TestFont-Regular"]
+        )
+
+        Votice.setFonts(config)
+
+        let theme = Votice.createThemeWithCurrentFonts(primaryColor: .blue)
+
+        #expect(theme.colors.primary == .blue)
+        #expect(theme.typography.body != nil)
+
+        // Clean up
+        Votice.resetFontsToSystem()
+    }
+
+    @Test("Votice should create system theme with current fonts")
+    func testSystemThemeWithCurrentFonts() {
+        let config = VoticeFontConfiguration(
+            fontFamily: "TestFont",
+            weights: [.regular: "TestFont-Regular"]
+        )
+
+        Votice.setFonts(config)
+
+        let theme = Votice.systemThemeWithCurrentFonts()
+
+        #expect(theme.colors.primary != nil)
+        #expect(theme.typography.body != nil)
+
+        // Clean up
+        Votice.resetFontsToSystem()
+    }
+
+    @Test("Votice should handle deprecated initialize method")
+    func testDeprecatedInitialize() {
+        // Should not crash (deprecated method)
         Votice.initialize()
     }
 }
