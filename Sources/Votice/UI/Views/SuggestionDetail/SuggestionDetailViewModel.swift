@@ -68,7 +68,9 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             hasMoreComments = response.comments.count == pageSize
         } catch {
-            LogManager.shared.devLog(.error, "Failed to load comments for suggestion \(suggestionId): \(error)")
+            LogManager.shared.devLog(
+                .error, "SuggestionDetailViewModel: failed to load comments for suggestion \(suggestionId): \(error)"
+            )
 
             showError()
         }
@@ -97,7 +99,9 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             hasMoreComments = newComments.count == pageSize
         } catch {
-            LogManager.shared.devLog(.error, "Failed to load more comments for suggestion \(suggestionId): \(error)")
+            LogManager.shared.devLog(
+                .error, "SuggestionDetailViewModel: failed to load more comments for \(suggestionId): \(error)"
+            )
 
             showError()
         }
@@ -115,7 +119,7 @@ final class SuggestionDetailViewModel: ObservableObject {
                 currentVote = nil
             }
         } catch {
-            LogManager.shared.devLog(.error, "Failed to load vote status: \(error)")
+            LogManager.shared.devLog(.error, "SuggestionDetailViewModel: failed to load vote status: \(error)")
         }
     }
 
@@ -145,7 +149,9 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            LogManager.shared.devLog(.error, "Failed to add comment to suggestion \(suggestionId): \(error)")
+            LogManager.shared.devLog(
+                .error, "SuggestionDetailViewModel: failed to add comment to \(suggestionId): \(error)"
+            )
 
             showError()
         }
@@ -163,7 +169,9 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            LogManager.shared.devLog(.error, "Failed to delete comment \(comment.id): \(error)")
+            LogManager.shared.devLog(
+                .error, "SuggestionDetailViewModel: failed to delete comment \(comment.id): \(error)"
+            )
 
             showError()
         }
@@ -186,7 +194,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             reload = true
         } catch {
-            LogManager.shared.devLog(.error, "Failed to vote on suggestion \(suggestionId): \(error)")
+            LogManager.shared.devLog(.error, "SuggestionDetailViewModel: failed to vote on \(suggestionId): \(error)")
 
             showError()
         }
@@ -196,7 +204,9 @@ final class SuggestionDetailViewModel: ObservableObject {
         do {
             try await SuggestionUseCase().deleteSuggestion(suggestionId: suggestion.id)
         } catch {
-            LogManager.shared.devLog(.error, "Failed to delete suggestion \(suggestion.id): \(error)")
+            LogManager.shared.devLog(
+                .error, "SuggestionDetailViewModel: failed to delete suggestion \(suggestion.id): \(error)"
+            )
 
             showError()
         }

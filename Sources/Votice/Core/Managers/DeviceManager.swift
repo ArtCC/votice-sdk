@@ -87,7 +87,7 @@ final class DeviceManager: DeviceManagerProtocol {
             userDefaults.set(newDeviceId, forKey: deviceIdKey)
             userDefaults.synchronize()
 
-            LogManager.shared.devLog(.info, "Generated initial device ID: \(newDeviceId)")
+            LogManager.shared.devLog(.info, "DeviceManager: generated initial device ID: \(newDeviceId)")
         }
     }
 
@@ -100,7 +100,7 @@ final class DeviceManager: DeviceManagerProtocol {
         userDefaults.set(newDeviceId, forKey: deviceIdKey)
         userDefaults.synchronize()
 
-        LogManager.shared.devLog(.info, "Generated new device ID: \(newDeviceId)")
+        LogManager.shared.devLog(.info, "DeviceManager: generated new device ID: \(newDeviceId)")
 
         return newDeviceId
     }
@@ -110,7 +110,7 @@ final class DeviceManager: DeviceManagerProtocol {
             userDefaults.removeObject(forKey: deviceIdKey)
             userDefaults.synchronize()
 
-            LogManager.shared.devLog(.info, "Device ID reset")
+            LogManager.shared.devLog(.info, "DeviceManager: device ID reset")
         }
     }
 

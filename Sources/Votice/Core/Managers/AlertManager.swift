@@ -34,7 +34,7 @@ final class AlertManager: ObservableObject {
 
         isShowingAlert = true
 
-        LogManager.shared.devLog(.info, "AlertManager: Showing alert - \(alert.title)")
+        LogManager.shared.devLog(.info, "AlertManager: showing alert - \(alert.title)")
     }
 
     func showError(title: String? = nil,
@@ -92,7 +92,7 @@ final class AlertManager: ObservableObject {
             self.currentAlert = nil
         }
 
-        LogManager.shared.devLog(.info, "AlertManager: Alert dismissed")
+        LogManager.shared.devLog(.info, "AlertManager: alert dismissed")
     }
 
     // MARK: - Convenience Methods

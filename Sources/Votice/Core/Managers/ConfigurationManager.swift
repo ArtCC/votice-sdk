@@ -39,7 +39,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     private var _commentIsEnabled = true
 
     private let lock = NSLock()
-    private let _baseURL = "https://us-central1-memorypost-artcc01.cloudfunctions.net/api"
+    private let _baseURL = "https://api.votice.app/api"
     private let _configurationId = UUID().uuidString
     private let _version = "1.0.0"
     private let _buildNumber = "1"
@@ -96,28 +96,28 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     func configure(apiKey: String, apiSecret: String, appId: String) throws {
         try lock.withLock {
             guard !_isConfigured else {
-                LogManager.shared.devLog(.warning, "Configuration manager is already configured")
+                LogManager.shared.devLog(.warning, "ConfigurationManager: is already configured")
 
                 throw ConfigurationError.alreadyConfigured
             }
 
             // Validate API key
             guard !apiKey.isEmpty else {
-                LogManager.shared.devLog(.error, "Invalid API key provided")
+                LogManager.shared.devLog(.error, "ConfigurationManager: invalid API key provided")
 
                 throw ConfigurationError.invalidAPIKey
             }
 
             // Validate API secret
             guard !apiSecret.isEmpty else {
-                LogManager.shared.devLog(.error, "Invalid API secret provided")
+                LogManager.shared.devLog(.error, "ConfigurationManager: invalid API secret provided")
 
                 throw ConfigurationError.invalidAPISecret
             }
 
             // Validate app ID
             guard !appId.isEmpty else {
-                LogManager.shared.devLog(.error, "Invalid app ID provided")
+                LogManager.shared.devLog(.error, "ConfigurationManager: invalid app ID provided")
 
                 throw ConfigurationError.invalidAppId
             }
@@ -127,7 +127,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
             _appId = appId
             _isConfigured = true
 
-            LogManager.shared.devLog(.success, "Configuration manager successfully configured")
+            LogManager.shared.devLog(.success, "ConfigurationManager: successfully configured")
         }
     }
 
@@ -139,13 +139,13 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
             _isConfigured = false
             _commentIsEnabled = true
 
-            LogManager.shared.devLog(.info, "Configuration manager reset")
+            LogManager.shared.devLog(.info, "ConfigurationManager: reset")
         }
     }
 
     func validateConfiguration() throws {
         guard isConfigured else {
-            LogManager.shared.devLog(.error, "Configuration manager is not configured")
+            LogManager.shared.devLog(.error, "ConfigurationManager: is not configured")
 
             throw ConfigurationError.notConfigured
         }
