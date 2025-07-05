@@ -44,11 +44,11 @@ struct NetworkManager: NetworkManagerProtocol {
 
             let result = try decoder.decode(responseType, from: data)
 
-            LogManager.shared.devLog(.success, "Successfully decoded response for \(endpoint.path)")
+            LogManager.shared.devLog(.success, "NetworkManager: successfully decoded response for \(endpoint.path)")
 
             return result
         } catch {
-            LogManager.shared.devLog(.error, "Decoding error for \(endpoint.path): \(error.localizedDescription)")
+            LogManager.shared.devLog(.error, "NetworkManager: decoding error for \(endpoint.path): \(error)")
 
             throw NetworkError.decodingError(error.localizedDescription)
         }
@@ -57,7 +57,7 @@ struct NetworkManager: NetworkManagerProtocol {
     func request(endpoint: NetworkEndpoint) async throws {
         _ = try await performRequest(endpoint: endpoint)
 
-        LogManager.shared.devLog(.success, "Request completed successfully for \(endpoint.path)")
+        LogManager.shared.devLog(.success, "NetworkManager: request completed successfully for \(endpoint.path)")
     }
 }
 
@@ -74,7 +74,7 @@ private extension NetworkManager {
         let apiSecret = configurationManager.apiSecret
 
         guard let url = URL(string: baseURL + endpoint.path) else {
-            LogManager.shared.devLog(.error, "Invalid URL: \(baseURL + endpoint.path)")
+            LogManager.shared.devLog(.error, "NetworkManager: invalid URL: \(baseURL + endpoint.path)")
 
             throw NetworkError.invalidURL
         }
@@ -110,57 +110,59 @@ private extension NetworkManager {
             request.setValue(value, forHTTPHeaderField: key)
         }
 
-        LogManager.shared.devLog(.request, "Making request to \(url.absoluteString)")
+        LogManager.shared.devLog(.request, "NetworkManager: making request to \(url.absoluteString)")
 
         do {
             let (data, response) = try await session.data(for: request)
 
             guard let httpResponse = response as? HTTPURLResponse else {
-                LogManager.shared.devLog(.error, "Invalid response type")
+                LogManager.shared.devLog(.error, "NetworkManager: invalid response type")
 
                 throw NetworkError.invalidResponse
             }
 
-            LogManager.shared.devLog(.info, "Response status code: \(httpResponse.statusCode)")
+            LogManager.shared.devLog(.info, "NetworkManager: response status code: \(httpResponse.statusCode)")
 
             // Handle different status codes
             switch httpResponse.statusCode {
             case 200...299:
-                LogManager.shared.devLog(.success, "Request successful", utf8Data: data)
+                LogManager.shared.devLog(.success, "NetworkManager: request successful", utf8Data: data)
 
                 // Always log the JSON response
                 if let jsonString = String(data: data, encoding: .utf8) {
-                    LogManager.shared.devLog(.info, "JSON Response for \(endpoint.path): \(jsonString)")
+                    LogManager.shared.devLog(.info, "NetworkManager: JSON response for \(endpoint.path): \(jsonString)")
                 } else {
+                    // swiftlint:disable line_length
                     LogManager.shared.devLog(
-                        .info, "JSON Response for \(endpoint.path): [Unable to decode response as UTF-8 string]"
+                        .info, "NetworkManager: JSON response for \(endpoint.path): [Unable to decode response as UTF-8 string]"
                     )
+                    // swiftlint:enable line_length
                 }
 
                 return data
             case 401:
-                LogManager.shared.devLog(.error, "Authentication error", utf8Data: data)
+                LogManager.shared.devLog(.error, "NetworkManager: authentication error", utf8Data: data)
 
                 throw NetworkError.authenticationError
             case 400...499:
                 let errorMessage = String(data: data, encoding: .utf8) ?? "Client error"
-                LogManager.shared.devLog(.error, "Client error: \(errorMessage)")
+                LogManager.shared.devLog(.error, "NetworkManager: client error: \(errorMessage)")
 
                 throw NetworkError.serverError(httpResponse.statusCode, errorMessage)
             case 500...599:
                 let errorMessage = String(data: data, encoding: .utf8) ?? "Server error"
-                LogManager.shared.devLog(.error, "Server error: \(errorMessage)")
+                LogManager.shared.devLog(.error, "NetworkManager: server error: \(errorMessage)")
 
                 throw NetworkError.serverError(httpResponse.statusCode, errorMessage)
             default:
-                LogManager.shared.devLog(.error, "Unexpected status code: \(httpResponse.statusCode)")
+                LogManager.shared.devLog(.error, "NetworkManager: unexpected status code: \(httpResponse.statusCode)")
 
                 throw NetworkError.serverError(httpResponse.statusCode, "Unexpected error")
             }
         } catch let error as NetworkError {
             throw error
         } catch {
-            LogManager.shared.devLog(.error, "Network request failed: \(error.localizedDescription)")
+            LogManager.shared.devLog(.error, "NetworkManager: network request failed: \(error)")
 
             throw NetworkError.unknownError(error.localizedDescription)
         }

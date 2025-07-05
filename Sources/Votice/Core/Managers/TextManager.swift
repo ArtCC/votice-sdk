@@ -184,7 +184,7 @@ final class TextManager: @unchecked Sendable {
         lock.withLock {
             _texts = texts
 
-            LogManager.shared.devLog(.info, "Text manager updated with custom texts")
+            LogManager.shared.devLog(.info, "TextManager: updated with custom texts")
         }
     }
 
@@ -192,7 +192,7 @@ final class TextManager: @unchecked Sendable {
         lock.withLock {
             _texts = DefaultVoticeTexts()
 
-            LogManager.shared.devLog(.info, "Text manager reset to default texts")
+            LogManager.shared.devLog(.info, "TextManager: reset to default texts")
         }
     }
 }

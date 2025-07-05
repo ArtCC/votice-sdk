@@ -51,8 +51,7 @@ final class CreateSuggestionViewModel: ObservableObject {
 
             return response.suggestion
         } catch {
-            LogManager.shared.devLog(.error, "Failed to create suggestion: \(error)")
-
+            LogManager.shared.devLog(.error, "CreateSuggestionViewModel: failed to create suggestion: \(error)")
             showError()
 
             throw error
@@ -67,7 +66,7 @@ final class CreateSuggestionViewModel: ObservableObject {
 
             onSuccess(suggestion)
         } catch {
-            LogManager.shared.devLog(.error, "Failed to submit suggestion: \(error)")
+            LogManager.shared.devLog(.error, "CreateSuggestionViewModel: failed to submit suggestion: \(error)")
         }
     }
 

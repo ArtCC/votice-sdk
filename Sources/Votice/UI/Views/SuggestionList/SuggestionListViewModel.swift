@@ -76,7 +76,9 @@ final class SuggestionListViewModel: ObservableObject {
                     do {
                         try await versionUseCase.report()
                     } catch {
-                        LogManager.shared.devLog(.error, "Failed to report version usage: \(error)")
+                        LogManager.shared.devLog(
+                            .error, "SuggestionListViewModel: failed to report version usage: \(error)"
+                        )
                     }
                 }
             } catch {
@@ -86,7 +88,7 @@ final class SuggestionListViewModel: ObservableObject {
                     return
                 }
 
-                LogManager.shared.devLog(.error, "Failed to load suggestions: \(error)")
+                LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to load suggestions: \(error)")
 
                 showError()
             }
@@ -134,7 +136,7 @@ final class SuggestionListViewModel: ObservableObject {
                 return
             }
 
-            LogManager.shared.devLog(.error, "Failed to load more suggestions: \(error)")
+            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to load more suggestions: \(error)")
 
             showError()
         }
@@ -171,7 +173,7 @@ final class SuggestionListViewModel: ObservableObject {
                 applyFilter()
             }
         } catch {
-            LogManager.shared.devLog(.error, "Failed to vote on suggestion \(suggestionId): \(error)")
+            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to vote on \(suggestionId): \(error)")
 
             showError()
         }
@@ -253,7 +255,9 @@ private extension SuggestionListViewModel {
                 }
             }
         } catch {
-            LogManager.shared.devLog(.error, "Failed to load vote status for suggestion \(suggestionId): \(error)")
+            LogManager.shared.devLog(
+                .error, "SuggestionListViewModel: failed to load vote status for \(suggestionId): \(error)"
+            )
         }
     }
 

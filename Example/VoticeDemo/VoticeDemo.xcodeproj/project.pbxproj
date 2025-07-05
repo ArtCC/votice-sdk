@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		800727522E11AA0700C43BA8 /* VoticeDemo_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727502E11AA0700C43BA8 /* VoticeDemo_macOSTests.swift */; };
-		800727582E11AA0700C43BA8 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727542E11AA0700C43BA8 /* HomeView.swift */; };
 		800727592E11AA0700C43BA8 /* AppVoticeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727562E11AA0700C43BA8 /* AppVoticeDemo.swift */; };
 		8007275A2E11AA0700C43BA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 800727532E11AA0700C43BA8 /* Assets.xcassets */; };
 		8007275E2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007275B2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift */; };
@@ -17,7 +16,6 @@
 		8007278F2E11ACEC00C43BA8 /* Votice in Frameworks */ = {isa = PBXBuildFile; productRef = 8007278E2E11ACEC00C43BA8 /* Votice */; };
 		800727922E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727902E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift */; };
 		800727972E11ACFB00C43BA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 800727932E11ACFB00C43BA8 /* Assets.xcassets */; };
-		800727982E11ACFB00C43BA8 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727942E11ACFB00C43BA8 /* HomeView.swift */; };
 		800727992E11ACFB00C43BA8 /* AppVoticeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727952E11ACFB00C43BA8 /* AppVoticeDemo.swift */; };
 		8007279D2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007279A2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift */; };
 		8007279E2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007279B2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift */; };
@@ -27,6 +25,8 @@
 		802F7E932E0F1A2700F1BDF6 /* VoticeDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E912E0F1A2700F1BDF6 /* VoticeDemoTests.swift */; };
 		802F7E972E0F1A2900F1BDF6 /* VoticeDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E942E0F1A2900F1BDF6 /* VoticeDemoUITests.swift */; };
 		802F7E982E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E952E0F1A2900F1BDF6 /* VoticeDemoUITestsLaunchTests.swift */; };
+		80A071052E190AB80068B581 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */; };
+		80A071062E190AB80068B581 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */; };
 		80DFD2732E0F1D6B00DD20F2 /* Votice in Frameworks */ = {isa = PBXBuildFile; productRef = 80DFD2722E0F1D6B00DD20F2 /* Votice */; };
 /* End PBXBuildFile section */
 
@@ -81,7 +81,6 @@
 		8007273F2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemo_macOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		800727502E11AA0700C43BA8 /* VoticeDemo_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSTests.swift; sourceTree = "<group>"; };
 		800727532E11AA0700C43BA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		800727542E11AA0700C43BA8 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		800727552E11AA0700C43BA8 /* VoticeDemo_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoticeDemo_macOS.entitlements; sourceTree = "<group>"; };
 		800727562E11AA0700C43BA8 /* AppVoticeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVoticeDemo.swift; sourceTree = "<group>"; };
 		8007275B2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSUITests.swift; sourceTree = "<group>"; };
@@ -91,7 +90,6 @@
 		8007277D2E11ACD600C43BA8 /* VoticeDemo_tvOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemo_tvOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		800727902E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSTests.swift; sourceTree = "<group>"; };
 		800727932E11ACFB00C43BA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		800727942E11ACFB00C43BA8 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		800727952E11ACFB00C43BA8 /* AppVoticeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVoticeDemo.swift; sourceTree = "<group>"; };
 		8007279A2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSUITests.swift; sourceTree = "<group>"; };
 		8007279B2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 			children = (
 				800727562E11AA0700C43BA8 /* AppVoticeDemo.swift */,
 				800727532E11AA0700C43BA8 /* Assets.xcassets */,
-				800727542E11AA0700C43BA8 /* HomeView.swift */,
 				800727552E11AA0700C43BA8 /* VoticeDemo_macOS.entitlements */,
 			);
 			path = VoticeDemo_macOS;
@@ -224,7 +221,6 @@
 			children = (
 				800727952E11ACFB00C43BA8 /* AppVoticeDemo.swift */,
 				800727932E11ACFB00C43BA8 /* Assets.xcassets */,
-				800727942E11ACFB00C43BA8 /* HomeView.swift */,
 			);
 			path = VoticeDemo_tvOS;
 			sourceTree = "<group>";
@@ -655,8 +651,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				800727582E11AA0700C43BA8 /* HomeView.swift in Sources */,
 				800727592E11AA0700C43BA8 /* AppVoticeDemo.swift in Sources */,
+				80A071052E190AB80068B581 /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -681,8 +677,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				800727982E11ACFB00C43BA8 /* HomeView.swift in Sources */,
 				800727992E11ACFB00C43BA8 /* AppVoticeDemo.swift in Sources */,
+				80A071062E190AB80068B581 /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

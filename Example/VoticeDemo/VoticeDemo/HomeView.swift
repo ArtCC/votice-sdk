@@ -43,7 +43,9 @@ struct HomeView: View {
                             showingFeedbackSheet = true
                         }
                         .buttonStyle(.borderedProminent)
+#if os(iOS)
                         .controlSize(.large)
+#endif
                     }
                     // Option 2: Navigation with Light Theme
                     VStack(spacing: 8) {
@@ -53,7 +55,9 @@ struct HomeView: View {
                             Votice.feedbackView(theme: Votice.systemTheme())
                         }
                         .buttonStyle(.borderedProminent)
+#if os(iOS)
                         .controlSize(.large)
+#endif
                     }
                     // Option 3: Custom Advanced Theme
                     VStack(spacing: 8) {
@@ -63,7 +67,9 @@ struct HomeView: View {
                             showingFeedbackSheetWithCustomTheme = true
                         }
                         .buttonStyle(.borderedProminent)
+#if os(iOS)
                         .controlSize(.large)
+#endif
                     }
                 }
                 Spacer()
@@ -85,13 +91,16 @@ struct HomeView: View {
             }
             .padding()
             .navigationTitle("Votice Demo")
+#if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+#endif
         }
         .sheet(isPresented: $showingFeedbackSheet) {
             // System theme that adapts to light/dark mode automatically
             Votice.feedbackView(theme: Votice.systemTheme())
         }
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
+#if os(iOS)
             // Example of advanced theme customization
             let customTheme = Votice.createAdvancedTheme(primaryColor: .blue,
                                                          accentColor: .green,
@@ -102,6 +111,7 @@ struct HomeView: View {
                                                          warningColor: .orange)
 
             Votice.feedbackView(theme: customTheme)
+#endif
         }
         .onAppear {
             configureVotice()
@@ -123,7 +133,7 @@ private extension HomeView {
                 appId: "uN2b1hDJxSXNwzse47xE"
             )
 
-            Votice.setDebugLogging(enabled: true)
+            Votice.setDebugLogging(enabled: false)
             Votice.setCommentIsEnabled(enabled: true)
 
             isConfigured = Votice.isConfigured
