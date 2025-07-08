@@ -58,8 +58,11 @@
 		805C23F92E19691C00AB56D0 /* PoppinsFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F52E19691C00AB56D0 /* PoppinsFont.swift */; };
 		805C23FA2E19691C00AB56D0 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F42E19691C00AB56D0 /* Font.swift */; };
 		805C23FB2E19691C00AB56D0 /* PoppinsFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F52E19691C00AB56D0 /* PoppinsFont.swift */; };
-		80A071052E190AB80068B581 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */; };
-		80A071062E190AB80068B581 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */; };
+		80C850FF2E1DCD82004A817B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C850FE2E1DCD82004A817B /* HomeView.swift */; };
+		80C851012E1DCD8B004A817B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C851002E1DCD8B004A817B /* HomeView.swift */; };
+		80C851032E1DCDC9004A817B /* SpanishTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C851022E1DCDC9004A817B /* SpanishTexts.swift */; };
+		80C851042E1DCDC9004A817B /* SpanishTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C851022E1DCDC9004A817B /* SpanishTexts.swift */; };
+		80C851052E1DCDC9004A817B /* SpanishTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C851022E1DCDC9004A817B /* SpanishTexts.swift */; };
 		80DFD2732E0F1D6B00DD20F2 /* Votice in Frameworks */ = {isa = PBXBuildFile; productRef = 80DFD2722E0F1D6B00DD20F2 /* Votice */; };
 /* End PBXBuildFile section */
 
@@ -149,6 +152,9 @@
 		805C23D72E1968CC00AB56D0 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Thin.ttf"; sourceTree = "<group>"; };
 		805C23F42E19691C00AB56D0 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		805C23F52E19691C00AB56D0 /* PoppinsFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoppinsFont.swift; sourceTree = "<group>"; };
+		80C850FE2E1DCD82004A817B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		80C851002E1DCD8B004A817B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		80C851022E1DCDC9004A817B /* SpanishTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpanishTexts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +240,7 @@
 			children = (
 				800727562E11AA0700C43BA8 /* AppVoticeDemo.swift */,
 				800727532E11AA0700C43BA8 /* Assets.xcassets */,
+				80C850FE2E1DCD82004A817B /* HomeView.swift */,
 				800727552E11AA0700C43BA8 /* VoticeDemo_macOS.entitlements */,
 				805C23CC2E19685B00AB56D0 /* VoticeDemo-macOS-Info.plist */,
 			);
@@ -269,6 +276,7 @@
 			children = (
 				800727952E11ACFB00C43BA8 /* AppVoticeDemo.swift */,
 				800727932E11ACFB00C43BA8 /* Assets.xcassets */,
+				80C851002E1DCD8B004A817B /* HomeView.swift */,
 				805C23CD2E19686400AB56D0 /* VoticeDemo-tvOS-Info.plist */,
 			);
 			path = VoticeDemo_tvOS;
@@ -321,6 +329,7 @@
 			children = (
 				802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */,
 				802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */,
+				802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */,
 				805C23CB2E19684E00AB56D0 /* Info.plist */,
 				805C23CE2E1968BD00AB56D0 /* Shared */,
 			);
@@ -349,8 +358,8 @@
 			children = (
 				805C23D82E1968CC00AB56D0 /* Fonts */,
 				805C23F42E19691C00AB56D0 /* Font.swift */,
-				802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */,
 				805C23F52E19691C00AB56D0 /* PoppinsFont.swift */,
+				80C851022E1DCDC9004A817B /* SpanishTexts.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -756,9 +765,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				800727592E11AA0700C43BA8 /* AppVoticeDemo.swift in Sources */,
+				80C851032E1DCDC9004A817B /* SpanishTexts.swift in Sources */,
+				80C850FF2E1DCD82004A817B /* HomeView.swift in Sources */,
 				805C23F62E19691C00AB56D0 /* Font.swift in Sources */,
 				805C23F72E19691C00AB56D0 /* PoppinsFont.swift in Sources */,
-				80A071052E190AB80068B581 /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -784,9 +794,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				800727992E11ACFB00C43BA8 /* AppVoticeDemo.swift in Sources */,
+				80C851052E1DCDC9004A817B /* SpanishTexts.swift in Sources */,
+				80C851012E1DCD8B004A817B /* HomeView.swift in Sources */,
 				805C23FA2E19691C00AB56D0 /* Font.swift in Sources */,
 				805C23FB2E19691C00AB56D0 /* PoppinsFont.swift in Sources */,
-				80A071062E190AB80068B581 /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -812,6 +823,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				802F7E8F2E0F1A2500F1BDF6 /* HomeView.swift in Sources */,
+				80C851042E1DCDC9004A817B /* SpanishTexts.swift in Sources */,
 				805C23F82E19691C00AB56D0 /* Font.swift in Sources */,
 				805C23F92E19691C00AB56D0 /* PoppinsFont.swift in Sources */,
 				802F7E902E0F1A2500F1BDF6 /* AppVoticeDemo.swift in Sources */,

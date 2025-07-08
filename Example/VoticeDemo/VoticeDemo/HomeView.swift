@@ -43,9 +43,7 @@ struct HomeView: View {
                         }
                         .buttonStyle(.borderedProminent)
                         .font(.poppins(.medium, size: 16))
-#if os(iOS)
                         .controlSize(.large)
-#endif
                     }
                     // Option 2: Navigation with System Theme
                     VStack(spacing: 8) {
@@ -56,9 +54,7 @@ struct HomeView: View {
                         }
                         .buttonStyle(.borderedProminent)
                         .font(.poppins(.medium, size: 16))
-#if os(iOS)
                         .controlSize(.large)
-#endif
                     }
                     // Option 3: Custom Advanced Theme
                     VStack(spacing: 8) {
@@ -69,9 +65,7 @@ struct HomeView: View {
                         }
                         .buttonStyle(.borderedProminent)
                         .font(.poppins(.medium, size: 16))
-#if os(iOS)
                         .controlSize(.large)
-#endif
                     }
                 }
                 Spacer()
@@ -93,16 +87,13 @@ struct HomeView: View {
             }
             .padding()
             .navigationTitle("Votice Demo")
-#if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
-#endif
         }
         .sheet(isPresented: $showingFeedbackSheet) {
             // System theme with Poppins fonts applied
             Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
         }
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
-#if os(iOS)
             // Custom theme with Poppins fonts applied
             let customTheme = Votice.createThemeWithCurrentFonts(
                 primaryColor: .blue,
@@ -111,7 +102,6 @@ struct HomeView: View {
             )
 
             Votice.feedbackView(theme: customTheme)
-#endif
         }
         .onAppear {
             configureVotice()
@@ -162,77 +152,6 @@ private extension HomeView {
         // Set custom texts for the Votice SDK, isn't necessary but can be useful for localization (default is English)
         Votice.setTexts(SpanishTexts())
     }
-}
-
-// MARK: - Custom Spanish Implementation
-
-struct SpanishTexts: VoticeTextsProtocol {
-    // MARK: - General
-
-    let cancel = "Cancelar"
-    let error = "Error"
-    let ok = "OK"
-    let submit = "Enviar"
-    let optional = "Opcional"
-    let success = "Éxito"
-    let warning = "Advertencia"
-    let info = "Información"
-    let genericError = "Algo salió mal. Por favor, inténtalo de nuevo."
-
-    // MARK: - Suggestion List
-
-    let loadingSuggestions = "Cargando sugerencias..."
-    let noSuggestionsYet = "Aún no hay sugerencias."
-    let beFirstToSuggest = "¡Sé el primero en sugerir algo!"
-    let featureRequests = "Sugerencias"
-    let all = "Todas"
-    let pending = "Pendiente"
-    let accepted = "Aceptada"
-    let inProgress = "En progreso"
-    let completed = "Completada"
-    let rejected = "Rechazada"
-    let tapPlusToGetStarted = "Toca + para empezar"
-    let loadingMore = "Cargando más..."
-
-    // MARK: - Suggestion Detail
-
-    let suggestionTitle = "Sugerencia"
-    let close = "Cerrar"
-    let deleteSuggestionTitle = "Eliminar sugerencia"
-    let deleteSuggestionMessage = "¿Seguro que quieres eliminar esta sugerencia?"
-    let delete = "Eliminar"
-    let suggestedBy = "Sugerido por"
-    let suggestedAnonymously = "Sugerido anónimamente"
-    let votes = "votos"
-    let comments = "comentarios"
-    let commentsSection = "Comentarios"
-    let loadingComments = "Cargando comentarios..."
-    let noComments = "Aún no hay comentarios. ¡Sé el primero en comentar!"
-    let addComment = "Agregar un comentario"
-    let yourComment = "Tu comentario"
-    let shareYourThoughts = "Comparte tus ideas..."
-    let yourNameOptional = "Tu nombre (opcional)"
-    let enterYourName = "Introduce tu nombre"
-    let newComment = "Nuevo comentario"
-    let post = "Publicar"
-    let deleteCommentTitle = "Eliminar comentario"
-    let deleteCommentMessage = "¿Seguro que quieres eliminar este comentario?"
-    let deleteCommentPrimary = "Eliminar"
-
-    // MARK: - Create Suggestion
-
-    let newSuggestion = "Nueva sugerencia"
-    let shareYourIdea = "Comparte tu idea"
-    let helpUsImprove = "Ayúdanos a mejorar sugiriendo nuevas funciones o mejoras."
-    let title = "Título (Mínimo 3 caracteres)"
-    let titlePlaceholder = "Introduce un título breve para tu sugerencia"
-    let keepItShort = "Mantenlo corto y descriptivo"
-    let descriptionOptional = "Descripción (opcional)"
-    let descriptionPlaceholder = "Describe tu sugerencia en detalle..."
-    let explainWhyUseful = "Explica por qué esta función sería útil"
-    let yourNameOptionalCreate = "Tu nombre (opcional)"
-    let enterYourNameCreate = "Introduce tu nombre"
-    let leaveEmptyAnonymous = "Déjalo vacío para enviar anónimamente"
 }
 
 // MARK: - Preview
