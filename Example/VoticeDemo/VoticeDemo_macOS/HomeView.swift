@@ -85,8 +85,8 @@ struct HomeView: View {
             // Custom theme with Poppins fonts applied
             let customTheme = Votice.createThemeWithCurrentFonts(
                 primaryColor: .blue,
-                backgroundColor: .gray,
-                surfaceColor: .red
+                backgroundColor: .white,
+                surfaceColor: .gray.opacity(0.15),
             )
 
             Votice.feedbackView(theme: customTheme)

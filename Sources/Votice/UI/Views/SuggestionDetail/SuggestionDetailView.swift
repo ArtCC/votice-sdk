@@ -43,13 +43,9 @@ struct SuggestionDetailView: View {
                 endPoint: .bottom
             )
             .ignoresSafeArea()
-            if viewModel.isLoadingComments && viewModel.comments.isEmpty {
-                LoadingView(message: TextManager.shared.texts.loadingComments)
-            } else {
-                VStack(spacing: 0) {
-                    headerView
-                    mainContent
-                }
+            VStack(spacing: 0) {
+                headerView
+                mainContent
             }
         }
         .task {
@@ -282,12 +278,26 @@ private extension SuggestionDetailView {
                 }
                 .buttonStyle(PlainButtonStyle())
             }
-            if viewModel.comments.isEmpty && !viewModel.isLoadingComments {
+            if viewModel.isLoadingComments && viewModel.comments.isEmpty {
+                commentsLoadingView
+            } else if viewModel.comments.isEmpty && !viewModel.isLoadingComments {
                 commentsEmptyState
             } else {
                 commentsListView
             }
         }
+    }
+
+    var commentsLoadingView: some View {
+        VStack(spacing: theme.spacing.md) {
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
+            Text(TextManager.shared.texts.loadingComments)
+                .font(theme.typography.caption)
+                .foregroundColor(theme.colors.secondary)
+        }
+        .padding(theme.spacing.lg)
+        .frame(maxWidth: .infinity)
     }
 
     var commentsEmptyState: some View {
@@ -325,14 +335,14 @@ private extension SuggestionDetailView {
                 .onAppear {
                     if index >= viewModel.comments.count - 3 &&
                         viewModel.hasMoreComments &&
-                        !viewModel.isLoadingComments {
+                        !viewModel.isLoadingPaginationComments {
                         Task {
                             await viewModel.loadMoreComments(for: currentSuggestion.id)
                         }
                     }
                 }
             }
-            if viewModel.isLoadingComments && viewModel.comments.count > 0 {
+            if viewModel.isLoadingPaginationComments && viewModel.comments.count > 0 {
                 HStack {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))

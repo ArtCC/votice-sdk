@@ -13,7 +13,8 @@ final class SuggestionDetailViewModel: ObservableObject {
     // MARK: - Properties
 
     @Published var comments: [CommentEntity] = []
-    @Published var isLoadingComments = false
+    @Published var isLoadingComments = true
+    @Published var isLoadingPaginationComments = false
     @Published var isSubmittingComment = false
     @Published var currentVote: VoteType?
     @Published var suggestionEntity: SuggestionEntity?
@@ -52,10 +53,6 @@ final class SuggestionDetailViewModel: ObservableObject {
     }
 
     func loadComments(for suggestionId: String) async {
-        guard !isLoadingComments else {
-            return
-        }
-
         isLoadingComments = true
 
         do {
@@ -79,11 +76,11 @@ final class SuggestionDetailViewModel: ObservableObject {
     }
 
     func loadMoreComments(for suggestionId: String) async {
-        guard !isLoadingComments && hasMoreComments else {
+        guard !isLoadingPaginationComments && hasMoreComments else {
             return
         }
 
-        isLoadingComments = true
+        isLoadingPaginationComments = true
 
         do {
             let startAfter = lastLoadedCreatedAt != nil ?
@@ -106,7 +103,7 @@ final class SuggestionDetailViewModel: ObservableObject {
             showError()
         }
 
-        isLoadingComments = false
+        isLoadingPaginationComments = false
     }
 
     func loadVoteStatus(for suggestionId: String) async {

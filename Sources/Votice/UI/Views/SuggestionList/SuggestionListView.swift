@@ -154,14 +154,14 @@ private extension SuggestionListView {
                     .onAppear {
                         if index >= viewModel.suggestions.count - 3
                             && viewModel.hasMoreSuggestions &&
-                            !viewModel.isLoading {
+                            !viewModel.isLoadingPagination {
                             Task {
                                 await viewModel.loadMoreSuggestions()
                             }
                         }
                     }
                 }
-                if viewModel.isLoading && viewModel.suggestions.count > 0 {
+                if viewModel.isLoadingPagination && viewModel.suggestions.count > 0 {
                     HStack {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
