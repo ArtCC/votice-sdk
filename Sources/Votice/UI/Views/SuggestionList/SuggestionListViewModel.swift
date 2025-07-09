@@ -14,6 +14,7 @@ final class SuggestionListViewModel: ObservableObject {
     @Published var suggestions: [SuggestionEntity] = []
     @Published var isLoading = true
     @Published var isLoadingPagination = false
+    @Published var isFilterMenuExpanded = false
     @Published var selectedFilter: SuggestionStatusEntity?
     @Published var hasMoreSuggestions = true
     @Published var currentVotes: [String: VoteType] = [:]
@@ -68,7 +69,6 @@ final class SuggestionListViewModel: ObservableObject {
 
                 hasMoreSuggestions = response.suggestions.count == pageSize
 
-                // Report version usage
                 Task {
                     do {
                         try await versionUseCase.report()
@@ -142,6 +142,8 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func refresh() async {
+        isFilterMenuExpanded = false
+
         await loadSuggestions()
     }
 
@@ -203,6 +205,8 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func presentCreateSuggestionSheet() {
+        isFilterMenuExpanded = false
+
         showingCreateSuggestion = true
     }
 
@@ -211,6 +215,8 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func selectSuggestion(_ suggestion: SuggestionEntity) {
+        isFilterMenuExpanded = false
+
         selectedSuggestion = suggestion
     }
 

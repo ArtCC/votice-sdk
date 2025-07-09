@@ -92,8 +92,8 @@ private extension SuggestionListView {
     var headerView: some View {
         HStack {
             Text(TextManager.shared.texts.featureRequests)
-                .font(theme.typography.title)
-                .fontWeight(.bold)
+                .font(theme.typography.title2)
+                .fontWeight(.medium)
                 .foregroundColor(theme.colors.onBackground)
             Spacer()
             filterMenuButton
@@ -108,7 +108,8 @@ private extension SuggestionListView {
     }
 
     var filterMenuButton: some View {
-        FilterMenuView(selectedFilter: viewModel.selectedFilter) { filter in
+        FilterMenuView(isExpanded: $viewModel.isFilterMenuExpanded,
+                       selectedFilter: viewModel.selectedFilter) { filter in
             viewModel.setFilter(filter)
         }
     }

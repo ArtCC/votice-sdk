@@ -13,7 +13,7 @@ struct FilterMenuView: View {
 
     @Environment(\.voticeTheme) private var theme
 
-    @State private var isExpanded = false
+    @Binding var isExpanded: Bool
 
     let selectedFilter: SuggestionStatusEntity?
     let onFilterSelected: (SuggestionStatusEntity?) -> Void
@@ -76,19 +76,19 @@ private extension FilterMenuView {
         VStack(alignment: .leading, spacing: 0) {
             filterOption(title: TextManager.shared.texts.all, filter: nil)
             Divider()
-                .background(theme.colors.secondary.opacity(0.2))
+                .background(theme.colors.secondary.opacity(0.05))
             filterOption(title: TextManager.shared.texts.pending, filter: .pending)
             Divider()
-                .background(theme.colors.secondary.opacity(0.2))
+                .background(theme.colors.secondary.opacity(0.05))
             filterOption(title: TextManager.shared.texts.accepted, filter: .accepted)
             Divider()
-                .background(theme.colors.secondary.opacity(0.2))
+                .background(theme.colors.secondary.opacity(0.05))
             filterOption(title: TextManager.shared.texts.inProgress, filter: .inProgress)
             Divider()
-                .background(theme.colors.secondary.opacity(0.2))
+                .background(theme.colors.secondary.opacity(0.05))
             filterOption(title: TextManager.shared.texts.rejected, filter: .rejected)
             Divider()
-                .background(theme.colors.secondary.opacity(0.2))
+                .background(theme.colors.secondary.opacity(0.05))
             filterOption(title: TextManager.shared.texts.completed, filter: .completed)
         }
         .background(
@@ -110,13 +110,13 @@ private extension FilterMenuView {
         } label: {
             HStack {
                 Text(title)
-                    .font(theme.typography.footnote)
+                    .font(theme.typography.callout)
                     .foregroundColor(theme.colors.onSurface)
                 Spacer()
                 if selectedFilter == filter {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(theme.colors.primary)
-                        .font(.caption)
+                        .font(.callout)
                 }
             }
             .padding(.horizontal, theme.spacing.md)
