@@ -105,33 +105,12 @@ private extension SuggestionListView {
             theme.colors.background
                 .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
         )
+        .zIndex(1)
     }
 
     var filterMenuButton: some View {
-        Menu {
-            filterButton(title: TextManager.shared.texts.all, filter: nil)
-            filterButton(title: TextManager.shared.texts.pending, filter: .pending)
-            filterButton(title: TextManager.shared.texts.accepted, filter: .accepted)
-            filterButton(title: TextManager.shared.texts.inProgress, filter: .inProgress)
-            filterButton(title: TextManager.shared.texts.rejected, filter: .rejected)
-            filterButton(title: TextManager.shared.texts.completed, filter: .completed)
-        } label: {
-            HStack(spacing: theme.spacing.xs) {
-                Image(systemName: "line.3.horizontal.decrease.circle.fill")
-                    .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(theme.colors.primary)
-                if viewModel.selectedFilter != nil {
-                    Circle()
-                        .fill(theme.colors.accent)
-                        .frame(width: 8, height: 8)
-                }
-            }
-            .padding(.horizontal, theme.spacing.sm)
-            .padding(.vertical, theme.spacing.xs)
-            .background(
-                RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                    .fill(theme.colors.primary.opacity(0.1))
-            )
+        FilterMenuView(selectedFilter: viewModel.selectedFilter) { filter in
+            viewModel.setFilter(filter)
         }
     }
 
@@ -198,23 +177,6 @@ private extension SuggestionListView {
         .scaleEffect(showCreateButton ? 1.0 : 0.9)
         .opacity(showCreateButton ? 1.0 : 0.7)
         .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
-        .buttonStyle(PlainButtonStyle())
-    }
-
-    func filterButton(title: String, filter: SuggestionStatusEntity?) -> some View {
-        Button {
-            viewModel.setFilter(filter)
-        } label: {
-            HStack {
-                Text(title)
-                    .font(theme.typography.caption)
-                Spacer()
-                if viewModel.selectedFilter == filter {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(theme.colors.primary)
-                }
-            }
-        }
         .buttonStyle(PlainButtonStyle())
     }
 }
