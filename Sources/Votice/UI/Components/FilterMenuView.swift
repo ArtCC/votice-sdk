@@ -103,6 +103,7 @@ private extension FilterMenuView {
     func filterOption(title: String, filter: SuggestionStatusEntity?) -> some View {
         Button {
             onFilterSelected(filter)
+
             withAnimation(.easeInOut(duration: 0.2)) {
                 isExpanded = false
             }
@@ -124,8 +125,29 @@ private extension FilterMenuView {
         }
         .buttonStyle(PlainButtonStyle())
         .background(
-            Rectangle()
-                .fill(selectedFilter == filter ? theme.colors.primary.opacity(0.1) : Color.clear)
+            Group {
+                if selectedFilter == filter {
+                    if filter == nil {
+                        UnevenRoundedRectangle(
+                            topLeadingRadius: theme.cornerRadius.md,
+                            topTrailingRadius: theme.cornerRadius.md
+                        )
+                        .fill(theme.colors.primary.opacity(0.1))
+                    } else if filter == .completed {
+                        UnevenRoundedRectangle(
+                            bottomLeadingRadius: theme.cornerRadius.md,
+                            bottomTrailingRadius: theme.cornerRadius.md
+                        )
+                        .fill(theme.colors.primary.opacity(0.1))
+                    } else {
+                        Rectangle()
+                            .fill(theme.colors.primary.opacity(0.1))
+                    }
+                } else {
+                    Rectangle()
+                        .fill(Color.clear)
+                }
+            }
         )
     }
 }

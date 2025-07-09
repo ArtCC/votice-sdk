@@ -30,7 +30,6 @@ struct SuggestionListView: View {
                 endPoint: .bottom
             )
             .ignoresSafeArea()
-
             if viewModel.isLoading && viewModel.suggestions.isEmpty {
                 LoadingView(message: TextManager.shared.texts.loadingSuggestions)
             } else {
