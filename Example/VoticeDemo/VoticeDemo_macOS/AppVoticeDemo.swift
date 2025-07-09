@@ -13,6 +13,7 @@ struct AppVoticeDemo: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
+                .frame(minWidth: 800, minHeight: 600)
         }
     }
 }

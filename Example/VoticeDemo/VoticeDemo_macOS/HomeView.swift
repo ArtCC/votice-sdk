@@ -44,6 +44,7 @@ struct HomeView: View {
                     .buttonStyle(.borderedProminent)
                     .font(.poppins(.medium, size: 16))
                     .controlSize(.large)
+                    .buttonStyle(PlainButtonStyle())
                 }
                 // Option 2: Custom Advanced Theme
                 VStack(spacing: 8) {
@@ -55,6 +56,7 @@ struct HomeView: View {
                     .buttonStyle(.borderedProminent)
                     .font(.poppins(.medium, size: 16))
                     .controlSize(.large)
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
             Spacer()

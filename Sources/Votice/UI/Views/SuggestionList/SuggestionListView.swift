@@ -136,7 +136,7 @@ private extension SuggestionListView {
     }
 
     var suggestionsList: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             LazyVStack(spacing: theme.spacing.lg) {
                 ForEach(Array(viewModel.suggestions.enumerated()), id: \.element.id) { index, suggestion in
                     SuggestionCard(

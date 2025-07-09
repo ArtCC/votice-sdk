@@ -27,5 +27,6 @@ struct FilterButton: View {
                 }
             }
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }
