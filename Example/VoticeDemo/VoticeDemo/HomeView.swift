@@ -118,9 +118,9 @@ private extension HomeView {
     func configureVotice() {
         do {
             try Votice.configure(
-                apiKey: "f36c62a3e9fa895cc5f6f89e",
-                apiSecret: "9c5288e2584c3be913c8c216123dc757873c562720d3ab87",
-                appId: "uN2b1hDJxSXNwzse47xE"
+                apiKey: "04d6dbef654cd4ab844d693a",
+                apiSecret: "2cafc17210d5a4f2c4c11209b38053e9833447abe96b3c71",
+                appId: "2NykJ4WNKWZXd1ezEhKA"
             )
 
             // Configure Poppins fonts for the SDK

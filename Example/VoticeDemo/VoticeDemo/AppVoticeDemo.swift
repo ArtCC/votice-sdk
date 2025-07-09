@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-#warning("Votice SDK is currently only supported on iOS and iPadOS. Support for macOS and tvOS will be available in future releases.")
 @main
 struct AppVoticeDemo: App {
     var body: some Scene {

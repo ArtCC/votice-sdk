@@ -265,6 +265,7 @@ private extension SuggestionDetailView {
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.primary)
                 }
+                .buttonStyle(PlainButtonStyle())
             }
             if viewModel.comments.isEmpty && !viewModel.isLoadingComments {
                 commentsEmptyState

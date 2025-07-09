@@ -65,6 +65,9 @@ struct SuggestionListView: View {
             CreateSuggestionView { suggestion in
                 viewModel.addSuggestion(suggestion)
             }
+#if os(macOS)
+            .frame(minWidth: 800, minHeight: 600)
+#endif
         }
         .sheet(item: $viewModel.selectedSuggestion) { suggestion in
             SuggestionDetailView(suggestion: suggestion) { updatedSuggestion in
@@ -74,6 +77,9 @@ struct SuggestionListView: View {
                     await viewModel.loadSuggestions()
                 }
             }
+#if os(macOS)
+            .frame(minWidth: 800, minHeight: 600)
+#endif
         }
         .refreshable {
             await viewModel.refresh()
@@ -192,6 +198,7 @@ private extension SuggestionListView {
         .scaleEffect(showCreateButton ? 1.0 : 0.9)
         .opacity(showCreateButton ? 1.0 : 0.7)
         .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
+        .buttonStyle(PlainButtonStyle())
     }
 
     func filterButton(title: String, filter: SuggestionStatusEntity?) -> some View {
@@ -208,5 +215,6 @@ private extension SuggestionListView {
                 }
             }
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }
