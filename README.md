@@ -22,12 +22,12 @@ The Votice management app for handling suggestions and apps is available for dow
 
 ## ✅ Requirements
 
-- iOS 17+ / iPadOS 17+
+- iOS 17+ / iPadOS 17+ / macOS 14+ / tvOS 17+
 - Swift 5.9+
 - SwiftUI-based project
 - Votice backend properly configured (API key + secret)
 
-> ⚠️ Support for macOS and tvOS will be available in future releases.
+> ⚠️ Support for tvOS will be available in future releases.
 
 ## 🛠 Installation
 
