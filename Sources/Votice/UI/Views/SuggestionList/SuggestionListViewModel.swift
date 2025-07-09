@@ -12,7 +12,9 @@ final class SuggestionListViewModel: ObservableObject {
     // MARK: - Properties
 
     @Published var suggestions: [SuggestionEntity] = []
-    @Published var isLoading = false
+    @Published var isLoading = true
+    @Published var isLoadingPagination = false
+    @Published var isFilterMenuExpanded = false
     @Published var selectedFilter: SuggestionStatusEntity?
     @Published var hasMoreSuggestions = true
     @Published var currentVotes: [String: VoteType] = [:]
@@ -43,13 +45,9 @@ final class SuggestionListViewModel: ObservableObject {
         loadingTask?.cancel()
 
         loadingTask = Task { @MainActor in
-            guard !isLoading else {
-                return
-            }
-
             isLoading = true
-            currentOffset = 0
             hasMoreSuggestions = true
+            currentOffset = 0
 
             do {
                 let pagination = PaginationRequest(startAfter: nil, pageLimit: pageSize)
@@ -71,7 +69,6 @@ final class SuggestionListViewModel: ObservableObject {
 
                 hasMoreSuggestions = response.suggestions.count == pageSize
 
-                // Report version usage
                 Task {
                     do {
                         try await versionUseCase.report()
@@ -100,11 +97,11 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func loadMoreSuggestions() async {
-        guard !isLoading && hasMoreSuggestions else {
+        guard !isLoadingPagination && hasMoreSuggestions else {
             return
         }
 
-        isLoading = true
+        isLoadingPagination = true
 
         do {
             let last = allSuggestions.last
@@ -115,7 +112,7 @@ final class SuggestionListViewModel: ObservableObject {
             let response = try await suggestionUseCase.fetchSuggestions(pagination: pagination)
 
             guard !Task.isCancelled else {
-                isLoading = false
+                isLoadingPagination = false
 
                 return
             }
@@ -131,7 +128,7 @@ final class SuggestionListViewModel: ObservableObject {
             hasMoreSuggestions = response.suggestions.count == pageSize
         } catch {
             guard !Task.isCancelled else {
-                isLoading = false
+                isLoadingPagination = false
 
                 return
             }
@@ -141,10 +138,12 @@ final class SuggestionListViewModel: ObservableObject {
             showError()
         }
 
-        isLoading = false
+        isLoadingPagination = false
     }
 
     func refresh() async {
+        isFilterMenuExpanded = false
+
         await loadSuggestions()
     }
 
@@ -206,6 +205,8 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func presentCreateSuggestionSheet() {
+        isFilterMenuExpanded = false
+
         showingCreateSuggestion = true
     }
 
@@ -214,6 +215,8 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func selectSuggestion(_ suggestion: SuggestionEntity) {
+        isFilterMenuExpanded = false
+
         selectedSuggestion = suggestion
     }
 

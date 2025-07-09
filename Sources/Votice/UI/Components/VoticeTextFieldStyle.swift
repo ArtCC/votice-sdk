@@ -18,6 +18,7 @@ struct VoticeTextFieldStyle: TextFieldStyle {
     // swiftlint:disable identifier_name
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
+            .textFieldStyle(PlainTextFieldStyle())
             .padding(theme.spacing.md)
             .background(theme.colors.surface)
             .cornerRadius(theme.cornerRadius.md)

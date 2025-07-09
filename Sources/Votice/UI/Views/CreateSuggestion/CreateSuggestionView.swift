@@ -27,74 +27,24 @@ struct CreateSuggestionView: View {
     // MARK: - View
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                LinearGradient(
-                    colors: [
-                        theme.colors.background,
-                        theme.colors.background.opacity(0.95)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
-                if viewModel.isSubmitting {
-                    LoadingView(message: TextManager.shared.texts.submit)
-                } else {
+        ZStack {
+            LinearGradient(
+                colors: [
+                    theme.colors.background,
+                    theme.colors.background.opacity(0.95)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            if viewModel.isSubmitting {
+                LoadingView(message: TextManager.shared.texts.submit)
+            } else {
+                VStack(spacing: 0) {
+                    headerView
                     mainContent
                 }
             }
-            .navigationTitle(TextManager.shared.texts.newSuggestion)
-#if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(TextManager.shared.texts.cancel) {
-                        dismiss()
-                    }
-                    .font(theme.typography.callout)
-                    .fontWeight(.medium)
-                    .foregroundColor(theme.colors.secondary)
-                    .padding(.horizontal, theme.spacing.md)
-                    .padding(.vertical, theme.spacing.xs)
-                    .background(
-                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                            .fill(theme.colors.secondary.opacity(0.1))
-                    )
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(TextManager.shared.texts.submit) {
-                        HapticManager.shared.mediumImpact()
-
-                        Task {
-                            await viewModel.submitSuggestion { suggestion in
-                                HapticManager.shared.success()
-
-                                onSuggestionCreated(suggestion)
-
-                                dismiss()
-                            }
-                        }
-                    }
-                    .font(theme.typography.callout)
-                    .fontWeight(.semibold)
-                    .foregroundColor(
-                        viewModel.isFormValid && !viewModel.isSubmitting ? .white : theme.colors.secondary
-                    )
-                    .padding(.horizontal, theme.spacing.md)
-                    .padding(.vertical, theme.spacing.xs)
-                    .background(
-                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                            .fill(
-                                viewModel.isFormValid && !viewModel.isSubmitting
-                                ? theme.colors.primary
-                                : theme.colors.secondary.opacity(0.1)
-                            )
-                    )
-                    .disabled(!viewModel.isFormValid || viewModel.isSubmitting)
-                }
-            }
-#endif
         }
         .voticeAlert(
             isPresented: $viewModel.isShowingAlert,
@@ -106,8 +56,73 @@ struct CreateSuggestionView: View {
 // MARK: - Private
 
 private extension CreateSuggestionView {
+    var headerView: some View {
+        ZStack {
+            HStack {
+                Button(TextManager.shared.texts.cancel) {
+                    dismiss()
+                }
+                .font(theme.typography.callout)
+                .fontWeight(.medium)
+                .foregroundColor(theme.colors.secondary)
+                .padding(.horizontal, theme.spacing.md)
+                .padding(.vertical, theme.spacing.xs)
+                .background(
+                    RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                        .fill(theme.colors.secondary.opacity(0.1))
+                )
+                .buttonStyle(PlainButtonStyle())
+                Spacer()
+                Button(TextManager.shared.texts.submit) {
+                    HapticManager.shared.mediumImpact()
+
+                    Task {
+                        await viewModel.submitSuggestion { suggestion in
+                            HapticManager.shared.success()
+
+                            onSuggestionCreated(suggestion)
+
+                            dismiss()
+                        }
+                    }
+                }
+                .font(theme.typography.callout)
+                .fontWeight(.semibold)
+                .foregroundColor(
+                    viewModel.isFormValid && !viewModel.isSubmitting ? .white : theme.colors.secondary
+                )
+                .padding(.horizontal, theme.spacing.md)
+                .padding(.vertical, theme.spacing.xs)
+                .background(
+                    RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                        .fill(
+                            viewModel.isFormValid && !viewModel.isSubmitting
+                            ? theme.colors.primary
+                            : theme.colors.secondary.opacity(0.1)
+                        )
+                )
+                .disabled(!viewModel.isFormValid || viewModel.isSubmitting)
+                .buttonStyle(PlainButtonStyle())
+            }
+            HStack {
+                Spacer()
+                Text(TextManager.shared.texts.newSuggestion)
+                    .font(theme.typography.headline)
+                    .fontWeight(.medium)
+                    .foregroundColor(theme.colors.onBackground)
+                Spacer()
+            }
+        }
+        .padding(.horizontal, theme.spacing.lg)
+        .padding(.vertical, theme.spacing.md)
+        .background(
+            theme.colors.background
+                .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
+        )
+    }
+
     var mainContent: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: theme.spacing.xl) {
                 headerCard
                 formCard

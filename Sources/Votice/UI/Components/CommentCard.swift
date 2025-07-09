@@ -56,6 +56,7 @@ struct CommentCard: View {
                                 .foregroundColor(theme.colors.error)
                         }
                     }
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
             Text(comment.text)

@@ -14,5 +14,7 @@
             <string>Poppins-SemiBold.ttf</string>
             <string>Poppins-Thin.ttf</string>
         </array>
+        <key>ATSApplicationFontsPath</key>
+        <string>.</string>
     </dict>
 </plist>

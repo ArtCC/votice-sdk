@@ -71,6 +71,9 @@ public struct Votice {
     public static func feedbackView(theme: VoticeTheme? = nil) -> some View {
         SuggestionListView()
             .voticeTheme(theme ?? .default)
+#if os(macOS)
+            .frame(minWidth: 800, minHeight: 600)
+#endif
     }
 
     /// Present the Votice feedback interface as a sheet/modal
@@ -82,6 +85,9 @@ public struct Votice {
             .sheet(isPresented: isPresented) {
                 SuggestionListView()
                     .voticeTheme(theme ?? .default)
+#if os(macOS)
+                    .frame(minWidth: 800, minHeight: 600)
+#endif
             }
     }
 

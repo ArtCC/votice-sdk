@@ -30,7 +30,6 @@ struct SuggestionListView: View {
                 endPoint: .bottom
             )
             .ignoresSafeArea()
-
             if viewModel.isLoading && viewModel.suggestions.isEmpty {
                 LoadingView(message: TextManager.shared.texts.loadingSuggestions)
             } else {
@@ -65,6 +64,9 @@ struct SuggestionListView: View {
             CreateSuggestionView { suggestion in
                 viewModel.addSuggestion(suggestion)
             }
+#if os(macOS)
+            .frame(minWidth: 800, minHeight: 600)
+#endif
         }
         .sheet(item: $viewModel.selectedSuggestion) { suggestion in
             SuggestionDetailView(suggestion: suggestion) { updatedSuggestion in
@@ -74,6 +76,9 @@ struct SuggestionListView: View {
                     await viewModel.loadSuggestions()
                 }
             }
+#if os(macOS)
+            .frame(minWidth: 800, minHeight: 600)
+#endif
         }
         .refreshable {
             await viewModel.refresh()
@@ -87,8 +92,8 @@ private extension SuggestionListView {
     var headerView: some View {
         HStack {
             Text(TextManager.shared.texts.featureRequests)
-                .font(theme.typography.title)
-                .fontWeight(.bold)
+                .font(theme.typography.title2)
+                .fontWeight(.medium)
                 .foregroundColor(theme.colors.onBackground)
             Spacer()
             filterMenuButton
@@ -99,38 +104,18 @@ private extension SuggestionListView {
             theme.colors.background
                 .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
         )
+        .zIndex(1)
     }
 
     var filterMenuButton: some View {
-        Menu {
-            filterButton(title: TextManager.shared.texts.all, filter: nil)
-            filterButton(title: TextManager.shared.texts.pending, filter: .pending)
-            filterButton(title: TextManager.shared.texts.accepted, filter: .accepted)
-            filterButton(title: TextManager.shared.texts.inProgress, filter: .inProgress)
-            filterButton(title: TextManager.shared.texts.rejected, filter: .rejected)
-            filterButton(title: TextManager.shared.texts.completed, filter: .completed)
-        } label: {
-            HStack(spacing: theme.spacing.xs) {
-                Image(systemName: "line.3.horizontal.decrease.circle.fill")
-                    .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(theme.colors.primary)
-                if viewModel.selectedFilter != nil {
-                    Circle()
-                        .fill(theme.colors.accent)
-                        .frame(width: 8, height: 8)
-                }
-            }
-            .padding(.horizontal, theme.spacing.sm)
-            .padding(.vertical, theme.spacing.xs)
-            .background(
-                RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                    .fill(theme.colors.primary.opacity(0.1))
-            )
+        FilterMenuView(isExpanded: $viewModel.isFilterMenuExpanded,
+                       selectedFilter: viewModel.selectedFilter) { filter in
+            viewModel.setFilter(filter)
         }
     }
 
     var suggestionsList: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             LazyVStack(spacing: theme.spacing.lg) {
                 ForEach(Array(viewModel.suggestions.enumerated()), id: \.element.id) { index, suggestion in
                     SuggestionCard(
@@ -148,14 +133,14 @@ private extension SuggestionListView {
                     .onAppear {
                         if index >= viewModel.suggestions.count - 3
                             && viewModel.hasMoreSuggestions &&
-                            !viewModel.isLoading {
+                            !viewModel.isLoadingPagination {
                             Task {
                                 await viewModel.loadMoreSuggestions()
                             }
                         }
                     }
                 }
-                if viewModel.isLoading && viewModel.suggestions.count > 0 {
+                if viewModel.isLoadingPagination && viewModel.suggestions.count > 0 {
                     HStack {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
@@ -192,21 +177,6 @@ private extension SuggestionListView {
         .scaleEffect(showCreateButton ? 1.0 : 0.9)
         .opacity(showCreateButton ? 1.0 : 0.7)
         .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
-    }
-
-    func filterButton(title: String, filter: SuggestionStatusEntity?) -> some View {
-        Button {
-            viewModel.setFilter(filter)
-        } label: {
-            HStack {
-                Text(title)
-                    .font(theme.typography.caption)
-                Spacer()
-                if viewModel.selectedFilter == filter {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(theme.colors.primary)
-                }
-            }
-        }
+        .buttonStyle(PlainButtonStyle())
     }
 }

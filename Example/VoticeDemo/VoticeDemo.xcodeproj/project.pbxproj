@@ -112,7 +112,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		800727282E11A9FC00C43BA8 /* VoticeDemo_macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoticeDemo_macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		800727282E11A9FC00C43BA8 /* VoticeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoticeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		800727352E11A9FE00C43BA8 /* VoticeDemo_macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemo_macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8007273F2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemo_macOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		800727502E11AA0700C43BA8 /* VoticeDemo_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSTests.swift; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 		800727562E11AA0700C43BA8 /* AppVoticeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVoticeDemo.swift; sourceTree = "<group>"; };
 		8007275B2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSUITests.swift; sourceTree = "<group>"; };
 		8007275C2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_macOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		800727672E11ACD400C43BA8 /* VoticeDemo_tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoticeDemo_tvOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		800727672E11ACD400C43BA8 /* VoticeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoticeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		800727732E11ACD600C43BA8 /* VoticeDemo_tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemo_tvOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8007277D2E11ACD600C43BA8 /* VoticeDemo_tvOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemo_tvOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		800727902E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSTests.swift; sourceTree = "<group>"; };
@@ -314,10 +314,10 @@
 				802F7E602E0F198400F1BDF6 /* VoticeDemo.app */,
 				802F7E6D2E0F198500F1BDF6 /* VoticeDemoTests.xctest */,
 				802F7E772E0F198500F1BDF6 /* VoticeDemoUITests.xctest */,
-				800727282E11A9FC00C43BA8 /* VoticeDemo_macOS.app */,
+				800727282E11A9FC00C43BA8 /* VoticeDemo.app */,
 				800727352E11A9FE00C43BA8 /* VoticeDemo_macOSTests.xctest */,
 				8007273F2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests.xctest */,
-				800727672E11ACD400C43BA8 /* VoticeDemo_tvOS.app */,
+				800727672E11ACD400C43BA8 /* VoticeDemo.app */,
 				800727732E11ACD600C43BA8 /* VoticeDemo_tvOSTests.xctest */,
 				8007277D2E11ACD600C43BA8 /* VoticeDemo_tvOSUITests.xctest */,
 			);
@@ -400,7 +400,7 @@
 				800727612E11AAD500C43BA8 /* Votice */,
 			);
 			productName = VoticeDemo_macOS;
-			productReference = 800727282E11A9FC00C43BA8 /* VoticeDemo_macOS.app */;
+			productReference = 800727282E11A9FC00C43BA8 /* VoticeDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		800727342E11A9FE00C43BA8 /* VoticeDemo_macOSTests */ = {
@@ -460,7 +460,7 @@
 				8007278E2E11ACEC00C43BA8 /* Votice */,
 			);
 			productName = VoticeDemo_tvOS;
-			productReference = 800727672E11ACD400C43BA8 /* VoticeDemo_tvOS.app */;
+			productReference = 800727672E11ACD400C43BA8 /* VoticeDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		800727722E11ACD600C43BA8 /* VoticeDemo_tvOSTests */ = {
@@ -907,7 +907,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VoticeDemo;
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -939,7 +939,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VoticeDemo;
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1042,7 +1042,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VoticeDemo;
 				SDKROOT = appletvos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1072,7 +1072,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VoticeDemo;
 				SDKROOT = appletvos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1306,7 +1306,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.artcc.VoticeDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VoticeDemo;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1339,7 +1339,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.artcc.VoticeDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VoticeDemo;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -24,12 +24,12 @@ struct LoadingView: View {
             ZStack {
                 Circle()
                     .fill(theme.colors.primary.opacity(0.1))
-                    .frame(width: 65, height: 65)
+                    .frame(width: 50, height: 50)
                     .scaleEffect(isAnimating ? 1.15 : 1.0)
                     .opacity(isAnimating ? 0.3 : 0.6)
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                    .scaleEffect(1.15)
+                    .scaleEffect(0.75)
                     .rotationEffect(.degrees(isAnimating ? 360 : 0))
             }
             .onAppear {
