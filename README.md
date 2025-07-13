@@ -53,15 +53,24 @@ let package = Package(
     platforms: [
         .iOS(.v17),
         .macOS(.v14),
-        .tvOS(.v17),
-        .watchOS(.v10)
+        .tvOS(.v17)
     ],
     products: [
-        .library(name: "Votice", targets: ["Votice"])
+        .library(
+            name: "VoticeSDK",
+            targets: ["VoticeSDK"]
+        )
     ],
     targets: [
-        .target(name: "Votice", path: "Sources/Votice"),
-        .testTarget(name: "VoticeTests", dependencies: ["Votice"], path: "Tests/VoticeTests")
+        .target(
+            name: "VoticeSDK",
+            path: "Sources/Votice"
+        ),
+        .testTarget(
+            name: "VoticeTests",
+            dependencies: ["VoticeSDK"],
+            path: "Tests/VoticeTests"
+        )
     ]
 )
 ```
