@@ -7,8 +7,8 @@
 //
 
 import Testing
+@testable import VoticeSDK
 import SwiftUI
-@testable import Votice
 
 @Suite("FontManager Tests")
 struct FontManagerTests {

@@ -6,8 +6,8 @@
 //  Copyright ArtCC. All rights reserved.
 
 import Testing
+@testable import VoticeSDK
 import SwiftUI
-@testable import Votice
 
 @Suite("Votice Tests")
 struct VoticeTests {

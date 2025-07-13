@@ -7,7 +7,7 @@
 //
 
 import Testing
-@testable import Votice
+@testable import VoticeSDK
 import Foundation
 
 @Test("LogManager should handle different log types")
