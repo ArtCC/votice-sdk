@@ -7,7 +7,8 @@
 //
 
 import Testing
-@testable import Votice
+@testable import VoticeSDK
+import Foundation
 
 @Suite("VoticeFontConfiguration Tests")
 struct VoticeFontConfigurationTests {
