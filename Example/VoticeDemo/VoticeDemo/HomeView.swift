@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Votice
+import VoticeSDK
 
 struct HomeView: View {
     // MARK: - Properties
@@ -118,9 +118,9 @@ private extension HomeView {
     func configureVotice() {
         do {
             try Votice.configure(
-                apiKey: "04d6dbef654cd4ab844d693a",
-                apiSecret: "2cafc17210d5a4f2c4c11209b38053e9833447abe96b3c71",
-                appId: "2NykJ4WNKWZXd1ezEhKA"
+                apiKey: "53a393bd9bd926c705a9a298",
+                apiSecret: "e045dfe8606833c5b22889a4de5c1066e0148ef75554d95d",
+                appId: "rw7l3Wd57D5P0REqNlBM"
             )
 
             // Configure Poppins fonts for the SDK
