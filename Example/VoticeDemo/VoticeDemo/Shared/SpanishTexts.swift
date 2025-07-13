@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Votice
+import VoticeSDK
 
 // MARK: - Custom Spanish Implementation
 

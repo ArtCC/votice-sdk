@@ -73,6 +73,8 @@ let package = Package(
 Before using any Votice component, configure it with your app credentials:
 
 ```swift
+import VoticeSDK
+
 try Votice.configure(
     apiKey: "your-api-key",
     apiSecret: "your-api-secret",

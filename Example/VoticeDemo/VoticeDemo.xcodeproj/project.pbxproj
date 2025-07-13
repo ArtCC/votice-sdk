@@ -12,13 +12,16 @@
 		8007275A2E11AA0700C43BA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 800727532E11AA0700C43BA8 /* Assets.xcassets */; };
 		8007275E2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007275B2E11AA0700C43BA8 /* VoticeDemo_macOSUITests.swift */; };
 		8007275F2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007275C2E11AA0700C43BA8 /* VoticeDemo_macOSUITestsLaunchTests.swift */; };
-		800727622E11AAD500C43BA8 /* Votice in Frameworks */ = {isa = PBXBuildFile; productRef = 800727612E11AAD500C43BA8 /* Votice */; };
-		8007278F2E11ACEC00C43BA8 /* Votice in Frameworks */ = {isa = PBXBuildFile; productRef = 8007278E2E11ACEC00C43BA8 /* Votice */; };
 		800727922E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727902E11ACFB00C43BA8 /* VoticeDemo_tvOSTests.swift */; };
 		800727972E11ACFB00C43BA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 800727932E11ACFB00C43BA8 /* Assets.xcassets */; };
 		800727992E11ACFB00C43BA8 /* AppVoticeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727952E11ACFB00C43BA8 /* AppVoticeDemo.swift */; };
 		8007279D2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007279A2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift */; };
 		8007279E2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007279B2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift */; };
+		802EFBC02E23D29600A7B595 /* VoticeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 802EFBBF2E23D29600A7B595 /* VoticeSDK */; };
+		802EFBC72E23D35A00A7B595 /* VoticeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 802EFBC62E23D35A00A7B595 /* VoticeSDK */; };
+		802EFBCA2E23D3C200A7B595 /* VoticeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 802EFBC92E23D3C200A7B595 /* VoticeSDK */; };
+		802EFBCC2E23D3CE00A7B595 /* VoticeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 802EFBCB2E23D3CE00A7B595 /* VoticeSDK */; };
+		802EFBCE2E23D3D300A7B595 /* VoticeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 802EFBCD2E23D3D300A7B595 /* VoticeSDK */; };
 		802F7E8E2E0F1A2500F1BDF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */; };
 		802F7E8F2E0F1A2500F1BDF6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */; };
 		802F7E902E0F1A2500F1BDF6 /* AppVoticeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */; };
@@ -63,7 +66,6 @@
 		80C851032E1DCDC9004A817B /* SpanishTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C851022E1DCDC9004A817B /* SpanishTexts.swift */; };
 		80C851042E1DCDC9004A817B /* SpanishTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C851022E1DCDC9004A817B /* SpanishTexts.swift */; };
 		80C851052E1DCDC9004A817B /* SpanishTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C851022E1DCDC9004A817B /* SpanishTexts.swift */; };
-		80DFD2732E0F1D6B00DD20F2 /* Votice in Frameworks */ = {isa = PBXBuildFile; productRef = 80DFD2722E0F1D6B00DD20F2 /* Votice */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,7 +164,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				800727622E11AAD500C43BA8 /* Votice in Frameworks */,
+				802EFBCC2E23D3CE00A7B595 /* VoticeSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,7 +186,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8007278F2E11ACEC00C43BA8 /* Votice in Frameworks */,
+				802EFBCE2E23D3D300A7B595 /* VoticeSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,7 +208,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80DFD2732E0F1D6B00DD20F2 /* Votice in Frameworks */,
+				802EFBC02E23D29600A7B595 /* VoticeSDK in Frameworks */,
+				802EFBC72E23D35A00A7B595 /* VoticeSDK in Frameworks */,
+				802EFBCA2E23D3C200A7B595 /* VoticeSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,7 +401,7 @@
 			);
 			name = VoticeDemo_macOS;
 			packageProductDependencies = (
-				800727612E11AAD500C43BA8 /* Votice */,
+				802EFBCB2E23D3CE00A7B595 /* VoticeSDK */,
 			);
 			productName = VoticeDemo_macOS;
 			productReference = 800727282E11A9FC00C43BA8 /* VoticeDemo.app */;
@@ -457,7 +461,7 @@
 			);
 			name = VoticeDemo_tvOS;
 			packageProductDependencies = (
-				8007278E2E11ACEC00C43BA8 /* Votice */,
+				802EFBCD2E23D3D300A7B595 /* VoticeSDK */,
 			);
 			productName = VoticeDemo_tvOS;
 			productReference = 800727672E11ACD400C43BA8 /* VoticeDemo.app */;
@@ -518,7 +522,9 @@
 			);
 			name = VoticeDemo;
 			packageProductDependencies = (
-				80DFD2722E0F1D6B00DD20F2 /* Votice */,
+				802EFBBF2E23D29600A7B595 /* VoticeSDK */,
+				802EFBC62E23D35A00A7B595 /* VoticeSDK */,
+				802EFBC92E23D3C200A7B595 /* VoticeSDK */,
 			);
 			productName = VoticeDemo;
 			productReference = 802F7E602E0F198400F1BDF6 /* VoticeDemo.app */;
@@ -620,8 +626,8 @@
 			mainGroup = 802F7E572E0F198400F1BDF6;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				80DFD2712E0F1D6B00DD20F2 /* XCLocalSwiftPackageReference "../../../votice-sdk" */,
 				804E55272E0FCB2D004EED37 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				802EFBC82E23D3C200A7B595 /* XCLocalSwiftPackageReference "../../../votice-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 802F7E612E0F198400F1BDF6 /* Products */;
@@ -904,7 +910,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOS";
 				PRODUCT_NAME = VoticeDemo;
@@ -936,7 +942,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOS";
 				PRODUCT_NAME = VoticeDemo;
@@ -955,7 +961,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -974,7 +980,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -992,7 +998,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOSUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1010,7 +1016,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.artcc.VoticeDemo-macOSUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1047,7 +1053,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 18.5;
+				TVOS_DEPLOYMENT_TARGET = 17.6;
 			};
 			name = Debug;
 		};
@@ -1077,7 +1083,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 18.5;
+				TVOS_DEPLOYMENT_TARGET = 17.6;
 			};
 			name = Release;
 		};
@@ -1097,7 +1103,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoticeDemo_tvOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VoticeDemo_tvOS";
-				TVOS_DEPLOYMENT_TARGET = 18.5;
+				TVOS_DEPLOYMENT_TARGET = 17.6;
 			};
 			name = Debug;
 		};
@@ -1117,7 +1123,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoticeDemo_tvOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VoticeDemo_tvOS";
-				TVOS_DEPLOYMENT_TARGET = 18.5;
+				TVOS_DEPLOYMENT_TARGET = 17.6;
 			};
 			name = Release;
 		};
@@ -1136,7 +1142,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_TARGET_NAME = VoticeDemo_tvOS;
-				TVOS_DEPLOYMENT_TARGET = 18.5;
+				TVOS_DEPLOYMENT_TARGET = 17.6;
 			};
 			name = Debug;
 		};
@@ -1155,7 +1161,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_TARGET_NAME = VoticeDemo_tvOS;
-				TVOS_DEPLOYMENT_TARGET = 18.5;
+				TVOS_DEPLOYMENT_TARGET = 17.6;
 			};
 			name = Release;
 		};
@@ -1299,7 +1305,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1332,7 +1338,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1353,7 +1359,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.artcc.VoticeDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1371,7 +1377,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.artcc.VoticeDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1388,6 +1394,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.artcc.VoticeDemoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1404,6 +1411,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.artcc.VoticeDemoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1510,7 +1518,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		80DFD2712E0F1D6B00DD20F2 /* XCLocalSwiftPackageReference "../../../votice-sdk" */ = {
+		802EFBC82E23D3C200A7B595 /* XCLocalSwiftPackageReference "../../../votice-sdk" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "../../../votice-sdk";
 		};
@@ -1528,19 +1536,27 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		800727612E11AAD500C43BA8 /* Votice */ = {
+		802EFBBF2E23D29600A7B595 /* VoticeSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 80DFD2712E0F1D6B00DD20F2 /* XCLocalSwiftPackageReference "../../../votice-sdk" */;
-			productName = Votice;
+			productName = VoticeSDK;
 		};
-		8007278E2E11ACEC00C43BA8 /* Votice */ = {
+		802EFBC62E23D35A00A7B595 /* VoticeSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 80DFD2712E0F1D6B00DD20F2 /* XCLocalSwiftPackageReference "../../../votice-sdk" */;
-			productName = Votice;
+			productName = VoticeSDK;
 		};
-		80DFD2722E0F1D6B00DD20F2 /* Votice */ = {
+		802EFBC92E23D3C200A7B595 /* VoticeSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Votice;
+			productName = VoticeSDK;
+		};
+		802EFBCB2E23D3CE00A7B595 /* VoticeSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 802EFBC82E23D3C200A7B595 /* XCLocalSwiftPackageReference "../../../votice-sdk" */;
+			productName = VoticeSDK;
+		};
+		802EFBCD2E23D3D300A7B595 /* VoticeSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 802EFBC82E23D3C200A7B595 /* XCLocalSwiftPackageReference "../../../votice-sdk" */;
+			productName = VoticeSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

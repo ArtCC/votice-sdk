@@ -10,18 +10,18 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Votice",
-            targets: ["Votice"]
+            name: "VoticeSDK",
+            targets: ["VoticeSDK"]
         )
     ],
     targets: [
         .target(
-            name: "Votice",
+            name: "VoticeSDK",
             path: "Sources/Votice"
         ),
         .testTarget(
             name: "VoticeTests",
-            dependencies: ["Votice"],
+            dependencies: ["VoticeSDK"],
             path: "Tests/VoticeTests"
         )
     ]

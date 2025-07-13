@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Votice
+import VoticeSDK
 
 struct HomeView: View {
     // MARK: - Properties

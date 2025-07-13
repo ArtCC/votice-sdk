@@ -10,6 +10,8 @@ import SwiftUI
 
 @main
 struct AppVoticeDemo: App {
+    // MARK: - Scene
+
     var body: some Scene {
         WindowGroup {
             HomeView()
