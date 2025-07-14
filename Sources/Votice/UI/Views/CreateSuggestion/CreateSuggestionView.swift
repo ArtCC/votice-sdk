@@ -59,21 +59,21 @@ private extension CreateSuggestionView {
     var headerView: some View {
         ZStack {
             HStack {
-                Button(TextManager.shared.texts.cancel) {
+                Button {
                     dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundColor(theme.colors.secondary)
+                        .padding(8)
+                        .background(
+                            Circle()
+                                .fill(theme.colors.secondary.opacity(0.1))
+                        )
                 }
-                .font(theme.typography.callout)
-                .fontWeight(.medium)
-                .foregroundColor(theme.colors.secondary)
-                .padding(.horizontal, theme.spacing.md)
-                .padding(.vertical, theme.spacing.xs)
-                .background(
-                    RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                        .fill(theme.colors.secondary.opacity(0.1))
-                )
                 .buttonStyle(PlainButtonStyle())
                 Spacer()
-                Button(TextManager.shared.texts.submit) {
+                Button {
                     HapticManager.shared.mediumImpact()
 
                     Task {
@@ -85,26 +85,26 @@ private extension CreateSuggestionView {
                             dismiss()
                         }
                     }
-                }
-                .font(theme.typography.callout)
-                .fontWeight(.semibold)
-                .foregroundColor(
-                    viewModel.isFormValid && !viewModel.isSubmitting ? .white : theme.colors.secondary
-                )
-                .padding(.horizontal, theme.spacing.md)
-                .padding(.vertical, theme.spacing.xs)
-                .background(
-                    RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                        .fill(
-                            viewModel.isFormValid && !viewModel.isSubmitting
-                            ? theme.colors.primary
-                            : theme.colors.secondary.opacity(0.1)
+                } label: {
+                    Image(systemName: "paperplane.fill")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(
+                            viewModel.isFormValid && !viewModel.isSubmitting ? .white : theme.colors.secondary
                         )
-                )
+                        .padding(8)
+                        .background(
+                            Circle()
+                                .fill(
+                                    viewModel.isFormValid && !viewModel.isSubmitting
+                                    ? theme.colors.primary
+                                    : theme.colors.secondary.opacity(0.1)
+                                )
+                        )
+                }
                 .disabled(!viewModel.isFormValid || viewModel.isSubmitting)
                 .buttonStyle(PlainButtonStyle())
             }
-            HStack {
+            HStack(alignment: .center) {
                 Spacer()
                 Text(TextManager.shared.texts.newSuggestion)
                     .font(theme.typography.headline)
@@ -113,8 +113,7 @@ private extension CreateSuggestionView {
                 Spacer()
             }
         }
-        .padding(.horizontal, theme.spacing.lg)
-        .padding(.vertical, theme.spacing.md)
+        .padding(theme.spacing.md)
         .background(
             theme.colors.background
                 .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
@@ -128,7 +127,7 @@ private extension CreateSuggestionView {
                 formCard
                 Spacer(minLength: theme.spacing.xl)
             }
-            .padding(theme.spacing.lg)
+            .padding(theme.spacing.md)
         }
         .scrollBounceBehavior(.basedOnSize)
         .scrollDismissesKeyboard(.immediately)
@@ -151,7 +150,7 @@ private extension CreateSuggestionView {
                         )
                         .frame(width: 50, height: 50)
                     Image(systemName: "lightbulb.fill")
-                        .font(.system(size: 24))
+                        .font(.system(size: 22))
                         .foregroundStyle(
                             LinearGradient(
                                 colors: [theme.colors.primary, theme.colors.accent],
@@ -160,20 +159,20 @@ private extension CreateSuggestionView {
                             )
                         )
                 }
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 5) {
                     Text(TextManager.shared.texts.shareYourIdea)
-                        .font(theme.typography.title3)
+                        .font(theme.typography.headline)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.colors.onSurface)
                     Text(TextManager.shared.texts.helpUsImprove)
-                        .font(theme.typography.body)
+                        .font(theme.typography.callout)
                         .foregroundColor(theme.colors.secondary)
                 }
 
                 Spacer()
             }
         }
-        .padding(theme.spacing.lg)
+        .padding(theme.spacing.md)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
@@ -187,7 +186,7 @@ private extension CreateSuggestionView {
             descriptionSection
             nicknameSection
         }
-        .padding(theme.spacing.lg)
+        .padding(theme.spacing.md)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)

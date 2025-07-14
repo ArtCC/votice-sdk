@@ -72,18 +72,18 @@ private extension SuggestionDetailView {
     var headerView: some View {
         ZStack {
             HStack {
-                Button(TextManager.shared.texts.close) {
+                Button {
                     dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundColor(theme.colors.secondary)
+                        .padding(8)
+                        .background(
+                            Circle()
+                                .fill(theme.colors.secondary.opacity(0.1))
+                        )
                 }
-                .font(theme.typography.callout)
-                .fontWeight(.medium)
-                .foregroundColor(theme.colors.secondary)
-                .padding(.horizontal, theme.spacing.md)
-                .padding(.vertical, theme.spacing.xs)
-                .background(
-                    RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                        .fill(theme.colors.secondary.opacity(0.1))
-                )
                 .buttonStyle(PlainButtonStyle())
                 Spacer()
                 HStack(spacing: theme.spacing.sm) {
@@ -121,8 +121,7 @@ private extension SuggestionDetailView {
                 Spacer()
             }
         }
-        .padding(.horizontal, theme.spacing.lg)
-        .padding(.vertical, theme.spacing.md)
+        .padding(theme.spacing.md)
         .background(
             theme.colors.background
                 .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
@@ -139,7 +138,7 @@ private extension SuggestionDetailView {
                 }
                 Spacer(minLength: theme.spacing.xl)
             }
-            .padding(theme.spacing.lg)
+            .padding(theme.spacing.md)
         }
         .scrollBounceBehavior(.basedOnSize)
         .scrollDismissesKeyboard(.immediately)
@@ -250,7 +249,7 @@ private extension SuggestionDetailView {
                 }
             }
         }
-        .padding(theme.spacing.lg)
+        .padding(theme.spacing.md)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
@@ -259,7 +258,7 @@ private extension SuggestionDetailView {
     }
 
     var commentsSection: some View {
-        VStack(alignment: .leading, spacing: theme.spacing.lg) {
+        VStack(alignment: .leading, spacing: theme.spacing.md) {
             HStack {
                 Text(TextManager.shared.texts.commentsSection)
                     .font(theme.typography.title3)
@@ -296,7 +295,7 @@ private extension SuggestionDetailView {
                 .font(theme.typography.caption)
                 .foregroundColor(theme.colors.secondary)
         }
-        .padding(theme.spacing.lg)
+        .padding(theme.spacing.md)
         .frame(maxWidth: .infinity)
     }
 
@@ -350,104 +349,117 @@ private extension SuggestionDetailView {
                         .font(theme.typography.caption)
                         .foregroundColor(theme.colors.secondary)
                 }
-                .padding(theme.spacing.lg)
+                .padding(theme.spacing.md)
                 .frame(maxWidth: .infinity)
             }
         }
     }
+}
 
+// MARK: - Create comment
+
+private extension SuggestionDetailView {
     var addCommentSheet: some View {
-        VStack(alignment: .leading, spacing: theme.spacing.lg) {
-            ZStack {
-                HStack {
-                    Button(TextManager.shared.texts.cancel) {
-                        showingAddComment = false
-
-                        viewModel.resetCommentForm()
-                    }
-                    .font(theme.typography.callout)
-                    .fontWeight(.medium)
-                    .foregroundColor(theme.colors.secondary)
-                    .padding(.horizontal, theme.spacing.md)
-                    .padding(.vertical, theme.spacing.xs)
-                    .background(
-                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                            .fill(theme.colors.secondary.opacity(0.1))
-                    )
-                    .buttonStyle(PlainButtonStyle())
-                    Spacer()
-                    Button(TextManager.shared.texts.post) {
-                        Task {
-                            await viewModel.submitComment(for: currentSuggestion.id) {
-                                showingAddComment = false
-                            }
-                        }
-                    }
-                    .font(theme.typography.callout)
-                    .fontWeight(.semibold)
-                    .foregroundColor(
-                        viewModel.isCommentFormValid && !viewModel.isSubmittingComment ? .white : theme.colors.secondary
-                    )
-                    .padding(.horizontal, theme.spacing.md)
-                    .padding(.vertical, theme.spacing.xs)
-                    .background(
-                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                            .fill(
-                                viewModel.isCommentFormValid && !viewModel.isSubmittingComment
-                                ? theme.colors.primary
-                                : theme.colors.secondary.opacity(0.1)
-                            )
-                    )
-                    .disabled(!viewModel.isCommentFormValid || viewModel.isSubmittingComment)
-                    .buttonStyle(PlainButtonStyle())
-                }
-                HStack {
-                    Spacer()
-                    Text(TextManager.shared.texts.newComment)
-                        .font(theme.typography.headline)
-                        .fontWeight(.medium)
-                        .foregroundColor(theme.colors.onBackground)
-                    Spacer()
-                }
-            }
-            .padding(.horizontal, theme.spacing.lg)
-            .padding(.vertical, theme.spacing.md)
-            .background(
-                theme.colors.background
-                    .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
-            )
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: theme.spacing.lg) {
-                    VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                        Text(TextManager.shared.texts.yourComment)
-                            .font(theme.typography.headline)
-                            .foregroundColor(theme.colors.onBackground)
-                        TextField(
-                            TextManager.shared.texts.shareYourThoughts,
-                            text: $viewModel.newComment,
-                            axis: .vertical
-                        )
-                        .textFieldStyle(VoticeTextFieldStyle())
-                        .lineLimit(3...8)
-                        .focused($isCommentFocused)
-                    }
-                    VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                        Text(TextManager.shared.texts.yourNameOptional)
-                            .font(theme.typography.headline)
-                            .foregroundColor(theme.colors.onBackground)
-                        TextField(TextManager.shared.texts.enterYourName, text: $viewModel.commentNickname)
-                            .textFieldStyle(VoticeTextFieldStyle())
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal, theme.spacing.lg)
-            }
-            .scrollBounceBehavior(.basedOnSize)
-            .scrollDismissesKeyboard(.immediately)
+        VStack(alignment: .leading, spacing: theme.spacing.md) {
+            headerCommentSheet
+            contentCommentSheet
         }
         .background(theme.colors.background)
         .onAppear {
             isCommentFocused = true
         }
+    }
+
+    var headerCommentSheet: some View {
+        ZStack {
+            HStack {
+                Button {
+                    showingAddComment = false
+
+                    viewModel.resetCommentForm()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundColor(theme.colors.secondary)
+                        .padding(8)
+                        .background(
+                            Circle()
+                                .fill(theme.colors.secondary.opacity(0.1))
+                        )
+                }
+                .buttonStyle(PlainButtonStyle())
+                Spacer()
+                Button {
+                    Task {
+                        await viewModel.submitComment(for: currentSuggestion.id) {
+                            showingAddComment = false
+                        }
+                    }
+                } label: {
+                    Image(systemName: "paperplane.fill")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(
+                            viewModel.isCommentFormValid &&
+                            !viewModel.isSubmittingComment ?
+                                .white : theme.colors.secondary
+                        )
+                        .padding(8)
+                        .background(
+                            Circle()
+                                .fill(
+                                    viewModel.isCommentFormValid && !viewModel.isSubmittingComment
+                                    ? theme.colors.primary
+                                    : theme.colors.secondary.opacity(0.1)
+                                )
+                        )
+                }
+                .disabled(!viewModel.isCommentFormValid || viewModel.isSubmittingComment)
+                .buttonStyle(PlainButtonStyle())
+            }
+            HStack(alignment: .center) {
+                Spacer()
+                Text(TextManager.shared.texts.newComment)
+                    .font(theme.typography.headline)
+                    .fontWeight(.medium)
+                    .foregroundColor(theme.colors.onBackground)
+                Spacer()
+            }
+        }
+        .padding(theme.spacing.md)
+        .background(
+            theme.colors.background
+                .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
+        )
+    }
+
+    var contentCommentSheet: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: theme.spacing.md) {
+                VStack(alignment: .leading, spacing: theme.spacing.sm) {
+                    Text(TextManager.shared.texts.yourComment)
+                        .font(theme.typography.headline)
+                        .foregroundColor(theme.colors.onBackground)
+                    TextField(
+                        TextManager.shared.texts.shareYourThoughts,
+                        text: $viewModel.newComment,
+                        axis: .vertical
+                    )
+                    .textFieldStyle(VoticeTextFieldStyle())
+                    .lineLimit(3...8)
+                    .focused($isCommentFocused)
+                }
+                VStack(alignment: .leading, spacing: theme.spacing.sm) {
+                    Text(TextManager.shared.texts.yourNameOptional)
+                        .font(theme.typography.headline)
+                        .foregroundColor(theme.colors.onBackground)
+                    TextField(TextManager.shared.texts.enterYourName, text: $viewModel.commentNickname)
+                        .textFieldStyle(VoticeTextFieldStyle())
+                }
+                Spacer()
+            }
+            .padding(.horizontal, theme.spacing.md)
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        .scrollDismissesKeyboard(.immediately)
     }
 }
