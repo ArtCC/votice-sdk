@@ -48,8 +48,8 @@ struct SuggestionListView: View {
                         Spacer()
                         floatingActionButton
                     }
-                    .padding(.trailing, theme.spacing.lg)
-                    .padding(.bottom, theme.spacing.lg)
+                    .padding(.trailing, theme.spacing.md)
+                    .padding(.bottom, theme.spacing.md)
                 }
             }
         }
@@ -98,8 +98,7 @@ private extension SuggestionListView {
             Spacer()
             filterMenuButton
         }
-        .padding(.horizontal, theme.spacing.lg)
-        .padding(.vertical, theme.spacing.md)
+        .padding(theme.spacing.md)
         .background(
             theme.colors.background
                 .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
@@ -116,7 +115,7 @@ private extension SuggestionListView {
 
     var suggestionsList: some View {
         ScrollView(showsIndicators: false) {
-            LazyVStack(spacing: theme.spacing.lg) {
+            LazyVStack(spacing: theme.spacing.md) {
                 ForEach(Array(viewModel.suggestions.enumerated()), id: \.element.id) { index, suggestion in
                     SuggestionCard(
                         suggestion: suggestion,
@@ -148,13 +147,13 @@ private extension SuggestionListView {
                             .font(theme.typography.caption)
                             .foregroundColor(theme.colors.secondary)
                     }
-                    .padding(theme.spacing.lg)
+                    .padding(theme.spacing.md)
                 }
                 Spacer()
                     .frame(height: 80)
             }
-            .padding(.horizontal, theme.spacing.lg)
             .padding(.top, theme.spacing.md)
+            .padding(.horizontal, theme.spacing.md)
         }
         .scrollBounceBehavior(.basedOnSize)
         .scrollDismissesKeyboard(.immediately)

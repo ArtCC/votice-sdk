@@ -97,7 +97,7 @@ private extension FilterMenuView {
                 .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
         )
         .padding(.top, theme.spacing.xs)
-        .frame(minWidth: 140)
+        .frame(width: 150)
     }
 
     func filterOption(title: String, filter: SuggestionStatusEntity?) -> some View {

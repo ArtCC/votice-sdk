@@ -96,7 +96,7 @@ private extension EmptyStateView {
                 .fill(theme.colors.surface)
                 .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
         )
-        .padding(.horizontal, theme.spacing.lg)
+        .padding(.horizontal, theme.spacing.md)
     }
 
     var contentTextView: some View {

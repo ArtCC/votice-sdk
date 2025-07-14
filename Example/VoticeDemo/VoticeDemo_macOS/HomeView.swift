@@ -13,7 +13,6 @@ struct HomeView: View {
     // MARK: - Properties
 
     @State private var showingFeedbackSheet = false
-    @State private var showingFeedbackSheetWithCustomTheme = false
     @State private var isConfigured = false
 
     // MARK: - View
@@ -33,31 +32,16 @@ struct HomeView: View {
             }
             Divider()
             // Demo Options
-            VStack(spacing: 20) {
-                // Option 1: Sheet/Modal with System Theme
-                VStack(spacing: 8) {
-                    Text("Option 1: Modal Presentation")
-                        .font(.poppins(.semiBold, size: 18))
-                    Button("Show Feedback Sheet") {
-                        showingFeedbackSheet = true
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .font(.poppins(.medium, size: 16))
-                    .controlSize(.large)
-                    .buttonStyle(PlainButtonStyle())
+            VStack(spacing: 8) {
+                Text("Option: Modal Presentation")
+                    .font(.poppins(.semiBold, size: 18))
+                Button("Show Feedback Sheet") {
+                    showingFeedbackSheet = true
                 }
-                // Option 2: Custom Advanced Theme
-                VStack(spacing: 8) {
-                    Text("Option 3: Custom Theme")
-                        .font(.poppins(.semiBold, size: 18))
-                    Button("Feedback with Custom Theme") {
-                        showingFeedbackSheetWithCustomTheme = true
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .font(.poppins(.medium, size: 16))
-                    .controlSize(.large)
-                    .buttonStyle(PlainButtonStyle())
-                }
+                .buttonStyle(.borderedProminent)
+                .font(.poppins(.medium, size: 16))
+                .controlSize(.large)
+                .buttonStyle(PlainButtonStyle())
             }
             Spacer()
             // Configuration Status
@@ -80,16 +64,6 @@ struct HomeView: View {
         .sheet(isPresented: $showingFeedbackSheet) {
             // System theme with Poppins fonts applied
             Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
-        }
-        .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
-            // Custom theme with Poppins fonts applied
-            let customTheme = Votice.createThemeWithCurrentFonts(
-                primaryColor: .blue,
-                backgroundColor: .white,
-                surfaceColor: .gray.opacity(0.15),
-            )
-
-            Votice.feedbackView(theme: customTheme)
         }
         .onAppear {
             configureVotice()

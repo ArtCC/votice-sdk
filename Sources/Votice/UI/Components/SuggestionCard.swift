@@ -23,72 +23,71 @@ struct SuggestionCard: View {
     // MARK: - View
 
     var body: some View {
-        Button(action: onTap) {
-            ZStack(alignment: .topTrailing) {
-                HStack(alignment: .center, spacing: theme.spacing.md) {
-                    VStack(spacing: theme.spacing.sm) {
-                        VotingButtons(upvotes: max(0, suggestion.voteCount ?? 0),
-                                      downvotes: 0,
-                                      currentVote: currentVote,
-                                      onVote: onVote)
-                        if ConfigurationManager.shared.commentIsEnabled, suggestion.commentCount ?? 0 > 0 {
-                            VStack(spacing: 4) {
-                                Image(systemName: "bubble.left.fill")
-                                    .font(.subheadline)
-                                    .foregroundColor(theme.colors.accent)
-                                Text("\(suggestion.commentCount ?? 0)")
-                                    .font(theme.typography.body)
-                                    .foregroundColor(theme.colors.accent)
-                            }
+        ZStack(alignment: .topTrailing) {
+            HStack(alignment: .center, spacing: theme.spacing.md) {
+                VStack(spacing: theme.spacing.sm) {
+                    VotingButtons(upvotes: max(0, suggestion.voteCount ?? 0),
+                                  downvotes: 0,
+                                  currentVote: currentVote,
+                                  onVote: onVote)
+                    if ConfigurationManager.shared.commentIsEnabled, suggestion.commentCount ?? 0 > 0 {
+                        VStack(spacing: 4) {
+                            Image(systemName: "bubble.left.fill")
+                                .font(.subheadline)
+                                .foregroundColor(theme.colors.accent)
+                            Text("\(suggestion.commentCount ?? 0)")
+                                .font(theme.typography.body)
+                                .foregroundColor(theme.colors.accent)
                         }
                     }
-                    VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                        titleView
-                        authorView
-                        createdAtView
-                    }
-                    .padding(.trailing, theme.spacing.md)
-                    Image(systemName: "chevron.right")
-                        .font(.caption)
-                        .foregroundColor(theme.colors.secondary.opacity(0.5))
-                        .scaleEffect(isPressed ? 1.2 : 1.0)
                 }
-                .padding(theme.spacing.md)
-                .background(
-                    RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
-                        .fill(theme.colors.surface)
-                        .shadow(
-                            color: theme.colors.primary.opacity(isPressed ? 0.2 : 0.08),
-                            radius: isPressed ? 12 : 6,
-                            x: 0,
-                            y: isPressed ? 6 : 3
-                        )
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
-                        .stroke(
-                            LinearGradient(
-                                colors: [
-                                    theme.colors.primary.opacity(isPressed ? 0.3 : 0.1),
-                                    theme.colors.accent.opacity(isPressed ? 0.2 : 0.05)
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ),
-                            lineWidth: isPressed ? 2 : 1
-                        )
-                )
-                .scaleEffect(isPressed ? 0.98 : 1.0)
-                StatusBadge(status: suggestion.status ?? .pending)
-                    .padding(theme.spacing.sm)
+                VStack(alignment: .leading, spacing: theme.spacing.sm) {
+                    titleView
+                    authorView
+                    createdAtView
+                }
+                .padding(.trailing, theme.spacing.md)
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundColor(theme.colors.secondary.opacity(0.5))
+                    .scaleEffect(isPressed ? 1.2 : 1.0)
             }
+            .padding(theme.spacing.md)
+            .background(
+                RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                    .fill(theme.colors.surface)
+                    .shadow(
+                        color: theme.colors.primary.opacity(isPressed ? 0.2 : 0.08),
+                        radius: isPressed ? 12 : 6,
+                        x: 0,
+                        y: isPressed ? 6 : 3
+                    )
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                    .stroke(
+                        LinearGradient(
+                            colors: [
+                                theme.colors.primary.opacity(isPressed ? 0.3 : 0.1),
+                                theme.colors.accent.opacity(isPressed ? 0.2 : 0.05)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: isPressed ? 2 : 1
+                    )
+            )
+            .scaleEffect(isPressed ? 0.98 : 1.0)
+            StatusBadge(status: suggestion.status ?? .pending)
+                .padding(theme.spacing.sm)
         }
-        .buttonStyle(PlainButtonStyle())
-        .onLongPressGesture(minimumDuration: 0) { pressing in
+        .onTapGesture {
+            isPressed = true
+
             withAnimation(.easeInOut(duration: 0.15)) {
-                isPressed = pressing
+                isPressed = false
             }
-        } perform: {
+
             HapticManager.shared.lightImpact()
 
             onTap()
