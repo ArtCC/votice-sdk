@@ -24,6 +24,7 @@ struct MockVoticeTexts: VoticeTextsProtocol {
     let warning = "Advertencia"
     let info = "Información"
     let genericError = "Algo salió mal. Por favor, inténtalo de nuevo."
+    let anonymous = "Anónimo"
 
     // MARK: - Suggestion List
 
@@ -97,13 +98,14 @@ func testTextManagerInitialization() async {
     // Then
     #expect(texts.cancel == "Cancel")
     #expect(texts.error == "Error")
-    #expect(texts.ok == "OK")
+    #expect(texts.ok == "Ok")
     #expect(texts.submit == "Submit")
     #expect(texts.optional == "Optional")
     #expect(texts.success == "Success")
     #expect(texts.warning == "Warning")
     #expect(texts.info == "Info")
     #expect(texts.genericError == "Something went wrong. Please try again.")
+    #expect(texts.anonymous == "Anonymous")
     #expect(texts.loadingSuggestions == "Loading suggestions...")
     #expect(texts.featureRequests == "Feature Requests")
     #expect(texts.newSuggestion == "New Suggestion")
@@ -150,7 +152,7 @@ func testTextManagerResetToDefault() async {
     // Then
     #expect(resetTexts.cancel == "Cancel")
     #expect(resetTexts.error == "Error")
-    #expect(resetTexts.ok == "OK")
+    #expect(resetTexts.ok == "Ok")
     #expect(resetTexts.submit == "Submit")
     #expect(resetTexts.optional == "Optional")
     #expect(resetTexts.loadingSuggestions == "Loading suggestions...")
@@ -234,6 +236,7 @@ func testTextManagerMultipleUpdates() async {
         let warning = "Warning"
         let info = "Info"
         let genericError = "Something went wrong. Please try again."
+        let anonymous = "Anonyme"
         let loadingSuggestions = "Chargement des suggestions..."
         let noSuggestionsYet = "Pas encore de suggestions."
         let beFirstToSuggest = "Soyez le premier à suggérer quelque chose!"
@@ -298,7 +301,7 @@ func testTextManagerMultipleUpdates() async {
     let finalTexts = manager.texts
     #expect(finalTexts.cancel == "Cancel")
     #expect(finalTexts.error == "Error")
-    #expect(finalTexts.ok == "OK")
+    #expect(finalTexts.ok == "Ok")
 }
 // swiftlint:enable function_body_length
 
@@ -312,13 +315,14 @@ func testDefaultVoticeTexts() async {
     // Then - General
     #expect(texts.cancel == "Cancel")
     #expect(texts.error == "Error")
-    #expect(texts.ok == "OK")
+    #expect(texts.ok == "Ok")
     #expect(texts.submit == "Submit")
     #expect(texts.optional == "Optional")
     #expect(texts.success == "Success")
     #expect(texts.warning == "Warning")
     #expect(texts.info == "Info")
     #expect(texts.genericError == "Something went wrong. Please try again.")
+    #expect(texts.anonymous == "Anonymous")
 
     // Suggestion List
     #expect(texts.loadingSuggestions == "Loading suggestions...")

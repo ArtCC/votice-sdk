@@ -142,6 +142,7 @@ struct VoticeTests {
             let warning = "Mock Warning"
             let info = "Mock Info"
             let genericError = "Mock Generic Error"
+            let anonymous = "Mock Anonymous"
             let loadingSuggestions = "Mock Loading"
             let noSuggestionsYet = "Mock No Suggestions"
             let beFirstToSuggest = "Mock Be First"

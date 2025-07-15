@@ -50,7 +50,7 @@ private extension VoticeAlert {
                 .fill(theme.colors.surface)
                 .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 10)
         )
-        .padding(theme.spacing.lg)
+        .padding(theme.spacing.md)
         .frame(maxWidth: 320)
     }
 
@@ -65,13 +65,13 @@ private extension VoticeAlert {
                     .foregroundColor(alertTypeColor)
             }
             Text(alert.title)
-                .font(theme.typography.title2)
-                .fontWeight(.bold)
+                .font(theme.typography.title3)
+                .fontWeight(.semibold)
                 .foregroundColor(theme.colors.onSurface)
                 .multilineTextAlignment(.center)
         }
-        .padding(.top, theme.spacing.lg)
-        .padding(.horizontal, theme.spacing.lg)
+        .padding(.top, theme.spacing.md)
+        .padding(.horizontal, theme.spacing.md)
     }
 
     var contentSection: some View {
@@ -83,8 +83,7 @@ private extension VoticeAlert {
                 .lineLimit(nil)
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(.horizontal, theme.spacing.lg)
-        .padding(.vertical, theme.spacing.md)
+        .padding(theme.spacing.md)
     }
 
     var buttonsSection: some View {
@@ -96,12 +95,12 @@ private extension VoticeAlert {
                     alertButton(secondaryButton, isPrimary: false)
                     alertButton(alert.primaryButton, isPrimary: true)
                 }
-                .padding(.horizontal, theme.spacing.lg)
-                .padding(.bottom, theme.spacing.lg)
+                .padding(.horizontal, theme.spacing.md)
+                .padding(.bottom, theme.spacing.md)
             } else {
                 alertButton(alert.primaryButton, isPrimary: true)
-                    .padding(.horizontal, theme.spacing.lg)
-                    .padding(.bottom, theme.spacing.lg)
+                    .padding(.horizontal, theme.spacing.md)
+                    .padding(.bottom, theme.spacing.md)
             }
         }
     }
@@ -147,7 +146,7 @@ private extension VoticeAlert {
                 .fontWeight(isPrimary ? .semibold : .medium)
                 .foregroundColor(buttonTextColor(for: button.style, isPrimary: isPrimary))
                 .frame(maxWidth: .infinity)
-                .frame(height: 44)
+                .frame(height: 40)
                 .background(
                     RoundedRectangle(cornerRadius: theme.cornerRadius.md)
                         .fill(buttonBackgroundColor(for: button.style, isPrimary: isPrimary))

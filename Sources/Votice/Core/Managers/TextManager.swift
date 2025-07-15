@@ -24,6 +24,7 @@ public protocol VoticeTextsProtocol: Sendable {
     var warning: String { get }
     var info: String { get }
     var genericError: String { get }
+    var anonymous: String { get }
 
     // MARK: - Suggestion List
 
@@ -91,13 +92,14 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
 
     public let cancel = "Cancel"
     public let error = "Error"
-    public let ok = "OK"
+    public let ok = "Ok"
     public let submit = "Submit"
     public let optional = "Optional"
     public let success = "Success"
     public let warning = "Warning"
     public let info = "Info"
     public let genericError = "Something went wrong. Please try again."
+    public let anonymous = "Anonymous"
 
     // MARK: - Suggestion List
 
