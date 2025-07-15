@@ -23,7 +23,7 @@ struct CommentEntity: Codable, Sendable, Identifiable {
 
 extension CommentEntity {
     var displayName: String {
-        return nickname ?? "Anonymous"
+        return nickname ?? TextManager.shared.texts.anonymous
     }
     var isFromSDK: Bool {
         return deviceId != nil

@@ -16,13 +16,14 @@ struct SpanishTexts: VoticeTextsProtocol {
 
     let cancel = "Cancelar"
     let error = "Error"
-    let ok = "OK"
+    let ok = "Ok"
     let submit = "Enviar"
     let optional = "Opcional"
     let success = "Éxito"
     let warning = "Advertencia"
     let info = "Información"
     let genericError = "Algo salió mal. Por favor, inténtalo de nuevo."
+    let anonymous = "Anónimo"
 
     // MARK: - Suggestion List
 

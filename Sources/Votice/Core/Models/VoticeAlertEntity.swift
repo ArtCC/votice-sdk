@@ -27,35 +27,35 @@ struct VoticeAlertEntity {
         self.type = type
         self.title = title
         self.message = message
-        self.primaryButton = primaryButton ?? VoticeAlertButton(title: "OK", style: .default)
+        self.primaryButton = primaryButton ?? VoticeAlertButton(title: TextManager.shared.texts.ok, style: .default)
         self.secondaryButton = secondaryButton
     }
 
     // MARK: - Convenience Initializers
 
-    static func error(title: String = "Error",
+    static func error(title: String = TextManager.shared.texts.error,
                       message: String,
                       okAction: @escaping () -> Void = {}) -> VoticeAlertEntity {
         VoticeAlertEntity(
             type: .error,
             title: title,
             message: message,
-            primaryButton: VoticeAlertButton(title: "OK", style: .destructive, action: okAction)
+            primaryButton: VoticeAlertButton(title: TextManager.shared.texts.ok, style: .destructive, action: okAction)
         )
     }
 
-    static func success(title: String = "Success",
+    static func success(title: String = TextManager.shared.texts.success,
                         message: String,
                         okAction: @escaping () -> Void = {}) -> VoticeAlertEntity {
         VoticeAlertEntity(
             type: .success,
             title: title,
             message: message,
-            primaryButton: VoticeAlertButton(title: "OK", style: .primary, action: okAction)
+            primaryButton: VoticeAlertButton(title: TextManager.shared.texts.ok, style: .primary, action: okAction)
         )
     }
 
-    static func warning(title: String = "Warning",
+    static func warning(title: String = TextManager.shared.texts.warning,
                         message: String,
                         okAction: @escaping () -> Void = {},
                         cancelAction: @escaping () -> Void = {}) -> VoticeAlertEntity {
@@ -63,19 +63,21 @@ struct VoticeAlertEntity {
             type: .warning,
             title: title,
             message: message,
-            primaryButton: VoticeAlertButton(title: "OK", style: .primary, action: okAction),
-            secondaryButton: VoticeAlertButton(title: "Cancel", style: .default, action: cancelAction)
+            primaryButton: VoticeAlertButton(title: TextManager.shared.texts.ok, style: .primary, action: okAction),
+            secondaryButton: VoticeAlertButton(title: TextManager.shared.texts.cancel,
+                                               style: .default,
+                                               action: cancelAction)
         )
     }
 
-    static func info(title: String = "Info",
+    static func info(title: String = TextManager.shared.texts.info,
                      message: String,
                      okAction: @escaping () -> Void = {}) -> VoticeAlertEntity {
         VoticeAlertEntity(
             type: .info,
             title: title,
             message: message,
-            primaryButton: VoticeAlertButton(title: "OK", style: .default, action: okAction)
+            primaryButton: VoticeAlertButton(title: TextManager.shared.texts.ok, style: .default, action: okAction)
         )
     }
 }
