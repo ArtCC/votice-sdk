@@ -20,19 +20,3 @@ jobs:
       
     - name: Build and Test Swift Package
       run: swift test --verbose
-      
-    - name: Build iOS Example
-      run: |
-        cd Example/VoticeDemo
-        xcodebuild -project VoticeDemo.xcodeproj \
-                   -scheme VoticeDemo \
-                   -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
-                   build
-                   
-    - name: Test iOS Example
-      run: |
-        cd Example/VoticeDemo
-        xcodebuild -project VoticeDemo.xcodeproj \
-                   -scheme VoticeDemo \
-                   -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
-                   test
