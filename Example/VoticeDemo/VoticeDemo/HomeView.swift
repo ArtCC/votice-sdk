@@ -21,6 +21,7 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 30) {
+                Spacer()
                 VStack(spacing: 10) {
                     Image(systemName: "star.bubble")
                         .font(.system(size: 60))
@@ -32,9 +33,7 @@ struct HomeView: View {
                         .foregroundColor(.secondary)
                 }
                 Divider()
-                // Demo Options
                 VStack(spacing: 20) {
-                    // Option 1: Sheet/Modal with System Theme
                     VStack(spacing: 8) {
                         Text("Option 1: Modal Presentation")
                             .font(.poppins(.semiBold, size: 18))
@@ -45,7 +44,6 @@ struct HomeView: View {
                         .font(.poppins(.medium, size: 16))
                         .controlSize(.large)
                     }
-                    // Option 2: Navigation with System Theme
                     VStack(spacing: 8) {
                         Text("Option 2: Navigation Push")
                             .font(.poppins(.semiBold, size: 18))
@@ -56,7 +54,6 @@ struct HomeView: View {
                         .font(.poppins(.medium, size: 16))
                         .controlSize(.large)
                     }
-                    // Option 3: Custom Advanced Theme
                     VStack(spacing: 8) {
                         Text("Option 3: Custom Theme")
                             .font(.poppins(.semiBold, size: 18))
@@ -69,12 +66,11 @@ struct HomeView: View {
                     }
                 }
                 Spacer()
-                // Configuration Status
                 VStack(spacing: 4) {
                     HStack {
                         Image(systemName: isConfigured ? "checkmark.circle.fill" : "xmark.circle.fill")
                             .foregroundColor(isConfigured ? .green : .red)
-                        Text("SDK Configuration: \(isConfigured ? "" : "")")
+                        Text("SDK Configuration:")
                             .font(.poppins(.regular, size: 12))
                             .foregroundColor(.secondary)
                     }
@@ -89,8 +85,13 @@ struct HomeView: View {
             .navigationTitle("Votice Demo")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .onAppear {
+            configureVotice()
+
+            // Optional: Configure custom texts for localization.
+            // configureText()
+        }
         .sheet(isPresented: $showingFeedbackSheet) {
-            // System theme with Poppins fonts applied
             Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
         }
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
@@ -102,12 +103,6 @@ struct HomeView: View {
             )
 
             Votice.feedbackView(theme: customTheme)
-        }
-        .onAppear {
-            configureVotice()
-
-            // Optional: Configure custom texts for localization.
-            // configureText()
         }
     }
 }

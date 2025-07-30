@@ -31,7 +31,6 @@ struct HomeView: View {
                     .foregroundColor(.secondary)
             }
             Divider()
-            // Demo Options
             VStack(spacing: 8) {
                 Text("Option: Modal Presentation")
                     .font(.poppins(.semiBold, size: 18))
@@ -44,12 +43,11 @@ struct HomeView: View {
                 .buttonStyle(PlainButtonStyle())
             }
             Spacer()
-            // Configuration Status
             VStack(spacing: 4) {
                 HStack {
                     Image(systemName: isConfigured ? "checkmark.circle.fill" : "xmark.circle.fill")
                         .foregroundColor(isConfigured ? .green : .red)
-                    Text("SDK Configuration: \(isConfigured ? "" : "")")
+                    Text("SDK Configuration:")
                         .font(.poppins(.regular, size: 12))
                         .foregroundColor(.secondary)
                 }
@@ -61,15 +59,14 @@ struct HomeView: View {
             }
             .padding(.bottom, 20)
         }
-        .sheet(isPresented: $showingFeedbackSheet) {
-            // System theme with Poppins fonts applied
-            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
-        }
         .onAppear {
             configureVotice()
 
             // Optional: Configure custom texts for localization.
             // configureText()
+        }
+        .sheet(isPresented: $showingFeedbackSheet) {
+            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
         }
     }
 }
