@@ -38,7 +38,7 @@ struct HomeView: View {
             // configureText()
         }
         .sheet(isPresented: $showingFeedbackSheet) {
-            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
+            Votice.feedbackView()
         }
     }
 }
@@ -65,7 +65,6 @@ private extension HomeView {
                 ]
             )
             Votice.setFonts(poppinsConfig)
-
             Votice.setDebugLogging(enabled: false)
             Votice.setCommentIsEnabled(enabled: true)
 
