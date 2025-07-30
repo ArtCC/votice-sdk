@@ -39,7 +39,7 @@ final class DeviceManager: DeviceManagerProtocol {
     private let deviceIdKey = "VoticeSDK_DeviceId"
     private let lock = NSLock()
 
-    // MARK: - Public
+    // MARK: - Public properties
 
     var deviceId: String {
         lock.withLock {

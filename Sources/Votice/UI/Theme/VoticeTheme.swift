@@ -23,10 +23,12 @@ public struct VoticeTheme {
     public let spacing: VoticeSpacing
     public let cornerRadius: VoticeCornerRadius
 
-    public static let `default` = VoticeTheme(colors: .default,
-                                              typography: .default,
-                                              spacing: .default,
-                                              cornerRadius: .default)
+    public static let `default` = VoticeTheme(
+        colors: .default,
+        typography: .default,
+        spacing: .default,
+        cornerRadius: .default
+    )
 
     // MARK: - Init
 
@@ -64,23 +66,25 @@ public struct VoticeColors {
     public let completed: Color
     public let rejected: Color
 
-    public static let `default` = VoticeColors(primary: Color(red: 0.0, green: 0.48, blue: 1.0),      // iOS Blue
-                                               secondary: Color(red: 0.56, green: 0.56, blue: 0.58),   // Modern Gray
-                                               accent: Color(red: 1.0, green: 0.58, blue: 0.0),        // Vibrant Orange
-                                               background: Color.systemBackground,
-                                               surface: Color.secondarySystemBackground,
-                                               onSurface: Color.primary,
-                                               onBackground: Color.primary,
-                                               success: Color(red: 0.20, green: 0.78, blue: 0.35),     // Modern Green
-                                               warning: Color(red: 1.0, green: 0.58, blue: 0.0),       // Warm Orange
-                                               error: Color(red: 1.0, green: 0.23, blue: 0.19),        // Modern Red
-                                               upvote: Color(red: 0.20, green: 0.78, blue: 0.35),      // Success Green
-                                               downvote: Color(red: 1.0, green: 0.23, blue: 0.19),     // Error Red
-                                               pending: Color(red: 1.0, green: 0.58, blue: 0.0),       // Warning Orange
-                                               accepted: Color(red: 0.0, green: 0.48, blue: 1.0),      // Primary Blue
-                                               inProgress: Color(red: 0.48, green: 0.40, blue: 0.93),  // Modern Purple
-                                               completed: Color(red: 0.20, green: 0.78, blue: 0.35),   // Success Green
-                                               rejected: Color(red: 1.0, green: 0.23, blue: 0.19))     // Error Red
+    public static let `default` = VoticeColors(
+        primary: Color(red: 0.0, green: 0.48, blue: 1.0), // iOS Blue
+        secondary: Color(red: 0.56, green: 0.56, blue: 0.58), // Modern Gray
+        accent: Color(red: 1.0, green: 0.58, blue: 0.0), // Vibrant Orange
+        background: Color.systemBackground,
+        surface: Color.secondarySystemBackground,
+        onSurface: Color.primary,
+        onBackground: Color.primary,
+        success: Color(red: 0.20, green: 0.78, blue: 0.35), // Modern Green
+        warning: Color(red: 1.0, green: 0.58, blue: 0.0), // Warm Orange
+        error: Color(red: 1.0, green: 0.23, blue: 0.19), // Modern Red
+        upvote: Color(red: 0.20, green: 0.78, blue: 0.35), // Success Green
+        downvote: Color(red: 1.0, green: 0.23, blue: 0.19), // Error Red
+        pending: Color(red: 1.0, green: 0.58, blue: 0.0), // Warning Orange
+        accepted: Color(red: 0.0, green: 0.48, blue: 1.0), // Primary Blue
+        inProgress: Color(red: 0.48, green: 0.40, blue: 0.93), // Modern Purple
+        completed: Color(red: 0.20, green: 0.78, blue: 0.35), // Success Green
+        rejected: Color(red: 1.0, green: 0.23, blue: 0.19) // Error Red
+    )
 
     // MARK: - Init
 
@@ -196,17 +200,19 @@ public struct VoticeTypography {
     public let caption: Font
     public let caption2: Font
 
-    public static let `default` = VoticeTypography(largeTitle: FontManager.shared.font(for: .bold, size: 34),
-                                                   title: FontManager.shared.font(for: .bold, size: 28),
-                                                   title2: FontManager.shared.font(for: .bold, size: 22),
-                                                   title3: FontManager.shared.font(for: .semiBold, size: 20),
-                                                   headline: FontManager.shared.font(for: .semiBold, size: 17),
-                                                   subheadline: FontManager.shared.font(for: .regular, size: 15),
-                                                   body: FontManager.shared.font(for: .regular, size: 17),
-                                                   callout: FontManager.shared.font(for: .regular, size: 16),
-                                                   footnote: FontManager.shared.font(for: .regular, size: 13),
-                                                   caption: FontManager.shared.font(for: .regular, size: 12),
-                                                   caption2: FontManager.shared.font(for: .regular, size: 11))
+    public static let `default` = VoticeTypography(
+        largeTitle: FontManager.shared.font(for: .bold, size: 34),
+        title: FontManager.shared.font(for: .bold, size: 28),
+        title2: FontManager.shared.font(for: .bold, size: 22),
+        title3: FontManager.shared.font(for: .semiBold, size: 20),
+        headline: FontManager.shared.font(for: .semiBold, size: 17),
+        subheadline: FontManager.shared.font(for: .regular, size: 15),
+        body: FontManager.shared.font(for: .regular, size: 17),
+        callout: FontManager.shared.font(for: .regular, size: 16),
+        footnote: FontManager.shared.font(for: .regular, size: 13),
+        caption: FontManager.shared.font(for: .regular, size: 12),
+        caption2: FontManager.shared.font(for: .regular, size: 11)
+    )
 
     // MARK: - Init
 
@@ -238,7 +244,7 @@ public struct VoticeTypography {
 
     /// Create a typography configuration using the current font manager settings
     public static func withCurrentFonts() -> VoticeTypography {
-        return VoticeTypography(
+        VoticeTypography(
             largeTitle: FontManager.shared.font(for: .bold, size: 34),
             title: FontManager.shared.font(for: .bold, size: 28),
             title2: FontManager.shared.font(for: .bold, size: 22),

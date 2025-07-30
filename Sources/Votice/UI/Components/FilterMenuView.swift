@@ -110,6 +110,7 @@ private extension FilterMenuView {
 #endif
     }
 
+    // swiftlint:disable function_body_length
     func filterOption(title: String, filter: SuggestionStatusEntity?) -> some View {
         Button {
             onFilterSelected(filter)
@@ -164,4 +165,5 @@ private extension FilterMenuView {
             }
         )
     }
+    // swiftlint:enable function_body_length
 }

@@ -28,7 +28,7 @@ final class FontManager: FontManagerProtocol, @unchecked Sendable {
 
     private init() {}
 
-    // MARK: - Public
+    // MARK: - Public functions
 
     func setFontConfiguration(_ configuration: VoticeFontConfiguration) {
         lock.lock()

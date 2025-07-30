@@ -168,7 +168,7 @@ final class TextManager: @unchecked Sendable {
     private var _texts: VoticeTextsProtocol
     private let lock = NSLock()
 
-    // MARK: - Public
+    // MARK: - Public properties
 
     var texts: VoticeTextsProtocol {
         lock.withLock { _texts }
@@ -180,7 +180,7 @@ final class TextManager: @unchecked Sendable {
         _texts = DefaultVoticeTexts()
     }
 
-    // MARK: - Public Methods
+    // MARK: - Public functions
 
     func setTexts(_ texts: VoticeTextsProtocol) {
         lock.withLock {

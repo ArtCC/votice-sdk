@@ -21,7 +21,7 @@ final class AlertManager: ObservableObject {
 
     private init() {}
 
-    // MARK: - Public Methods
+    // MARK: - Public functions
 
     func showAlert(_ alert: VoticeAlertEntity) {
         lock.lock()
@@ -95,7 +95,7 @@ final class AlertManager: ObservableObject {
         LogManager.shared.devLog(.info, "AlertManager: alert dismissed")
     }
 
-    // MARK: - Convenience Methods
+    // MARK: - Convenience functions
 
     func handleError(_ error: Error, title: String? = nil, okAction: @escaping () -> Void = {}) {
         showError(title: title, message: error.localizedDescription, okAction: okAction)

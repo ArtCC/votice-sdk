@@ -44,7 +44,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     private let _version = "1.0.5"
     private let _buildNumber = "1"
 
-    // MARK: - Public
+    // MARK: - Public properties
 
     var isConfigured: Bool {
         lock.withLock { _isConfigured }
