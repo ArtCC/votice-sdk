@@ -96,7 +96,7 @@ struct HomeView: View {
         .sheet(isPresented: $showingFeedbackSheetWithCustomTheme) {
             // Custom theme with Poppins fonts applied
             let customTheme = Votice.createThemeWithCurrentFonts(
-                primaryColor: .blue,
+                primaryColor: .red,
                 backgroundColor: Color(.systemBackground),
                 surfaceColor: Color(.secondarySystemBackground)
             )
@@ -118,9 +118,9 @@ private extension HomeView {
     func configureVotice() {
         do {
             try Votice.configure(
-                apiKey: "53a393bd9bd926c705a9a298",
-                apiSecret: "e045dfe8606833c5b22889a4de5c1066e0148ef75554d95d",
-                appId: "rw7l3Wd57D5P0REqNlBM"
+                apiKey: "4ba07799d26239935babbbc0",
+                apiSecret: "417aa14c866d213c243a2f43414505b431dbe59050bd5c2c",
+                appId: "uPf6A96Mn3MX6uOkwsFz"
             )
 
             // Configure Poppins fonts for the SDK
