@@ -10,11 +10,10 @@ import Foundation
 import SwiftUI
 
 // swiftlint:disable line_length
-#if os(macOS) || os(tvOS)
-#warning("Votice SDK is currently only supported on iOS and iPadOS. Support for macOS and tvOS will be available in future releases.")
+#if os(tvOS)
+#warning("Votice SDK is currently only supported on iOS, iPadOS and macOS. Support for tvOS will be available in future releases.")
 #endif
 // swiftlint:enable line_length
-
 public struct Votice {
     // MARK: - Configuration
 
@@ -38,7 +37,7 @@ public struct Votice {
 
     /// Check if the SDK is properly configured
     public static var isConfigured: Bool {
-        return ConfigurationManager.shared.isConfigured
+        ConfigurationManager.shared.isConfigured
     }
 
     // MARK: - Debugging
@@ -52,7 +51,7 @@ public struct Votice {
 
     /// Check if debug logging is currently enabled
     public static var isDebugLoggingEnabled: Bool {
-        return LogManager.debug
+        LogManager.debug
     }
 
     /// Enable or disable the comment feature in the Votice SDK
@@ -102,32 +101,32 @@ public struct Votice {
                                    backgroundColor: Color? = nil,
                                    surfaceColor: Color? = nil) -> VoticeTheme {
         // Use smart defaults if no colors are provided
-        return createAdvancedTheme(primaryColor: primaryColor,
-                                   backgroundColor: backgroundColor,
-                                   surfaceColor: surfaceColor)
+        createAdvancedTheme(primaryColor: primaryColor,
+                            backgroundColor: backgroundColor,
+                            surfaceColor: surfaceColor)
     }
 
     /// Get a system theme that automatically adapts to the user's appearance preference
     /// - Returns: A theme that follows system light/dark mode automatically
     public static func systemTheme() -> VoticeTheme {
         let customColors = VoticeColors(
-            primary: Color(red: 0.0, green: 0.48, blue: 1.0),        // iOS System Blue
-            secondary: Color(red: 0.56, green: 0.56, blue: 0.58),    // iOS System Gray
-            accent: Color(red: 1.0, green: 0.58, blue: 0.0),         // iOS System Orange
-            background: Color.systemBackground,                      // Adapts automatically
-            surface: Color.secondarySystemBackground,                // Adapts automatically
-            onSurface: Color.primary,                                // Adapts automatically
-            onBackground: Color.primary,                             // Adapts automatically
-            success: Color(red: 0.20, green: 0.78, blue: 0.35),      // iOS System Green
-            warning: Color(red: 1.0, green: 0.58, blue: 0.0),        // iOS System Orange
-            error: Color(red: 1.0, green: 0.23, blue: 0.19),         // iOS System Red
-            upvote: Color(red: 0.20, green: 0.78, blue: 0.35),       // Success Green
-            downvote: Color(red: 1.0, green: 0.23, blue: 0.19),      // Error Red
-            pending: Color(red: 1.0, green: 0.58, blue: 0.0),        // Warning Orange
-            accepted: Color(red: 0.0, green: 0.48, blue: 1.0),       // Primary Blue
-            inProgress: Color(red: 0.48, green: 0.40, blue: 0.93),   // Purple
-            completed: Color(red: 0.20, green: 0.78, blue: 0.35),    // Success Green
-            rejected: Color(red: 1.0, green: 0.23, blue: 0.19)       // Error Red
+            primary: Color(red: 0.0, green: 0.48, blue: 1.0), // iOS System Blue
+            secondary: Color(red: 0.56, green: 0.56, blue: 0.58), // iOS System Gray
+            accent: Color(red: 1.0, green: 0.58, blue: 0.0), // iOS System Orange
+            background: Color.systemBackground, // Adapts automatically
+            surface: Color.secondarySystemBackground, // Adapts automatically
+            onSurface: Color.primary, // Adapts automatically
+            onBackground: Color.primary, // Adapts automatically
+            success: Color(red: 0.20, green: 0.78, blue: 0.35), // iOS System Green
+            warning: Color(red: 1.0, green: 0.58, blue: 0.0), // iOS System Orange
+            error: Color(red: 1.0, green: 0.23, blue: 0.19), // iOS System Red
+            upvote: Color(red: 0.20, green: 0.78, blue: 0.35), // Success Green
+            downvote: Color(red: 1.0, green: 0.23, blue: 0.19), // Error Red
+            pending: Color(red: 1.0, green: 0.58, blue: 0.0), // Warning Orange
+            accepted: Color(red: 0.0, green: 0.48, blue: 1.0), // Primary Blue
+            inProgress: Color(red: 0.48, green: 0.40, blue: 0.93), // Purple
+            completed: Color(red: 0.20, green: 0.78, blue: 0.35), // Success Green
+            rejected: Color(red: 1.0, green: 0.23, blue: 0.19) // Error Red
         )
 
         // Return the complete theme with default typography, spacing, and corner radius
@@ -150,20 +149,22 @@ public struct Votice {
     ///   - inProgressColor: Color for in-progress suggestion status
     ///   - completedColor: Color for completed suggestion status
     ///   - rejectedColor: Color for rejected suggestion status
-    public static func createAdvancedTheme(primaryColor: Color? = nil,
-                                           secondaryColor: Color? = nil,
-                                           accentColor: Color? = nil,
-                                           backgroundColor: Color? = nil,
-                                           surfaceColor: Color? = nil,
-                                           destructiveColor: Color? = nil,
-                                           successColor: Color? = nil,
-                                           warningColor: Color? = nil,
-                                           errorColor: Color? = nil,
-                                           pendingColor: Color? = nil,
-                                           acceptedColor: Color? = nil,
-                                           inProgressColor: Color? = nil,
-                                           completedColor: Color? = nil,
-                                           rejectedColor: Color? = nil) -> VoticeTheme {
+    public static func createAdvancedTheme(
+        primaryColor: Color? = nil,
+        secondaryColor: Color? = nil,
+        accentColor: Color? = nil,
+        backgroundColor: Color? = nil,
+        surfaceColor: Color? = nil,
+        destructiveColor: Color? = nil,
+        successColor: Color? = nil,
+        warningColor: Color? = nil,
+        errorColor: Color? = nil,
+        pendingColor: Color? = nil,
+        acceptedColor: Color? = nil,
+        inProgressColor: Color? = nil,
+        completedColor: Color? = nil,
+        rejectedColor: Color? = nil
+    ) -> VoticeTheme {
         let defaultColors = VoticeColors.default
 
         // Use provided colors or fall back to smart defaults
@@ -200,23 +201,25 @@ public struct Votice {
         }
 
         // Create the custom theme with the finalized colors
-        let customColors = VoticeColors(primary: finalPrimary,
-                                        secondary: finalSecondary,
-                                        accent: finalAccent,
-                                        background: finalBackground,
-                                        surface: finalSurface,
-                                        onSurface: finalOnSurface,
-                                        onBackground: finalOnBackground,
-                                        success: finalSuccess,
-                                        warning: finalWarning,
-                                        error: finalError,
-                                        upvote: finalSuccess,
-                                        downvote: finalDestructive,
-                                        pending: finalPending,
-                                        accepted: finalAccepted,
-                                        inProgress: finalInProgress,
-                                        completed: finalCompleted,
-                                        rejected: finalRejected)
+        let customColors = VoticeColors(
+            primary: finalPrimary,
+            secondary: finalSecondary,
+            accent: finalAccent,
+            background: finalBackground,
+            surface: finalSurface,
+            onSurface: finalOnSurface,
+            onBackground: finalOnBackground,
+            success: finalSuccess,
+            warning: finalWarning,
+            error: finalError,
+            upvote: finalSuccess,
+            downvote: finalDestructive,
+            pending: finalPending,
+            accepted: finalAccepted,
+            inProgress: finalInProgress,
+            completed: finalCompleted,
+            rejected: finalRejected
+        )
 
         // Return the complete theme with default typography, spacing, and corner radius
         return VoticeTheme(colors: customColors, typography: .default, spacing: .default, cornerRadius: .default)
@@ -275,23 +278,29 @@ public struct Votice {
     public static func createThemeWithCurrentFonts(primaryColor: Color? = nil,
                                                    backgroundColor: Color? = nil,
                                                    surfaceColor: Color? = nil) -> VoticeTheme {
-        let colors = createAdvancedTheme(primaryColor: primaryColor,
-                                         backgroundColor: backgroundColor,
-                                         surfaceColor: surfaceColor).colors
+        let colors = createAdvancedTheme(
+            primaryColor: primaryColor,
+            backgroundColor: backgroundColor,
+            surfaceColor: surfaceColor
+        ).colors
 
-        return VoticeTheme(colors: colors,
-                           typography: .withCurrentFonts(),
-                           spacing: .default,
-                           cornerRadius: .default)
+        return VoticeTheme(
+            colors: colors,
+            typography: .withCurrentFonts(),
+            spacing: .default,
+            cornerRadius: .default
+        )
     }
 
     /// Get a system theme with custom fonts applied
     /// - Returns: A system theme that uses current font configuration
     public static func systemThemeWithCurrentFonts() -> VoticeTheme {
-        VoticeTheme(colors: systemTheme().colors,
-                    typography: .withCurrentFonts(),
-                    spacing: .default,
-                    cornerRadius: .default)
+        VoticeTheme(
+            colors: systemTheme().colors,
+            typography: .withCurrentFonts(),
+            spacing: .default,
+            cornerRadius: .default
+        )
     }
 
     // MARK: - Legacy (deprecated)

@@ -61,6 +61,9 @@ struct VoticeTests {
 
     @Test("Votice should create feedbackView")
     func testFeedbackView() throws {
+        // Reset first to start clean
+        Votice.reset()
+
         // Configure first
         try Votice.configure(
             apiKey: "test-api-key",

@@ -69,7 +69,11 @@ private extension FilterMenuView {
                     .fill(theme.colors.primary.opacity(0.1))
             )
         }
-        .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+        .buttonStyle(.plain)
+#elseif os(tvOS)
+        .buttonStyle(.card)
+#endif
     }
 
     var filterDropdown: some View {
@@ -91,15 +95,22 @@ private extension FilterMenuView {
                 .background(theme.colors.secondary.opacity(0.05))
             filterOption(title: TextManager.shared.texts.completed, filter: .completed)
         }
+#if os(iOS) || os(macOS)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.md)
                 .fill(theme.colors.surface)
                 .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
         )
+#endif
         .padding(.top, theme.spacing.xs)
+#if os(iOS) || os(macOS)
         .frame(width: 150)
+#elseif os(tvOS)
+        .frame(width: 200)
+#endif
     }
 
+    // swiftlint:disable function_body_length
     func filterOption(title: String, filter: SuggestionStatusEntity?) -> some View {
         Button {
             onFilterSelected(filter)
@@ -123,7 +134,11 @@ private extension FilterMenuView {
             .padding(.vertical, theme.spacing.sm)
             .contentShape(Rectangle())
         }
-        .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+        .buttonStyle(.plain)
+#elseif os(tvOS)
+        .buttonStyle(.card)
+#endif
         .background(
             Group {
                 if selectedFilter == filter {
@@ -150,4 +165,5 @@ private extension FilterMenuView {
             }
         )
     }
+    // swiftlint:enable function_body_length
 }

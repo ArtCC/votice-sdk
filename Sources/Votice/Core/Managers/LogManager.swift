@@ -37,7 +37,7 @@ struct LogManager: LogManagerProtocol {
 
     static let shared = Self()
 
-    // MARK: - Public
+    // MARK: - Public functions
 
     func devLog(_ logType: LogManagerType,
                 _ message: String,

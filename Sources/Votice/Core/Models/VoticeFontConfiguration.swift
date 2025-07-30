@@ -23,7 +23,7 @@ public struct VoticeFontConfiguration: Sendable {
         self.weights = weights
     }
 
-    // MARK: - Public
+    // MARK: - Public functions
 
     /// Get the font name for a specific weight, with fallback to regular
     public func fontName(for weight: FontWeight) -> String? {

@@ -20,56 +20,31 @@ struct HomeView: View {
     var body: some View {
         VStack(spacing: 30) {
             Spacer()
-            VStack(spacing: 10) {
-                Image(systemName: "star.bubble")
-                    .font(.system(size: 60))
-                    .foregroundColor(.accentColor)
-                Text("Votice SDK Demo")
-                    .font(.poppins(.bold, size: 32))
-                Text("Test all the feedback features")
-                    .font(.poppins(.regular, size: 16))
-                    .foregroundColor(.secondary)
-            }
+            HeaderView()
             Divider()
-            // Demo Options
-            VStack(spacing: 8) {
-                Text("Option: Modal Presentation")
-                    .font(.poppins(.semiBold, size: 18))
-                Button("Show Feedback Sheet") {
-                    showingFeedbackSheet = true
-                }
-                .buttonStyle(.borderedProminent)
-                .font(.poppins(.medium, size: 16))
-                .controlSize(.large)
-                .buttonStyle(PlainButtonStyle())
+            Button {
+                showingFeedbackSheet = true
+            } label: {
+                Text("Open Feedback")
+                    .font(.poppins(.medium, size: 16))
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(.brand)
+                    .cornerRadius(15)
             }
+            .buttonStyle(.plain)
             Spacer()
-            // Configuration Status
-            VStack(spacing: 4) {
-                HStack {
-                    Image(systemName: isConfigured ? "checkmark.circle.fill" : "xmark.circle.fill")
-                        .foregroundColor(isConfigured ? .green : .red)
-                    Text("SDK Configuration: \(isConfigured ? "" : "")")
-                        .font(.poppins(.regular, size: 12))
-                        .foregroundColor(.secondary)
-                }
-                if isConfigured {
-                    Text("Ready to collect feedback!")
-                        .font(.poppins(.regular, size: 10))
-                        .foregroundColor(.green)
-                }
-            }
-            .padding(.bottom, 20)
-        }
-        .sheet(isPresented: $showingFeedbackSheet) {
-            // System theme with Poppins fonts applied
-            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
+            ReadyView(isConfigured: $isConfigured)
+                .padding(.bottom, 20)
         }
         .onAppear {
             configureVotice()
 
             // Optional: Configure custom texts for localization.
             // configureText()
+        }
+        .sheet(isPresented: $showingFeedbackSheet) {
+            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
         }
     }
 }
@@ -80,9 +55,9 @@ private extension HomeView {
     func configureVotice() {
         do {
             try Votice.configure(
-                apiKey: "53a393bd9bd926c705a9a298",
-                apiSecret: "e045dfe8606833c5b22889a4de5c1066e0148ef75554d95d",
-                appId: "rw7l3Wd57D5P0REqNlBM"
+                apiKey: "4ba07799d26239935babbbc0",
+                apiSecret: "417aa14c866d213c243a2f43414505b431dbe59050bd5c2c",
+                appId: "uPf6A96Mn3MX6uOkwsFz"
             )
 
             // Configure Poppins fonts for the SDK
@@ -96,7 +71,6 @@ private extension HomeView {
                 ]
             )
             Votice.setFonts(poppinsConfig)
-
             Votice.setDebugLogging(enabled: false)
             Votice.setCommentIsEnabled(enabled: true)
 

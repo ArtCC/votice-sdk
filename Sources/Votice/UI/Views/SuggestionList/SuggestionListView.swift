@@ -176,6 +176,10 @@ private extension SuggestionListView {
         .scaleEffect(showCreateButton ? 1.0 : 0.9)
         .opacity(showCreateButton ? 1.0 : 0.7)
         .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
-        .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+        .buttonStyle(.plain)
+#elseif os(tvOS)
+        .buttonStyle(.card)
+#endif
     }
 }

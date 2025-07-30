@@ -16,19 +16,21 @@ import AppKit
 // MARK: - Votice Theme
 
 public struct VoticeTheme {
-    // MARK: Properties
+    // MARK: - Properties
 
     public let colors: VoticeColors
     public let typography: VoticeTypography
     public let spacing: VoticeSpacing
     public let cornerRadius: VoticeCornerRadius
 
-    public static let `default` = VoticeTheme(colors: .default,
-                                              typography: .default,
-                                              spacing: .default,
-                                              cornerRadius: .default)
+    public static let `default` = VoticeTheme(
+        colors: .default,
+        typography: .default,
+        spacing: .default,
+        cornerRadius: .default
+    )
 
-    // MARK: Init
+    // MARK: - Init
 
     public init(colors: VoticeColors,
                 typography: VoticeTypography,
@@ -44,7 +46,7 @@ public struct VoticeTheme {
 // MARK: - Votice Colors
 
 public struct VoticeColors {
-    // MARK: Properties
+    // MARK: - Properties
 
     public let primary: Color
     public let secondary: Color
@@ -64,25 +66,27 @@ public struct VoticeColors {
     public let completed: Color
     public let rejected: Color
 
-    public static let `default` = VoticeColors(primary: Color(red: 0.0, green: 0.48, blue: 1.0),      // iOS Blue
-                                               secondary: Color(red: 0.56, green: 0.56, blue: 0.58),   // Modern Gray
-                                               accent: Color(red: 1.0, green: 0.58, blue: 0.0),        // Vibrant Orange
-                                               background: Color.systemBackground,
-                                               surface: Color.secondarySystemBackground,
-                                               onSurface: Color.primary,
-                                               onBackground: Color.primary,
-                                               success: Color(red: 0.20, green: 0.78, blue: 0.35),     // Modern Green
-                                               warning: Color(red: 1.0, green: 0.58, blue: 0.0),       // Warm Orange
-                                               error: Color(red: 1.0, green: 0.23, blue: 0.19),        // Modern Red
-                                               upvote: Color(red: 0.20, green: 0.78, blue: 0.35),      // Success Green
-                                               downvote: Color(red: 1.0, green: 0.23, blue: 0.19),     // Error Red
-                                               pending: Color(red: 1.0, green: 0.58, blue: 0.0),       // Warning Orange
-                                               accepted: Color(red: 0.0, green: 0.48, blue: 1.0),      // Primary Blue
-                                               inProgress: Color(red: 0.48, green: 0.40, blue: 0.93),  // Modern Purple
-                                               completed: Color(red: 0.20, green: 0.78, blue: 0.35),   // Success Green
-                                               rejected: Color(red: 1.0, green: 0.23, blue: 0.19))     // Error Red
+    public static let `default` = VoticeColors(
+        primary: Color(red: 0.0, green: 0.48, blue: 1.0), // iOS Blue
+        secondary: Color(red: 0.56, green: 0.56, blue: 0.58), // Modern Gray
+        accent: Color(red: 1.0, green: 0.58, blue: 0.0), // Vibrant Orange
+        background: Color.systemBackground,
+        surface: Color.secondarySystemBackground,
+        onSurface: Color.primary,
+        onBackground: Color.primary,
+        success: Color(red: 0.20, green: 0.78, blue: 0.35), // Modern Green
+        warning: Color(red: 1.0, green: 0.58, blue: 0.0), // Warm Orange
+        error: Color(red: 1.0, green: 0.23, blue: 0.19), // Modern Red
+        upvote: Color(red: 0.20, green: 0.78, blue: 0.35), // Success Green
+        downvote: Color(red: 1.0, green: 0.23, blue: 0.19), // Error Red
+        pending: Color(red: 1.0, green: 0.58, blue: 0.0), // Warning Orange
+        accepted: Color(red: 0.0, green: 0.48, blue: 1.0), // Primary Blue
+        inProgress: Color(red: 0.48, green: 0.40, blue: 0.93), // Modern Purple
+        completed: Color(red: 0.20, green: 0.78, blue: 0.35), // Success Green
+        rejected: Color(red: 1.0, green: 0.23, blue: 0.19) // Error Red
+    )
 
-    // MARK: Init
+    // MARK: - Init
 
     public init(primary: Color,
                 secondary: Color,
@@ -130,7 +134,7 @@ extension Color {
 #elseif os(macOS)
         return Color(NSColor.windowBackgroundColor)
 #elseif os(tvOS)
-        return Color.black
+        return Color.tvOSBackground
 #else
         return Color.white
 #endif
@@ -142,17 +146,47 @@ extension Color {
 #elseif os(macOS)
         return Color(NSColor.controlBackgroundColor)
 #elseif os(tvOS)
-        return Color.gray
+        return Color.tvOSSecondaryBackground
 #else
         return Color.white
 #endif
     }
+
+#if os(tvOS)
+    /// Background color that adapts to light/dark mode in tvOS
+    static var tvOSBackground: Color {
+        Color(UIColor { traitCollection in
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                return UIColor.clear
+            case .light:
+                return UIColor.clear
+            default:
+                return UIColor.clear // Default to dark for tvOS
+            }
+        })
+    }
+
+    /// Secondary background color that adapts to light/dark mode in tvOS
+    static var tvOSSecondaryBackground: Color {
+        Color(UIColor { traitCollection in
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                return UIColor.black
+            case .light:
+                return UIColor.white
+            default:
+                return UIColor.black // Default to dark for tvOS
+            }
+        })
+    }
+#endif
 }
 
 // MARK: - Votice Typography
 
 public struct VoticeTypography {
-    // MARK: Properties
+    // MARK: - Properties
 
     public let largeTitle: Font
     public let title: Font
@@ -166,19 +200,21 @@ public struct VoticeTypography {
     public let caption: Font
     public let caption2: Font
 
-    public static let `default` = VoticeTypography(largeTitle: FontManager.shared.font(for: .bold, size: 34),
-                                                   title: FontManager.shared.font(for: .bold, size: 28),
-                                                   title2: FontManager.shared.font(for: .bold, size: 22),
-                                                   title3: FontManager.shared.font(for: .semiBold, size: 20),
-                                                   headline: FontManager.shared.font(for: .semiBold, size: 17),
-                                                   subheadline: FontManager.shared.font(for: .regular, size: 15),
-                                                   body: FontManager.shared.font(for: .regular, size: 17),
-                                                   callout: FontManager.shared.font(for: .regular, size: 16),
-                                                   footnote: FontManager.shared.font(for: .regular, size: 13),
-                                                   caption: FontManager.shared.font(for: .regular, size: 12),
-                                                   caption2: FontManager.shared.font(for: .regular, size: 11))
+    public static let `default` = VoticeTypography(
+        largeTitle: FontManager.shared.font(for: .bold, size: 34),
+        title: FontManager.shared.font(for: .bold, size: 28),
+        title2: FontManager.shared.font(for: .bold, size: 22),
+        title3: FontManager.shared.font(for: .semiBold, size: 20),
+        headline: FontManager.shared.font(for: .semiBold, size: 17),
+        subheadline: FontManager.shared.font(for: .regular, size: 15),
+        body: FontManager.shared.font(for: .regular, size: 17),
+        callout: FontManager.shared.font(for: .regular, size: 16),
+        footnote: FontManager.shared.font(for: .regular, size: 13),
+        caption: FontManager.shared.font(for: .regular, size: 12),
+        caption2: FontManager.shared.font(for: .regular, size: 11)
+    )
 
-    // MARK: Init
+    // MARK: - Init
 
     public init(largeTitle: Font,
                 title: Font,
@@ -204,9 +240,11 @@ public struct VoticeTypography {
         self.caption2 = caption2
     }
 
+    // MARK: - Functions
+
     /// Create a typography configuration using the current font manager settings
     public static func withCurrentFonts() -> VoticeTypography {
-        return VoticeTypography(
+        VoticeTypography(
             largeTitle: FontManager.shared.font(for: .bold, size: 34),
             title: FontManager.shared.font(for: .bold, size: 28),
             title2: FontManager.shared.font(for: .bold, size: 22),
@@ -225,6 +263,8 @@ public struct VoticeTypography {
 // MARK: - Votice Spacing
 
 public struct VoticeSpacing {
+    // MARK: - Properties
+
     public let xs: CGFloat = 4
     public let sm: CGFloat = 8
     public let md: CGFloat = 16
@@ -237,13 +277,15 @@ public struct VoticeSpacing {
 
     public static let `default` = VoticeSpacing()
 
+    // MARK: - Init
+
     public init() {}
 }
 
 // MARK: - Votice Corner Radius
 
 public struct VoticeCornerRadius {
-    // MARK: Properties
+    // MARK: - Properties
 
     public let xs: CGFloat = 4
     public let sm: CGFloat = 8
@@ -253,7 +295,7 @@ public struct VoticeCornerRadius {
 
     public static let `default` = VoticeCornerRadius()
 
-    // MARK: Init
+    // MARK: - Init
 
     public init() {
     }
@@ -262,7 +304,7 @@ public struct VoticeCornerRadius {
 // MARK: - Theme Environment Key
 
 private struct VoticeThemeKey: EnvironmentKey {
-    // MARK: Properties
+    // MARK: - Properties
 
     typealias Value = VoticeTheme
 
@@ -270,8 +312,14 @@ private struct VoticeThemeKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
+    // MARK: - Properties
+
     var voticeTheme: VoticeTheme {
-        get { self[VoticeThemeKey.self] }
-        set { self[VoticeThemeKey.self] = newValue }
+        get {
+            self[VoticeThemeKey.self]
+        }
+        set {
+            self[VoticeThemeKey.self] = newValue
+        }
     }
 }

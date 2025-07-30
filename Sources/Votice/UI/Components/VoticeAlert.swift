@@ -152,7 +152,11 @@ private extension VoticeAlert {
                         .fill(buttonBackgroundColor(for: button.style, isPrimary: isPrimary))
                 )
         }
-        .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+        .buttonStyle(.plain)
+#elseif os(tvOS)
+        .buttonStyle(.card)
+#endif
     }
 
     func buttonTextColor(for style: VoticeAlertButtonStyle, isPrimary: Bool) -> Color {

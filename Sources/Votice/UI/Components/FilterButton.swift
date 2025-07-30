@@ -27,6 +27,10 @@ struct FilterButton: View {
                 }
             }
         }
-        .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+        .buttonStyle(.plain)
+#elseif os(tvOS)
+        .buttonStyle(.card)
+#endif
     }
 }
