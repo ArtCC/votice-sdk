@@ -41,7 +41,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     private let lock = NSLock()
     private let _baseURL = "https://api.votice.app/api"
     private let _configurationId = UUID().uuidString
-    private let _version = "1.0.4"
+    private let _version = "1.0.5"
     private let _buildNumber = "1"
 
     // MARK: - Public

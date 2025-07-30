@@ -71,7 +71,11 @@ private extension CreateSuggestionView {
                                 .fill(theme.colors.secondary.opacity(0.1))
                         )
                 }
-                .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+                .buttonStyle(.plain)
+#elseif os(tvOS)
+                .buttonStyle(.card)
+#endif
                 Spacer()
                 Button {
                     HapticManager.shared.mediumImpact()
@@ -102,7 +106,11 @@ private extension CreateSuggestionView {
                         )
                 }
                 .disabled(!viewModel.isFormValid || viewModel.isSubmitting)
-                .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+                .buttonStyle(.plain)
+#elseif os(tvOS)
+                .buttonStyle(.card)
+#endif
             }
             HStack(alignment: .center) {
                 Spacer()

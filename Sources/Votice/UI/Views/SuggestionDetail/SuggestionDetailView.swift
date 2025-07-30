@@ -84,7 +84,11 @@ private extension SuggestionDetailView {
                                 .fill(theme.colors.secondary.opacity(0.1))
                         )
                 }
-                .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+                .buttonStyle(.plain)
+#elseif os(tvOS)
+                .buttonStyle(.card)
+#endif
                 Spacer()
                 HStack(spacing: theme.spacing.sm) {
                     if currentSuggestion.deviceId == DeviceManager.shared.deviceId {
@@ -108,7 +112,11 @@ private extension SuggestionDetailView {
                                     .foregroundColor(theme.colors.error)
                             }
                         }
-                        .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+                        .buttonStyle(.plain)
+#elseif os(tvOS)
+                        .buttonStyle(.card)
+#endif
                     }
                 }
             }
@@ -275,7 +283,11 @@ private extension SuggestionDetailView {
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.primary)
                 }
-                .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+                .buttonStyle(.plain)
+#elseif os(tvOS)
+                .buttonStyle(.card)
+#endif
             }
             if viewModel.isLoadingComments && viewModel.comments.isEmpty {
                 commentsLoadingView
@@ -387,7 +399,11 @@ private extension SuggestionDetailView {
                                 .fill(theme.colors.secondary.opacity(0.1))
                         )
                 }
-                .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+                .buttonStyle(.plain)
+#elseif os(tvOS)
+                .buttonStyle(.card)
+#endif
                 Spacer()
                 Button {
                     Task {
@@ -414,7 +430,11 @@ private extension SuggestionDetailView {
                         )
                 }
                 .disabled(!viewModel.isCommentFormValid || viewModel.isSubmittingComment)
-                .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+                .buttonStyle(.plain)
+#elseif os(tvOS)
+                .buttonStyle(.card)
+#endif
             }
             HStack(alignment: .center) {
                 Spacer()

@@ -9,6 +9,11 @@
 import Foundation
 import SwiftUI
 
+// swiftlint:disable line_length
+#if os(tvOS)
+#warning("Votice SDK is currently only supported on iOS, iPadOS and macOS. Support for tvOS will be available in future releases.")
+#endif
+// swiftlint:enable line_length
 public struct Votice {
     // MARK: - Configuration
 

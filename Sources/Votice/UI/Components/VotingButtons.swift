@@ -56,7 +56,11 @@ struct VotingButtons: View {
                         .fontWeight(hasVoted ? .semibold : .regular)
                 }
             }
-            .buttonStyle(PlainButtonStyle())
+#if os(iOS) || os(macOS)
+            .buttonStyle(.plain)
+#elseif os(tvOS)
+            .buttonStyle(.card)
+#endif
             .scaleEffect(isAnimating ? 0.95 : 1.0)
             .animation(.easeInOut(duration: 0.1), value: isAnimating)
         }

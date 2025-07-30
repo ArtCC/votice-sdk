@@ -20,49 +20,66 @@ struct HomeView: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 30) {
-                Spacer()
-                HeaderView()
-                Divider()
-                VStack(spacing: 20) {
-                    VStack(spacing: 10) {
-                        Text("Option 1: Modal Presentation")
-                            .font(.poppins(.semiBold, size: 18))
-                        Button("Show Feedback Sheet") {
-                            showingFeedbackSheet = true
+            GeometryReader { proxy in
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 30) {
+                        HeaderView()
+                        Divider()
+                        VStack(spacing: 20) {
+                            VStack(spacing: 10) {
+                                Text("Option 1: Modal Presentation")
+                                    .font(.poppins(.semiBold, size: 18))
+                                Button {
+                                    showingFeedbackSheet = true
+                                } label: {
+                                    Text("Show Feedback Sheet")
+                                        .font(.poppins(.medium, size: 16))
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(.brand)
+                                        .cornerRadius(15)
+                                }
+                            }
+                            VStack(spacing: 10) {
+                                Text("Option 2: Navigation Push")
+                                    .font(.poppins(.semiBold, size: 18))
+                                NavigationLink {
+                                    Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
+                                } label: {
+                                    Text("Navigate to Feedback")
+                                        .font(.poppins(.medium, size: 16))
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(.brand)
+                                        .cornerRadius(15)
+                                }
+                            }
+                            VStack(spacing: 10) {
+                                Text("Option 3: Custom Theme")
+                                    .font(.poppins(.semiBold, size: 18))
+                                Button {
+                                    showingFeedbackSheetWithCustomTheme = true
+                                } label: {
+                                    Text("Feedback with Custom Theme")
+                                        .font(.poppins(.medium, size: 16))
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(.brand)
+                                        .cornerRadius(15)
+                                }
+                            }
                         }
-                        .buttonStyle(.borderedProminent)
-                        .font(.poppins(.medium, size: 16))
-                        .controlSize(.large)
+                        Spacer()
+                        ReadyView(isConfigured: $isConfigured)
+                            .padding(.bottom, 20)
                     }
-                    VStack(spacing: 10) {
-                        Text("Option 2: Navigation Push")
-                            .font(.poppins(.semiBold, size: 18))
-                        NavigationLink("Navigate to Feedback") {
-                            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .font(.poppins(.medium, size: 16))
-                        .controlSize(.large)
-                    }
-                    VStack(spacing: 10) {
-                        Text("Option 3: Custom Theme")
-                            .font(.poppins(.semiBold, size: 18))
-                        Button("Feedback with Custom Theme") {
-                            showingFeedbackSheetWithCustomTheme = true
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .font(.poppins(.medium, size: 16))
-                        .controlSize(.large)
-                    }
+                    .frame(minHeight: proxy.size.height)
+                    .navigationTitle("Votice Demo")
+                    .navigationBarTitleDisplayMode(.inline)
                 }
-                Spacer()
-                ReadyView(isConfigured: $isConfigured)
-                    .padding(.bottom, 20)
+                .scrollBounceBehavior(.basedOnSize)
+                .scrollDismissesKeyboard(.immediately)
             }
-            .padding()
-            .navigationTitle("Votice Demo")
-            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
             configureVotice()

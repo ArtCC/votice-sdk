@@ -22,13 +22,17 @@ struct HomeView: View {
             Spacer()
             HeaderView()
             Divider()
-            Button("Open Feedback") {
+            Button {
                 showingFeedbackSheet = true
+            } label: {
+                Text("Open Feedback")
+                    .font(.poppins(.medium, size: 16))
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(.brand)
+                    .cornerRadius(15)
             }
-            .buttonStyle(.borderedProminent)
-            .font(.poppins(.medium, size: 16))
-            .controlSize(.large)
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(.plain)
             Spacer()
             ReadyView(isConfigured: $isConfigured)
                 .padding(.bottom, 20)

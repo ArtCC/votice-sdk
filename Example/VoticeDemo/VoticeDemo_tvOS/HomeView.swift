@@ -22,13 +22,21 @@ struct HomeView: View {
             Spacer()
             HeaderView()
             Divider()
-            Button("Open Feedback") {
+            Button {
                 showingFeedbackSheet = true
+            } label: {
+                Text("Open Feedback")
+                    .font(.poppins(.medium, size: 16))
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(.brand)
+                    .cornerRadius(15)
             }
-            .buttonStyle(.borderedProminent)
-            .font(.poppins(.medium, size: 16))
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(.card)
             Spacer()
+            Text("⚠ Votice SDK is currently only supported on iOS, iPadOS and macOS. Support for tvOS will be available in future releases.")
+                .font(.poppins(.regular, size: 16))
+                .foregroundColor(.secondary)
             ReadyView(isConfigured: $isConfigured)
         }
         .onAppear {
