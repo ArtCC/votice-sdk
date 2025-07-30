@@ -22,19 +22,10 @@ struct HomeView: View {
         NavigationView {
             VStack(spacing: 30) {
                 Spacer()
-                VStack(spacing: 10) {
-                    Image(systemName: "star.bubble")
-                        .font(.system(size: 60))
-                        .foregroundColor(.accentColor)
-                    Text("Votice SDK Demo")
-                        .font(.poppins(.bold, size: 32))
-                    Text("Test all the feedback features")
-                        .font(.poppins(.regular, size: 16))
-                        .foregroundColor(.secondary)
-                }
+                HeaderView()
                 Divider()
                 VStack(spacing: 20) {
-                    VStack(spacing: 8) {
+                    VStack(spacing: 10) {
                         Text("Option 1: Modal Presentation")
                             .font(.poppins(.semiBold, size: 18))
                         Button("Show Feedback Sheet") {
@@ -44,7 +35,7 @@ struct HomeView: View {
                         .font(.poppins(.medium, size: 16))
                         .controlSize(.large)
                     }
-                    VStack(spacing: 8) {
+                    VStack(spacing: 10) {
                         Text("Option 2: Navigation Push")
                             .font(.poppins(.semiBold, size: 18))
                         NavigationLink("Navigate to Feedback") {
@@ -54,7 +45,7 @@ struct HomeView: View {
                         .font(.poppins(.medium, size: 16))
                         .controlSize(.large)
                     }
-                    VStack(spacing: 8) {
+                    VStack(spacing: 10) {
                         Text("Option 3: Custom Theme")
                             .font(.poppins(.semiBold, size: 18))
                         Button("Feedback with Custom Theme") {
@@ -66,20 +57,8 @@ struct HomeView: View {
                     }
                 }
                 Spacer()
-                VStack(spacing: 4) {
-                    HStack {
-                        Image(systemName: isConfigured ? "checkmark.circle.fill" : "xmark.circle.fill")
-                            .foregroundColor(isConfigured ? .green : .red)
-                        Text("SDK Configuration:")
-                            .font(.poppins(.regular, size: 12))
-                            .foregroundColor(.secondary)
-                    }
-                    if isConfigured {
-                        Text("Ready to collect feedback!")
-                            .font(.poppins(.regular, size: 10))
-                            .foregroundColor(.green)
-                    }
-                }
+                ReadyView(isConfigured: $isConfigured)
+                    .padding(.bottom, 20)
             }
             .padding()
             .navigationTitle("Votice Demo")

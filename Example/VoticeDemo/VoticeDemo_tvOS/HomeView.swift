@@ -20,34 +20,16 @@ struct HomeView: View {
     var body: some View {
         VStack(spacing: 30) {
             Spacer()
-            VStack(spacing: 10) {
-                Image(systemName: "star.bubble")
-                    .font(.system(size: 60))
-                    .foregroundColor(.accentColor)
-                Text("Votice SDK Demo")
-                    .font(.poppins(.bold, size: 32))
-                Text("Test all the feedback features")
-                    .font(.poppins(.regular, size: 16))
-                    .foregroundColor(.secondary)
-            }
+            HeaderView()
             Divider()
-            VStack(spacing: 8) {
-                Text("Option: Modal Presentation")
-                    .font(.poppins(.semiBold, size: 18))
-                Button("Show Feedback Sheet") {
-                    showingFeedbackSheet = true
-                }
-                .buttonStyle(.borderedProminent)
-                .font(.poppins(.medium, size: 16))
-                .buttonStyle(PlainButtonStyle())
+            Button("Open Feedback") {
+                showingFeedbackSheet = true
             }
+            .buttonStyle(.borderedProminent)
+            .font(.poppins(.medium, size: 16))
+            .buttonStyle(PlainButtonStyle())
             Spacer()
-            if isConfigured {
-                Text("Ready to collect feedback!")
-                    .font(.poppins(.regular, size: 10))
-                    .foregroundColor(.green)
-                    .padding(.bottom, 20)
-            }
+            ReadyView(isConfigured: $isConfigured)
         }
         .onAppear {
             configureVotice()

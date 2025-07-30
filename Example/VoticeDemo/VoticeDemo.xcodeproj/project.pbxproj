@@ -17,6 +17,12 @@
 		800727992E11ACFB00C43BA8 /* AppVoticeDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800727952E11ACFB00C43BA8 /* AppVoticeDemo.swift */; };
 		8007279D2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007279A2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift */; };
 		8007279E2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8007279B2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift */; };
+		802C37412E3A84F800A8DD52 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C37402E3A84F800A8DD52 /* HeaderView.swift */; };
+		802C37422E3A84F800A8DD52 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C37402E3A84F800A8DD52 /* HeaderView.swift */; };
+		802C37432E3A84F800A8DD52 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C37402E3A84F800A8DD52 /* HeaderView.swift */; };
+		802C37452E3A857C00A8DD52 /* ReadyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C37442E3A857C00A8DD52 /* ReadyView.swift */; };
+		802C37462E3A857C00A8DD52 /* ReadyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C37442E3A857C00A8DD52 /* ReadyView.swift */; };
+		802C37472E3A857C00A8DD52 /* ReadyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C37442E3A857C00A8DD52 /* ReadyView.swift */; };
 		802EFBC02E23D29600A7B595 /* VoticeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 802EFBBF2E23D29600A7B595 /* VoticeSDK */; };
 		802EFBC72E23D35A00A7B595 /* VoticeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 802EFBC62E23D35A00A7B595 /* VoticeSDK */; };
 		802EFBCA2E23D3C200A7B595 /* VoticeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 802EFBC92E23D3C200A7B595 /* VoticeSDK */; };
@@ -131,6 +137,8 @@
 		800727952E11ACFB00C43BA8 /* AppVoticeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVoticeDemo.swift; sourceTree = "<group>"; };
 		8007279A2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSUITests.swift; sourceTree = "<group>"; };
 		8007279B2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoticeDemo_tvOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		802C37402E3A84F800A8DD52 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		802C37442E3A857C00A8DD52 /* ReadyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyView.swift; sourceTree = "<group>"; };
 		802F7E602E0F198400F1BDF6 /* VoticeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoticeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		802F7E6D2E0F198500F1BDF6 /* VoticeDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		802F7E772E0F198500F1BDF6 /* VoticeDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoticeDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -295,6 +303,15 @@
 			path = VoticeDemo_tvOSUITests;
 			sourceTree = "<group>";
 		};
+		802C373F2E3A84E400A8DD52 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				802C37402E3A84F800A8DD52 /* HeaderView.swift */,
+				802C37442E3A857C00A8DD52 /* ReadyView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		802F7E572E0F198400F1BDF6 = {
 			isa = PBXGroup;
 			children = (
@@ -361,6 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				805C23D82E1968CC00AB56D0 /* Fonts */,
+				802C373F2E3A84E400A8DD52 /* Views */,
 				805C23F42E19691C00AB56D0 /* Font.swift */,
 				805C23F52E19691C00AB56D0 /* PoppinsFont.swift */,
 				80C851022E1DCDC9004A817B /* SpanishTexts.swift */,
@@ -771,9 +789,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				800727592E11AA0700C43BA8 /* AppVoticeDemo.swift in Sources */,
+				802C37422E3A84F800A8DD52 /* HeaderView.swift in Sources */,
 				80C851032E1DCDC9004A817B /* SpanishTexts.swift in Sources */,
 				80C850FF2E1DCD82004A817B /* HomeView.swift in Sources */,
 				805C23F62E19691C00AB56D0 /* Font.swift in Sources */,
+				802C37462E3A857C00A8DD52 /* ReadyView.swift in Sources */,
 				805C23F72E19691C00AB56D0 /* PoppinsFont.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -800,9 +820,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				800727992E11ACFB00C43BA8 /* AppVoticeDemo.swift in Sources */,
+				802C37412E3A84F800A8DD52 /* HeaderView.swift in Sources */,
 				80C851052E1DCDC9004A817B /* SpanishTexts.swift in Sources */,
 				80C851012E1DCD8B004A817B /* HomeView.swift in Sources */,
 				805C23FA2E19691C00AB56D0 /* Font.swift in Sources */,
+				802C37452E3A857C00A8DD52 /* ReadyView.swift in Sources */,
 				805C23FB2E19691C00AB56D0 /* PoppinsFont.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -829,9 +851,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				802F7E8F2E0F1A2500F1BDF6 /* HomeView.swift in Sources */,
+				802C37432E3A84F800A8DD52 /* HeaderView.swift in Sources */,
 				80C851042E1DCDC9004A817B /* SpanishTexts.swift in Sources */,
 				805C23F82E19691C00AB56D0 /* Font.swift in Sources */,
 				805C23F92E19691C00AB56D0 /* PoppinsFont.swift in Sources */,
+				802C37472E3A857C00A8DD52 /* ReadyView.swift in Sources */,
 				802F7E902E0F1A2500F1BDF6 /* AppVoticeDemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
