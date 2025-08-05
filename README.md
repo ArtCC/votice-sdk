@@ -8,7 +8,7 @@
 [![SPM](https://img.shields.io/badge/SPM-compatible-brightgreen)](https://swift.org/package-manager/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Votice is a native Swift SDK that allows you to integrate user feedback, suggestion boards, and voting mechanisms in your app with a clean UI and a simple setup. It connects to a custom backend using HMAC authentication and does not require Firebase or GoogleService-Info.plist.
+Votice is a native Swift SDK that allows you to integrate user feedback, suggestion boards, and voting mechanisms in your app with a clean UI and a simple setup. It connects to a custom backend using HMAC authentication and does not require Firebase or other configurations.
 
 <p align="leading">
   <img src="assets/ios_1.png" alt="Votice iOS Screenshot 1" width="200" style="margin-right:5px;" />
@@ -48,7 +48,7 @@ Or via Xcode:
 
 1. Open your project.
 2. Go to **File > Add Packages...**
-3. Enter the URL of the Votice repo.
+3. Enter the URL of the Votice repo: https://github.com/artcc/votice-sdk
 4. Choose the latest version.
 
 ## 📦 Package Info
@@ -106,7 +106,7 @@ Votice.reset()
 let configured = Votice.isConfigured
 ```
 
-### 2. Show the Feedback UI (Mandatory)
+### 2. Show the Feedback UI (Mandatory) with basic configuration
 
 You can embed the main interface as a SwiftUI view:
 
@@ -162,7 +162,32 @@ Votice.feedbackView(theme: theme)
 You can provide custom localized texts by conforming to `VoticeTextsProtocol`:
 
 ```swift
-Votice.setTexts(MyCustomTexts())
+Votice.setTexts(VoticeTexts())
+```
+
+Example:
+
+```
+struct VoticeTexts: VoticeTextsProtocol {
+    // MARK: - General
+
+    let cancel = String(localized: "Cancel")
+    let error = String(localized: "Error")
+    let ok = String(localized: "Ok")
+    let submit = String(localized: "Submit")
+    let optional = String(localized: "Optional")
+    let success = String(localized: "Success")
+    let warning = String(localized: "Warning")
+    let info = String(localized: "Information")
+    let genericError = String(localized: "Something went wrong. Please try again.")
+    let anonymous = String(localized: "Anonymous")
+
+    // MARK: - Suggestion List
+
+    let loadingSuggestions = String(localized: "Loading suggestions...")
+    let noSuggestionsYet = String(localized: "No suggestions yet.")
+    let beFirstToSuggest = String(localized: "Be the first to suggest something!")...
+}
 ```
 
 To reset to the default English:
