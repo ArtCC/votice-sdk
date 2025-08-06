@@ -34,6 +34,8 @@ The Votice management app for handling suggestions and apps is available for dow
 - SwiftUI-based project
 - Votice backend properly configured (API key + secret)
 
+> ⚠️ Support for tvOS will be available in future releases.
+
 ## 🛠 Installation
 
 Add this line to your `Package.swift` dependencies:
