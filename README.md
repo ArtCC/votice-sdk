@@ -34,8 +34,6 @@ The Votice management app for handling suggestions and apps is available for dow
 - SwiftUI-based project
 - Votice backend properly configured (API key + secret)
 
-> ⚠️ Support for tvOS will be available in future releases.
-
 ## 🛠 Installation
 
 Add this line to your `Package.swift` dependencies:
@@ -120,6 +118,16 @@ Or present it as a modal sheet:
 Votice.feedbackSheet(isPresented: $isShowingFeedback)
 ```
 
+Or use a NavigationLink:
+
+```swift
+NavigationLink {
+  Votice.feedbackNavigationView())
+} label: {
+  Text("Navigate to Feedback")
+}
+```
+
 ### 3. Customize Appearance (Optional)
 
 Use the default system-adaptive theme:
@@ -167,10 +175,8 @@ Votice.setTexts(VoticeTexts())
 
 Example:
 
-```
+```swift
 struct VoticeTexts: VoticeTextsProtocol {
-    // MARK: - General
-
     let cancel = String(localized: "Cancel")
     let error = String(localized: "Error")
     let ok = String(localized: "Ok")
@@ -181,9 +187,6 @@ struct VoticeTexts: VoticeTextsProtocol {
     let info = String(localized: "Information")
     let genericError = String(localized: "Something went wrong. Please try again.")
     let anonymous = String(localized: "Anonymous")
-
-    // MARK: - Suggestion List
-
     let loadingSuggestions = String(localized: "Loading suggestions...")
     let noSuggestionsYet = String(localized: "No suggestions yet.")
     let beFirstToSuggest = String(localized: "Be the first to suggest something!")...

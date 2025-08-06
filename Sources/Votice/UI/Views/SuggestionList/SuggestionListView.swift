@@ -11,11 +11,14 @@ import SwiftUI
 struct SuggestionListView: View {
     // MARK: - Properties
 
+    @Environment(\.presentationMode) private var presentationMode
     @Environment(\.voticeTheme) private var theme
 
     @StateObject private var viewModel = SuggestionListViewModel()
 
     @State private var showCreateButton = true
+
+    let isNavigation: Bool
 
     // MARK: - View
 
@@ -53,6 +56,7 @@ struct SuggestionListView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden()
         .task {
             await viewModel.loadSuggestions()
         }
@@ -91,6 +95,12 @@ struct SuggestionListView: View {
 private extension SuggestionListView {
     var headerView: some View {
         HStack {
+#if os(iOS) || os(macOS)
+            CloseButton(isNavigation: isNavigation) {
+                presentationMode.wrappedValue.dismiss()
+            }
+#endif
+            Spacer()
             Text(TextManager.shared.texts.featureRequests)
                 .font(theme.typography.title2)
                 .fontWeight(.medium)
@@ -107,8 +117,10 @@ private extension SuggestionListView {
     }
 
     var filterMenuButton: some View {
-        FilterMenuView(isExpanded: $viewModel.isFilterMenuExpanded,
-                       selectedFilter: viewModel.selectedFilter) { filter in
+        FilterMenuView(
+            isExpanded: $viewModel.isFilterMenuExpanded,
+            selectedFilter: viewModel.selectedFilter
+        ) { filter in
             viewModel.setFilter(filter)
         }
     }
