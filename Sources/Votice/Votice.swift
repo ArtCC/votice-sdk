@@ -67,8 +67,21 @@ public struct Votice {
     /// - Parameters:
     ///   - theme: Custom theme for the UI (optional)
     /// - Returns: A SwiftUI View that can be presented modally or embedded
+    public static func feedbackNavigationView(theme: VoticeTheme? = nil) -> some View {
+        SuggestionListView(isNavigation: true)
+            .voticeTheme(theme ?? .default)
+#if os(macOS)
+            .frame(minWidth: 800, minHeight: 600)
+#endif
+    }
+
+    /// Present the Votice feedback interface as a standalone view
+    /// - Parameters:
+    ///  - theme: Custom theme for the UI (optional)
+    ///  - Returns: A SwiftUI View that can be used in any context
+    ///  - Note: This view is suitable for embedding in your app's UI or presenting as a full-screen cover
     public static func feedbackView(theme: VoticeTheme? = nil) -> some View {
-        SuggestionListView()
+        SuggestionListView(isNavigation: false)
             .voticeTheme(theme ?? .default)
 #if os(macOS)
             .frame(minWidth: 800, minHeight: 600)
@@ -82,7 +95,7 @@ public struct Votice {
     public static func feedbackSheet(isPresented: Binding<Bool>, theme: VoticeTheme? = nil) -> some View {
         EmptyView()
             .sheet(isPresented: isPresented) {
-                SuggestionListView()
+                SuggestionListView(isNavigation: false)
                     .voticeTheme(theme ?? .default)
 #if os(macOS)
                     .frame(minWidth: 800, minHeight: 600)

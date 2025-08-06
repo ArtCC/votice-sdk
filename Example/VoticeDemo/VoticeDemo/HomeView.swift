@@ -44,7 +44,7 @@ struct HomeView: View {
                                 Text("Option 2: Navigation Push")
                                     .font(.poppins(.semiBold, size: 18))
                                 NavigationLink {
-                                    Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
+                                    Votice.feedbackNavigationView(theme: Votice.systemThemeWithCurrentFonts())
                                 } label: {
                                     Text("Navigate to Feedback")
                                         .font(.poppins(.medium, size: 16))
