@@ -35,6 +35,7 @@ public protocol VoticeTextsProtocol: Sendable {
     var all: String { get }
     var pending: String { get }
     var accepted: String { get }
+    var blocked: String { get }
     var inProgress: String { get }
     var completed: String { get }
     var rejected: String { get }
@@ -110,6 +111,7 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let all = "All"
     public let pending = "Pending"
     public let accepted = "Accepted"
+    public let blocked = "Blocked"
     public let inProgress = "In Progress"
     public let completed = "Completed"
     public let rejected = "Rejected"
