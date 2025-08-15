@@ -15,14 +15,16 @@ struct StatusBadge: View {
 
     private var statusColor: Color {
         switch status {
-        case .pending:
-            return theme.colors.pending
         case .accepted:
             return theme.colors.accepted
-        case .inProgress:
-            return theme.colors.inProgress
+        case .blocked:
+            return theme.colors.rejected
         case .completed:
             return theme.colors.completed
+        case .inProgress:
+            return theme.colors.inProgress
+        case .pending:
+            return theme.colors.pending
         case .rejected:
             return theme.colors.rejected
         }
@@ -31,14 +33,16 @@ struct StatusBadge: View {
         let texts = TextManager.shared.texts
 
         switch status {
-        case .pending:
-            return texts.pending
         case .accepted:
             return texts.accepted
-        case .inProgress:
-            return texts.inProgress
+        case .blocked:
+            return texts.blocked
         case .completed:
             return texts.completed
+        case .inProgress:
+            return texts.inProgress
+        case .pending:
+            return texts.pending
         case .rejected:
             return texts.rejected
         }

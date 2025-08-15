@@ -34,6 +34,7 @@ struct SpanishTexts: VoticeTextsProtocol {
     let all = "Todas"
     let pending = "Pendiente"
     let accepted = "Aceptada"
+    let blocked = "Bloqueada"
     let inProgress = "En progreso"
     let completed = "Completada"
     let rejected = "Rechazada"

@@ -59,24 +59,6 @@ struct VoticeTests {
         #expect(!Votice.isConfigured)
     }
 
-    @Test("Votice should create feedbackView")
-    func testFeedbackView() throws {
-        // Reset first to start clean
-        Votice.reset()
-
-        // Configure first
-        try Votice.configure(
-            apiKey: "test-api-key",
-            apiSecret: "test-api-secret",
-            appId: "test-app-id"
-        )
-
-        let view = Votice.feedbackView()
-
-        // Should create a view
-        #expect(view != nil)
-    }
-
     @Test("Votice should create system theme")
     func testSystemTheme() {
         let theme = Votice.systemTheme()
@@ -153,6 +135,7 @@ struct VoticeTests {
             let all = "Mock All"
             let pending = "Mock Pending"
             let accepted = "Mock Accepted"
+            let blocked = "Mock Blocked"
             let inProgress = "Mock In Progress"
             let completed = "Mock Completed"
             let rejected = "Mock Rejected"

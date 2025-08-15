@@ -35,6 +35,7 @@ struct MockVoticeTexts: VoticeTextsProtocol {
     let all = "Todas"
     let pending = "Pendiente"
     let accepted = "Aceptada"
+    let blocked = "Bloqueada"
     let inProgress = "En progreso"
     let completed = "Completada"
     let rejected = "Rechazada"
@@ -244,6 +245,7 @@ func testTextManagerMultipleUpdates() async {
         let all = "Toutes"
         let pending = "En attente"
         let accepted = "Acceptée"
+        let blocked = "Bloquée"
         let inProgress = "En cours"
         let completed = "Terminée"
         let rejected = "Rejetée"
@@ -332,6 +334,7 @@ func testDefaultVoticeTexts() async {
     #expect(texts.all == "All")
     #expect(texts.pending == "Pending")
     #expect(texts.accepted == "Accepted")
+    #expect(texts.blocked == "Blocked")
     #expect(texts.inProgress == "In Progress")
     #expect(texts.completed == "Completed")
     #expect(texts.rejected == "Rejected")
