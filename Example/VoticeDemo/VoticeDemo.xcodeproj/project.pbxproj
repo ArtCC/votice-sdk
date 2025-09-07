@@ -653,12 +653,12 @@
 			projectRoot = "";
 			targets = (
 				802F7E5F2E0F198400F1BDF6 /* VoticeDemo */,
+				800727272E11A9FC00C43BA8 /* VoticeDemo_macOS */,
+				800727662E11ACD400C43BA8 /* VoticeDemo_tvOS */,
 				802F7E6C2E0F198500F1BDF6 /* VoticeDemoTests */,
 				802F7E762E0F198500F1BDF6 /* VoticeDemoUITests */,
-				800727272E11A9FC00C43BA8 /* VoticeDemo_macOS */,
 				800727342E11A9FE00C43BA8 /* VoticeDemo_macOSTests */,
 				8007273E2E11A9FE00C43BA8 /* VoticeDemo_macOSUITests */,
-				800727662E11ACD400C43BA8 /* VoticeDemo_tvOS */,
 				800727722E11ACD600C43BA8 /* VoticeDemo_tvOSTests */,
 				8007277C2E11ACD600C43BA8 /* VoticeDemo_tvOSUITests */,
 			);

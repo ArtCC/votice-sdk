@@ -125,8 +125,10 @@ private extension HomeView {
                 ]
             )
             Votice.setFonts(poppinsConfig)
-            Votice.setDebugLogging(enabled: false)
+            Votice.setDebugLogging(enabled: true)
             Votice.setCommentIsEnabled(enabled: true)
+            Votice.setShowCompletedSeparately(enabled: true)
+            Votice.setVisibleOptionalStatuses(accepted: true, blocked: false, rejected: false)
 
             isConfigured = Votice.isConfigured
 

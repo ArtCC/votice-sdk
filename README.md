@@ -41,7 +41,7 @@ The Votice management app for handling suggestions and apps is available for dow
 Add this line to your `Package.swift` dependencies:
 
 ```swift
-.package(url: "https://github.com/artcc/votice-sdk", from: "1.0.7"),
+.package(url: "https://github.com/artcc/votice-sdk", from: "1.0.8"),
 ```
 
 Or via Xcode:
@@ -295,6 +295,59 @@ Votice.setDebugLogging(enabled: false)
 - During development/testing phases
 
 **Note:** Debug logging is automatically disabled in production builds and should only be enabled when specifically needed for debugging purposes.
+
+### 8. Show completed suggestions in a separate tab (Optional)
+
+You can choose to display suggestions with status `completed` in their own tab. When enabled:
+
+- A segmented control appears with two tabs: "Active" and "Completed".
+- Completed suggestions are removed from the main list.
+- The "Completed" filter disappears from the filter menu (no longer needed).
+- Completed suggestions are only visible in the dedicated tab.
+- If you don't enable it, the behavior remains the same as before.
+
+Enable:
+```swift
+Votice.setShowCompletedSeparately(enabled: true)
+```
+Disable (returns to original behavior):
+```swift
+Votice.setShowCompletedSeparately(enabled: false)
+```
+
+### 9. Configure visible suggestion statuses (Optional)
+
+By default, all optional statuses (`accepted`, `blocked`, `rejected`) are visible along with the mandatory ones. You can choose which optional statuses to show in both the list and the filter menu.
+
+Mandatory statuses (always shown):
+- `completed` (or in its separate tab if you enabled section 8)
+- `in-progress`
+- `pending`
+
+Optional statuses (individually hideable):
+- `accepted`
+- `blocked`
+- `rejected`
+
+Configure which optional statuses are visible:
+```swift
+// Example: show accepted & rejected, hide blocked
+Votice.setVisibleOptionalStatuses(accepted: true, blocked: false, rejected: true)
+```
+
+Behavior:
+- Hidden optional statuses are removed from the filter menu and never displayed in the list.
+- If a previously selected (persisted) filter becomes hidden, it is automatically cleared.
+- Works together with the "completed separately" mode (section 8). If that mode is active, `completed` will still not appear in filters, regardless of this configuration.
+- Defaults: all three optional statuses visible (equivalent to `true, true, true`).
+
+Use cases:
+- Simplify the board for early product phases (e.g. only pending + in-progress + completed)
+- Gradually introduce refinement states later (enable accepted / blocked / rejected)
+
+> Note: Calling this method multiple times replaces the previous configuration entirely.
+
+---
 
 ## 👨🏻‍💻 Contributing to Votice SDK
 

@@ -15,6 +15,41 @@ struct FilterMenuView: View {
 
     @Binding var isExpanded: Bool
 
+    private var showCompletedSeparately: Bool {
+        ConfigurationManager.shared.showCompletedSeparately
+    }
+    private var optionalVisible: Set<SuggestionStatusEntity> {
+        ConfigurationManager.shared.optionalVisibleStatuses
+    }
+    private var orderedVisibleStatuses: [SuggestionStatusEntity] {
+        // Mandatory always (except completed if separated)
+        var result: [SuggestionStatusEntity] = []
+
+        // Optional insertion order: accepted, blocked, rejected if present
+        let optionalOrder: [SuggestionStatusEntity] = [.accepted, .blocked, .rejected]
+
+        // Append optional in defined order if present
+        for status in optionalOrder where optionalVisible.contains(status) {
+            result.append(status)
+        }
+
+        // Always append completed if not separated
+        if !showCompletedSeparately {
+            result.append(.completed)
+        }
+
+        // Always append in-progress and pending
+        result.append(.inProgress)
+        result.append(.pending)
+
+        // Safety check: ensure blocked and rejected are included if in optionalVisible
+        if optionalVisible.contains(.rejected) && !result.contains(.rejected) {
+            result.append(.rejected)
+        }
+
+        return result
+    }
+
     let selectedFilter: SuggestionStatusEntity?
     let onFilterSelected: (SuggestionStatusEntity?) -> Void
 
@@ -46,6 +81,8 @@ struct FilterMenuView: View {
 // MARK: - Private
 
 private extension FilterMenuView {
+    // MARK: - Properties
+
     var filterButton: some View {
         Button {
             withAnimation(.easeInOut(duration: 0.2)) {
@@ -79,24 +116,11 @@ private extension FilterMenuView {
     var filterDropdown: some View {
         VStack(alignment: .leading, spacing: 0) {
             filterOption(title: TextManager.shared.texts.all, filter: nil)
-            Divider()
-                .background(theme.colors.secondary.opacity(0.05))
-            filterOption(title: TextManager.shared.texts.accepted, filter: .accepted)
-            Divider()
-                .background(theme.colors.secondary.opacity(0.05))
-            filterOption(title: TextManager.shared.texts.blocked, filter: .blocked)
-            Divider()
-                .background(theme.colors.secondary.opacity(0.05))
-            filterOption(title: TextManager.shared.texts.completed, filter: .completed)
-            Divider()
-                .background(theme.colors.secondary.opacity(0.05))
-            filterOption(title: TextManager.shared.texts.inProgress, filter: .inProgress)
-            Divider()
-                .background(theme.colors.secondary.opacity(0.05))
-            filterOption(title: TextManager.shared.texts.pending, filter: .pending)
-            Divider()
-                .background(theme.colors.secondary.opacity(0.05))
-            filterOption(title: TextManager.shared.texts.rejected, filter: .rejected)
+            ForEach(Array(orderedVisibleStatuses.enumerated()), id: \.element) { _, status in
+                Divider().background(theme.colors.secondary.opacity(0.05))
+
+                filterOption(title: title(for: status), filter: status)
+            }
         }
 #if os(iOS) || os(macOS)
         .background(
@@ -113,7 +137,19 @@ private extension FilterMenuView {
 #endif
     }
 
-    // swiftlint:disable function_body_length
+    // MARK: - Functions
+
+    func title(for status: SuggestionStatusEntity) -> String {
+        switch status {
+        case .accepted: return TextManager.shared.texts.accepted
+        case .blocked: return TextManager.shared.texts.blocked
+        case .completed: return TextManager.shared.texts.completed
+        case .inProgress: return TextManager.shared.texts.inProgress
+        case .pending: return TextManager.shared.texts.pending
+        case .rejected: return TextManager.shared.texts.rejected
+        }
+    }
+
     func filterOption(title: String, filter: SuggestionStatusEntity?) -> some View {
         Button {
             onFilterSelected(filter)
@@ -136,37 +172,12 @@ private extension FilterMenuView {
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
             .contentShape(Rectangle())
+            .background(selectedFilter == filter ? theme.colors.primary.opacity(0.1) : Color.clear)
         }
 #if os(iOS) || os(macOS)
         .buttonStyle(.plain)
 #elseif os(tvOS)
         .buttonStyle(.card)
 #endif
-        .background(
-            Group {
-                if selectedFilter == filter {
-                    if filter == nil {
-                        UnevenRoundedRectangle(
-                            topLeadingRadius: theme.cornerRadius.md,
-                            topTrailingRadius: theme.cornerRadius.md
-                        )
-                        .fill(theme.colors.primary.opacity(0.1))
-                    } else if filter == .completed {
-                        UnevenRoundedRectangle(
-                            bottomLeadingRadius: theme.cornerRadius.md,
-                            bottomTrailingRadius: theme.cornerRadius.md
-                        )
-                        .fill(theme.colors.primary.opacity(0.1))
-                    } else {
-                        Rectangle()
-                            .fill(theme.colors.primary.opacity(0.1))
-                    }
-                } else {
-                    Rectangle()
-                        .fill(Color.clear)
-                }
-            }
-        )
     }
-    // swiftlint:enable function_body_length
 }

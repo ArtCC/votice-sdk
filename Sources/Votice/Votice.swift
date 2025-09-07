@@ -61,6 +61,21 @@ public struct Votice {
         ConfigurationManager.shared.commentIsEnabled = enabled
     }
 
+    /// Enable or disable showing completed suggestions separately with a segmented control
+    /// - Parameter enabled: Whether to show completed suggestions in a separate tab
+    /// - Note: When enabled, completed suggestions will be shown in a dedicated tab and removed from the main
+    /// list and filter options. Disabled by default.
+    public static func setShowCompletedSeparately(enabled: Bool) {
+        ConfigurationManager.shared.showCompletedSeparately = enabled
+    }
+
+    /// Configure optional visible statuses for suggestions
+    /// - Parameter statuses: Array of `SuggestionStatusEntity` representing the statuses to be visible
+    /// - Note: This can be used to customize which suggestion statuses are shown in the UI
+    public static func setVisibleOptionalStatuses(accepted: Bool, blocked: Bool, rejected: Bool) {
+        ConfigurationManager.shared.setOptionalVisibleStatus(accepted: accepted, blocked: blocked, rejected: rejected)
+    }
+
     // MARK: - UI Presentation
 
     /// Present the Votice feedback interface
@@ -110,13 +125,17 @@ public struct Votice {
     ///   - primaryColor: Primary color for buttons and accents
     ///   - backgroundColor: Background color for the interface
     ///   - surfaceColor: Surface color for cards and components
-    public static func createTheme(primaryColor: Color? = nil,
-                                   backgroundColor: Color? = nil,
-                                   surfaceColor: Color? = nil) -> VoticeTheme {
+    public static func createTheme(
+        primaryColor: Color? = nil,
+        backgroundColor: Color? = nil,
+        surfaceColor: Color? = nil
+    ) -> VoticeTheme {
         // Use smart defaults if no colors are provided
-        createAdvancedTheme(primaryColor: primaryColor,
-                            backgroundColor: backgroundColor,
-                            surfaceColor: surfaceColor)
+        createAdvancedTheme(
+            primaryColor: primaryColor,
+            backgroundColor: backgroundColor,
+            surfaceColor: surfaceColor
+        )
     }
 
     /// Get a system theme that automatically adapts to the user's appearance preference
@@ -288,9 +307,11 @@ public struct Votice {
     ///   - backgroundColor: Background color for the interface
     ///   - surfaceColor: Surface color for cards and components
     /// - Returns: A theme with current font configuration applied
-    public static func createThemeWithCurrentFonts(primaryColor: Color? = nil,
-                                                   backgroundColor: Color? = nil,
-                                                   surfaceColor: Color? = nil) -> VoticeTheme {
+    public static func createThemeWithCurrentFonts(
+        primaryColor: Color? = nil,
+        backgroundColor: Color? = nil,
+        surfaceColor: Color? = nil
+    ) -> VoticeTheme {
         let colors = createAdvancedTheme(
             primaryColor: primaryColor,
             backgroundColor: backgroundColor,

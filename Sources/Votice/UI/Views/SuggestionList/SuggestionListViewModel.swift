@@ -12,6 +12,8 @@ final class SuggestionListViewModel: ObservableObject {
     // MARK: - Properties
 
     @Published var suggestions: [SuggestionEntity] = []
+    @Published var completedSuggestions: [SuggestionEntity] = []
+    @Published var selectedTab = 0
     @Published var isLoading = true
     @Published var isLoadingPagination = false
     @Published var isFilterMenuExpanded = false
@@ -24,6 +26,7 @@ final class SuggestionListViewModel: ObservableObject {
     @Published var isShowingAlert = false
 
     private var allSuggestions: [SuggestionEntity] = []
+    private var allCompletedSuggestions: [SuggestionEntity] = []
     private var currentOffset = 0
     private var loadingTask: Task<Void, Never>?
 
@@ -31,15 +34,35 @@ final class SuggestionListViewModel: ObservableObject {
     private let suggestionUseCase: SuggestionUseCaseProtocol
     private let versionUseCase: VersionUseCaseProtocol
 
+    var showCompletedSeparately: Bool {
+        ConfigurationManager.shared.showCompletedSeparately
+    }
+
+    var currentSuggestionsList: [SuggestionEntity] {
+        if showCompletedSeparately {
+            return selectedTab == 0 ? suggestions : completedSuggestions
+        } else {
+            return suggestions
+        }
+    }
+
     // MARK: - Init
 
     init(suggestionUseCase: SuggestionUseCaseProtocol = SuggestionUseCase(),
          versionUseCase: VersionUseCaseProtocol = VersionUseCase()) {
         self.suggestionUseCase = suggestionUseCase
         self.versionUseCase = versionUseCase
+
+        fetchFilterApplied()
     }
 
     // MARK: - Functions
+
+    func selectTab(_ tab: Int) {
+        selectedTab = tab
+
+        isFilterMenuExpanded = false
+    }
 
     func loadSuggestions() async {
         loadingTask?.cancel()
@@ -147,7 +170,39 @@ final class SuggestionListViewModel: ObservableObject {
         await loadSuggestions()
     }
 
+    func fetchFilterApplied() {
+        do {
+            if let selectedFilter = try suggestionUseCase.fetchFilterApplied() {
+                self.selectedFilter = selectedFilter
+
+                LogManager.shared.devLog(
+                    .info, "SuggestionListViewModel: fetched applied filter: \(String(describing: selectedFilter))"
+                )
+
+                applyFilter()
+            } else {
+                LogManager.shared.devLog(.info, "SuggestionListViewModel: no filter applied")
+            }
+        } catch {
+            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to fetch applied filter: \(error)")
+        }
+    }
+
     func setFilter(_ status: SuggestionStatusEntity?) {
+        do {
+            if let status {
+                try suggestionUseCase.setFilterApplied(status)
+
+                LogManager.shared.devLog(.info, "SuggestionListViewModel: filter set to \(String(describing: status))")
+            } else {
+                try suggestionUseCase.clearFilterApplied()
+
+                LogManager.shared.devLog(.info, "SuggestionListViewModel: filter cleared")
+            }
+        } catch {
+            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to set filter: \(error)")
+        }
+
         selectedFilter = status
 
         applyFilter()
@@ -229,10 +284,50 @@ final class SuggestionListViewModel: ObservableObject {
 
 private extension SuggestionListViewModel {
     func applyFilter() {
-        if let filter = selectedFilter {
-            suggestions = allSuggestions.filter { $0.status == filter }
+        // Determine allowed statuses based on configuration
+        let visibleOptional = ConfigurationManager.shared.optionalVisibleStatuses
+        let mandatory: Set<SuggestionStatusEntity> = [.inProgress, .pending, .completed]
+
+        // Combine both sets to get the final allowed statuses
+        var allowed: Set<SuggestionStatusEntity> = visibleOptional.union(mandatory)
+
+        // If completed suggestions are shown separately, remove 'completed' from allowed statuses
+        let showCompletedSeparately = self.showCompletedSeparately
+
+        // If the current selected filter is not in allowed statuses, clear it
+        if let current = selectedFilter,
+           !allowed.contains(current) || (showCompletedSeparately && current == .completed) {
+            selectedFilter = nil
+            do {
+                try suggestionUseCase.clearFilterApplied()
+            } catch {
+                LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to clear invalid filter: \(error)")
+            }
+        }
+
+        // Filter suggestions based on allowed statuses
+        let baseAll = allSuggestions.filter { allowed.contains($0.status ?? .pending) }
+
+        // If showing completed separately, split the suggestions
+        if showCompletedSeparately {
+            let completed = baseAll.filter { $0.status == .completed }
+            let active = baseAll.filter { $0.status != .completed }
+
+            allCompletedSuggestions = completed
+            completedSuggestions = completed
+
+            if let selectedFilter {
+                suggestions = active.filter { $0.status == selectedFilter }
+            } else {
+                suggestions = active
+            }
         } else {
-            suggestions = allSuggestions
+            // Not showing completed separately, treat all suggestions the same
+            if let selectedFilter {
+                suggestions = baseAll.filter { $0.status == selectedFilter }
+            } else {
+                suggestions = baseAll
+            }
         }
     }
 
@@ -259,7 +354,8 @@ private extension SuggestionListViewModel {
             }
         } catch {
             LogManager.shared.devLog(
-                .error, "SuggestionListViewModel: failed to load vote status for \(suggestionId): \(error)"
+                .error,
+                "SuggestionListViewModel: failed to load vote status for \(suggestionId): \(error)"
             )
         }
     }

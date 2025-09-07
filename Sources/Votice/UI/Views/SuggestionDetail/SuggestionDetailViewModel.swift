@@ -27,9 +27,9 @@ final class SuggestionDetailViewModel: ObservableObject {
 
     private var lastLoadedCreatedAt: String?
 
+    private let pageSize = 10
     private let commentUseCase: CommentUseCaseProtocol
     private let suggestionUseCase: SuggestionUseCaseProtocol
-    private let pageSize = 10
 
     var isCommentFormValid: Bool {
         !newComment.isEmpty

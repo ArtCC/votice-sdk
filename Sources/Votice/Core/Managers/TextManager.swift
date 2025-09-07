@@ -33,6 +33,8 @@ public protocol VoticeTextsProtocol: Sendable {
     var beFirstToSuggest: String { get }
     var featureRequests: String { get }
     var all: String { get }
+    var activeTab: String { get }
+    var completedTab: String { get }
     var pending: String { get }
     var accepted: String { get }
     var blocked: String { get }
@@ -109,6 +111,8 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let beFirstToSuggest = "Be the first to suggest something!"
     public let featureRequests = "Feature Requests"
     public let all = "All"
+    public let activeTab = "Active"
+    public let completedTab = "Completed"
     public let pending = "Pending"
     public let accepted = "Accepted"
     public let blocked = "Blocked"

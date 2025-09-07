@@ -19,10 +19,29 @@ jobs:
     - name: Select Xcode Version
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '16.2'
+        xcode-version: 'latest-stable'
+
+    - name: List available simulators
+      run: |
+        echo "=== Xcode version ==="
+        xcodebuild -version
+        echo "=== Available iOS Simulators ==="
+        xcrun simctl list devices ios
+        echo "=== Available destinations ==="
+        xcodebuild -project Example/VoticeDemo/VoticeDemo.xcodeproj -scheme VoticeDemo -showdestinations
 
     - name: Build and Test Swift Package
       run: swift test --verbose
+
+    - name: Build iOS Example
+      run: |
+        cd Example/VoticeDemo
+        xcodebuild -project VoticeDemo.xcodeproj \
+                   -scheme VoticeDemo \
+                   -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.6' \
+                   build \
+                   CODE_SIGN_IDENTITY="" \
+                   CODE_SIGNING_REQUIRED=NO
 
   release:
     name: Create Tag and Release
@@ -40,40 +59,100 @@ jobs:
     - name: Get latest tag and commit message
       id: get_tag
       run: |
+        # Get the latest tag
         LATEST_TAG=$(git tag --sort=-version:refname | head -n1)
+        echo "Latest tag found: $LATEST_TAG"
         echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
 
+        # Calculate new tag
         if [[ $LATEST_TAG =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
           MAJOR=${BASH_REMATCH[1]}
           MINOR=${BASH_REMATCH[2]}
           PATCH=${BASH_REMATCH[3]}
           NEW_PATCH=$((PATCH + 1))
           NEW_TAG="$MAJOR.$MINOR.$NEW_PATCH"
+          echo "Incrementing patch version: $LATEST_TAG -> $NEW_TAG"
+        elif [[ -z "$LATEST_TAG" ]]; then
+          NEW_TAG="1.0.0"
+          echo "No previous tags found, starting with: $NEW_TAG"
         else
-          NEW_TAG="1.0.5"
+          echo "Invalid tag format: $LATEST_TAG"
+          echo "Expected format: X.Y.Z (semantic versioning)"
+          exit 1
         fi
 
         echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
         echo "New tag will be: $NEW_TAG"
 
-        # Get the latest commit message
+        # Get the latest commit message and changelog
         COMMIT_MESSAGE=$(git log -1 --pretty=%B)
         echo "commit_message<<EOF" >> $GITHUB_OUTPUT
         echo "$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
+        
+        # Get changelog since last tag
+        if [[ -n "$LATEST_TAG" ]]; then
+          CHANGELOG=$(git log --pretty=format:"- %s" $LATEST_TAG..HEAD)
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        else
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "- Initial release" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        fi
 
     - name: Create Git tag
       run: |
+        NEW_TAG="${{ steps.get_tag.outputs.new_tag }}"
+        
+        # Check if tag already exists
+        if git rev-parse "$NEW_TAG" >/dev/null 2>&1; then
+          echo "Tag $NEW_TAG already exists!"
+          exit 1
+        fi
+        
+        # Configure git and create tag
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
-        git tag ${{ steps.get_tag.outputs.new_tag }}
-        git push origin ${{ steps.get_tag.outputs.new_tag }}
+        
+        echo "Creating tag: $NEW_TAG"
+        git tag "$NEW_TAG"
+        git push origin "$NEW_TAG"
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ steps.get_tag.outputs.new_tag }}
         name: "Votice SDK v${{ steps.get_tag.outputs.new_tag }}"
-        body: "${{ steps.get_tag.outputs.commit_message }}"
+        body: |
+          ## 🚀 Votice SDK v${{ steps.get_tag.outputs.new_tag }}
+          
+          ### Changes in this release:
+          ${{ steps.get_tag.outputs.changelog }}
+          
+          ### Latest commit:
+          ${{ steps.get_tag.outputs.commit_message }}
+          
+          ### Installation
+          
+          #### Swift Package Manager
+          Add this to your `Package.swift`:
+          
+          ```swift
+          dependencies: [
+              .package(url: "https://github.com/ArtCC/votice-sdk.git", from: "${{ steps.get_tag.outputs.new_tag }}")
+          ]
+          ```
+          
+          Or add it through Xcode:
+          1. File → Add Package Dependencies
+          2. Enter: `https://github.com/ArtCC/votice-sdk.git`
+          3. Select version: `${{ steps.get_tag.outputs.new_tag }}`
+          
+          ---
+          *This release was automatically generated from commit ${{ github.sha }}*
+        draft: false
+        prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
