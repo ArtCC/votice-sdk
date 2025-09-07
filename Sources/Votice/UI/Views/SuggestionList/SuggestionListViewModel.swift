@@ -37,6 +37,8 @@ final class SuggestionListViewModel: ObservableObject {
          versionUseCase: VersionUseCaseProtocol = VersionUseCase()) {
         self.suggestionUseCase = suggestionUseCase
         self.versionUseCase = versionUseCase
+
+        fetchFilterApplied()
     }
 
     // MARK: - Functions
@@ -147,7 +149,39 @@ final class SuggestionListViewModel: ObservableObject {
         await loadSuggestions()
     }
 
+    func fetchFilterApplied() {
+        do {
+            if let selectedFilter = try suggestionUseCase.fetchFilterApplied() {
+                self.selectedFilter = selectedFilter
+
+                LogManager.shared.devLog(
+                    .info, "SuggestionListViewModel: fetched applied filter: \(String(describing: selectedFilter))"
+                )
+
+                applyFilter()
+            } else {
+                LogManager.shared.devLog(.info, "SuggestionListViewModel: no filter applied")
+            }
+        } catch {
+            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to fetch applied filter: \(error)")
+        }
+    }
+
     func setFilter(_ status: SuggestionStatusEntity?) {
+        do {
+            if let status {
+                try suggestionUseCase.setFilterApplied(status)
+
+                LogManager.shared.devLog(.info, "SuggestionListViewModel: filter set to \(String(describing: status))")
+            } else {
+                try suggestionUseCase.clearFilterApplied()
+
+                LogManager.shared.devLog(.info, "SuggestionListViewModel: filter cleared")
+            }
+        } catch {
+            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to set filter: \(error)")
+        }
+
         selectedFilter = status
 
         applyFilter()
@@ -229,8 +263,8 @@ final class SuggestionListViewModel: ObservableObject {
 
 private extension SuggestionListViewModel {
     func applyFilter() {
-        if let filter = selectedFilter {
-            suggestions = allSuggestions.filter { $0.status == filter }
+        if let selectedFilter {
+            suggestions = allSuggestions.filter { $0.status == selectedFilter }
         } else {
             suggestions = allSuggestions
         }

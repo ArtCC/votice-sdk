@@ -41,7 +41,7 @@ The Votice management app for handling suggestions and apps is available for dow
 Add this line to your `Package.swift` dependencies:
 
 ```swift
-.package(url: "https://github.com/artcc/votice-sdk", from: "1.0.7"),
+.package(url: "https://github.com/artcc/votice-sdk", from: "1.0.8"),
 ```
 
 Or via Xcode:

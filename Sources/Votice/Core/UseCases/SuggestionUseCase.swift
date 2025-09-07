@@ -9,6 +9,9 @@
 import Foundation
 
 protocol SuggestionUseCaseProtocol: Sendable {
+    func fetchFilterApplied() throws -> SuggestionStatusEntity?
+    func setFilterApplied(_ status: SuggestionStatusEntity?) throws
+    func clearFilterApplied() throws
     func fetchSuggestions(pagination: PaginationRequest) async throws -> SuggestionsResponse
     func createSuggestion(title: String,
                           description: String?,
@@ -21,21 +24,36 @@ protocol SuggestionUseCaseProtocol: Sendable {
 final class SuggestionUseCase: SuggestionUseCaseProtocol {
     // MARK: - Properties
 
+    private let storageManager: StorageManagerProtocol
     private let suggestionRepository: SuggestionRepositoryProtocol
     private let configurationManager: ConfigurationManagerProtocol
     private let deviceManager: DeviceManagerProtocol
 
     // MARK: - Init
 
-    init(suggestionRepository: SuggestionRepositoryProtocol = SuggestionRepository(),
+    init(storageManager: StorageManagerProtocol = StorageManager(),
+         suggestionRepository: SuggestionRepositoryProtocol = SuggestionRepository(),
          configurationManager: ConfigurationManagerProtocol = ConfigurationManager.shared,
          deviceManager: DeviceManagerProtocol = DeviceManager.shared) {
+        self.storageManager = storageManager
         self.suggestionRepository = suggestionRepository
         self.configurationManager = configurationManager
         self.deviceManager = deviceManager
     }
 
     // MARK: - SuggestionUseCaseProtocol
+
+    func fetchFilterApplied() throws -> SuggestionStatusEntity? {
+        try storageManager.load(forKey: StorageKey.filterApplied.rawValue, as: SuggestionStatusEntity.self)
+    }
+
+    func setFilterApplied(_ status: SuggestionStatusEntity?) throws {
+        try storageManager.save(status, forKey: StorageKey.filterApplied.rawValue)
+    }
+
+    func clearFilterApplied() throws {
+        try storageManager.delete(forKey: StorageKey.filterApplied.rawValue)
+    }
 
     func fetchSuggestions(pagination: PaginationRequest) async throws -> SuggestionsResponse {
         try configurationManager.validateConfiguration()
