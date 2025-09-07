@@ -12,6 +12,8 @@ final class SuggestionListViewModel: ObservableObject {
     // MARK: - Properties
 
     @Published var suggestions: [SuggestionEntity] = []
+    @Published var completedSuggestions: [SuggestionEntity] = []
+    @Published var selectedTab = 0
     @Published var isLoading = true
     @Published var isLoadingPagination = false
     @Published var isFilterMenuExpanded = false
@@ -24,12 +26,25 @@ final class SuggestionListViewModel: ObservableObject {
     @Published var isShowingAlert = false
 
     private var allSuggestions: [SuggestionEntity] = []
+    private var allCompletedSuggestions: [SuggestionEntity] = []
     private var currentOffset = 0
     private var loadingTask: Task<Void, Never>?
 
     private let pageSize = 10
     private let suggestionUseCase: SuggestionUseCaseProtocol
     private let versionUseCase: VersionUseCaseProtocol
+
+    var showCompletedSeparately: Bool {
+        ConfigurationManager.shared.showCompletedSeparately
+    }
+
+    var currentSuggestionsList: [SuggestionEntity] {
+        if showCompletedSeparately {
+            return selectedTab == 0 ? suggestions : completedSuggestions
+        } else {
+            return suggestions
+        }
+    }
 
     // MARK: - Init
 
@@ -42,6 +57,12 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     // MARK: - Functions
+
+    func selectTab(_ tab: Int) {
+        selectedTab = tab
+
+        isFilterMenuExpanded = false
+    }
 
     func loadSuggestions() async {
         loadingTask?.cancel()
@@ -263,10 +284,24 @@ final class SuggestionListViewModel: ObservableObject {
 
 private extension SuggestionListViewModel {
     func applyFilter() {
-        if let selectedFilter {
-            suggestions = allSuggestions.filter { $0.status == selectedFilter }
+        if showCompletedSeparately {
+            let completed = allSuggestions.filter { $0.status == .completed }
+            let active = allSuggestions.filter { $0.status != .completed }
+
+            allCompletedSuggestions = completed
+            completedSuggestions = completed
+
+            if let selectedFilter {
+                suggestions = active.filter { $0.status == selectedFilter }
+            } else {
+                suggestions = active
+            }
         } else {
-            suggestions = allSuggestions
+            if let selectedFilter {
+                suggestions = allSuggestions.filter { $0.status == selectedFilter }
+            } else {
+                suggestions = allSuggestions
+            }
         }
     }
 
@@ -293,7 +328,8 @@ private extension SuggestionListViewModel {
             }
         } catch {
             LogManager.shared.devLog(
-                .error, "SuggestionListViewModel: failed to load vote status for \(suggestionId): \(error)"
+                .error,
+                "SuggestionListViewModel: failed to load vote status for \(suggestionId): \(error)"
             )
         }
     }

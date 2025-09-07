@@ -33,14 +33,19 @@ struct SuggestionListView: View {
                 endPoint: .bottom
             )
             .ignoresSafeArea()
-            if viewModel.isLoading && viewModel.suggestions.isEmpty {
+            if viewModel.isLoading && viewModel.currentSuggestionsList.isEmpty {
                 LoadingView(message: TextManager.shared.texts.loadingSuggestions)
             } else {
                 VStack(spacing: 0) {
                     headerView
-                    if viewModel.suggestions.isEmpty && !viewModel.isLoading {
-                        EmptyStateView(title: TextManager.shared.texts.noSuggestionsYet,
-                                       message: TextManager.shared.texts.beFirstToSuggest)
+                    if viewModel.showCompletedSeparately {
+                        segmentedControl
+                    }
+                    if viewModel.currentSuggestionsList.isEmpty && !viewModel.isLoading {
+                        EmptyStateView(
+                            title: TextManager.shared.texts.noSuggestionsYet,
+                            message: TextManager.shared.texts.beFirstToSuggest
+                        )
                     } else {
                         suggestionsList
                     }
@@ -128,7 +133,7 @@ private extension SuggestionListView {
     var suggestionsList: some View {
         ScrollView(showsIndicators: false) {
             LazyVStack(spacing: theme.spacing.md) {
-                ForEach(Array(viewModel.suggestions.enumerated()), id: \.element.id) { index, suggestion in
+                ForEach(Array(viewModel.currentSuggestionsList.enumerated()), id: \.element.id) { index, suggestion in
                     SuggestionCard(
                         suggestion: suggestion,
                         currentVote: viewModel.getCurrentVote(for: suggestion.id),
@@ -142,7 +147,7 @@ private extension SuggestionListView {
                         }
                     )
                     .onAppear {
-                        if index >= viewModel.suggestions.count - 3
+                        if index >= viewModel.currentSuggestionsList.count - 3
                             && viewModel.hasMoreSuggestions &&
                             !viewModel.isLoadingPagination {
                             Task {
@@ -151,7 +156,7 @@ private extension SuggestionListView {
                         }
                     }
                 }
-                if viewModel.isLoadingPagination && viewModel.suggestions.count > 0 {
+                if viewModel.isLoadingPagination && viewModel.currentSuggestionsList.count > 0 {
                     HStack {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
@@ -193,5 +198,21 @@ private extension SuggestionListView {
 #elseif os(tvOS)
         .buttonStyle(.card)
 #endif
+    }
+
+    var segmentedControl: some View {
+        Picker("", selection: $viewModel.selectedTab) {
+            Text(TextManager.shared.texts.activeTab).tag(0)
+            Text(TextManager.shared.texts.completedTab).tag(1)
+        }
+        .pickerStyle(SegmentedPickerStyle())
+        .padding(theme.spacing.md)
+        .background(
+            theme.colors.background
+                .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
+        )
+        .onChange(of: viewModel.selectedTab) { newValue in
+            viewModel.selectTab(newValue)
+        }
     }
 }

@@ -15,6 +15,10 @@ struct FilterMenuView: View {
 
     @Binding var isExpanded: Bool
 
+    private var showCompletedSeparately: Bool {
+        ConfigurationManager.shared.showCompletedSeparately
+    }
+
     let selectedFilter: SuggestionStatusEntity?
     let onFilterSelected: (SuggestionStatusEntity?) -> Void
 
@@ -85,9 +89,11 @@ private extension FilterMenuView {
             Divider()
                 .background(theme.colors.secondary.opacity(0.05))
             filterOption(title: TextManager.shared.texts.blocked, filter: .blocked)
-            Divider()
-                .background(theme.colors.secondary.opacity(0.05))
-            filterOption(title: TextManager.shared.texts.completed, filter: .completed)
+            if !showCompletedSeparately {
+                Divider()
+                    .background(theme.colors.secondary.opacity(0.05))
+                filterOption(title: TextManager.shared.texts.completed, filter: .completed)
+            }
             Divider()
                 .background(theme.colors.secondary.opacity(0.05))
             filterOption(title: TextManager.shared.texts.inProgress, filter: .inProgress)

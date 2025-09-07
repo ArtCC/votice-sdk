@@ -133,6 +133,8 @@ struct VoticeTests {
             let beFirstToSuggest = "Mock Be First"
             let featureRequests = "Mock Feature Requests"
             let all = "Mock All"
+            let activeTab = "Mock Active"
+            let completedTab = "Mock Completed"
             let pending = "Mock Pending"
             let accepted = "Mock Accepted"
             let blocked = "Mock Blocked"

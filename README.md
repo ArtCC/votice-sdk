@@ -296,6 +296,27 @@ Votice.setDebugLogging(enabled: false)
 
 **Note:** Debug logging is automatically disabled in production builds and should only be enabled when specifically needed for debugging purposes.
 
+### 8. Show completed suggestions in a separate tab (Optional)
+
+You can choose to display suggestions with status `completed` in their own tab. When enabled:
+
+- A segmented control appears with two tabs: "Active" and "Completed".
+- Completed suggestions are removed from the main list.
+- The "Completed" filter disappears from the filter menu (no longer needed).
+- Completed suggestions are only visible in the dedicated tab.
+- If you don't enable it, the behavior remains the same as before.
+
+Enable:
+```swift
+Votice.setShowCompletedSeparately(enabled: true)
+```
+Disable (returns to original behavior):
+```swift
+Votice.setShowCompletedSeparately(enabled: false)
+```
+
+---
+
 ## 👨🏻‍💻 Contributing to Votice SDK
 
 Thank you for your interest in contributing to **Votice**!  

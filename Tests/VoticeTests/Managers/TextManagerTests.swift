@@ -15,72 +15,74 @@ import Foundation
 struct MockVoticeTexts: VoticeTextsProtocol {
     // MARK: - General
 
-    let cancel = "Cancelar"
-    let error = "Error"
-    let ok = "Aceptar"
-    let submit = "Enviar"
-    let optional = "Opcional"
-    let success = "Éxito"
-    let warning = "Advertencia"
-    let info = "Información"
-    let genericError = "Algo salió mal. Por favor, inténtalo de nuevo."
-    let anonymous = "Anónimo"
+    let cancel = "Test Cancel"
+    let error = "Test Error"
+    let ok = "Test OK"
+    let submit = "Test Submit"
+    let optional = "Test Optional"
+    let success = "Test Success"
+    let warning = "Test Warning"
+    let info = "Test Info"
+    let genericError = "Test Generic Error"
+    let anonymous = "Test Anonymous"
 
     // MARK: - Suggestion List
 
-    let loadingSuggestions = "Cargando sugerencias..."
-    let noSuggestionsYet = "No hay sugerencias aún."
-    let beFirstToSuggest = "¡Sé el primero en sugerir algo!"
-    let featureRequests = "Solicitudes de funciones"
-    let all = "Todas"
-    let pending = "Pendiente"
-    let accepted = "Aceptada"
-    let blocked = "Bloqueada"
-    let inProgress = "En progreso"
-    let completed = "Completada"
-    let rejected = "Rechazada"
-    let tapPlusToGetStarted = "Toca + para empezar"
-    let loadingMore = "Cargando más..."
+    let loadingSuggestions = "Test Loading"
+    let noSuggestionsYet = "Test No Suggestions"
+    let beFirstToSuggest = "Test Be First"
+    let featureRequests = "Test Feature Requests"
+    let all = "Test All"
+    let activeTab = "Test Active"
+    let completedTab = "Test Completed"
+    let pending = "Test Pending"
+    let accepted = "Test Accepted"
+    let blocked = "Test Blocked"
+    let inProgress = "Test In Progress"
+    let completed = "Test Completed"
+    let rejected = "Test Rejected"
+    let tapPlusToGetStarted = "Test Tap Plus"
+    let loadingMore = "Test Loading More"
 
     // MARK: - Suggestion Detail
 
-    let suggestionTitle = "Sugerencia"
-    let close = "Cerrar"
-    let deleteSuggestionTitle = "Eliminar Sugerencia"
-    let deleteSuggestionMessage = "¿Estás seguro de que quieres eliminar esta sugerencia?"
-    let delete = "Eliminar"
-    let suggestedBy = "Sugerido por"
-    let suggestedAnonymously = "Sugerido anónimamente"
-    let votes = "votos"
-    let comments = "comentarios"
-    let commentsSection = "Comentarios"
-    let loadingComments = "Cargando comentarios..."
-    let noComments = "No hay comentarios aún. ¡Sé el primero en comentar!"
-    let addComment = "Añadir comentario"
-    let yourComment = "Tu Comentario"
-    let shareYourThoughts = "Comparte tus pensamientos..."
-    let yourNameOptional = "Tu Nombre (Opcional)"
-    let enterYourName = "Introduce tu nombre"
-    let newComment = "Nuevo Comentario"
-    let post = "Publicar"
-    let deleteCommentTitle = "Eliminar Comentario"
-    let deleteCommentMessage = "¿Estás seguro de que quieres eliminar este comentario?"
-    let deleteCommentPrimary = "Eliminar"
+    let suggestionTitle = "Test Suggestion"
+    let close = "Test Close"
+    let deleteSuggestionTitle = "Test Delete Suggestion"
+    let deleteSuggestionMessage = "Test Delete Message"
+    let delete = "Test Delete"
+    let suggestedBy = "Test Suggested By"
+    let suggestedAnonymously = "Test Suggested Anonymously"
+    let votes = "test votes"
+    let comments = "test comments"
+    let commentsSection = "Test Comments"
+    let loadingComments = "Test Loading Comments"
+    let noComments = "Test No Comments"
+    let addComment = "Test Add Comment"
+    let yourComment = "Test Your Comment"
+    let shareYourThoughts = "Test Share Thoughts"
+    let yourNameOptional = "Test Your Name"
+    let enterYourName = "Test Enter Name"
+    let newComment = "Test New Comment"
+    let post = "Test Post"
+    let deleteCommentTitle = "Test Delete Comment"
+    let deleteCommentMessage = "Test Delete Comment Message"
+    let deleteCommentPrimary = "Test Delete"
 
     // MARK: - Create Suggestion
 
-    let newSuggestion = "Nueva Sugerencia"
-    let shareYourIdea = "Comparte tu idea"
-    let helpUsImprove = "Ayúdanos a mejorar sugiriendo nuevas funciones o mejoras."
-    let title = "Título"
-    let titlePlaceholder = "Introduce un título breve para tu sugerencia"
-    let keepItShort = "Manténlo corto y descriptivo"
-    let descriptionOptional = "Descripción (Opcional)"
-    let descriptionPlaceholder = "Describe tu sugerencia en detalle..."
-    let explainWhyUseful = "Explica por qué esta función sería útil"
-    let yourNameOptionalCreate = "Tu Nombre (Opcional)"
-    let enterYourNameCreate = "Introduce tu nombre"
-    let leaveEmptyAnonymous = "Déjalo vacío para enviar anónimamente"
+    let newSuggestion = "Test New Suggestion"
+    let shareYourIdea = "Test Share Idea"
+    let helpUsImprove = "Test Help Improve"
+    let title = "Test Title"
+    let titlePlaceholder = "Test Title Placeholder"
+    let keepItShort = "Test Keep Short"
+    let descriptionOptional = "Test Description"
+    let descriptionPlaceholder = "Test Description Placeholder"
+    let explainWhyUseful = "Test Explain Useful"
+    let yourNameOptionalCreate = "Test Your Name Create"
+    let enterYourNameCreate = "Test Enter Name Create"
+    let leaveEmptyAnonymous = "Test Leave Empty"
 }
 
 // MARK: - TextManager Tests
@@ -123,14 +125,14 @@ func testTextManagerUpdateTexts() async {
     let updatedTexts = manager.texts
 
     // Then
-    #expect(updatedTexts.cancel == "Cancelar")
-    #expect(updatedTexts.error == "Error")
-    #expect(updatedTexts.ok == "Aceptar")
-    #expect(updatedTexts.submit == "Enviar")
-    #expect(updatedTexts.optional == "Opcional")
-    #expect(updatedTexts.loadingSuggestions == "Cargando sugerencias...")
-    #expect(updatedTexts.featureRequests == "Solicitudes de funciones")
-    #expect(updatedTexts.newSuggestion == "Nueva Sugerencia")
+    #expect(updatedTexts.cancel == "Test Cancel")
+    #expect(updatedTexts.error == "Test Error")
+    #expect(updatedTexts.ok == "Test OK")
+    #expect(updatedTexts.submit == "Test Submit")
+    #expect(updatedTexts.optional == "Test Optional")
+    #expect(updatedTexts.loadingSuggestions == "Test Loading")
+    #expect(updatedTexts.featureRequests == "Test Feature Requests")
+    #expect(updatedTexts.newSuggestion == "Test New Suggestion")
 
     // Reset for other tests
     manager.resetToDefault()
@@ -144,7 +146,7 @@ func testTextManagerResetToDefault() async {
     manager.setTexts(mockTexts)
 
     // Verify it's changed
-    #expect(manager.texts.cancel == "Cancelar")
+    #expect(manager.texts.cancel == "Test Cancel")
 
     // When
     manager.resetToDefault()
@@ -243,6 +245,8 @@ func testTextManagerMultipleUpdates() async {
         let beFirstToSuggest = "Soyez le premier à suggérer quelque chose!"
         let featureRequests = "Demandes de fonctionnalités"
         let all = "Toutes"
+        let activeTab = "Actif"
+        let completedTab = "Terminé"
         let pending = "En attente"
         let accepted = "Acceptée"
         let blocked = "Bloquée"
@@ -291,7 +295,7 @@ func testTextManagerMultipleUpdates() async {
 
     // When - Multiple updates
     manager.setTexts(mockTexts1)
-    #expect(manager.texts.cancel == "Cancelar")
+    #expect(manager.texts.cancel == "Test Cancel")
 
     manager.setTexts(mockTexts2)
     #expect(manager.texts.cancel == "Annuler")

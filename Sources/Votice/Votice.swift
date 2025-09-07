@@ -61,6 +61,14 @@ public struct Votice {
         ConfigurationManager.shared.commentIsEnabled = enabled
     }
 
+    /// Enable or disable showing completed suggestions separately with a segmented control
+    /// - Parameter enabled: Whether to show completed suggestions in a separate tab
+    /// - Note: When enabled, completed suggestions will be shown in a dedicated tab and removed from the main
+    /// list and filter options. Disabled by default.
+    public static func setShowCompletedSeparately(enabled: Bool) {
+        ConfigurationManager.shared.showCompletedSeparately = enabled
+    }
+
     // MARK: - UI Presentation
 
     /// Present the Votice feedback interface

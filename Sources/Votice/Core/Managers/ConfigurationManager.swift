@@ -17,6 +17,7 @@ protocol ConfigurationManagerProtocol: Sendable {
     var apiSecret: String { get }
     var appId: String { get }
     var commentIsEnabled: Bool { get set }
+    var showCompletedSeparately: Bool { get set }
     var version: String { get }
     var buildNumber: String { get }
 
@@ -37,6 +38,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     private var _appId = ""
     private var _isConfigured = false
     private var _commentIsEnabled = true
+    private var _showCompletedSeparately = false
 
     private let lock = NSLock()
     private let _baseURL = "https://api.votice.app/api"
@@ -76,6 +78,15 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
         }
         set {
             lock.withLock { _commentIsEnabled = newValue }
+        }
+    }
+
+    var showCompletedSeparately: Bool {
+        get {
+            lock.withLock { _showCompletedSeparately }
+        }
+        set {
+            lock.withLock { _showCompletedSeparately = newValue }
         }
     }
 
@@ -138,6 +149,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
             _appId = ""
             _isConfigured = false
             _commentIsEnabled = true
+            _showCompletedSeparately = false
 
             LogManager.shared.devLog(.info, "ConfigurationManager: reset")
         }

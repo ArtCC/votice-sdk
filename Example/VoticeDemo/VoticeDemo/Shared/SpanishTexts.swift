@@ -32,6 +32,8 @@ struct SpanishTexts: VoticeTextsProtocol {
     let beFirstToSuggest = "¡Sé el primero en sugerir algo!"
     let featureRequests = "Sugerencias"
     let all = "Todas"
+    let activeTab = "Activas"
+    let completedTab = "Completadas"
     let pending = "Pendiente"
     let accepted = "Aceptada"
     let blocked = "Bloqueada"
