@@ -18,6 +18,7 @@ protocol ConfigurationManagerProtocol: Sendable {
     var appId: String { get }
     var commentIsEnabled: Bool { get set }
     var showCompletedSeparately: Bool { get set }
+    var optionalVisibleStatuses: Set<SuggestionStatusEntity> { get }
     var version: String { get }
     var buildNumber: String { get }
 
@@ -39,6 +40,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     private var _isConfigured = false
     private var _commentIsEnabled = true
     private var _showCompletedSeparately = false
+    private var _optionalVisibleStatuses: Set<SuggestionStatusEntity> = [.accepted, .blocked, .rejected]
 
     private let lock = NSLock()
     private let _baseURL = "https://api.votice.app/api"
@@ -87,6 +89,12 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
         }
         set {
             lock.withLock { _showCompletedSeparately = newValue }
+        }
+    }
+
+    var optionalVisibleStatuses: Set<SuggestionStatusEntity> {
+        lock.withLock {
+            _optionalVisibleStatuses
         }
     }
 
@@ -142,6 +150,31 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
         }
     }
 
+    func setOptionalVisibleStatus(accepted: Bool, blocked: Bool, rejected: Bool) {
+        var statuses: [SuggestionStatusEntity] = []
+
+        if accepted {
+            statuses.append(.accepted)
+        }
+
+        if blocked {
+            statuses.append(.blocked)
+        }
+
+        if rejected {
+            statuses.append(.rejected)
+        }
+
+        lock.withLock {
+            _optionalVisibleStatuses = Set(statuses)
+        }
+
+        LogManager.shared.devLog(
+            .info,
+            "ConfigurationManager: updated optional visible statuses to \(_optionalVisibleStatuses)"
+        )
+    }
+
     func reset() {
         lock.withLock {
             _apiKey = ""
@@ -150,6 +183,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
             _isConfigured = false
             _commentIsEnabled = true
             _showCompletedSeparately = false
+            _optionalVisibleStatuses = [.accepted, .blocked, .rejected]
 
             LogManager.shared.devLog(.info, "ConfigurationManager: reset")
         }

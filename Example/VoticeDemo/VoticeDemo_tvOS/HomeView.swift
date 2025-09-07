@@ -76,6 +76,7 @@ private extension HomeView {
             Votice.setDebugLogging(enabled: true)
             Votice.setCommentIsEnabled(enabled: true)
             Votice.setShowCompletedSeparately(enabled: false)
+            Votice.setVisibleOptionalStatuses(accepted: true, blocked: true, rejected: true)
 
             isConfigured = Votice.isConfigured
 

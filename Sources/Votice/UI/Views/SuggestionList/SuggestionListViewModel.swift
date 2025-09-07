@@ -284,9 +284,34 @@ final class SuggestionListViewModel: ObservableObject {
 
 private extension SuggestionListViewModel {
     func applyFilter() {
+        // Determine allowed statuses based on configuration
+        let visibleOptional = ConfigurationManager.shared.optionalVisibleStatuses
+        let mandatory: Set<SuggestionStatusEntity> = [.inProgress, .pending, .completed]
+
+        // Combine both sets to get the final allowed statuses
+        var allowed: Set<SuggestionStatusEntity> = visibleOptional.union(mandatory)
+
+        // If completed suggestions are shown separately, remove 'completed' from allowed statuses
+        let showCompletedSeparately = self.showCompletedSeparately
+
+        // If the current selected filter is not in allowed statuses, clear it
+        if let current = selectedFilter,
+           !allowed.contains(current) || (showCompletedSeparately && current == .completed) {
+            selectedFilter = nil
+            do {
+                try suggestionUseCase.clearFilterApplied()
+            } catch {
+                LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to clear invalid filter: \(error)")
+            }
+        }
+
+        // Filter suggestions based on allowed statuses
+        let baseAll = allSuggestions.filter { allowed.contains($0.status ?? .pending) }
+
+        // If showing completed separately, split the suggestions
         if showCompletedSeparately {
-            let completed = allSuggestions.filter { $0.status == .completed }
-            let active = allSuggestions.filter { $0.status != .completed }
+            let completed = baseAll.filter { $0.status == .completed }
+            let active = baseAll.filter { $0.status != .completed }
 
             allCompletedSuggestions = completed
             completedSuggestions = completed
@@ -297,10 +322,11 @@ private extension SuggestionListViewModel {
                 suggestions = active
             }
         } else {
+            // Not showing completed separately, treat all suggestions the same
             if let selectedFilter {
-                suggestions = allSuggestions.filter { $0.status == selectedFilter }
+                suggestions = baseAll.filter { $0.status == selectedFilter }
             } else {
-                suggestions = allSuggestions
+                suggestions = baseAll
             }
         }
     }
