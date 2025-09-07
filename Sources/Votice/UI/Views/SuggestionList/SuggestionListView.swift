@@ -116,7 +116,7 @@ private extension SuggestionListView {
         .padding(theme.spacing.md)
         .background(
             theme.colors.background
-                .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
         .zIndex(1)
     }
@@ -209,7 +209,7 @@ private extension SuggestionListView {
         .padding(theme.spacing.md)
         .background(
             theme.colors.background
-                .shadow(color: theme.colors.primary.opacity(0.1), radius: 2, x: 0, y: 1)
+                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
         )
         .onChange(of: viewModel.selectedTab) { newValue in
             viewModel.selectTab(newValue)
