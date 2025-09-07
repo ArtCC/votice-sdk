@@ -18,10 +18,16 @@ jobs:
     - name: Select Xcode Version
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '16.2'
+        xcode-version: 'latest-stable'
 
     - name: List available simulators
-      run: xcrun simctl list devices --json | jq '.devices | to_entries[] | select(.key | contains("iOS")) | .key'
+      run: |
+        echo "=== Xcode version ==="
+        xcodebuild -version
+        echo "=== Available iOS Simulators ==="
+        xcrun simctl list devices ios
+        echo "=== Available destinations ==="
+        xcodebuild -project Example/VoticeDemo/VoticeDemo.xcodeproj -scheme VoticeDemo -showdestinations
 
     - name: Build and Test Swift Package
       run: swift test --verbose
@@ -29,30 +35,9 @@ jobs:
     - name: Build iOS Example
       run: |
         cd Example/VoticeDemo
-        
-        # Try with iPhone 15 first
-        if xcodebuild -project VoticeDemo.xcodeproj \
-                      -scheme VoticeDemo \
-                      -destination 'platform=iOS Simulator,name=iPhone 15' \
-                      build \
-                      CODE_SIGN_IDENTITY="" \
-                      CODE_SIGNING_REQUIRED=NO; then
-          echo "Build successful with iPhone 15"
-        # Fallback to iPhone 14 if iPhone 15 is not available
-        elif xcodebuild -project VoticeDemo.xcodeproj \
-                        -scheme VoticeDemo \
-                        -destination 'platform=iOS Simulator,name=iPhone 14' \
-                        build \
-                        CODE_SIGN_IDENTITY="" \
-                        CODE_SIGNING_REQUIRED=NO; then
-          echo "Build successful with iPhone 14"
-        # Final fallback to any iOS simulator
-        else
-          echo "Trying with any available iOS simulator..."
-          xcodebuild -project VoticeDemo.xcodeproj \
-                     -scheme VoticeDemo \
-                     -destination 'generic/platform=iOS Simulator' \
-                     build \
-                     CODE_SIGN_IDENTITY="" \
-                     CODE_SIGNING_REQUIRED=NO
-        fi
+        xcodebuild -project VoticeDemo.xcodeproj \
+                   -scheme VoticeDemo \
+                   -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
+                   build \
+                   CODE_SIGN_IDENTITY="" \
+                   CODE_SIGNING_REQUIRED=NO
