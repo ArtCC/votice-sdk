@@ -118,9 +118,11 @@ public struct Votice {
     ///   - primaryColor: Primary color for buttons and accents
     ///   - backgroundColor: Background color for the interface
     ///   - surfaceColor: Surface color for cards and components
-    public static func createTheme(primaryColor: Color? = nil,
-                                   backgroundColor: Color? = nil,
-                                   surfaceColor: Color? = nil) -> VoticeTheme {
+    public static func createTheme(
+        primaryColor: Color? = nil,
+        backgroundColor: Color? = nil,
+        surfaceColor: Color? = nil
+    ) -> VoticeTheme {
         // Use smart defaults if no colors are provided
         createAdvancedTheme(primaryColor: primaryColor,
                             backgroundColor: backgroundColor,
@@ -296,9 +298,11 @@ public struct Votice {
     ///   - backgroundColor: Background color for the interface
     ///   - surfaceColor: Surface color for cards and components
     /// - Returns: A theme with current font configuration applied
-    public static func createThemeWithCurrentFonts(primaryColor: Color? = nil,
-                                                   backgroundColor: Color? = nil,
-                                                   surfaceColor: Color? = nil) -> VoticeTheme {
+    public static func createThemeWithCurrentFonts(
+        primaryColor: Color? = nil,
+        backgroundColor: Color? = nil,
+        surfaceColor: Color? = nil
+    ) -> VoticeTheme {
         let colors = createAdvancedTheme(
             primaryColor: primaryColor,
             backgroundColor: backgroundColor,

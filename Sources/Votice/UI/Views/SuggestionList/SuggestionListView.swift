@@ -201,18 +201,13 @@ private extension SuggestionListView {
     }
 
     var segmentedControl: some View {
-        Picker("", selection: $viewModel.selectedTab) {
-            Text(TextManager.shared.texts.activeTab).tag(0)
-            Text(TextManager.shared.texts.completedTab).tag(1)
-        }
-        .pickerStyle(SegmentedPickerStyle())
-        .padding(theme.spacing.md)
-        .background(
-            theme.colors.background
-                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+        CustomSegmentedControl(
+            selection: $viewModel.selectedTab,
+            segments: [
+                .init(id: 0, title: TextManager.shared.texts.activeTab),
+                .init(id: 1, title: TextManager.shared.texts.completedTab)
+            ]
         )
-        .onChange(of: viewModel.selectedTab) { newValue in
-            viewModel.selectTab(newValue)
-        }
+        .transition(.opacity.combined(with: .move(edge: .top)))
     }
 }
