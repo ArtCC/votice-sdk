@@ -201,6 +201,8 @@ To reset to the default English:
 Votice.resetTextsToDefault()
 ```
 
+Check this URL to learn how to localize your app https://gist.github.com/ArtCC/10a0eff42f1f62c305b28c15883b9b9f
+
 ### 5. Using Custom Fonts (Optional)
 
 You can customize all SDK interface fonts using your own fonts included in your project. This allows you to maintain visual consistency with your app's identity.
