@@ -67,6 +67,8 @@
 		805C23F92E19691C00AB56D0 /* PoppinsFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F52E19691C00AB56D0 /* PoppinsFont.swift */; };
 		805C23FA2E19691C00AB56D0 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F42E19691C00AB56D0 /* Font.swift */; };
 		805C23FB2E19691C00AB56D0 /* PoppinsFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C23F52E19691C00AB56D0 /* PoppinsFont.swift */; };
+		806FA4C62E7AD89400A280EF /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 806FA4C52E7AD89400A280EF /* AppIcon.icon */; };
+		806FA4C72E7AD89400A280EF /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 806FA4C52E7AD89400A280EF /* AppIcon.icon */; };
 		80C850FF2E1DCD82004A817B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C850FE2E1DCD82004A817B /* HomeView.swift */; };
 		80C851012E1DCD8B004A817B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C851002E1DCD8B004A817B /* HomeView.swift */; };
 		80C851032E1DCDC9004A817B /* SpanishTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C851022E1DCDC9004A817B /* SpanishTexts.swift */; };
@@ -162,6 +164,7 @@
 		805C23D72E1968CC00AB56D0 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Thin.ttf"; sourceTree = "<group>"; };
 		805C23F42E19691C00AB56D0 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		805C23F52E19691C00AB56D0 /* PoppinsFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoppinsFont.swift; sourceTree = "<group>"; };
+		806FA4C52E7AD89400A280EF /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		80C850FE2E1DCD82004A817B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		80C851002E1DCD8B004A817B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		80C851022E1DCDC9004A817B /* SpanishTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpanishTexts.swift; sourceTree = "<group>"; };
@@ -377,11 +380,9 @@
 		805C23CE2E1968BD00AB56D0 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				806FA4C82E7AD8BA00A280EF /* App */,
 				805C23D82E1968CC00AB56D0 /* Fonts */,
-				802C373F2E3A84E400A8DD52 /* Views */,
-				805C23F42E19691C00AB56D0 /* Font.swift */,
-				805C23F52E19691C00AB56D0 /* PoppinsFont.swift */,
-				80C851022E1DCDC9004A817B /* SpanishTexts.swift */,
+				806FA4C42E7AD88900A280EF /* Resources */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -400,6 +401,25 @@
 				805C23D72E1968CC00AB56D0 /* Poppins-Thin.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		806FA4C42E7AD88900A280EF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				806FA4C52E7AD89400A280EF /* AppIcon.icon */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		806FA4C82E7AD8BA00A280EF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				802C373F2E3A84E400A8DD52 /* Views */,
+				805C23F42E19691C00AB56D0 /* Font.swift */,
+				805C23F52E19691C00AB56D0 /* PoppinsFont.swift */,
+				80C851022E1DCDC9004A817B /* SpanishTexts.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -675,6 +695,7 @@
 				805C23ED2E1968CC00AB56D0 /* Poppins-Light.ttf in Resources */,
 				805C23EE2E1968CC00AB56D0 /* Poppins-ExtraLight.ttf in Resources */,
 				805C23EF2E1968CC00AB56D0 /* Poppins-Bold.ttf in Resources */,
+				806FA4C62E7AD89400A280EF /* AppIcon.icon in Resources */,
 				805C23F02E1968CC00AB56D0 /* Poppins-ExtraBold.ttf in Resources */,
 				805C23F12E1968CC00AB56D0 /* Poppins-Thin.ttf in Resources */,
 				805C23F22E1968CC00AB56D0 /* Poppins-Regular.ttf in Resources */,
@@ -737,6 +758,7 @@
 				805C23E42E1968CC00AB56D0 /* Poppins-Light.ttf in Resources */,
 				805C23E52E1968CC00AB56D0 /* Poppins-ExtraLight.ttf in Resources */,
 				805C23E62E1968CC00AB56D0 /* Poppins-Bold.ttf in Resources */,
+				806FA4C72E7AD89400A280EF /* AppIcon.icon in Resources */,
 				805C23E72E1968CC00AB56D0 /* Poppins-ExtraBold.ttf in Resources */,
 				805C23E82E1968CC00AB56D0 /* Poppins-Thin.ttf in Resources */,
 				805C23E92E1968CC00AB56D0 /* Poppins-Regular.ttf in Resources */,
@@ -918,6 +940,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = VoticeDemo_macOS/VoticeDemo_macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -950,6 +973,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = VoticeDemo_macOS/VoticeDemo_macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1056,6 +1080,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
@@ -1086,6 +1111,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
@@ -1223,7 +1249,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -1241,7 +1267,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1299,7 +1325,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1315,6 +1341,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
@@ -1348,6 +1375,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
