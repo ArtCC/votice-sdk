@@ -41,7 +41,7 @@ The Votice management app for handling suggestions and apps is available for dow
 Add this line to your `Package.swift` dependencies:
 
 ```swift
-.package(url: "https://github.com/artcc/votice-sdk", from: "1.0.8"),
+.package(url: "https://github.com/artcc/votice-sdk", from: "1.0.9"),
 ```
 
 Or via Xcode:
@@ -200,6 +200,8 @@ To reset to the default English:
 ```swift
 Votice.resetTextsToDefault()
 ```
+
+Check this URL to learn how to localize your app https://gist.github.com/ArtCC/10a0eff42f1f62c305b28c15883b9b9f
 
 ### 5. Using Custom Fonts (Optional)
 
