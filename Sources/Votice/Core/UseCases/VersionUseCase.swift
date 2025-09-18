@@ -20,7 +20,7 @@ final class VersionUseCase: VersionUseCaseProtocol {
     private let deviceManager: DeviceManagerProtocol
     private let userDefaults: UserDefaults
     private let lastReportKey = "Votice_LastVersionReportDate"
-    private let reportInterval: TimeInterval = 60 * 60 * 24 * 7
+    private let reportInterval: TimeInterval = 60 * 60 * 24 * 3 // 3 days
 
     // MARK: - Init
 
