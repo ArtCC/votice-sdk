@@ -13,12 +13,7 @@ protocol SuggestionUseCaseProtocol: Sendable {
     func setFilterApplied(_ status: SuggestionStatusEntity?) throws
     func clearFilterApplied() throws
     func fetchSuggestions(pagination: PaginationRequest) async throws -> SuggestionsResponse
-    func createSuggestion(
-        title: String,
-        description: String?,
-        nickname: String?,
-        userIsPremium: Bool
-    ) async throws -> CreateSuggestionResponse
+    func createSuggestion(request: CreateSuggestionRequest) async throws -> CreateSuggestionResponse
     func deleteSuggestion(suggestionId: String) async throws -> DeleteSuggestionResponse
     func fetchVoteStatus(suggestionId: String) async throws -> VoteStatusEntity
     func vote(suggestionId: String, voteType: VoteType) async throws -> VoteSuggestionResponse
@@ -66,29 +61,26 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
         return try await suggestionRepository.fetchSuggestions(request: request)
     }
 
-    func createSuggestion(
-        title: String,
-        description: String?,
-        nickname: String?,
-        userIsPremium: Bool
-    ) async throws -> CreateSuggestionResponse {
+    func createSuggestion(request: CreateSuggestionRequest) async throws -> CreateSuggestionResponse {
         try configurationManager.validateConfiguration()
 
-        guard !title.isEmpty else {
+        guard !request.title.isEmpty else {
             throw VoticeError.invalidInput("Title cannot be empty")
         }
 
-        let request = CreateSuggestionRequest(
-            title: title,
-            description: description,
+        let entity = CreateSuggestionRequest(
+            title: request.title,
+            description: request.description,
             deviceId: deviceManager.deviceId,
-            nickname: nickname,
+            nickname: request.nickname,
             platform: deviceManager.platform,
             language: deviceManager.language,
-            userIsPremium: userIsPremium
+            userIsPremium: request.userIsPremium,
+            issue: request.issue,
+            urlImage: request.urlImage
         )
 
-        return try await suggestionRepository.createSuggestion(request: request)
+        return try await suggestionRepository.createSuggestion(request: entity)
     }
 
     func deleteSuggestion(suggestionId: String) async throws -> DeleteSuggestionResponse {

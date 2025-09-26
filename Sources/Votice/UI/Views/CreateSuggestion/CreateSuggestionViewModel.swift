@@ -46,12 +46,15 @@ final class CreateSuggestionViewModel: ObservableObject {
 
         do {
             let user: UserEntity = ConfigurationManager.shared.user
-            let response = try await suggestionUseCase.createSuggestion(
+            let request: CreateSuggestionRequest = .init(
                 title: title,
                 description: description,
                 nickname: nickname,
-                userIsPremium: user.isPremium
+                userIsPremium: user.isPremium,
+                issue: false,
+                urlImage: nil
             )
+            let response = try await suggestionUseCase.createSuggestion(request: request)
 
             return response.suggestion
         } catch {

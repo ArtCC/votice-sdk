@@ -28,6 +28,8 @@ struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
     let voteCount: Int?
     let language: String?
     let userIsPremium: Bool
+    let issue: Bool
+    let urlImage: String?
 
     // MARK: - Init
 
@@ -47,7 +49,9 @@ struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
          commentCount: Int? = nil,
          voteCount: Int? = nil,
          language: String? = nil,
-         userIsPremium: Bool = false) {
+         userIsPremium: Bool = false,
+         issue: Bool = false,
+         urlImage: String? = nil) {
         self.id = id
         self.appId = appId
         self.title = title
@@ -65,6 +69,8 @@ struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
         self.voteCount = voteCount
         self.language = language
         self.userIsPremium = userIsPremium
+        self.issue = issue
+        self.urlImage = urlImage
     }
 }
 
@@ -103,7 +109,9 @@ extension SuggestionEntity {
         commentCount: Int? = nil,
         voteCount: Int? = nil,
         language: String? = nil,
-        userIsPremium: Bool = false
+        userIsPremium: Bool = false,
+        issue: Bool = false,
+        urlImage: String? = nil
     ) -> SuggestionEntity {
         SuggestionEntity(
             id: id ?? self.id,
@@ -122,7 +130,9 @@ extension SuggestionEntity {
             commentCount: commentCount ?? self.commentCount,
             voteCount: voteCount ?? self.voteCount,
             language: language ?? self.language,
-            userIsPremium: userIsPremium
+            userIsPremium: userIsPremium,
+            issue: issue,
+            urlImage: urlImage ?? self.urlImage
         )
     }
 }
