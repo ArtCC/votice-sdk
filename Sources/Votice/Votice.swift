@@ -76,6 +76,13 @@ public struct Votice {
         ConfigurationManager.shared.setOptionalVisibleStatus(accepted: accepted, blocked: blocked, rejected: rejected)
     }
 
+    /// Set the current user information
+    /// - Parameter isPremium: Whether the user has a premium subscription
+    /// - Note: This can be used to customize the UI and features based on the user's subscription status
+    public static func setUserIsPremium(isPremium: Bool) {
+        ConfigurationManager.shared.user = UserEntity(isPremium: isPremium)
+    }
+
     // MARK: - UI Presentation
 
     /// Present the Votice feedback interface

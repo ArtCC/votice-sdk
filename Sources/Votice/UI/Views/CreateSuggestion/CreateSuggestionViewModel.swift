@@ -45,13 +45,18 @@ final class CreateSuggestionViewModel: ObservableObject {
         }
 
         do {
-            let response = try await suggestionUseCase.createSuggestion(title: title,
-                                                                        description: description,
-                                                                        nickname: nickname)
+            let user: UserEntity = ConfigurationManager.shared.user
+            let response = try await suggestionUseCase.createSuggestion(
+                title: title,
+                description: description,
+                nickname: nickname,
+                userIsPremium: user.isPremium
+            )
 
             return response.suggestion
         } catch {
             LogManager.shared.devLog(.error, "CreateSuggestionViewModel: failed to create suggestion: \(error)")
+
             showError()
 
             throw error
@@ -60,9 +65,11 @@ final class CreateSuggestionViewModel: ObservableObject {
 
     func submitSuggestion(onSuccess: @escaping (SuggestionEntity) -> Void) async {
         do {
-            let suggestion = try await createSuggestion(title: title,
-                                                        description: description,
-                                                        nickname: nickname.isEmpty ? nil : nickname)
+            let suggestion = try await createSuggestion(
+                title: title,
+                description: description,
+                nickname: nickname.isEmpty ? nil : nickname
+            )
 
             onSuccess(suggestion)
         } catch {

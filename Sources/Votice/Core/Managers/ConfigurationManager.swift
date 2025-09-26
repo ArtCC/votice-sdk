@@ -18,6 +18,7 @@ protocol ConfigurationManagerProtocol: Sendable {
     var appId: String { get }
     var commentIsEnabled: Bool { get set }
     var showCompletedSeparately: Bool { get set }
+    var user: UserEntity { get set }
     var optionalVisibleStatuses: Set<SuggestionStatusEntity> { get }
     var version: String { get }
     var buildNumber: String { get }
@@ -40,6 +41,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     private var _isConfigured = false
     private var _commentIsEnabled = true
     private var _showCompletedSeparately = false
+    private var _user = UserEntity(isPremium: false)
     private var _optionalVisibleStatuses: Set<SuggestionStatusEntity> = [.accepted, .blocked, .rejected]
 
     private let lock = NSLock()
@@ -89,6 +91,15 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
         }
         set {
             lock.withLock { _showCompletedSeparately = newValue }
+        }
+    }
+
+    var user: UserEntity {
+        get {
+            lock.withLock { _user }
+        }
+        set {
+            lock.withLock { _user = newValue }
         }
     }
 

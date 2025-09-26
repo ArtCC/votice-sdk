@@ -263,7 +263,7 @@ Votice.feedbackView(theme: theme)
 
 > ℹ️ If you do not configure custom fonts, the SDK will use the default system fonts.
 
-### 6. Comment on susgestions (Optional)
+### 6. Comment on suggestions (Optional)
 
 You can allow users to comment on suggestions by enabling the comments feature (Default is enabled):
 
@@ -271,7 +271,15 @@ You can allow users to comment on suggestions by enabling the comments feature (
 Votice.setCommentIsEnabled(enabled: Bool)
 ```
 
-### 7. Debug Logging (Optional)
+### 7. User is premium (Optional)
+
+If you want to mark the current user as a premium user (Default is false), you can do so with:
+
+```swift
+Votice.setUserIsPremium(isPremium: Bool)
+```
+
+### 8. Debug Logging (Optional)
 
 By default, Votice SDK runs silently to avoid cluttering your development console. If you need to troubleshoot SDK issues or see internal operations, you can enable debug logging (Default is disabled):
 

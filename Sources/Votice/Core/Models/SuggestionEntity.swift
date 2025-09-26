@@ -27,6 +27,7 @@ struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
     let commentCount: Int?
     let voteCount: Int?
     let language: String?
+    let userIsPremium: Bool
 
     // MARK: - Init
 
@@ -45,7 +46,8 @@ struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
          source: SuggestionSource? = nil,
          commentCount: Int? = nil,
          voteCount: Int? = nil,
-         language: String? = nil) {
+         language: String? = nil,
+         userIsPremium: Bool = false) {
         self.id = id
         self.appId = appId
         self.title = title
@@ -62,6 +64,7 @@ struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
         self.commentCount = commentCount
         self.voteCount = voteCount
         self.language = language
+        self.userIsPremium = userIsPremium
     }
 }
 
@@ -83,37 +86,43 @@ extension SuggestionEntity {
 
     // MARK: - Functions
 
-    func copyWith(id: String? = nil,
-                  appId: String? = nil,
-                  title: String? = nil,
-                  text: String? = nil,
-                  description: String? = nil,
-                  nickname: String? = nil,
-                  createdAt: String? = nil,
-                  updatedAt: String? = nil,
-                  platform: String? = nil,
-                  createdBy: String? = nil,
-                  deviceId: String? = nil,
-                  status: SuggestionStatusEntity? = nil,
-                  source: SuggestionSource? = nil,
-                  commentCount: Int? = nil,
-                  voteCount: Int? = nil,
-                  language: String? = nil) -> SuggestionEntity {
-        SuggestionEntity(id: id ?? self.id,
-                         appId: appId ?? self.appId,
-                         title: title ?? self.title,
-                         text: text ?? self.text,
-                         description: description ?? self.description,
-                         nickname: nickname ?? self.nickname,
-                         createdAt: createdAt ?? self.createdAt,
-                         updatedAt: updatedAt ?? self.updatedAt,
-                         platform: platform ?? self.platform,
-                         createdBy: createdBy ?? self.createdBy,
-                         deviceId: deviceId ?? self.deviceId,
-                         status: status ?? self.status,
-                         source: source ?? self.source,
-                         commentCount: commentCount ?? self.commentCount,
-                         voteCount: voteCount ?? self.voteCount,
-                         language: language ?? self.language)
+    func copyWith(
+        id: String? = nil,
+        appId: String? = nil,
+        title: String? = nil,
+        text: String? = nil,
+        description: String? = nil,
+        nickname: String? = nil,
+        createdAt: String? = nil,
+        updatedAt: String? = nil,
+        platform: String? = nil,
+        createdBy: String? = nil,
+        deviceId: String? = nil,
+        status: SuggestionStatusEntity? = nil,
+        source: SuggestionSource? = nil,
+        commentCount: Int? = nil,
+        voteCount: Int? = nil,
+        language: String? = nil,
+        userIsPremium: Bool = false
+    ) -> SuggestionEntity {
+        SuggestionEntity(
+            id: id ?? self.id,
+            appId: appId ?? self.appId,
+            title: title ?? self.title,
+            text: text ?? self.text,
+            description: description ?? self.description,
+            nickname: nickname ?? self.nickname,
+            createdAt: createdAt ?? self.createdAt,
+            updatedAt: updatedAt ?? self.updatedAt,
+            platform: platform ?? self.platform,
+            createdBy: createdBy ?? self.createdBy,
+            deviceId: deviceId ?? self.deviceId,
+            status: status ?? self.status,
+            source: source ?? self.source,
+            commentCount: commentCount ?? self.commentCount,
+            voteCount: voteCount ?? self.voteCount,
+            language: language ?? self.language,
+            userIsPremium: userIsPremium
+        )
     }
 }
