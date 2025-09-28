@@ -17,7 +17,7 @@ struct CreateSuggestionView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.voticeTheme) private var theme
 
-    @StateObject private var viewModel = CreateSuggestionViewModel()
+    @StateObject var viewModel = CreateSuggestionViewModel()
 
 #if os(iOS)
     @State private var selectedPhotoItem: PhotosPickerItem?
@@ -304,7 +304,9 @@ private extension CreateSuggestionView {
                         .foregroundColor(theme.colors.onSurface)
                 }
             }
+#if os(iOS) || os(macOS)
             .toggleStyle(SwitchToggleStyle(tint: theme.colors.primary))
+#endif
             if viewModel.isIssue {
 #if os(iOS)
                 photosPicker
@@ -458,91 +460,4 @@ private extension CreateSuggestionView {
         }
     }
 #endif
-}
-
-private extension CreateSuggestionView {
-#if os(macOS)
-    func handleImageDrop(providers: [NSItemProvider]) -> Bool {
-        guard let provider = providers.first else {
-            return false
-        }
-
-        if provider.canLoadObject(ofClass: NSImage.self) {
-            provider.loadObject(ofClass: NSImage.self) { image, _ in
-                if let nsImage = image as? NSImage,
-                   let imageData = nsImage.tiffRepresentation,
-                   let bitmap = NSBitmapImageRep(data: imageData),
-                   let jpegData = bitmap.representation(using: .jpeg, properties: [:]) {
-                    DispatchQueue.main.async {
-                        if let compressedData = compressImageData(jpegData) {
-                            viewModel.setIssueImage(compressedData)
-                        }
-                    }
-                }
-            }
-
-            return true
-        }
-
-        if provider.hasItemConformingToTypeIdentifier("public.file-url") {
-            provider.loadItem(forTypeIdentifier: "public.file-url", options: nil) { item, _ in
-                if let data = item as? Data,
-                   let url = URL(dataRepresentation: data, relativeTo: nil),
-                   let imageData = try? Data(contentsOf: url) {
-                    DispatchQueue.main.async {
-                        if let compressedData = compressImageData(imageData) {
-                            viewModel.setIssueImage(compressedData)
-                        }
-                    }
-                }
-            }
-
-            return true
-        }
-
-        return false
-    }
-
-    func openImagePicker() {
-        let panel = NSOpenPanel()
-        panel.allowedContentTypes = [.image]
-        panel.allowsMultipleSelection = false
-        panel.canChooseDirectories = false
-        panel.canChooseFiles = true
-
-        if panel.runModal() == .OK, let url = panel.url {
-            do {
-                let imageData = try Data(contentsOf: url)
-
-                if let compressedData = compressImageData(imageData) {
-                    viewModel.setIssueImage(compressedData)
-                }
-            } catch {
-                LogManager.shared.devLog(.error, "CreateSuggestionView: openImagePicker: error: \(error)")
-            }
-        }
-    }
-#endif
-}
-
-private extension CreateSuggestionView {
-    func compressImageData(_ data: Data) -> Data? {
-#if os(iOS)
-        guard let sourceImage = UIImage(data: data) else {
-            return nil
-        }
-
-        return sourceImage.jpegData(compressionQuality: 0.75)
-#elseif os(macOS)
-        guard let sourceImage = NSImage(data: data) else {
-            return nil
-        }
-
-        guard let tiffData = sourceImage.tiffRepresentation, let bitmap = NSBitmapImageRep(data: tiffData) else {
-            return nil
-        }
-
-        return bitmap.representation(using: .jpeg, properties: [.compressionFactor: 0.75])
-#endif
-    }
 }
