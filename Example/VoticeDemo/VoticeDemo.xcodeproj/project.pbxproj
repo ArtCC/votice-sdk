@@ -318,17 +318,17 @@
 		802F7E572E0F198400F1BDF6 = {
 			isa = PBXGroup;
 			children = (
+				800727602E11AAD500C43BA8 /* Frameworks */,
+				802F7E612E0F198400F1BDF6 /* Products */,
 				802F7E8D2E0F1A2500F1BDF6 /* VoticeDemo */,
-				802F7E922E0F1A2700F1BDF6 /* VoticeDemoTests */,
-				802F7E962E0F1A2900F1BDF6 /* VoticeDemoUITests */,
 				800727572E11AA0700C43BA8 /* VoticeDemo_macOS */,
 				800727512E11AA0700C43BA8 /* VoticeDemo_macOSTests */,
 				8007275D2E11AA0700C43BA8 /* VoticeDemo_macOSUITests */,
 				800727962E11ACFB00C43BA8 /* VoticeDemo_tvOS */,
 				800727912E11ACFB00C43BA8 /* VoticeDemo_tvOSTests */,
 				8007279C2E11ACFB00C43BA8 /* VoticeDemo_tvOSUITests */,
-				800727602E11AAD500C43BA8 /* Frameworks */,
-				802F7E612E0F198400F1BDF6 /* Products */,
+				802F7E922E0F1A2700F1BDF6 /* VoticeDemoTests */,
+				802F7E962E0F1A2900F1BDF6 /* VoticeDemoUITests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -432,6 +432,7 @@
 				800727242E11A9FC00C43BA8 /* Sources */,
 				800727252E11A9FC00C43BA8 /* Frameworks */,
 				800727262E11A9FC00C43BA8 /* Resources */,
+				808722072E89696E000AA252 /* SwiftLint Script */,
 			);
 			buildRules = (
 			);
@@ -492,6 +493,7 @@
 				800727632E11ACD400C43BA8 /* Sources */,
 				800727642E11ACD400C43BA8 /* Frameworks */,
 				800727652E11ACD400C43BA8 /* Resources */,
+				808722082E89697D000AA252 /* SwiftLint Script */,
 			);
 			buildRules = (
 			);
@@ -803,6 +805,44 @@
 			shellPath = /bin/sh;
 			shellScript = "SWIFT_PACKAGE_DIR=\"${BUILD_DIR%Build/*}SourcePackages/artifacts\"\nSWIFTLINT_CMD=$(ls \"$SWIFT_PACKAGE_DIR\"/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle/swiftlint-*-macos/bin/swiftlint | head -n 1)\n\nif test -f \"$SWIFTLINT_CMD\" 2>&1\nthen\n    \"$SWIFTLINT_CMD\"\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
 		};
+		808722072E89696E000AA252 /* SwiftLint Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SWIFT_PACKAGE_DIR=\"${BUILD_DIR%Build/*}SourcePackages/artifacts\"\nSWIFTLINT_CMD=$(ls \"$SWIFT_PACKAGE_DIR\"/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle/swiftlint-*-macos/bin/swiftlint | head -n 1)\n\nif test -f \"$SWIFTLINT_CMD\" 2>&1\nthen\n    \"$SWIFTLINT_CMD\"\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+		};
+		808722082E89697D000AA252 /* SwiftLint Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SWIFT_PACKAGE_DIR=\"${BUILD_DIR%Build/*}SourcePackages/artifacts\"\nSWIFTLINT_CMD=$(ls \"$SWIFT_PACKAGE_DIR\"/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle/swiftlint-*-macos/bin/swiftlint | head -n 1)\n\nif test -f \"$SWIFTLINT_CMD\" 2>&1\nthen\n    \"$SWIFTLINT_CMD\"\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -948,6 +988,7 @@
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "VoticeDemo-macOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
@@ -981,6 +1022,7 @@
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "VoticeDemo-macOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
@@ -1085,6 +1127,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "VoticeDemo-tvOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
@@ -1116,6 +1159,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q4X55987WE;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "VoticeDemo-tvOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;

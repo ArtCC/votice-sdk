@@ -11,6 +11,7 @@ import Foundation
 enum VoticeError: Error, LocalizedError, Sendable {
     // MARK: - Cases
 
+    case general
     case invalidInput(String)
     case networkError(Error)
     case configurationError(ConfigurationError)
@@ -20,6 +21,8 @@ enum VoticeError: Error, LocalizedError, Sendable {
 
     var errorDescription: String? {
         switch self {
+        case .general:
+            return "An unexpected error occurred."
         case .invalidInput(let message):
             return "Invalid input: \(message)"
         case .networkError(let error):

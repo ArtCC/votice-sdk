@@ -140,9 +140,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             comments.append(response.comment)
 
-            if let current = suggestionEntity {
-                suggestionEntity = current.copyWith(commentCount: (current.commentCount ?? 0) + 1)
-            }
+            suggestionEntity?.commentCount = (suggestionEntity?.commentCount ?? 0) + 1
 
             reload = true
         } catch {
@@ -160,9 +158,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             comments.removeAll { $0.id == comment.id }
 
-            if let current = suggestionEntity {
-                suggestionEntity = current.copyWith(commentCount: max((current.commentCount ?? 1) - 1, 0))
-            }
+            suggestionEntity?.commentCount = max((suggestionEntity?.commentCount ?? 1) - 1, 0)
 
             reload = true
         } catch {
@@ -182,11 +178,8 @@ final class SuggestionDetailViewModel: ObservableObject {
 
             currentVote = response.vote != nil ? type : nil
 
-            if let updatedSuggestion = response.suggestion, let current = suggestionEntity {
-                suggestionEntity = current.copyWith(
-                    updatedAt: updatedSuggestion.updatedAt,
-                    voteCount: updatedSuggestion.voteCount
-                )
+            if let updatedSuggestion = response.suggestion {
+                self.suggestionEntity = updatedSuggestion
             }
 
             reload = true

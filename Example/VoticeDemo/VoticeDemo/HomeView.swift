@@ -129,6 +129,7 @@ private extension HomeView {
             Votice.setCommentIsEnabled(enabled: true)
             Votice.setShowCompletedSeparately(enabled: true)
             Votice.setVisibleOptionalStatuses(accepted: true, blocked: false, rejected: false)
+            Votice.setUserIsPremium(isPremium: true)
 
             isConfigured = Votice.isConfigured
 

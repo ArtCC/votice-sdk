@@ -13,24 +13,33 @@ struct CreateSuggestionRequest: Codable, Sendable {
 
     let title: String
     let description: String?
-    let deviceId: String
+    let deviceId: String?
     let nickname: String?
-    let platform: String
-    let language: String
+    let platform: String?
+    let language: String?
+    let userIsPremium: Bool
+    let issue: Bool
+    let urlImage: String?
 
     // MARK: - Init
 
     init(title: String,
          description: String? = nil,
-         deviceId: String,
+         deviceId: String? = nil,
          nickname: String? = nil,
-         platform: String,
-         language: String) {
+         platform: String? = nil,
+         language: String? = nil,
+         userIsPremium: Bool,
+         issue: Bool,
+         urlImage: String? = nil) {
         self.title = title
         self.description = description
         self.deviceId = deviceId
         self.nickname = nickname
         self.platform = platform
         self.language = language
+        self.userIsPremium = userIsPremium
+        self.issue = issue
+        self.urlImage = urlImage
     }
 }

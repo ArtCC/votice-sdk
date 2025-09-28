@@ -82,4 +82,16 @@ struct SpanishTexts: VoticeTextsProtocol {
     let yourNameOptionalCreate = "Tu nombre (opcional)"
     let enterYourNameCreate = "Introduce tu nombre"
     let leaveEmptyAnonymous = "Déjalo vacío para enviar anónimamente"
+
+    // MARK: - Create Issue (optional feature)
+
+    let reportIssue = "Reportar un problema"
+    let reportIssueSubtitle = "¿Has encontrado un error o problema?"
+    let titleIssuePlaceholder = "Introduce un título breve para el problema"
+    let descriptionIssuePlaceholder = "Describe el problema en detalle..."
+    let attachImage = "Adjuntar imagen (opcional)"
+    let titleIssueImage = "Imagen de la incidencia"
+    let loadingImage = "Cargando imagen..."
+    let dragAndDropImage = "Arrastra y suelta una imagen aquí"
+    let or = "o"
 }

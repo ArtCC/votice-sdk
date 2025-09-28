@@ -15,6 +15,7 @@ protocol SuggestionRepositoryProtocol: Sendable {
     func fetchVoteStatus(request: VoteStatusRequest) async throws -> VoteStatusEntity
     func voteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse
     func unvoteSuggestion(request: VoteSuggestionRequest) async throws -> VoteSuggestionResponse
+    func uploadImage(request: UploadImageRequest) async throws -> UploadImageResponse
 }
 
 final class SuggestionRepository: SuggestionRepositoryProtocol {
@@ -82,5 +83,12 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
         let endpoint = NetworkEndpoint(path: "/v1/sdk/votes/unvote", method: .POST, body: bodyData)
 
         return try await networkManager.request(endpoint: endpoint, responseType: VoteSuggestionResponse.self)
+    }
+
+    func uploadImage(request: UploadImageRequest) async throws -> UploadImageResponse {
+        let bodyData = try JSONEncoder().encode(request)
+        let endpoint = NetworkEndpoint(path: "/v1/sdk/suggestions/upload-image", method: .POST, body: bodyData)
+
+        return try await networkManager.request(endpoint: endpoint, responseType: UploadImageResponse.self)
     }
 }

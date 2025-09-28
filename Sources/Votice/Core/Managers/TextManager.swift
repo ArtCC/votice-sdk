@@ -83,6 +83,18 @@ public protocol VoticeTextsProtocol: Sendable {
     var yourNameOptionalCreate: String { get }
     var enterYourNameCreate: String { get }
     var leaveEmptyAnonymous: String { get }
+
+    // MARK: - Create Issue (optional feature)
+
+    var reportIssue: String { get }
+    var reportIssueSubtitle: String { get }
+    var titleIssuePlaceholder: String { get }
+    var descriptionIssuePlaceholder: String { get }
+    var attachImage: String { get }
+    var titleIssueImage: String { get }
+    var loadingImage: String { get }
+    var dragAndDropImage: String { get }
+    var or: String { get }
 }
 
 // MARK: - DefaultVoticeTexts
@@ -161,6 +173,18 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let yourNameOptionalCreate = "Your Name (Optional)"
     public let enterYourNameCreate = "Enter your name"
     public let leaveEmptyAnonymous = "Leave empty to submit anonymously"
+
+    // MARK: - Create Issue (optional feature)
+
+    public let reportIssue = "Report Issue"
+    public let reportIssueSubtitle = "Help us fix it by describing the issue you encountered."
+    public let titleIssuePlaceholder = "Enter a brief title for the issue"
+    public let descriptionIssuePlaceholder = "Describe the issue in detail..."
+    public let attachImage = "Attach Image"
+    public let titleIssueImage = "Issue Image"
+    public let loadingImage = "Loading image..."
+    public let dragAndDropImage = "Drag image here"
+    public let or = "or"
 }
 
 // MARK: - TextManager

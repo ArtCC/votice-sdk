@@ -31,7 +31,8 @@ func testSuggestionEntityInitialization() async {
         source: .sdk,
         commentCount: 5,
         voteCount: 10,
-        language: "en"
+        language: "en",
+        userIsPremium: false
     )
 
     // Then
@@ -51,6 +52,7 @@ func testSuggestionEntityInitialization() async {
     #expect(suggestion.commentCount == 5)
     #expect(suggestion.voteCount == 10)
     #expect(suggestion.language == "en")
+    #expect(suggestion.userIsPremium == false)
 }
 
 @Test("SuggestionEntity should initialize with minimal parameters")
@@ -75,6 +77,7 @@ func testSuggestionEntityMinimalInitialization() async {
     #expect(suggestion.commentCount == nil)
     #expect(suggestion.voteCount == nil)
     #expect(suggestion.language == nil)
+    #expect(suggestion.userIsPremium == false)
 }
 
 @Test("SuggestionEntity displayText should return correct value")
@@ -151,7 +154,8 @@ func testSuggestionEntityCopyWith() async {
         text: "Original Text",
         status: .pending,
         source: .sdk,
-        voteCount: 5
+        voteCount: 5,
+        userIsPremium: false
     )
 
     // When
@@ -169,6 +173,7 @@ func testSuggestionEntityCopyWith() async {
     #expect(copied.status == .pending) // Unchanged
     #expect(copied.source == .sdk) // Unchanged
     #expect(copied.voteCount == 10) // Changed
+    #expect(copied.userIsPremium == false) // Unchanged
 }
 
 @Test("SuggestionEntity should be Equatable")
@@ -177,17 +182,20 @@ func testSuggestionEntityEquatable() async {
     let suggestion1 = SuggestionEntity(
         id: "test-id",
         title: "Test Title",
-        status: .pending
+        status: .pending,
+        userIsPremium: false
     )
     let suggestion2 = SuggestionEntity(
         id: "test-id",
         title: "Test Title",
-        status: .pending
+        status: .pending,
+        userIsPremium: false
     )
     let suggestion3 = SuggestionEntity(
         id: "different-id",
         title: "Test Title",
-        status: .pending
+        status: .pending,
+        userIsPremium: false
     )
 
     // When/Then
@@ -198,7 +206,7 @@ func testSuggestionEntityEquatable() async {
 @Test("SuggestionEntity should be Identifiable")
 func testSuggestionEntityIdentifiable() async {
     // Given
-    let suggestion = SuggestionEntity(id: "test-id")
+    let suggestion = SuggestionEntity(id: "test-id", userIsPremium: false)
 
     // When/Then
     #expect(suggestion.id == "test-id")
@@ -228,7 +236,8 @@ func testSuggestionEntityCodable() async throws {
         source: .sdk,
         commentCount: 5,
         voteCount: 10,
-        language: "en"
+        language: "en",
+        userIsPremium: false
     )
 
     // When - Encode
@@ -256,6 +265,7 @@ func testSuggestionEntityCodable() async throws {
     #expect(decoded.commentCount == original.commentCount)
     #expect(decoded.voteCount == original.voteCount)
     #expect(decoded.language == original.language)
+    #expect(decoded.userIsPremium == original.userIsPremium)
 }
 
 @Test("SuggestionEntity should be Sendable")
@@ -264,7 +274,8 @@ func testSuggestionEntitySendable() async {
     let suggestion = SuggestionEntity(
         id: "test-id",
         title: "Test Title",
-        status: .pending
+        status: .pending,
+        userIsPremium: false
     )
 
     // When - This compiles, proving it's Sendable
@@ -274,6 +285,7 @@ func testSuggestionEntitySendable() async {
         _ = suggestion.displayText
         _ = suggestion.isFromSDK
         _ = suggestion.canBeVoted
+        _ = suggestion.userIsPremium
     }
 
     // Then - No assertion needed, compilation proves Sendable conformance
