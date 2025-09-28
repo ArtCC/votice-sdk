@@ -90,4 +90,6 @@ struct SpanishTexts: VoticeTextsProtocol {
     let titleIssuePlaceholder = "Introduce un título breve para el problema"
     let descriptionIssuePlaceholder = "Describe el problema en detalle..."
     let attachImage = "Adjuntar imagen (opcional)"
+    let titleIssueImage = "Imagen de la incidencia"
+    let loadingImage = "Cargando imagen..."
 }

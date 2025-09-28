@@ -91,6 +91,8 @@ struct MockVoticeTexts: VoticeTextsProtocol {
     let titleIssuePlaceholder = "Test Title Issue Placeholder"
     let descriptionIssuePlaceholder = "Test Description Issue Placeholder"
     let attachImage = "Test Attach Image"
+    let titleIssueImage = "Test Issue Image"
+    let loadingImage = "Test Loading image..."
 }
 
 // MARK: - TextManager Tests
@@ -302,6 +304,8 @@ func testTextManagerMultipleUpdates() async {
         let titleIssuePlaceholder = "Entrez un titre bref pour le problème"
         let descriptionIssuePlaceholder = "Décrivez le problème en détail..."
         let attachImage = "Joindre une image"
+        let titleIssueImage = "Image du problème"
+        let loadingImage = "Chargement de l'image..."
     }
 
     let mockTexts2 = AnotherMockTexts()
@@ -380,6 +384,8 @@ func testDefaultVoticeTexts() async {
     #expect(texts.titleIssuePlaceholder == "Enter a brief title for the issue")
     #expect(texts.descriptionIssuePlaceholder == "Describe the issue in detail...")
     #expect(texts.attachImage == "Attach Image")
+    #expect(texts.titleIssueImage == "Issue Image")
+    #expect(texts.loadingImage == "Loading image...")
 }
 
 @Test("DefaultVoticeTexts should be Sendable")

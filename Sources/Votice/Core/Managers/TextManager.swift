@@ -91,6 +91,8 @@ public protocol VoticeTextsProtocol: Sendable {
     var titleIssuePlaceholder: String { get }
     var descriptionIssuePlaceholder: String { get }
     var attachImage: String { get }
+    var titleIssueImage: String { get }
+    var loadingImage: String { get }
 }
 
 // MARK: - DefaultVoticeTexts
@@ -177,6 +179,8 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let titleIssuePlaceholder = "Enter a brief title for the issue"
     public let descriptionIssuePlaceholder = "Describe the issue in detail..."
     public let attachImage = "Attach Image"
+    public let titleIssueImage = "Issue Image"
+    public let loadingImage = "Loading image..."
 }
 
 // MARK: - TextManager

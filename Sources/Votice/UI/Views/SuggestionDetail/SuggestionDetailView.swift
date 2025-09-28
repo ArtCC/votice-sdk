@@ -140,6 +140,9 @@ private extension SuggestionDetailView {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: theme.spacing.xl) {
                 suggestionHeaderCard
+                if currentSuggestion.issue, let urlImage = currentSuggestion.urlImage, !urlImage.isEmpty {
+                    issueImageCard
+                }
                 votingAndStatsCard
                 if ConfigurationManager.shared.commentIsEnabled {
                     commentsSection
@@ -370,6 +373,50 @@ private extension SuggestionDetailView {
                 .frame(maxWidth: .infinity)
             }
         }
+    }
+
+    var issueImageCard: some View {
+        VStack(alignment: .leading, spacing: theme.spacing.sm) {
+            HStack {
+                Image(systemName: "photo")
+                    .foregroundColor(theme.colors.primary)
+                    .font(.headline)
+                Text(TextManager.shared.texts.titleIssueImage)
+                    .font(theme.typography.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(theme.colors.onSurface)
+                Spacer()
+            }
+            .padding(.top, theme.spacing.md)
+            .padding(.horizontal, theme.spacing.md)
+            AsyncImage(url: URL(string: currentSuggestion.urlImage ?? "")) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxHeight: 600)
+                    .cornerRadius(theme.cornerRadius.md)
+            } placeholder: {
+                RoundedRectangle(cornerRadius: theme.cornerRadius.md)
+                    .fill(theme.colors.secondary.opacity(0.1))
+                    .frame(height: 250)
+                    .overlay(
+                        VStack(spacing: theme.spacing.sm) {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
+                            Text(TextManager.shared.texts.loadingImage)
+                                .font(theme.typography.caption)
+                                .foregroundColor(theme.colors.secondary)
+                        }
+                    )
+            }
+            .padding(.horizontal, theme.spacing.md)
+            .padding(.bottom, theme.spacing.md)
+        }
+        .background(
+            RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                .fill(theme.colors.surface)
+                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+        )
     }
 }
 
