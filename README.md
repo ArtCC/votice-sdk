@@ -8,18 +8,19 @@
 [![SPM](https://img.shields.io/badge/SPM-compatible-brightgreen)](https://swift.org/package-manager/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Votice is a native Swift SDK that allows you to integrate user feedback, suggestion boards, and voting mechanisms in your app with a clean UI and a simple setup. It connects to a custom backend using HMAC authentication and does not require Firebase or other configurations.
+Votice is a native Swift SDK that allows you to integrate user feedback, suggestion boards, issues, and voting mechanisms in your app with a clean UI and a simple setup. It connects to a custom backend using HMAC authentication and does not require Firebase or other configurations.
 
 <p align="leading">
   <img src="assets/ios_1.png" alt="Votice iOS Screenshot 1" width="200" style="margin-right:5px;" />
   <img src="assets/ios_2.png" alt="Votice iOS Screenshot 2" width="200" style="margin-right:5px;" />
   <img src="assets/ios_3.png" alt="Votice iOS Screenshot 3" width="200" style="margin-right:5px;" />
-  <img src="assets/ios_4.png" alt="Votice iOS Screenshot 4" width="200" />
+  <img src="assets/ios_4.png" alt="Votice iOS Screenshot 4" width="200" style="margin-right:5px;" />
+  <img src="assets/ios_5.png" alt="Votice iOS Screenshot 5" width="200" />
 </p>
 
 ## 📱 Management App
 
-The Votice management app for handling suggestions and apps is available for download on the App Store:
+The Votice management app for handling suggestions or issues and apps is available for download on the App Store:
 
 [![Download on the App Store](https://img.shields.io/badge/Download-App%20Store-blue)](https://apps.apple.com/us/app/id6673904950)
 
@@ -41,7 +42,7 @@ The Votice management app for handling suggestions and apps is available for dow
 Add this line to your `Package.swift` dependencies:
 
 ```swift
-.package(url: "https://github.com/artcc/votice-sdk", from: "1.0.10"),
+.package(url: "https://github.com/artcc/votice-sdk", from: "1.0.11"),
 ```
 
 Or via Xcode:
