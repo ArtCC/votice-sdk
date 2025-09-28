@@ -92,4 +92,6 @@ struct SpanishTexts: VoticeTextsProtocol {
     let attachImage = "Adjuntar imagen (opcional)"
     let titleIssueImage = "Imagen de la incidencia"
     let loadingImage = "Cargando imagen..."
+    let dragAndDropImage = "Arrastra y suelta una imagen aquí"
+    let or = "o"
 }

@@ -183,7 +183,10 @@ struct VoticeTests {
             let descriptionIssuePlaceholder = "Describe the issue in detail..."
             let attachImage = "Test Attach Image"
             let titleIssueImage = "Test Issue Image"
-            let loadingImage = "Test Loading image..."        }
+            let loadingImage = "Test Loading image..."
+            let dragAndDropImage = "Test Drag image here"
+            let or = "Test or"
+        }
 
         Votice.setTexts(MockTexts())
 

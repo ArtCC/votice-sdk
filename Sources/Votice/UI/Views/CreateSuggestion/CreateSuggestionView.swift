@@ -309,6 +309,22 @@ private extension CreateSuggestionView {
 #if os(iOS)
                 photosPicker
 #elseif os(macOS)
+                VStack {
+                    if let imageData = viewModel.issueImageData, let nsImage = NSImage(data: imageData) {
+                        Image(nsImage: nsImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 125, height: 125)
+                            .clipShape(RoundedRectangle(cornerRadius: theme.cornerRadius.sm))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                                    .stroke(theme.colors.primary.opacity(0.3), lineWidth: 1)
+                            )
+                    } else {
+                        createMacOSImageSelector()
+                    }
+                }
+                .padding(.vertical, theme.spacing.sm)
 #endif
             }
         }
@@ -336,8 +352,8 @@ private extension CreateSuggestionView {
                         )
                 }
             }
-            .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
+            .padding(.horizontal, theme.spacing.md)
             .background(theme.colors.primary.opacity(0.08))
             .cornerRadius(theme.cornerRadius.sm)
         }
@@ -388,6 +404,114 @@ private extension CreateSuggestionView {
             }
         }
     }
+}
+
+private extension CreateSuggestionView {
+#if os(macOS)
+    func createMacOSImageSelector() -> some View {
+        VStack(spacing: 15) {
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(theme.colors.primary.opacity(0.5), style: StrokeStyle(lineWidth: 2, dash: [5]))
+                .frame(height: 100)
+                .overlay(
+                    VStack(spacing: 10) {
+                        Image(systemName: "arrow.down.circle")
+                            .font(.system(size: 24))
+                            .foregroundColor(theme.colors.primary)
+                        Text(TextManager.shared.texts.dragAndDropImage)
+                            .font(theme.typography.callout)
+                            .foregroundColor(.secondary)
+                    }
+                )
+                .onDrop(of: ["public.image"], isTargeted: nil) { providers in
+                    handleImageDrop(providers: providers)
+                }
+            Text(TextManager.shared.texts.or)
+                .font(theme.typography.callout)
+                .foregroundColor(.secondary)
+            Button {
+                openImagePicker()
+            } label: {
+                HStack {
+                    Image(systemName: "photo")
+                    Text(TextManager.shared.texts.attachImage)
+                        .font(theme.typography.callout)
+                }
+                .foregroundColor(theme.colors.primary)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 15)
+                .background(theme.colors.primary.opacity(0.1))
+                .cornerRadius(10)
+            }
+            .buttonStyle(.plain)
+        }
+    }
+#endif
+}
+
+private extension CreateSuggestionView {
+#if os(macOS)
+    func handleImageDrop(providers: [NSItemProvider]) -> Bool {
+        guard let provider = providers.first else {
+            return false
+        }
+
+        if provider.canLoadObject(ofClass: NSImage.self) {
+            provider.loadObject(ofClass: NSImage.self) { image, _ in
+                if let nsImage = image as? NSImage,
+                   let imageData = nsImage.tiffRepresentation,
+                   let bitmap = NSBitmapImageRep(data: imageData),
+                   let jpegData = bitmap.representation(using: .jpeg, properties: [:]) {
+                    DispatchQueue.main.async {
+                        if let compressedData = compressImageData(jpegData) {
+                            viewModel.setIssueImage(compressedData)
+                        }
+                    }
+                }
+            }
+
+            return true
+        }
+
+        if provider.hasItemConformingToTypeIdentifier("public.file-url") {
+            provider.loadItem(forTypeIdentifier: "public.file-url", options: nil) { item, _ in
+                if let data = item as? Data,
+                   let url = URL(dataRepresentation: data, relativeTo: nil),
+                   let imageData = try? Data(contentsOf: url) {
+                    DispatchQueue.main.async {
+                        if let compressedData = compressImageData(imageData) {
+                            viewModel.setIssueImage(compressedData)
+                        }
+                    }
+                }
+            }
+
+            return true
+        }
+
+        return false
+    }
+
+    func openImagePicker() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.image]
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+        panel.canChooseFiles = true
+
+        if panel.runModal() == .OK, let url = panel.url {
+            do {
+                let imageData = try Data(contentsOf: url)
+
+                if let compressedData = compressImageData(imageData) {
+                    viewModel.setIssueImage(compressedData)
+                }
+            } catch {
+                LogManager.shared.devLog(.error, "CreateSuggestionView: openImagePicker: error: \(error)")
+            }
+        }
+    }
+#endif
 }
 
 private extension CreateSuggestionView {

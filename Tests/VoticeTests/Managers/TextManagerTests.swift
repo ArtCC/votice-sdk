@@ -93,6 +93,8 @@ struct MockVoticeTexts: VoticeTextsProtocol {
     let attachImage = "Test Attach Image"
     let titleIssueImage = "Test Issue Image"
     let loadingImage = "Test Loading image..."
+    let dragAndDropImage = "Test Drag image here"
+    let or = "Test or"
 }
 
 // MARK: - TextManager Tests
@@ -306,6 +308,8 @@ func testTextManagerMultipleUpdates() async {
         let attachImage = "Joindre une image"
         let titleIssueImage = "Image du problème"
         let loadingImage = "Chargement de l'image..."
+        let dragAndDropImage = "Faites glisser l'image ici"
+        let or = "ou"
     }
 
     let mockTexts2 = AnotherMockTexts()
@@ -386,6 +390,8 @@ func testDefaultVoticeTexts() async {
     #expect(texts.attachImage == "Attach Image")
     #expect(texts.titleIssueImage == "Issue Image")
     #expect(texts.loadingImage == "Loading image...")
+    #expect(texts.dragAndDropImage == "Drag image here")
+    #expect(texts.or == "or")
 }
 
 @Test("DefaultVoticeTexts should be Sendable")

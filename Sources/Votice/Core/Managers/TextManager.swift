@@ -93,6 +93,8 @@ public protocol VoticeTextsProtocol: Sendable {
     var attachImage: String { get }
     var titleIssueImage: String { get }
     var loadingImage: String { get }
+    var dragAndDropImage: String { get }
+    var or: String { get }
 }
 
 // MARK: - DefaultVoticeTexts
@@ -181,6 +183,8 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     public let attachImage = "Attach Image"
     public let titleIssueImage = "Issue Image"
     public let loadingImage = "Loading image..."
+    public let dragAndDropImage = "Drag image here"
+    public let or = "or"
 }
 
 // MARK: - TextManager
