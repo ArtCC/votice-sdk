@@ -26,10 +26,12 @@ struct SuggestionCard: View {
         ZStack(alignment: .topTrailing) {
             HStack(alignment: .center, spacing: theme.spacing.md) {
                 VStack(spacing: theme.spacing.sm) {
-                    VotingButtons(upvotes: max(0, suggestion.voteCount ?? 0),
-                                  downvotes: 0,
-                                  currentVote: currentVote,
-                                  onVote: onVote)
+                    VotingButtons(
+                        upvotes: max(0, suggestion.voteCount ?? 0),
+                        downvotes: 0,
+                        currentVote: currentVote,
+                        onVote: onVote
+                    )
                     if ConfigurationManager.shared.commentIsEnabled, suggestion.commentCount ?? 0 > 0 {
                         VStack(spacing: 4) {
                             Image(systemName: "bubble.left.fill")
@@ -100,7 +102,12 @@ struct SuggestionCard: View {
 private extension SuggestionCard {
     var titleView: some View {
         VStack(spacing: theme.spacing.sm) {
-            HStack {
+            HStack(spacing: 5) {
+                if suggestion.issue {
+                    Image(systemName: "ladybug.fill")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(theme.colors.pending)
+                }
                 Text(suggestion.displayText)
                     .font(theme.typography.headline)
                     .foregroundColor(theme.colors.onSurface)

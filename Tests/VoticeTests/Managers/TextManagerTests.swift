@@ -83,6 +83,14 @@ struct MockVoticeTexts: VoticeTextsProtocol {
     let yourNameOptionalCreate = "Test Your Name Create"
     let enterYourNameCreate = "Test Enter Name Create"
     let leaveEmptyAnonymous = "Test Leave Empty"
+
+    // MARK: - Create Issue (optional feature)
+
+    let reportIssue = "Test Report Issue"
+    let reportIssueSubtitle = "Test Report Issue Subtitle"
+    let titleIssuePlaceholder = "Enter a brief title for the issue"
+    let descriptionIssuePlaceholder = "Describe the issue in detail..."
+    let attachImage = "Test Attach Image"
 }
 
 // MARK: - TextManager Tests
@@ -289,6 +297,11 @@ func testTextManagerMultipleUpdates() async {
         let yourNameOptionalCreate = "Votre nom (optionnel)"
         let enterYourNameCreate = "Entrez votre nom"
         let leaveEmptyAnonymous = "Laissez vide pour soumettre anonymement"
+        let reportIssue = "Signaler un problème"
+        let reportIssueSubtitle = "Aidez-nous à le corriger en décrivant le problème rencontré."
+        let titleIssuePlaceholder = "Entrez un titre bref pour le problème"
+        let descriptionIssuePlaceholder = "Décrivez le problème en détail..."
+        let attachImage = "Joindre une image"
     }
 
     let mockTexts2 = AnotherMockTexts()
@@ -361,6 +374,13 @@ func testDefaultVoticeTexts() async {
     #expect(texts.shareYourIdea == "Share your idea")
     #expect(texts.title == "Title (Min. 3 characters)")
     #expect(texts.titlePlaceholder == "Enter a brief title for your suggestion")
+
+    // Create Issue
+    #expect(texts.reportIssue == "Report Issue")
+    #expect(texts.reportIssueSubtitle == "Help us fix it by describing the issue you encountered.")
+    #expect(texts.titleIssuePlaceholder == "Enter a brief title for the issue")
+    #expect(texts.descriptionIssuePlaceholder == "Describe the issue in detail...")
+    #expect(texts.attachImage == "Attach Image")
 }
 
 @Test("DefaultVoticeTexts should be Sendable")

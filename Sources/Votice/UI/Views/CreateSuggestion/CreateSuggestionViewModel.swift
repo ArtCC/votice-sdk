@@ -18,12 +18,14 @@ final class CreateSuggestionViewModel: ObservableObject {
     @Published var nickname = ""
     @Published var currentAlert: VoticeAlertEntity?
     @Published var isShowingAlert = false
+    @Published var isIssue = false
+    @Published var issueImageData: Data?
+
+    private let suggestionUseCase: SuggestionUseCaseProtocol
 
     var isFormValid: Bool {
         !title.isEmpty
     }
-
-    private let suggestionUseCase: SuggestionUseCaseProtocol
 
     // MARK: - Init
 
@@ -51,7 +53,7 @@ final class CreateSuggestionViewModel: ObservableObject {
                 description: description,
                 nickname: nickname,
                 userIsPremium: user.isPremium,
-                issue: false,
+                issue: isIssue,
                 urlImage: nil
             )
             let response = try await suggestionUseCase.createSuggestion(request: request)
@@ -64,6 +66,12 @@ final class CreateSuggestionViewModel: ObservableObject {
 
             throw error
         }
+    }
+
+    func setIssueImage(_ data: Data) {
+        issueImageData = data
+
+        LogManager.shared.devLog(.info, "CreateSuggestionViewModel: received image data (\(data.count) bytes)")
     }
 
     func submitSuggestion(onSuccess: @escaping (SuggestionEntity) -> Void) async {
@@ -84,6 +92,8 @@ final class CreateSuggestionViewModel: ObservableObject {
         title = ""
         description = ""
         nickname = ""
+        isIssue = false
+        issueImageData = nil
     }
 }
 

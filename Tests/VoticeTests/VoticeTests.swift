@@ -177,6 +177,11 @@ struct VoticeTests {
             let yourNameOptionalCreate = "Mock Your Name Optional Create"
             let enterYourNameCreate = "Mock Enter Your Name Create"
             let leaveEmptyAnonymous = "Mock Leave Empty Anonymous"
+            let reportIssue = "Test Report Issue"
+            let reportIssueSubtitle = "Test Report Issue Subtitle"
+            let titleIssuePlaceholder = "Enter a brief title for the issue"
+            let descriptionIssuePlaceholder = "Describe the issue in detail..."
+            let attachImage = "Test Attach Image"
         }
 
         Votice.setTexts(MockTexts())

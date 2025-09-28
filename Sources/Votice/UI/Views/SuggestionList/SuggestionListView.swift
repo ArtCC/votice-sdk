@@ -89,9 +89,6 @@ struct SuggestionListView: View {
             .frame(minWidth: 800, minHeight: 600)
 #endif
         }
-        .refreshable {
-            await viewModel.refresh()
-        }
     }
 }
 
@@ -174,6 +171,9 @@ private extension SuggestionListView {
         }
         .scrollBounceBehavior(.basedOnSize)
         .scrollDismissesKeyboard(.immediately)
+        .refreshable {
+            await viewModel.refresh()
+        }
     }
 
     var floatingActionButton: some View {

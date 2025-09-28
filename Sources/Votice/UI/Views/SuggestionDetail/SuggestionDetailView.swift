@@ -156,7 +156,12 @@ private extension SuggestionDetailView {
         ZStack(alignment: .topTrailing) {
             VStack(alignment: .leading, spacing: theme.spacing.sm) {
                 VStack(spacing: theme.spacing.sm) {
-                    HStack {
+                    HStack(spacing: 5) {
+                        if suggestion.issue {
+                            Image(systemName: "ladybug.fill")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(theme.colors.pending)
+                        }
                         Text(currentSuggestion.displayText)
                             .font(theme.typography.headline)
                             .fontWeight(.semibold)
