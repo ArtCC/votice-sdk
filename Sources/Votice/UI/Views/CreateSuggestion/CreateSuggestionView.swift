@@ -314,12 +314,23 @@ private extension CreateSuggestionView {
                         Image(nsImage: nsImage)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 125, height: 125)
+                            .frame(width: 150, height: 150)
                             .clipShape(RoundedRectangle(cornerRadius: theme.cornerRadius.sm))
                             .overlay(
                                 RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
                                     .stroke(theme.colors.primary.opacity(0.3), lineWidth: 1)
                             )
+                            .overlay(alignment: .topTrailing) {
+                                Button {
+                                    viewModel.issueImageData = nil
+                                } label: {
+                                    Image(systemName: "trash.circle.fill")
+                                        .font(.system(size: 25, weight: .semibold))
+                                        .foregroundColor(theme.colors.error)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .offset(x: 7.5, y: -6.5)
+                            }
                     } else {
                         createMacOSImageSelector()
                     }
