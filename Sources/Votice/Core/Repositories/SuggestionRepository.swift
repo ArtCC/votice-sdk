@@ -86,13 +86,7 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
     }
 
     func uploadImage(request: UploadImageRequest) async throws -> UploadImageResponse {
-        let base64String = request.imageData.base64EncodedString()
-        let requestBody: [String: Any] = [
-            "imageData": "data:image/jpeg;base64,\(base64String)",
-            "fileName": request.fileName,
-            "mimeType": "image/jpeg"
-        ]
-        let bodyData = try JSONSerialization.data(withJSONObject: requestBody)
+        let bodyData = try JSONEncoder().encode(request)
         let endpoint = NetworkEndpoint(path: "/v1/sdk/suggestions/upload-image", method: .POST, body: bodyData)
 
         return try await networkManager.request(endpoint: endpoint, responseType: UploadImageResponse.self)

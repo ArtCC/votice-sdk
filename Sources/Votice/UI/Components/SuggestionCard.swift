@@ -103,7 +103,7 @@ private extension SuggestionCard {
     var titleView: some View {
         VStack(spacing: theme.spacing.sm) {
             HStack(spacing: 5) {
-                if suggestion.issue {
+                if let issue = suggestion.issue, issue {
                     Image(systemName: "ladybug.fill")
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(theme.colors.pending)

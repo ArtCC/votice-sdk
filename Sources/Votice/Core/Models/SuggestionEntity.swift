@@ -11,6 +11,7 @@ import Foundation
 struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
     // MARK: - Properties
 
+    var commentCount: Int?
     let id: String
     let appId: String?
     let title: String?
@@ -24,11 +25,10 @@ struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
     let deviceId: String?
     let status: SuggestionStatusEntity?
     let source: SuggestionSource?
-    let commentCount: Int?
     let voteCount: Int?
     let language: String?
-    let userIsPremium: Bool
-    let issue: Bool
+    let userIsPremium: Bool?
+    let issue: Bool?
     let urlImage: String?
 
     // MARK: - Init
@@ -49,8 +49,8 @@ struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
          commentCount: Int? = nil,
          voteCount: Int? = nil,
          language: String? = nil,
-         userIsPremium: Bool = false,
-         issue: Bool = false,
+         userIsPremium: Bool? = false,
+         issue: Bool? = false,
          urlImage: String? = nil) {
         self.id = id
         self.appId = appId
@@ -109,8 +109,8 @@ extension SuggestionEntity {
         commentCount: Int? = nil,
         voteCount: Int? = nil,
         language: String? = nil,
-        userIsPremium: Bool = false,
-        issue: Bool = false,
+        userIsPremium: Bool? = false,
+        issue: Bool? = false,
         urlImage: String? = nil
     ) -> SuggestionEntity {
         SuggestionEntity(
@@ -130,8 +130,8 @@ extension SuggestionEntity {
             commentCount: commentCount ?? self.commentCount,
             voteCount: voteCount ?? self.voteCount,
             language: language ?? self.language,
-            userIsPremium: userIsPremium,
-            issue: issue,
+            userIsPremium: userIsPremium ?? self.userIsPremium,
+            issue: issue ?? self.issue,
             urlImage: urlImage ?? self.urlImage
         )
     }

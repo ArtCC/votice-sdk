@@ -56,10 +56,12 @@ final class CommentUseCase: CommentUseCaseProtocol {
             throw VoticeError.invalidInput("Comment content cannot be empty")
         }
 
-        let request = CreateCommentRequest(suggestionId: suggestionId,
-                                           text: text,
-                                           deviceId: deviceManager.deviceId,
-                                           nickname: nickname)
+        let request = CreateCommentRequest(
+            suggestionId: suggestionId,
+            text: text,
+            deviceId: deviceManager.deviceId,
+            nickname: nickname
+        )
 
         return try await commentRepository.createComment(request: request)
     }

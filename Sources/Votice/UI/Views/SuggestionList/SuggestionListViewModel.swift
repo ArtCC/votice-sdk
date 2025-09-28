@@ -219,10 +219,7 @@ final class SuggestionListViewModel: ObservableObject {
             if let updatedSuggestion = response.suggestion,
                let index = allSuggestions.firstIndex(where: { $0.id == suggestionId }) {
 
-                allSuggestions[index] = allSuggestions[index].copyWith(
-                    updatedAt: updatedSuggestion.updatedAt,
-                    voteCount: updatedSuggestion.voteCount
-                )
+                allSuggestions[index] = updatedSuggestion
 
                 applyFilter()
             }

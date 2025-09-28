@@ -140,7 +140,10 @@ private extension SuggestionDetailView {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: theme.spacing.xl) {
                 suggestionHeaderCard
-                if currentSuggestion.issue, let urlImage = currentSuggestion.urlImage, !urlImage.isEmpty {
+                if let issue = currentSuggestion.issue,
+                   let urlImage = currentSuggestion.urlImage,
+                   issue,
+                   !urlImage.isEmpty {
                     issueImageCard
                 }
                 votingAndStatsCard
@@ -160,7 +163,7 @@ private extension SuggestionDetailView {
             VStack(alignment: .leading, spacing: theme.spacing.sm) {
                 VStack(spacing: theme.spacing.sm) {
                     HStack(spacing: 5) {
-                        if suggestion.issue {
+                        if let issue = suggestion.issue, issue {
                             Image(systemName: "ladybug.fill")
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(theme.colors.pending)

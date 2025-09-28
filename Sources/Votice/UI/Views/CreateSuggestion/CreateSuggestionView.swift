@@ -305,38 +305,56 @@ private extension CreateSuggestionView {
                 }
             }
             .toggleStyle(SwitchToggleStyle(tint: theme.colors.primary))
-
-#if os(iOS)
             if viewModel.isIssue {
-                PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
-                    HStack {
-                        Image(systemName: "paperclip")
-                            .foregroundColor(theme.colors.primary)
-                        Text(TextManager.shared.texts.attachImage)
-                            .font(theme.typography.callout)
-                            .foregroundColor(theme.colors.onSurface)
-                        Spacer()
-                    }
-                    .padding(.horizontal, theme.spacing.md)
-                    .padding(.vertical, theme.spacing.sm)
-                    .background(theme.colors.primary.opacity(0.08))
-                    .cornerRadius(theme.cornerRadius.sm)
-                }
-                .onChange(of: selectedPhotoItem) { _, newValue in
-                    guard let newValue else {
-                        return
-                    }
-
-                    Task {
-                        if let data = try? await newValue.loadTransferable(type: Data.self) {
-                            viewModel.setIssueImage(data)
-                        }
-                    }
-                }
-            }
+#if os(iOS)
+                photosPicker
+#elseif os(macOS)
 #endif
+            }
         }
     }
+
+#if os(iOS)
+    var photosPicker: some View {
+        PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
+            HStack {
+                Image(systemName: "paperclip")
+                    .foregroundColor(theme.colors.primary)
+                Text(TextManager.shared.texts.attachImage)
+                    .font(theme.typography.callout)
+                    .foregroundColor(theme.colors.onSurface)
+                Spacer()
+                if let imageData = viewModel.issueImageData, let uiImage = UIImage(data: imageData) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 40, height: 40)
+                        .clipShape(RoundedRectangle(cornerRadius: theme.cornerRadius.sm))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                                .stroke(theme.colors.primary.opacity(0.3), lineWidth: 1)
+                        )
+                }
+            }
+            .padding(.horizontal, theme.spacing.md)
+            .padding(.vertical, theme.spacing.sm)
+            .background(theme.colors.primary.opacity(0.08))
+            .cornerRadius(theme.cornerRadius.sm)
+        }
+        .onChange(of: selectedPhotoItem) { _, newValue in
+            guard let newValue else {
+                return
+            }
+
+            Task {
+                if let data = try? await newValue.loadTransferable(type: Data.self),
+                   let imageData = compressImageData(data) {
+                    viewModel.setIssueImage(imageData)
+                }
+            }
+        }
+    }
+#endif
 
     var nicknameSection: some View {
         VStack(alignment: .leading, spacing: theme.spacing.sm) {
@@ -369,5 +387,27 @@ private extension CreateSuggestionView {
                     .foregroundColor(theme.colors.secondary)
             }
         }
+    }
+}
+
+private extension CreateSuggestionView {
+    func compressImageData(_ data: Data) -> Data? {
+#if os(iOS)
+        guard let sourceImage = UIImage(data: data) else {
+            return nil
+        }
+
+        return sourceImage.jpegData(compressionQuality: 0.75)
+#elseif os(macOS)
+        guard let sourceImage = NSImage(data: data) else {
+            return nil
+        }
+
+        guard let tiffData = sourceImage.tiffRepresentation, let bitmap = NSBitmapImageRep(data: tiffData) else {
+            return nil
+        }
+
+        return bitmap.representation(using: .jpeg, properties: [.compressionFactor: 0.75])
+#endif
     }
 }
