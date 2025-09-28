@@ -172,11 +172,11 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
 
     // MARK: - Create Issue (optional feature)
 
-    public let reportIssue = "Report an Issue"
-    public let reportIssueSubtitle = "Help us fix it by describing the problem you encountered."
+    public let reportIssue = "Report Issue"
+    public let reportIssueSubtitle = "Help us fix it by describing the issue you encountered."
     public let titleIssuePlaceholder = "Enter a brief title for the issue"
     public let descriptionIssuePlaceholder = "Describe the issue in detail..."
-    public let attachImage = "Attach image"
+    public let attachImage = "Attach Image"
 }
 
 // MARK: - TextManager

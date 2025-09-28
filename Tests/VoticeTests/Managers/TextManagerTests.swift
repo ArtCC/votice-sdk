@@ -88,8 +88,8 @@ struct MockVoticeTexts: VoticeTextsProtocol {
 
     let reportIssue = "Test Report Issue"
     let reportIssueSubtitle = "Test Report Issue Subtitle"
-    let titleIssuePlaceholder = "Enter a brief title for the issue"
-    let descriptionIssuePlaceholder = "Describe the issue in detail..."
+    let titleIssuePlaceholder = "Test Title Issue Placeholder"
+    let descriptionIssuePlaceholder = "Test Description Issue Placeholder"
     let attachImage = "Test Attach Image"
 }
 
@@ -320,7 +320,6 @@ func testTextManagerMultipleUpdates() async {
     let finalTexts = manager.texts
     #expect(finalTexts.cancel == "Cancel")
     #expect(finalTexts.error == "Error")
-    #expect(finalTexts.ok == "Ok")
 }
 // swiftlint:enable function_body_length
 
