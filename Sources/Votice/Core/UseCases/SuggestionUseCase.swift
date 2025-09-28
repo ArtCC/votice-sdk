@@ -17,6 +17,7 @@ protocol SuggestionUseCaseProtocol: Sendable {
     func deleteSuggestion(suggestionId: String) async throws -> DeleteSuggestionResponse
     func fetchVoteStatus(suggestionId: String) async throws -> VoteStatusEntity
     func vote(suggestionId: String, voteType: VoteType) async throws -> VoteSuggestionResponse
+    func uploadImage(request: UploadImageRequest) async throws -> UploadImageResponse
 }
 
 final class SuggestionUseCase: SuggestionUseCaseProtocol {
@@ -126,5 +127,19 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
         case .downvote:
             return try await suggestionRepository.unvoteSuggestion(request: request)
         }
+    }
+
+    func uploadImage(request: UploadImageRequest) async throws -> UploadImageResponse {
+        try configurationManager.validateConfiguration()
+
+        guard !request.fileName.isEmpty else {
+            throw VoticeError.invalidInput("File name cannot be empty")
+        }
+
+        guard !request.imageData.isEmpty else {
+            throw VoticeError.invalidInput("Image data cannot be empty")
+        }
+
+        return try await suggestionRepository.uploadImage(request: request)
     }
 }
