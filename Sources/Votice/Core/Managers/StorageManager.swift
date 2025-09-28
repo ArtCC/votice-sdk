@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol StorageManagerProtocol {
+protocol StorageManagerProtocol: Sendable {
     func save<T: Codable>(_ object: T, forKey key: String) throws
     func load<T: Codable>(forKey key: String, as type: T.Type) throws -> T?
     func delete(forKey key: String) throws
@@ -17,7 +17,7 @@ protocol StorageManagerProtocol {
 final class StorageManager: StorageManagerProtocol {
     // MARK: - Properties
 
-    private let userDefaults: UserDefaults
+    private nonisolated(unsafe) let userDefaults: UserDefaults
 
     // MARK: - Init
 

@@ -94,7 +94,7 @@ final class SuggestionListViewModel: ObservableObject {
 
                 Task {
                     do {
-                        try await versionUseCase.report()
+                        _ = try await versionUseCase.report()
                     } catch {
                         LogManager.shared.devLog(
                             .error, "SuggestionListViewModel: failed to report version usage: \(error)"
@@ -286,7 +286,7 @@ private extension SuggestionListViewModel {
         let mandatory: Set<SuggestionStatusEntity> = [.inProgress, .pending, .completed]
 
         // Combine both sets to get the final allowed statuses
-        var allowed: Set<SuggestionStatusEntity> = visibleOptional.union(mandatory)
+        let allowed: Set<SuggestionStatusEntity> = visibleOptional.union(mandatory)
 
         // If completed suggestions are shown separately, remove 'completed' from allowed statuses
         let showCompletedSeparately = self.showCompletedSeparately
