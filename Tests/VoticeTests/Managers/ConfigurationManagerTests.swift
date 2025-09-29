@@ -13,7 +13,6 @@ import Foundation
 
 @Suite("ConfigurationManager Tests")
 struct ConfigurationManagerTests {
-
     @Test("ConfigurationManager should initialize with correct defaults")
     func testConfigurationManagerInitialization() async {
         // Given
@@ -384,11 +383,65 @@ struct ConfigurationManagerTests {
     }
 }
 
+// MARK: - Additional Configuration Tests
+
+extension ConfigurationManagerTests {
+
+    @Test("ConfigurationManager should handle all optional visible status combinations")
+    func testOptionalVisibleStatusCombinations() async {
+        // Given
+        let manager = ConfigurationManager()
+
+        // Test all possible combinations
+        // swiftlint:disable large_tuple
+        let combinations: [(accepted: Bool, blocked: Bool, rejected: Bool, expected: Set<SuggestionStatusEntity>)] = [
+            (true, true, true, [.accepted, .blocked, .rejected]),
+            (true, true, false, [.accepted, .blocked]),
+            (true, false, true, [.accepted, .rejected]),
+            (false, true, true, [.blocked, .rejected]),
+            (true, false, false, [.accepted]),
+            (false, true, false, [.blocked]),
+            (false, false, true, [.rejected]),
+            (false, false, false, [])
+        ]
+        // swiftlint:enable large_tuple
+
+        for (accepted, blocked, rejected, expected) in combinations {
+            // When
+            manager.setOptionalVisibleStatus(accepted: accepted, blocked: blocked, rejected: rejected)
+
+            // Then
+            // swiftlint:disable line_length
+            #expect(manager.optionalVisibleStatuses == expected, "Failed for combination: accepted=\(accepted), blocked=\(blocked), rejected=\(rejected)")
+            // swiftlint:enable line_length
+        }
+    }
+
+    @Test("ConfigurationManager should maintain settings after configuration")
+    func testSettingsPersistenceAfterConfiguration() async throws {
+        // Given
+        let manager = ConfigurationManager()
+
+        // Modify settings before configuration
+        manager.commentIsEnabled = false
+        manager.showCompletedSeparately = true
+        manager.setOptionalVisibleStatus(accepted: true, blocked: false, rejected: false)
+
+        // When
+        try manager.configure(apiKey: "test-key", apiSecret: "test-secret", appId: "test-appId")
+
+        // Then - Settings should be maintained after configuration
+        #expect(manager.isConfigured == true)
+        #expect(manager.commentIsEnabled == false)
+        #expect(manager.showCompletedSeparately == true)
+        #expect(manager.optionalVisibleStatuses == [.accepted])
+    }
+}
+
 // MARK: - ConfigurationError Tests
 
 @Suite("ConfigurationError Tests")
 struct ConfigurationErrorTests {
-
     @Test("ConfigurationError should provide correct descriptions")
     func testConfigurationErrorDescriptions() async {
         // Given/When/Then
