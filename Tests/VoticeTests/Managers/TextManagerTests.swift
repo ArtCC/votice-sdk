@@ -24,7 +24,7 @@ struct MockVoticeTexts: VoticeTextsProtocol {
     let warning = "Test Warning"
     let info = "Test Info"
     let genericError = "Test Generic Error"
-    let anonymous = "Test Anonymous"
+    let anonymous = "Anonymous"
 
     // MARK: - Suggestion List
 
