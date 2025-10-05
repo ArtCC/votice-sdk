@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct VoteStatusEntity: Codable, Hashable, Sendable {
-    let hasVoted: Bool
-    let voteCount: Int
-    let suggestionId: String
-    let deviceId: String
+public struct VoteStatusEntity: Codable, Hashable, Sendable {
+    public let hasVoted: Bool
+    public let voteCount: Int
+    public let suggestionId: String
+    public let deviceId: String
 }

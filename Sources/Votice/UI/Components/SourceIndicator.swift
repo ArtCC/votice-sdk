@@ -16,9 +16,9 @@ struct SourceIndicator: View {
     private var icon: String {
         switch source {
         case .dashboard:
-            return "desktopcomputer"
+            return "desktop_computer"
         case .sdk:
-            return "iphone"
+            return "mobile"
         }
     }
 

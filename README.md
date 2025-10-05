@@ -24,7 +24,7 @@ The Votice management app for handling suggestions or issues and apps is availab
 
 [![Download on the App Store](https://img.shields.io/badge/Download-App%20Store-blue)](https://apps.apple.com/us/app/id6673904950)
 
-**Available for:** iOS, iPadOS and macOS
+**Available for:** iOS, iPadOS and macOS (tvOS coming soon)
 
 ---
 
@@ -264,9 +264,9 @@ Votice.feedbackView(theme: theme)
 
 > ℹ️ If you do not configure custom fonts, the SDK will use the default system fonts.
 
-### 6. Comment on suggestions (Optional)
+### 6. Comment on suggestions or issues (Optional)
 
-You can allow users to comment on suggestions by enabling the comments feature (Default is enabled):
+You can allow users to comment on suggestions or issues by enabling the comments feature (Default is enabled):
 
 ```swift
 Votice.setCommentIsEnabled(enabled: Bool)
@@ -307,14 +307,14 @@ Votice.setDebugLogging(enabled: false)
 
 **Note:** Debug logging is automatically disabled in production builds and should only be enabled when specifically needed for debugging purposes.
 
-### 8. Show completed suggestions in a separate tab (Optional)
+### 8. Show completed suggestions or issues in a separate tab (Optional)
 
-You can choose to display suggestions with status `completed` in their own tab. When enabled:
+You can choose to display suggestions or issues with status `completed` in their own tab. When enabled:
 
 - A segmented control appears with two tabs: "Active" and "Completed".
-- Completed suggestions are removed from the main list.
+- Completed suggestions or issues are removed from the main list.
 - The "Completed" filter disappears from the filter menu (no longer needed).
-- Completed suggestions are only visible in the dedicated tab.
+- Completed suggestions or issues are only visible in the dedicated tab.
 - If you don't enable it, the behavior remains the same as before.
 
 Enable:
@@ -326,7 +326,7 @@ Disable (returns to original behavior):
 Votice.setShowCompletedSeparately(enabled: false)
 ```
 
-### 9. Configure visible suggestion statuses (Optional)
+### 9. Configure visible suggestion or issue statuses (Optional)
 
 By default, all optional statuses (`accepted`, `blocked`, `rejected`) are visible along with the mandatory ones. You can choose which optional statuses to show in both the list and the filter menu.
 
@@ -357,6 +357,441 @@ Use cases:
 - Gradually introduce refinement states later (enable accepted / blocked / rejected)
 
 > Note: Calling this method multiple times replaces the previous configuration entirely.
+
+---
+
+## 🔧 Advanced: Using Use Cases Programmatically (Optional)
+
+If you need to interact with Votice functionality without using the built-in UI components, you can access the use cases directly. This is useful for building custom interfaces or integrating Votice into your own workflows.
+
+### Overview
+
+Votice SDK exposes two main use cases:
+- **SuggestionUseCase**: Manage suggestions, issues, votes, and images
+- **CommentUseCase**: Manage comments on suggestions or issues
+
+### Getting Use Case Instances
+
+```swift
+import VoticeSDK
+
+// Get use case instances
+let suggestionUseCase = Votice.getSuggestionUseCase()
+let commentUseCase = Votice.getCommentUseCase()
+```
+
+### SuggestionUseCase
+
+#### Fetch Suggestions or issues
+
+Retrieve paginated suggestions or issues from your app:
+
+```swift
+let pagination = PaginationRequest(
+    startAfter: nil, // For first page
+    pageLimit: 20    // Number of items per page
+)
+
+Task {
+    do {
+        let response = try await suggestionUseCase.fetchSuggestions(pagination: pagination)
+        
+        print("Total suggestions: \(response.count)")
+        for suggestion in response.suggestions {
+            print("- \(suggestion.title ?? ""): \(suggestion.voteCount ?? 0) votes")
+        }
+        
+        // For next page, use the token
+        if let nextPage = response.nextPageToken {
+            let nextPagination = PaginationRequest(
+                startAfter: StartAfterRequest(
+                    voteCount: nextPage.voteCount,
+                    createdAt: nextPage.createdAt
+                ),
+                pageLimit: 20
+            )
+            // Fetch next page...
+        }
+    } catch {
+        print("Error fetching suggestions: \(error)")
+    }
+}
+```
+
+#### Create a Suggestion or issue
+
+Create a new suggestion or issue:
+
+```swift
+let request = CreateSuggestionRequest(
+    title: "Add dark mode",
+    description: "It would be great to have a dark theme option",
+    nickname: "John Doe", // Optional: user's display name
+    userIsPremium: true,  // Whether user has premium
+    issue: false,         // true for issues, false for suggestions
+    urlImage: nil         // Optional: image URL (use uploadImage first)
+)
+
+Task {
+    do {
+        let response = try await suggestionUseCase.createSuggestion(request: request)
+        print("Suggestion created: \(response.suggestion.id)")
+    } catch {
+        print("Error creating suggestion: \(error)")
+    }
+}
+```
+
+#### Upload an Image
+
+Upload an image to attach to a suggestion or issue:
+
+```swift
+#if canImport(UIKit)
+import UIKit
+
+// Convert UIImage to base64
+guard let image = UIImage(named: "screenshot"),
+      let imageData = image.jpegData(compressionQuality: 0.8) else {
+    return
+}
+
+let base64String = imageData.base64EncodedString()
+
+let request = UploadImageRequest(
+    imageData: base64String,
+    fileName: "screenshot.jpg",
+    mimeType: "image/jpeg"
+)
+
+Task {
+    do {
+        let response = try await suggestionUseCase.uploadImage(request: request)
+        // Use response.imageUrl in CreateSuggestionRequest
+        print("Image uploaded: \(response.imageUrl)")
+    } catch {
+        print("Error uploading image: \(error)")
+    }
+}
+#endif
+```
+
+#### Vote on a Suggestion or Issue
+
+Upvote or downvote a suggestion or issue:
+
+```swift
+Task {
+    do {
+        // Upvote
+        let response = try await suggestionUseCase.vote(
+            suggestionId: "suggestion-id-here",
+            voteType: .upvote
+        )
+        print("Vote registered: \(response.message)")
+        
+        // To remove vote (downvote)
+        let removeResponse = try await suggestionUseCase.vote(
+            suggestionId: "suggestion-id-here",
+            voteType: .downvote
+        )
+    } catch {
+        print("Error voting: \(error)")
+    }
+}
+```
+
+#### Check Vote Status
+
+Check if the current device has already voted:
+
+```swift
+Task {
+    do {
+        let status = try await suggestionUseCase.fetchVoteStatus(
+            suggestionId: "suggestion-id-here"
+        )
+        print("Has voted: \(status.hasVoted)")
+        print("Total votes: \(status.voteCount)")
+    } catch {
+        print("Error fetching vote status: \(error)")
+    }
+}
+```
+
+#### Delete a Suggestion or Issue
+
+Delete a suggestion or issue created by the current device:
+
+```swift
+Task {
+    do {
+        let response = try await suggestionUseCase.deleteSuggestion(
+            suggestionId: "suggestion-id-here"
+        )
+        print("Suggestion deleted: \(response.message)")
+    } catch {
+        print("Error deleting suggestion: \(error)")
+    }
+}
+```
+
+#### Filter Management
+
+Save and retrieve filter preferences locally:
+
+```swift
+// Save filter
+try suggestionUseCase.setFilterApplied(.inProgress)
+
+// Get current filter
+let currentFilter = try suggestionUseCase.fetchFilterApplied()
+print("Current filter: \(currentFilter?.rawValue ?? "none")")
+
+// Clear filter
+try suggestionUseCase.clearFilterApplied()
+```
+
+### CommentUseCase
+
+#### Fetch Comments
+
+Retrieve comments for a suggestion or issue:
+
+```swift
+let pagination = PaginationRequest(
+    startAfter: nil,  // For first page
+    pageLimit: 50
+)
+
+Task {
+    do {
+        let response = try await commentUseCase.fetchComments(
+            suggestionId: "suggestion-id-here",
+            pagination: pagination
+        )
+        
+        print("Total comments: \(response.comments.count)")
+        for comment in response.comments {
+            print("- \(comment.displayName): \(comment.text)")
+        }
+    } catch {
+        print("Error fetching comments: \(error)")
+    }
+}
+```
+
+#### Create a Comment
+
+Add a comment to a suggestion or issue:
+
+```swift
+Task {
+    do {
+        let response = try await commentUseCase.createComment(
+            suggestionId: "suggestion-id-here",
+            text: "Great idea! I'd love to see this feature.",
+            nickname: "Jane Doe"  // Optional: user's display name
+        )
+        print("Comment created: \(response.comment.id)")
+    } catch {
+        print("Error creating comment: \(error)")
+    }
+}
+```
+
+#### Delete a Comment
+
+Delete a comment created by the current device:
+
+```swift
+Task {
+    do {
+        try await commentUseCase.deleteComment(commentId: "comment-id-here")
+        print("Comment deleted successfully")
+    } catch {
+        print("Error deleting comment: \(error)")
+    }
+}
+```
+
+### Public Models Reference
+
+#### Key Entities
+
+```swift
+// Suggestion entity (used for both suggestions and issues)
+public struct SuggestionEntity {
+    public let id: String
+    public let title: String?
+    public let description: String?
+    public let nickname: String?
+    public let status: SuggestionStatusEntity?
+    public let voteCount: Int?
+    public let commentCount: Int?
+    public let createdAt: String?
+    public let issue: Bool?  // true for issues, false for suggestions
+    public let urlImage: String?
+    // ... more properties
+}
+
+// Comment entity
+public struct CommentEntity {
+    public let id: String
+    public let text: String
+    public let nickname: String?
+    public let createdAt: String?
+    public var displayName: String  // Returns nickname or "Anonymous"
+    // ... more properties
+}
+
+// Vote types
+public enum VoteType: String {
+    case upvote
+    case downvote
+}
+
+// Suggestion statuses (applies to both suggestions and issues)
+public enum SuggestionStatusEntity: String {
+    case pending
+    case accepted
+    case inProgress = "in-progress"
+    case completed
+    case rejected
+    case blocked
+}
+```
+
+#### Response Types
+
+```swift
+// Suggestions response (includes both suggestions and issues)
+public struct SuggestionsResponse {
+    public let suggestions: [SuggestionEntity]
+    public let count: Int
+    public let nextPageToken: NextPageResponse?
+}
+
+// Comments response
+public struct CommentsResponse {
+    public let comments: [CommentEntity]
+    // ... more properties
+}
+
+// Create responses
+public struct CreateSuggestionResponse {
+    public let message: String
+    public let suggestion: SuggestionEntity
+}
+
+public struct CreateCommentResponse {
+    public let message: String
+    public let comment: CommentEntity
+}
+```
+
+### Use Case Best Practices
+
+1. **Always configure the SDK first**:
+   ```swift
+   try Votice.configure(apiKey: "...", apiSecret: "...", appId: "...")
+   ```
+
+2. **Handle errors appropriately**:
+   ```swift
+   do {
+       let response = try await suggestionUseCase.fetchSuggestions(pagination: pagination)
+       // Handle success
+   } catch let error as VoticeError {
+       // Handle Votice-specific errors
+   } catch {
+       // Handle general errors
+   }
+   ```
+
+3. **Use async/await properly**:
+   - All use case methods are async
+   - Wrap calls in `Task` when calling from sync context
+   - Use proper error handling with try/catch
+
+4. **Pagination**:
+   - Always specify a reasonable `pageLimit` (10-50 recommended)
+   - Use `nextPageToken` for subsequent pages
+   - Check if `nextPageToken` is nil to detect the last page
+
+5. **Device ID**:
+   - The SDK automatically manages device identification
+   - Users can only delete their own suggestions/issues/comments
+   - Device ID persists across app launches
+
+### Example: Custom Suggestion List
+
+Here's a complete example of building a custom suggestion list (works for both suggestions and issues):
+
+```swift
+import SwiftUI
+import VoticeSDK
+
+struct CustomSuggestionListView: View {
+    @State private var suggestions: [SuggestionEntity] = []
+    @State private var isLoading = false
+    
+    private let suggestionUseCase = Votice.getSuggestionUseCase()
+    
+    var body: some View {
+        List(suggestions) { suggestion in
+            VStack(alignment: .leading) {
+                Text(suggestion.title ?? "")
+                    .font(.headline)
+                Text("\(suggestion.voteCount ?? 0) votes")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .onTapGesture {
+                voteSuggestion(suggestion.id)
+            }
+        }
+        .overlay {
+            if isLoading {
+                ProgressView()
+            }
+        }
+        .task {
+            await loadSuggestions()
+        }
+    }
+    
+    func loadSuggestions() async {
+        isLoading = true
+        defer { isLoading = false }
+        
+        let pagination = PaginationRequest(startAfter: nil, pageLimit: 20)
+        
+        do {
+            let response = try await suggestionUseCase.fetchSuggestions(
+                pagination: pagination
+            )
+            suggestions = response.suggestions
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+    
+    func voteSuggestion(_ id: String) {
+        Task {
+            do {
+                _ = try await suggestionUseCase.vote(
+                    suggestionId: id,
+                    voteType: .upvote
+                )
+                await loadSuggestions() // Reload to show updated count
+            } catch {
+                print("Error voting: \(error)")
+            }
+        }
+    }
+}
+```
 
 ---
 

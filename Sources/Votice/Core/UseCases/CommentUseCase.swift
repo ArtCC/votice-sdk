@@ -8,13 +8,13 @@
 
 import Foundation
 
-protocol CommentUseCaseProtocol: Sendable {
+public protocol CommentUseCaseProtocol: Sendable {
     func fetchComments(suggestionId: String, pagination: PaginationRequest) async throws -> CommentsResponse
     func createComment(suggestionId: String, text: String, nickname: String?) async throws -> CreateCommentResponse
     func deleteComment(commentId: String) async throws
 }
 
-final class CommentUseCase: CommentUseCaseProtocol {
+public final class CommentUseCase: CommentUseCaseProtocol {
     // MARK: - Properties
 
     private let commentRepository: CommentRepositoryProtocol
@@ -33,7 +33,7 @@ final class CommentUseCase: CommentUseCaseProtocol {
 
     // MARK: - CommentUseCaseProtocol
 
-    func fetchComments(suggestionId: String, pagination: PaginationRequest) async throws -> CommentsResponse {
+    public func fetchComments(suggestionId: String, pagination: PaginationRequest) async throws -> CommentsResponse {
         try configurationManager.validateConfiguration()
 
         guard !suggestionId.isEmpty else {
@@ -45,7 +45,11 @@ final class CommentUseCase: CommentUseCaseProtocol {
         return try await commentRepository.fetchComments(request: request)
     }
 
-    func createComment(suggestionId: String, text: String, nickname: String?) async throws -> CreateCommentResponse {
+    public func createComment(
+        suggestionId: String,
+        text: String,
+        nickname: String?
+    ) async throws -> CreateCommentResponse {
         try configurationManager.validateConfiguration()
 
         guard !suggestionId.isEmpty else {
@@ -66,7 +70,7 @@ final class CommentUseCase: CommentUseCaseProtocol {
         return try await commentRepository.createComment(request: request)
     }
 
-    func deleteComment(commentId: String) async throws {
+    public func deleteComment(commentId: String) async throws {
         try configurationManager.validateConfiguration()
 
         guard !commentId.isEmpty else {

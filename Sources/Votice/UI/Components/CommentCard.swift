@@ -56,11 +56,7 @@ struct CommentCard: View {
                                 .foregroundColor(theme.colors.error)
                         }
                     }
-#if os(iOS) || os(macOS)
                     .buttonStyle(.plain)
-#elseif os(tvOS)
-                    .buttonStyle(.card)
-#endif
                 }
             }
             Text(comment.text)

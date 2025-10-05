@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol SuggestionUseCaseProtocol: Sendable {
+public protocol SuggestionUseCaseProtocol: Sendable {
     func fetchFilterApplied() throws -> SuggestionStatusEntity?
     func setFilterApplied(_ status: SuggestionStatusEntity?) throws
     func clearFilterApplied() throws
@@ -20,7 +20,7 @@ protocol SuggestionUseCaseProtocol: Sendable {
     func uploadImage(request: UploadImageRequest) async throws -> UploadImageResponse
 }
 
-final class SuggestionUseCase: SuggestionUseCaseProtocol {
+public final class SuggestionUseCase: SuggestionUseCaseProtocol {
     // MARK: - Properties
 
     private let storageManager: StorageManagerProtocol
@@ -42,19 +42,19 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
 
     // MARK: - SuggestionUseCaseProtocol
 
-    func fetchFilterApplied() throws -> SuggestionStatusEntity? {
+    public func fetchFilterApplied() throws -> SuggestionStatusEntity? {
         try storageManager.load(forKey: StorageKey.filterApplied.rawValue, as: SuggestionStatusEntity.self)
     }
 
-    func setFilterApplied(_ status: SuggestionStatusEntity?) throws {
+    public func setFilterApplied(_ status: SuggestionStatusEntity?) throws {
         try storageManager.save(status, forKey: StorageKey.filterApplied.rawValue)
     }
 
-    func clearFilterApplied() throws {
+    public func clearFilterApplied() throws {
         try storageManager.delete(forKey: StorageKey.filterApplied.rawValue)
     }
 
-    func fetchSuggestions(pagination: PaginationRequest) async throws -> SuggestionsResponse {
+    public func fetchSuggestions(pagination: PaginationRequest) async throws -> SuggestionsResponse {
         try configurationManager.validateConfiguration()
 
         let request = FetchSuggestionsRequest(appId: configurationManager.appId, pagination: pagination)
@@ -62,7 +62,7 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
         return try await suggestionRepository.fetchSuggestions(request: request)
     }
 
-    func createSuggestion(request: CreateSuggestionRequest) async throws -> CreateSuggestionResponse {
+    public func createSuggestion(request: CreateSuggestionRequest) async throws -> CreateSuggestionResponse {
         try configurationManager.validateConfiguration()
 
         guard !request.title.isEmpty else {
@@ -84,7 +84,7 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
         return try await suggestionRepository.createSuggestion(request: entity)
     }
 
-    func deleteSuggestion(suggestionId: String) async throws -> DeleteSuggestionResponse {
+    public func deleteSuggestion(suggestionId: String) async throws -> DeleteSuggestionResponse {
         try configurationManager.validateConfiguration()
 
         guard !suggestionId.isEmpty else {
@@ -96,7 +96,7 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
         return try await suggestionRepository.deleteSuggestion(request: request)
     }
 
-    func fetchVoteStatus(suggestionId: String) async throws -> VoteStatusEntity {
+    public func fetchVoteStatus(suggestionId: String) async throws -> VoteStatusEntity {
         try configurationManager.validateConfiguration()
 
         guard !suggestionId.isEmpty else {
@@ -108,7 +108,7 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
         return try await suggestionRepository.fetchVoteStatus(request: request)
     }
 
-    func vote(suggestionId: String, voteType: VoteType) async throws -> VoteSuggestionResponse {
+    public func vote(suggestionId: String, voteType: VoteType) async throws -> VoteSuggestionResponse {
         try configurationManager.validateConfiguration()
 
         guard !suggestionId.isEmpty else {
@@ -129,7 +129,7 @@ final class SuggestionUseCase: SuggestionUseCaseProtocol {
         }
     }
 
-    func uploadImage(request: UploadImageRequest) async throws -> UploadImageResponse {
+    public func uploadImage(request: UploadImageRequest) async throws -> UploadImageResponse {
         try configurationManager.validateConfiguration()
 
         guard !request.fileName.isEmpty else {

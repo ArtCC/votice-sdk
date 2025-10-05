@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct DeletedSuggestionResponse: Codable, Sendable {
-    let suggestion: Int
-    let votes: Int
-    let comments: Int
+public struct DeletedSuggestionResponse: Codable, Sendable {
+    public let suggestion: Int
+    public let votes: Int
+    public let comments: Int
 }

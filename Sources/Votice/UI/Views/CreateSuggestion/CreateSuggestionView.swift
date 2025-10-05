@@ -34,6 +34,16 @@ struct CreateSuggestionView: View {
     // MARK: - View
 
     var body: some View {
+#if os(tvOS)
+        VStack {
+            Spacer()
+            Text("Votice SDK is not available on tvOS.")
+                .font(theme.typography.headline)
+                .foregroundColor(theme.colors.onBackground)
+                .padding()
+            Spacer()
+        }
+#else
         ZStack {
             LinearGradient(
                 colors: [
@@ -57,6 +67,7 @@ struct CreateSuggestionView: View {
             isPresented: $viewModel.isShowingAlert,
             alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
         )
+#endif
     }
 }
 
@@ -78,11 +89,7 @@ private extension CreateSuggestionView {
                                 .fill(theme.colors.secondary.opacity(0.1))
                         )
                 }
-#if os(iOS) || os(macOS)
                 .buttonStyle(.plain)
-#elseif os(tvOS)
-                .buttonStyle(.card)
-#endif
                 Spacer()
                 Button {
                     HapticManager.shared.mediumImpact()
@@ -113,11 +120,7 @@ private extension CreateSuggestionView {
                         )
                 }
                 .disabled(!viewModel.isFormValid || viewModel.isSubmitting)
-#if os(iOS) || os(macOS)
                 .buttonStyle(.plain)
-#elseif os(tvOS)
-                .buttonStyle(.card)
-#endif
             }
             HStack(alignment: .center) {
                 Spacer()

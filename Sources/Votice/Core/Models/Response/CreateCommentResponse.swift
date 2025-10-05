@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CreateCommentResponse: Codable, Sendable {
-    let message: String
-    let comment: CommentEntity
+public struct CreateCommentResponse: Codable, Sendable {
+    public let message: String
+    public let comment: CommentEntity
 }

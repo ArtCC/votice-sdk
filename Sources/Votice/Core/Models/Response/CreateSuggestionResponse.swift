@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CreateSuggestionResponse: Codable, Sendable {
-    let message: String
-    let suggestion: SuggestionEntity
+public struct CreateSuggestionResponse: Codable, Sendable {
+    public let message: String
+    public let suggestion: SuggestionEntity
 }

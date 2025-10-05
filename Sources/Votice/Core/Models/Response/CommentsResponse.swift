@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct CommentsResponse: Codable, Sendable {
+public struct CommentsResponse: Codable, Sendable {
     // MARK: - Properties
 
-    let comments: [CommentEntity]
-    let count: Int
-    let nextPageToken: NextPageResponse?
-    let nextPageTokenString: String?
+    public let comments: [CommentEntity]
+    public let count: Int
+    public let nextPageToken: NextPageResponse?
+    public let nextPageTokenString: String?
 
     // MARK: - CodingKeys
 
@@ -26,17 +26,19 @@ struct CommentsResponse: Codable, Sendable {
 
     // MARK: - Init
 
-    init(comments: [CommentEntity],
-         count: Int,
-         nextPageToken: NextPageResponse? = nil,
-         nextPageTokenString: String? = nil) {
+    public init(
+        comments: [CommentEntity],
+        count: Int,
+        nextPageToken: NextPageResponse? = nil,
+        nextPageTokenString: String? = nil
+    ) {
         self.comments = comments
         self.count = count
         self.nextPageToken = nextPageToken
         self.nextPageTokenString = nextPageTokenString
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         comments = try container.decode([CommentEntity].self, forKey: .comments)

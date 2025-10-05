@@ -9,7 +9,5 @@
 import Foundation
 
 public struct UserEntity: Sendable, Codable {
-    // MARK: - Properties
-
     public let isPremium: Bool
 }

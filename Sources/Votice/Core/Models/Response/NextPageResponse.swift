@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct NextPageResponse: Codable, Sendable {
-    let voteCount: Int
-    let createdAt: String
+public struct NextPageResponse: Codable, Sendable {
+    public let voteCount: Int
+    public let createdAt: String
 }

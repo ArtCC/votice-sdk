@@ -33,6 +33,16 @@ struct SuggestionDetailView: View {
     // MARK: - View
 
     var body: some View {
+#if os(tvOS)
+        VStack {
+            Spacer()
+            Text("Votice SDK is not available on tvOS.")
+                .font(theme.typography.headline)
+                .foregroundColor(theme.colors.onBackground)
+                .padding()
+            Spacer()
+        }
+#else
         ZStack {
             LinearGradient(
                 colors: [
@@ -63,6 +73,7 @@ struct SuggestionDetailView: View {
             isPresented: $viewModel.isShowingAlert,
             alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
         )
+#endif
     }
 }
 
@@ -84,11 +95,7 @@ private extension SuggestionDetailView {
                                 .fill(theme.colors.secondary.opacity(0.1))
                         )
                 }
-#if os(iOS) || os(macOS)
                 .buttonStyle(.plain)
-#elseif os(tvOS)
-                .buttonStyle(.card)
-#endif
                 Spacer()
                 HStack(spacing: theme.spacing.sm) {
                     if currentSuggestion.deviceId == DeviceManager.shared.deviceId {
@@ -112,11 +119,7 @@ private extension SuggestionDetailView {
                                     .foregroundColor(theme.colors.error)
                             }
                         }
-#if os(iOS) || os(macOS)
                         .buttonStyle(.plain)
-#elseif os(tvOS)
-                        .buttonStyle(.card)
-#endif
                     }
                 }
             }
@@ -294,11 +297,7 @@ private extension SuggestionDetailView {
                     .font(theme.typography.caption)
                     .foregroundColor(theme.colors.primary)
                 }
-#if os(iOS) || os(macOS)
                 .buttonStyle(.plain)
-#elseif os(tvOS)
-                .buttonStyle(.card)
-#endif
             }
             if viewModel.isLoadingComments && viewModel.comments.isEmpty {
                 commentsLoadingView
@@ -454,11 +453,7 @@ private extension SuggestionDetailView {
                                 .fill(theme.colors.secondary.opacity(0.1))
                         )
                 }
-#if os(iOS) || os(macOS)
                 .buttonStyle(.plain)
-#elseif os(tvOS)
-                .buttonStyle(.card)
-#endif
                 Spacer()
                 Button {
                     Task {
@@ -485,11 +480,7 @@ private extension SuggestionDetailView {
                         )
                 }
                 .disabled(!viewModel.isCommentFormValid || viewModel.isSubmittingComment)
-#if os(iOS) || os(macOS)
                 .buttonStyle(.plain)
-#elseif os(tvOS)
-                .buttonStyle(.card)
-#endif
             }
             HStack(alignment: .center) {
                 Spacer()

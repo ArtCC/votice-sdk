@@ -8,30 +8,32 @@
 
 import Foundation
 
-struct CreateSuggestionRequest: Codable, Sendable {
+public struct CreateSuggestionRequest: Codable, Sendable {
     // MARK: - Properties
 
-    let title: String
-    let description: String?
-    let deviceId: String?
-    let nickname: String?
-    let platform: String?
-    let language: String?
-    let userIsPremium: Bool
-    let issue: Bool
-    let urlImage: String?
+    public let title: String
+    public let description: String?
+    public let deviceId: String?
+    public let nickname: String?
+    public let platform: String?
+    public let language: String?
+    public let userIsPremium: Bool
+    public let issue: Bool
+    public let urlImage: String?
 
     // MARK: - Init
 
-    init(title: String,
-         description: String? = nil,
-         deviceId: String? = nil,
-         nickname: String? = nil,
-         platform: String? = nil,
-         language: String? = nil,
-         userIsPremium: Bool,
-         issue: Bool,
-         urlImage: String? = nil) {
+    public init(
+        title: String,
+        description: String? = nil,
+        deviceId: String? = nil,
+        nickname: String? = nil,
+        platform: String? = nil,
+        language: String? = nil,
+        userIsPremium: Bool,
+        issue: Bool,
+        urlImage: String? = nil
+    ) {
         self.title = title
         self.description = description
         self.deviceId = deviceId

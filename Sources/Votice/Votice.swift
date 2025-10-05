@@ -14,9 +14,10 @@ import SwiftUI
 #warning("Votice SDK is currently only supported on iOS, iPadOS and macOS. Support for tvOS will be available in future releases.")
 #endif
 // swiftlint:enable line_length
-public struct Votice {
-    // MARK: - Configuration
 
+// MARK: - Configuration
+
+public struct Votice {
     /// Configure the Votice SDK with your app's API credentials
     /// - Parameters:
     ///   - apiKey: Your app's API key from Votice Dashboard
@@ -83,8 +84,17 @@ public struct Votice {
         ConfigurationManager.shared.user = UserEntity(isPremium: isPremium)
     }
 
-    // MARK: - UI Presentation
+    // MARK: - Legacy (deprecated)
 
+    @available(*, deprecated, message: "Use configure(apiKey:apiSecret:appId:) instead")
+    public static func initialize() {
+        debugPrint("Hello, World!")
+    }
+}
+
+// MARK: - UI Presentation
+
+extension Votice {
     /// Present the Votice feedback interface
     /// - Parameters:
     ///   - theme: Custom theme for the UI (optional)
@@ -124,9 +134,11 @@ public struct Votice {
 #endif
             }
     }
+}
 
-    // MARK: - Theme Configuration
+// MARK: - Theme Configuration
 
+extension Votice {
     /// Create a custom theme for the Votice UI
     /// - Parameters:
     ///   - primaryColor: Primary color for buttons and accents
@@ -325,12 +337,7 @@ public struct Votice {
             surfaceColor: surfaceColor
         ).colors
 
-        return VoticeTheme(
-            colors: colors,
-            typography: .withCurrentFonts(),
-            spacing: .default,
-            cornerRadius: .default
-        )
+        return VoticeTheme(colors: colors, typography: .withCurrentFonts(), spacing: .default, cornerRadius: .default)
     }
 
     /// Get a system theme with custom fonts applied
@@ -343,11 +350,18 @@ public struct Votice {
             cornerRadius: .default
         )
     }
+}
 
-    // MARK: - Legacy (deprecated)
+// MARK: - Use Cases
 
-    @available(*, deprecated, message: "Use configure(apiKey:apiSecret:appId:) instead")
-    public static func initialize() {
-        debugPrint("Hello, World!")
+extension Votice {
+    /// Get an instance of SuggestionUseCase to manage suggestions programmatically
+    public static func getSuggestionUseCase() -> SuggestionUseCaseProtocol {
+        SuggestionUseCase()
+    }
+
+    /// Get an instance of CommentUseCase to manage comments programmatically
+    public static func getCommentUseCase() -> CommentUseCaseProtocol {
+        CommentUseCase()
     }
 }
