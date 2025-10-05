@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct CommentEntity: Codable, Sendable, Identifiable {
-    let id: String
+public struct CommentEntity: Codable, Sendable, Identifiable {
+    public let id: String
+
     let suggestionId: String
     let appId: String
     let text: String

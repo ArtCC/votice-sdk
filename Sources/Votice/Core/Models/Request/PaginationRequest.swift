@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PaginationRequest: Codable, Sendable {
+public struct PaginationRequest: Codable, Sendable {
     let startAfter: StartAfterRequest?
     let pageLimit: Int?
 }

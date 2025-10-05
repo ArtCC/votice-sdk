@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct UploadImageRequest: Codable, Sendable {
+public struct UploadImageRequest: Codable, Sendable {
     let imageData: String
     let fileName: String
     let mimeType: String

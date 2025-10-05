@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct VoteSuggestionResponse: Codable, Sendable {
+public struct VoteSuggestionResponse: Codable, Sendable {
     let message: String
     let vote: VoteEntity?
     let suggestion: SuggestionEntity?

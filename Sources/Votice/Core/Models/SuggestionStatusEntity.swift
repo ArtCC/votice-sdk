@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum SuggestionStatusEntity: String, CaseIterable, Codable, Sendable {
+public enum SuggestionStatusEntity: String, CaseIterable, Codable, Sendable {
     case accepted
     case blocked
     case completed

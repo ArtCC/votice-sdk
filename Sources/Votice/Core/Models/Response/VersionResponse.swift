@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct VersionResponse: Codable, Sendable {
+public struct VersionResponse: Codable, Sendable {
     let message: String
     let versionEntry: VersionItemResponse
 

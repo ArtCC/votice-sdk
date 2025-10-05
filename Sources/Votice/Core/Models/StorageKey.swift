@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum StorageKey: String {
+public enum StorageKey: String {
     case filterApplied
 }

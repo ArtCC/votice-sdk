@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DeleteSuggestionResponse: Codable, Sendable {
+public struct DeleteSuggestionResponse: Codable, Sendable {
     let message: String
     let deleted: DeletedSuggestionResponse
 }

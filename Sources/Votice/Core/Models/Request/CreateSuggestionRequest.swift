@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CreateSuggestionRequest: Codable, Sendable {
+public struct CreateSuggestionRequest: Codable, Sendable {
     // MARK: - Properties
 
     let title: String

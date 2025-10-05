@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol VersionUseCaseProtocol: Sendable {
+public protocol VersionUseCaseProtocol: Sendable {
     func report() async throws -> VersionResponse
 }
 
-final class VersionUseCase: VersionUseCaseProtocol {
+public final class VersionUseCase: VersionUseCaseProtocol {
     // MARK: - Properties
 
     private let versionRepository: VersionRepositoryProtocol
@@ -36,7 +36,7 @@ final class VersionUseCase: VersionUseCaseProtocol {
 
     // MARK: - VersionUseCaseProtocol
 
-    func report() async throws -> VersionResponse {
+    public func report() async throws -> VersionResponse {
         let now = Date()
 
         if let lastReport = userDefaults.object(forKey: lastReportKey) as? Date,
