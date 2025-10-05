@@ -354,5 +354,21 @@ extension Votice {
 
 // MARK: - Use Cases
 
+// MARK: - Use Cases
+
 extension Votice {
+    /// Get an instance of SuggestionUseCase to manage suggestions programmatically
+    public static func getSuggestionUseCase() -> SuggestionUseCaseProtocol {
+        SuggestionUseCase()
+    }
+
+    /// Get an instance of CommentUseCase to manage comments programmatically
+    public static func getCommentUseCase() -> CommentUseCaseProtocol {
+        CommentUseCase()
+    }
+
+    /// Get an instance of VersionUseCase to manage version reporting
+    public static func getVersionUseCase() -> VersionUseCaseProtocol {
+        VersionUseCase()
+    }
 }
