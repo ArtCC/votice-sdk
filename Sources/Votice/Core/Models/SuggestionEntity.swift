@@ -8,50 +8,53 @@
 
 import Foundation
 
-struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
+public struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
     // MARK: - Properties
 
-    var commentCount: Int?
-    let id: String
-    let appId: String?
-    let title: String?
-    let text: String?
-    let description: String?
-    let nickname: String?
-    let createdAt: String?
-    let updatedAt: String?
-    let platform: String?
-    let createdBy: String?
-    let deviceId: String?
-    let status: SuggestionStatusEntity?
-    let source: SuggestionSource?
-    let voteCount: Int?
-    let language: String?
-    let userIsPremium: Bool?
-    let issue: Bool?
-    let urlImage: String?
+    public var commentCount: Int?
+
+    public let id: String
+    public let appId: String?
+    public let title: String?
+    public let text: String?
+    public let description: String?
+    public let nickname: String?
+    public let createdAt: String?
+    public let updatedAt: String?
+    public let platform: String?
+    public let createdBy: String?
+    public let deviceId: String?
+    public let status: SuggestionStatusEntity?
+    public let source: SuggestionSource?
+    public let voteCount: Int?
+    public let language: String?
+    public let userIsPremium: Bool?
+    public let issue: Bool?
+    public let urlImage: String?
 
     // MARK: - Init
 
-    init(id: String,
-         appId: String? = nil,
-         title: String? = nil,
-         text: String? = nil,
-         description: String? = nil,
-         nickname: String? = nil,
-         createdAt: String? = nil,
-         updatedAt: String? = nil,
-         platform: String? = nil,
-         createdBy: String? = nil,
-         deviceId: String? = nil,
-         status: SuggestionStatusEntity? = nil,
-         source: SuggestionSource? = nil,
-         commentCount: Int? = nil,
-         voteCount: Int? = nil,
-         language: String? = nil,
-         userIsPremium: Bool? = false,
-         issue: Bool? = false,
-         urlImage: String? = nil) {
+    public init(
+        id: String,
+        appId: String? = nil,
+        title: String? = nil,
+        text: String? = nil,
+        description: String? = nil,
+        nickname: String? = nil,
+        createdAt: String? = nil,
+        updatedAt: String? = nil,
+        platform: String? = nil,
+        createdBy: String? = nil,
+        deviceId: String? = nil,
+        status: SuggestionStatusEntity? = nil,
+        source: SuggestionSource? = nil,
+        commentCount: Int? = nil,
+        voteCount: Int? = nil,
+        language: String? = nil,
+        userIsPremium: Bool? = false,
+        issue: Bool? = false,
+        urlImage: String? = nil
+    ) {
         self.id = id
         self.appId = appId
         self.title = title
@@ -78,16 +81,16 @@ extension SuggestionEntity {
     // MARK: - Properties
 
     var displayText: String {
-        return text ?? title ?? ""
+        text ?? title ?? ""
     }
     var isFromSDK: Bool {
-        return source == .sdk
+        source == .sdk
     }
     var isFromDashboard: Bool {
-        return source == .dashboard
+        source == .dashboard
     }
     var canBeVoted: Bool {
-        return status == .pending || status == .accepted || status == .inProgress
+        status == .pending || status == .accepted || status == .inProgress
     }
 
     // MARK: - Functions

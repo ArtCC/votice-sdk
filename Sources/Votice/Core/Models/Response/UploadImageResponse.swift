@@ -9,7 +9,7 @@
 import Foundation
 
 public struct UploadImageResponse: Codable, Sendable {
-    let message: String
-    let imageUrl: String
-    let fileName: String
+    public let message: String
+    public let imageUrl: String
+    public let fileName: String
 }

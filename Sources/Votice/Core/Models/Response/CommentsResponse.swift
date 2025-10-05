@@ -11,10 +11,10 @@ import Foundation
 public struct CommentsResponse: Codable, Sendable {
     // MARK: - Properties
 
-    let comments: [CommentEntity]
-    let count: Int
-    let nextPageToken: NextPageResponse?
-    let nextPageTokenString: String?
+    public let comments: [CommentEntity]
+    public let count: Int
+    public let nextPageToken: NextPageResponse?
+    public let nextPageTokenString: String?
 
     // MARK: - CodingKeys
 

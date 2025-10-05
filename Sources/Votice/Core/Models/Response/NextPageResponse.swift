@@ -9,6 +9,6 @@
 import Foundation
 
 public struct NextPageResponse: Codable, Sendable {
-    let voteCount: Int
-    let createdAt: String
+    public let voteCount: Int
+    public let createdAt: String
 }

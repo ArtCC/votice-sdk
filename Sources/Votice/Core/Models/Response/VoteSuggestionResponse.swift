@@ -9,7 +9,7 @@
 import Foundation
 
 public struct VoteSuggestionResponse: Codable, Sendable {
-    let message: String
-    let vote: VoteEntity?
-    let suggestion: SuggestionEntity?
+    public let message: String
+    public let vote: VoteEntity?
+    public let suggestion: SuggestionEntity?
 }

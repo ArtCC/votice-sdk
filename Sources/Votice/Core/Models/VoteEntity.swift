@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct VoteEntity: Codable, Sendable {
-    let suggestionId: String?
-    let appId: String?
-    let deviceId: String?
-    let source: SuggestionSource?
-    let createdAt: String?
+public struct VoteEntity: Codable, Sendable {
+    public let suggestionId: String?
+    public let appId: String?
+    public let deviceId: String?
+    public let source: SuggestionSource?
+    public let createdAt: String?
 }

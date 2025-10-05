@@ -9,7 +9,7 @@
 import Foundation
 
 public struct SuggestionsResponse: Codable, Sendable {
-    let suggestions: [SuggestionEntity]
-    let count: Int
-    let nextPageToken: NextPageResponse?
+    public let suggestions: [SuggestionEntity]
+    public let count: Int
+    public let nextPageToken: NextPageResponse?
 }

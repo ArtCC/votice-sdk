@@ -9,6 +9,6 @@
 import Foundation
 
 public struct CreateCommentResponse: Codable, Sendable {
-    let message: String
-    let comment: CommentEntity
+    public let message: String
+    public let comment: CommentEntity
 }

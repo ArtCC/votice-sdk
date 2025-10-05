@@ -9,6 +9,6 @@
 import Foundation
 
 public struct DeleteSuggestionResponse: Codable, Sendable {
-    let message: String
-    let deleted: DeletedSuggestionResponse
+    public let message: String
+    public let deleted: DeletedSuggestionResponse
 }

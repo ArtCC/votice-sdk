@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum SuggestionSource: String, CaseIterable, Codable, Sendable {
+public enum SuggestionSource: String, CaseIterable, Codable, Sendable {
     case dashboard
     case sdk
 }

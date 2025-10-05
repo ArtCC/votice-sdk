@@ -9,6 +9,15 @@
 import Foundation
 
 public struct PaginationRequest: Codable, Sendable {
-    let startAfter: StartAfterRequest?
-    let pageLimit: Int?
+    // MARK: - Properties
+
+    public let startAfter: StartAfterRequest?
+    public let pageLimit: Int?
+
+    // MARK: - Init
+
+    public init(startAfter: StartAfterRequest? = nil, pageLimit: Int? = nil) {
+        self.startAfter = startAfter
+        self.pageLimit = pageLimit
+    }
 }

@@ -8,7 +8,16 @@
 
 import Foundation
 
-struct StartAfterRequest: Codable, Sendable {
-    let voteCount: Int?
-    let createdAt: String
+public struct StartAfterRequest: Codable, Sendable {
+    // MARK: - Properties
+
+    public let voteCount: Int?
+    public let createdAt: String
+
+    // MARK: - Init
+
+    public init(voteCount: Int?, createdAt: String) {
+        self.voteCount = voteCount
+        self.createdAt = createdAt
+    }
 }

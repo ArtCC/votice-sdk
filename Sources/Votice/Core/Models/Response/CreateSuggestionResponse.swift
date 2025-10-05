@@ -9,6 +9,6 @@
 import Foundation
 
 public struct CreateSuggestionResponse: Codable, Sendable {
-    let message: String
-    let suggestion: SuggestionEntity
+    public let message: String
+    public let suggestion: SuggestionEntity
 }
