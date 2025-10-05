@@ -19,15 +19,19 @@ enum LogManagerType {
 }
 
 protocol LogManagerProtocol: Sendable {
-    func devLog(_ logType: LogManagerType,
-                _ message: String,
-                utf8Data: Data?,
-                ignoreFunctionName: Bool,
-                function: String)
-    func devLog(_ logType: LogManagerType,
-                _ message: String,
-                userInfo: [AnyHashable: Any],
-                function: String)
+    func devLog(
+        _ logType: LogManagerType,
+        _ message: String,
+        utf8Data: Data?,
+        ignoreFunctionName: Bool,
+        function: String
+    )
+    func devLog(
+        _ logType: LogManagerType,
+        _ message: String,
+        userInfo: [AnyHashable: Any],
+        function: String
+    )
 }
 
 struct LogManager: LogManagerProtocol {
@@ -39,11 +43,13 @@ struct LogManager: LogManagerProtocol {
 
     // MARK: - Public functions
 
-    func devLog(_ logType: LogManagerType,
-                _ message: String,
-                utf8Data: Data? = nil,
-                ignoreFunctionName: Bool = true,
-                function: String = #function) {
+    func devLog(
+        _ logType: LogManagerType,
+        _ message: String,
+        utf8Data: Data? = nil,
+        ignoreFunctionName: Bool = true,
+        function: String = #function
+    ) {
         let functionName = ignoreFunctionName ? "" : "\(function): "
 
         if let data = utf8Data, let dataString = String(data: data, encoding: .utf8) {
@@ -55,10 +61,12 @@ struct LogManager: LogManagerProtocol {
         }
     }
 
-    func devLog(_ logType: LogManagerType,
-                _ message: String,
-                userInfo: [AnyHashable: Any],
-                function: String = #function) {
+    func devLog(
+        _ logType: LogManagerType,
+        _ message: String,
+        userInfo: [AnyHashable: Any],
+        function: String = #function
+    ) {
         if let data = try? JSONSerialization.data(withJSONObject: userInfo, options: [.prettyPrinted]),
            let jsonString = String(data: data, encoding: .utf8) {
 

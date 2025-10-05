@@ -106,11 +106,7 @@ private extension FilterMenuView {
                     .fill(theme.colors.primary.opacity(0.1))
             )
         }
-#if os(iOS) || os(macOS)
         .buttonStyle(.plain)
-#elseif os(tvOS)
-        .buttonStyle(.card)
-#endif
     }
 
     var filterDropdown: some View {
@@ -122,19 +118,13 @@ private extension FilterMenuView {
                 filterOption(title: title(for: status), filter: status)
             }
         }
-#if os(iOS) || os(macOS)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.md)
                 .fill(theme.colors.surface)
                 .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
         )
-#endif
         .padding(.top, theme.spacing.xs)
-#if os(iOS) || os(macOS)
         .frame(width: 150)
-#elseif os(tvOS)
-        .frame(width: 200)
-#endif
     }
 
     // MARK: - Functions
@@ -174,10 +164,6 @@ private extension FilterMenuView {
             .contentShape(Rectangle())
             .background(selectedFilter == filter ? theme.colors.primary.opacity(0.1) : Color.clear)
         }
-#if os(iOS) || os(macOS)
         .buttonStyle(.plain)
-#elseif os(tvOS)
-        .buttonStyle(.card)
-#endif
     }
 }

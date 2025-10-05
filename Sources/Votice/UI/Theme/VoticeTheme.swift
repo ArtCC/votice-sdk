@@ -32,10 +32,12 @@ public struct VoticeTheme {
 
     // MARK: - Init
 
-    public init(colors: VoticeColors,
-                typography: VoticeTypography,
-                spacing: VoticeSpacing,
-                cornerRadius: VoticeCornerRadius) {
+    public init(
+        colors: VoticeColors,
+        typography: VoticeTypography,
+        spacing: VoticeSpacing,
+        cornerRadius: VoticeCornerRadius
+    ) {
         self.colors = colors
         self.typography = typography
         self.spacing = spacing
@@ -88,23 +90,25 @@ public struct VoticeColors {
 
     // MARK: - Init
 
-    public init(primary: Color,
-                secondary: Color,
-                accent: Color,
-                background: Color,
-                surface: Color,
-                onSurface: Color,
-                onBackground: Color,
-                success: Color,
-                warning: Color,
-                error: Color,
-                upvote: Color,
-                downvote: Color,
-                pending: Color,
-                accepted: Color,
-                inProgress: Color,
-                completed: Color,
-                rejected: Color) {
+    public init(
+        primary: Color,
+        secondary: Color,
+        accent: Color,
+        background: Color,
+        surface: Color,
+        onSurface: Color,
+        onBackground: Color,
+        success: Color,
+        warning: Color,
+        error: Color,
+        upvote: Color,
+        downvote: Color,
+        pending: Color,
+        accepted: Color,
+        inProgress: Color,
+        completed: Color,
+        rejected: Color
+    ) {
         self.primary = primary
         self.secondary = secondary
         self.accent = accent
@@ -216,17 +220,19 @@ public struct VoticeTypography {
 
     // MARK: - Init
 
-    public init(largeTitle: Font,
-                title: Font,
-                title2: Font,
-                title3: Font,
-                headline: Font,
-                subheadline: Font,
-                body: Font,
-                callout: Font,
-                footnote: Font,
-                caption: Font,
-                caption2: Font) {
+    public init(
+        largeTitle: Font,
+        title: Font,
+        title2: Font,
+        title3: Font,
+        headline: Font,
+        subheadline: Font,
+        body: Font,
+        callout: Font,
+        footnote: Font,
+        caption: Font,
+        caption2: Font
+    ) {
         self.largeTitle = largeTitle
         self.title = title
         self.title2 = title2

@@ -23,6 +23,16 @@ struct SuggestionListView: View {
     // MARK: - View
 
     var body: some View {
+#if os(tvOS)
+        VStack {
+            Spacer()
+            Text("Votice SDK is not available on tvOS. Soon you will be able to view your suggestions here.")
+                .font(theme.typography.headline)
+                .foregroundColor(theme.colors.onBackground)
+                .padding()
+            Spacer()
+        }
+#else
         ZStack {
             LinearGradient(
                 colors: [
@@ -89,6 +99,7 @@ struct SuggestionListView: View {
             .frame(minWidth: 800, minHeight: 600)
 #endif
         }
+#endif
     }
 }
 
@@ -97,11 +108,9 @@ struct SuggestionListView: View {
 private extension SuggestionListView {
     var headerView: some View {
         HStack {
-#if os(iOS) || os(macOS)
             CloseButton(isNavigation: isNavigation) {
                 presentationMode.wrappedValue.dismiss()
             }
-#endif
             Spacer()
             Text(TextManager.shared.texts.featureRequests)
                 .font(theme.typography.title2)
@@ -193,11 +202,7 @@ private extension SuggestionListView {
         .scaleEffect(showCreateButton ? 1.0 : 0.9)
         .opacity(showCreateButton ? 1.0 : 0.7)
         .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
-#if os(iOS) || os(macOS)
         .buttonStyle(.plain)
-#elseif os(tvOS)
-        .buttonStyle(.card)
-#endif
     }
 
     var segmentedControl: some View {

@@ -37,28 +37,34 @@ final class AlertManager: ObservableObject {
         LogManager.shared.devLog(.info, "AlertManager: showing alert - \(alert.title)")
     }
 
-    func showError(title: String? = nil,
-                   message: String,
-                   okAction: @escaping () -> Void = {}) {
+    func showError(
+        title: String? = nil,
+        message: String,
+        okAction: @escaping () -> Void = {}
+    ) {
         let errorTitle = title ?? TextManager.shared.texts.error
         let alert = VoticeAlertEntity.error(title: errorTitle, message: message, okAction: okAction)
 
         showAlert(alert)
     }
 
-    func showSuccess(title: String? = nil,
-                     message: String,
-                     okAction: @escaping () -> Void = {}) {
+    func showSuccess(
+        title: String? = nil,
+        message: String,
+        okAction: @escaping () -> Void = {}
+    ) {
         let successTitle = title ?? TextManager.shared.texts.success
         let alert = VoticeAlertEntity.success(title: successTitle, message: message, okAction: okAction)
 
         showAlert(alert)
     }
 
-    func showWarning(title: String? = nil,
-                     message: String,
-                     okAction: @escaping () -> Void = {},
-                     cancelAction: @escaping () -> Void = {}) {
+    func showWarning(
+        title: String? = nil,
+        message: String,
+        okAction: @escaping () -> Void = {},
+        cancelAction: @escaping () -> Void = {}
+    ) {
         let warningTitle = title ?? TextManager.shared.texts.warning
         let alert = VoticeAlertEntity.warning(
             title: warningTitle,
@@ -70,9 +76,11 @@ final class AlertManager: ObservableObject {
         showAlert(alert)
     }
 
-    func showInfo(title: String? = nil,
-                  message: String,
-                  okAction: @escaping () -> Void = {}) {
+    func showInfo(
+        title: String? = nil,
+        message: String,
+        okAction: @escaping () -> Void = {}
+    ) {
         let infoTitle = title ?? TextManager.shared.texts.info
         let alert = VoticeAlertEntity.info(title: infoTitle, message: message, okAction: okAction)
 

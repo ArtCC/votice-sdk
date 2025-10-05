@@ -22,14 +22,7 @@ struct CustomSegmentedControl: View {
 
     @Binding var selection: Int
 
-    private var controlHeight: CGFloat {
-#if os(tvOS)
-        50
-#else
-        35
-#endif
-    }
-
+    private let controlHeight: CGFloat = 35
     private let segmentSpacing: CGFloat = 5
     private let innerVerticalPadding: CGFloat = 5
     private let innerHorizontalPadding: CGFloat = 5
@@ -66,11 +59,7 @@ struct CustomSegmentedControl: View {
                         )
                         .contentShape(Rectangle())
                 }
-#if os(iOS) || os(macOS)
                 .buttonStyle(.plain)
-#else
-                .buttonStyle(.card)
-#endif
             }
         }
         .frame(height: controlHeight)
