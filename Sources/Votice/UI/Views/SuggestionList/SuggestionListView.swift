@@ -26,6 +26,16 @@ struct SuggestionListView: View {
 #if os(tvOS)
         tvOSView
 #else
+        standardView
+#endif
+    }
+}
+
+// MARK: - Private
+// MARK: - Standard Platforms (iOS, iPadOS, macOS)
+
+private extension SuggestionListView {
+    var standardView: some View {
         ZStack {
             LinearGradient(
                 colors: [
@@ -92,13 +102,8 @@ struct SuggestionListView: View {
             .frame(minWidth: 800, minHeight: 600)
 #endif
         }
-#endif
     }
-}
 
-// MARK: - Private
-
-private extension SuggestionListView {
     var headerView: some View {
         HStack {
             CloseButton(isNavigation: isNavigation) {
@@ -213,6 +218,9 @@ private extension SuggestionListView {
                 LoadingView(message: TextManager.shared.texts.loadingSuggestions)
             } else {
                 tvOSHeaderView
+                if viewModel.showCompletedSeparately {
+                    tvOSSegmentedControl
+                }
                 if viewModel.currentSuggestionsList.isEmpty && !viewModel.isLoading {
                     EmptyStateView(
                         title: TextManager.shared.texts.noSuggestionsYet,
@@ -243,14 +251,25 @@ private extension SuggestionListView {
 
     var tvOSHeaderView: some View {
         HStack {
-            Spacer()
             Text(TextManager.shared.texts.featureRequests)
                 .font(theme.typography.title2)
                 .fontWeight(.medium)
                 .foregroundColor(theme.colors.onBackground)
             Spacer()
         }
-        .padding(theme.spacing.md)
+        .padding(.vertical, theme.spacing.md)
+        .padding(.horizontal, theme.spacing.lg)
+    }
+
+    var tvOSSegmentedControl: some View {
+        CustomSegmentedControl(
+            selection: $viewModel.selectedTab,
+            segments: [
+                .init(id: 0, title: TextManager.shared.texts.activeTab),
+                .init(id: 1, title: TextManager.shared.texts.completedTab)
+            ]
+        )
+        .transition(.opacity.combined(with: .move(edge: .top)))
     }
 
     var tvOSSuggestionsList: some View {
@@ -283,7 +302,7 @@ private extension SuggestionListView {
                 Spacer()
                     .frame(height: 30)
             }
-            .padding(.horizontal, 60)
+            .padding(.horizontal, theme.spacing.lg)
         }
     }
 }
