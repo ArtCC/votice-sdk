@@ -205,6 +205,7 @@ private extension SuggestionListView {
 
 // MARK: - tvOS
 
+#if os(tvOS)
 private extension SuggestionListView {
     var tvOSView: some View {
         VStack(spacing: 10) {
@@ -273,6 +274,7 @@ private extension SuggestionListView {
                         )
                     }
                     .buttonStyle(.card)
+                    .padding(.top, index == 0 ? 30 : 0)
                     .onAppear {
                         if index >= viewModel.currentSuggestionsList.count - 3
                             && viewModel.hasMoreSuggestions &&
@@ -293,3 +295,4 @@ private extension SuggestionListView {
         }
     }
 }
+#endif

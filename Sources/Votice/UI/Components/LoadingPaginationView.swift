@@ -16,7 +16,7 @@ struct LoadingPaginationView: View {
     // MARK: - View
 
     var body: some View {
-        HStack {
+        VStack(spacing: 10) {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
             Text(TextManager.shared.texts.loadingMore)
@@ -24,6 +24,5 @@ struct LoadingPaginationView: View {
                 .foregroundColor(theme.colors.secondary)
         }
         .padding(theme.spacing.md)
-        .frame(maxWidth: .infinity)
     }
 }
