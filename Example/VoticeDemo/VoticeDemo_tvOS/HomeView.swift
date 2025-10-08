@@ -25,7 +25,7 @@ struct HomeView: View {
             Button {
                 showingFeedbackSheet = true
             } label: {
-                Text("Open Feedback")
+                Text("Show Feedback Sheet")
                     .font(.poppins(.medium, size: 16))
                     .foregroundColor(.white)
                     .padding()
@@ -46,7 +46,7 @@ struct HomeView: View {
             // configureText()
         }
         .sheet(isPresented: $showingFeedbackSheet) {
-            Votice.feedbackView()
+            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
         }
     }
 }

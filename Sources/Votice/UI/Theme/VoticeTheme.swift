@@ -6,12 +6,12 @@
 //  Copyright © 2025 ArtCC. All rights reserved.
 //
 
-import SwiftUI
-#if canImport(UIKit)
-import UIKit
-#elseif canImport(AppKit)
+#if canImport(AppKit)
 import AppKit
+#elseif canImport(UIKit)
+import UIKit
 #endif
+import SwiftUI
 
 // MARK: - Votice Theme
 
@@ -162,11 +162,11 @@ extension Color {
         Color(UIColor { traitCollection in
             switch traitCollection.userInterfaceStyle {
             case .dark:
-                return UIColor.clear
+                return UIColor.black
             case .light:
-                return UIColor.clear
+                return UIColor.white
             default:
-                return UIColor.clear // Default to dark for tvOS
+                return UIColor.black // Default to dark for tvOS
             }
         })
     }

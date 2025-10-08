@@ -24,14 +24,7 @@ struct SuggestionListView: View {
 
     var body: some View {
 #if os(tvOS)
-        VStack {
-            Spacer()
-            Text("Votice SDK is not available on tvOS. Soon you will be able to view your suggestions here.")
-                .font(theme.typography.headline)
-                .foregroundColor(theme.colors.onBackground)
-                .padding()
-            Spacer()
-        }
+        tvOSView
 #else
         ZStack {
             LinearGradient(
@@ -42,7 +35,7 @@ struct SuggestionListView: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .ignoresSafeArea()
+            .ignoresSafeArea(.all)
             if viewModel.isLoading && viewModel.currentSuggestionsList.isEmpty {
                 LoadingView(message: TextManager.shared.texts.loadingSuggestions)
             } else {
@@ -77,7 +70,7 @@ struct SuggestionListView: View {
         }
         .voticeAlert(
             isPresented: $viewModel.isShowingAlert,
-            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)
         )
         .sheet(isPresented: $viewModel.showingCreateSuggestion) {
             CreateSuggestionView { suggestion in
@@ -163,14 +156,7 @@ private extension SuggestionListView {
                     }
                 }
                 if viewModel.isLoadingPagination && viewModel.currentSuggestionsList.count > 0 {
-                    HStack {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                        Text(TextManager.shared.texts.loadingMore)
-                            .font(theme.typography.caption)
-                            .foregroundColor(theme.colors.secondary)
-                    }
-                    .padding(theme.spacing.md)
+                    LoadingPaginationView()
                 }
                 Spacer()
                     .frame(height: 80)
@@ -214,5 +200,79 @@ private extension SuggestionListView {
             ]
         )
         .transition(.opacity.combined(with: .move(edge: .top)))
+    }
+}
+
+// MARK: - tvOS
+
+private extension SuggestionListView {
+    var tvOSView: some View {
+        VStack(spacing: 20) {
+            if viewModel.isLoading && viewModel.currentSuggestionsList.isEmpty {
+                LoadingView(message: TextManager.shared.texts.loadingSuggestions)
+            } else {
+                tvOSHeaderView
+                if viewModel.currentSuggestionsList.isEmpty && !viewModel.isLoading {
+                    EmptyStateView(
+                        title: TextManager.shared.texts.noSuggestionsYet,
+                        message: TextManager.shared.texts.beFirstToSuggest
+                    )
+                } else {
+                    tvOSSuggestionsList
+                }
+            }
+        }
+        .task {
+            await viewModel.loadSuggestions()
+        }
+        .voticeAlert(
+            isPresented: $viewModel.isShowingAlert,
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)
+        )
+    }
+
+    var tvOSHeaderView: some View {
+        HStack {
+            Spacer()
+            Text(TextManager.shared.texts.featureRequests)
+                .font(theme.typography.title2)
+                .fontWeight(.medium)
+                .foregroundColor(theme.colors.onBackground)
+            Spacer()
+        }
+        .padding(theme.spacing.md)
+    }
+
+    var tvOSSuggestionsList: some View {
+        ScrollView(showsIndicators: false) {
+            LazyVStack(spacing: 20) {
+                ForEach(Array(viewModel.currentSuggestionsList.enumerated()), id: \.element.id) { index, suggestion in
+                    TVOSSuggestionCard(
+                        suggestion: suggestion,
+                        currentVote: viewModel.getCurrentVote(for: suggestion.id),
+                        onVote: { _ in
+                        },
+                        onTap: {
+                        }
+                    )
+                    .focusable(true)
+                    .onAppear {
+                        if index >= viewModel.currentSuggestionsList.count - 3
+                            && viewModel.hasMoreSuggestions &&
+                            !viewModel.isLoadingPagination {
+                            Task {
+                                await viewModel.loadMoreSuggestions()
+                            }
+                        }
+                    }
+                }
+                if viewModel.isLoadingPagination && viewModel.currentSuggestionsList.count > 0 {
+                    LoadingPaginationView()
+                }
+                Spacer()
+                    .frame(height: 60)
+            }
+            .padding(.horizontal, 60)
+        }
     }
 }

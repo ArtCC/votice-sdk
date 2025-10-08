@@ -98,25 +98,37 @@ extension Votice {
     /// Present the Votice feedback interface
     /// - Parameters:
     ///   - theme: Custom theme for the UI (optional)
+    ///   - minWidth: Minimum width for macOS (default 800)
+    ///   - minHeight: Minimum height for macOS (default 600)
     /// - Returns: A SwiftUI View that can be presented modally or embedded
-    public static func feedbackNavigationView(theme: VoticeTheme? = nil) -> some View {
+    public static func feedbackNavigationView(
+        theme: VoticeTheme? = nil,
+        minWidth: CGFloat = 800,
+        minHeight: CGFloat = 600
+    ) -> some View {
         SuggestionListView(isNavigation: true)
             .voticeTheme(theme ?? .default)
-#if os(macOS)
-            .frame(minWidth: 800, minHeight: 600)
+#if os(macOS) || os(tvOS)
+            .frame(minWidth: minWidth, minHeight: minHeight)
 #endif
     }
 
     /// Present the Votice feedback interface as a standalone view
     /// - Parameters:
     ///  - theme: Custom theme for the UI (optional)
+    ///  - minWidth: Minimum width for macOS (default 800)
+    ///  - minHeight: Minimum height for macOS (default 600)
     ///  - Returns: A SwiftUI View that can be used in any context
     ///  - Note: This view is suitable for embedding in your app's UI or presenting as a full-screen cover
-    public static func feedbackView(theme: VoticeTheme? = nil) -> some View {
+    public static func feedbackView(
+        theme: VoticeTheme? = nil,
+        minWidth: CGFloat = 800,
+        minHeight: CGFloat = 600
+    ) -> some View {
         SuggestionListView(isNavigation: false)
             .voticeTheme(theme ?? .default)
-#if os(macOS)
-            .frame(minWidth: 800, minHeight: 600)
+#if os(macOS) || os(tvOS)
+            .frame(minWidth: minWidth, minHeight: minHeight)
 #endif
     }
 
@@ -124,13 +136,22 @@ extension Votice {
     /// - Parameters:
     ///   - isPresented: Binding to control the presentation
     ///   - theme: Custom theme for the UI (optional)
-    public static func feedbackSheet(isPresented: Binding<Bool>, theme: VoticeTheme? = nil) -> some View {
+    ///   - minWidth: Minimum width for macOS (default 800)
+    ///   - minHeight: Minimum height for macOS (default 600)
+    ///   - Returns: A SwiftUI View that presents the feedback interface as a sheet
+    ///   - Note: This view is suitable for presenting modally over existing content
+    public static func feedbackSheet(
+        isPresented: Binding<Bool>,
+        theme: VoticeTheme? = nil,
+        minWidth: CGFloat = 800,
+        minHeight: CGFloat = 600
+    ) -> some View {
         EmptyView()
             .sheet(isPresented: isPresented) {
                 SuggestionListView(isNavigation: false)
                     .voticeTheme(theme ?? .default)
-#if os(macOS)
-                    .frame(minWidth: 800, minHeight: 600)
+#if os(macOS) || os(tvOS)
+                    .frame(minWidth: minWidth, minHeight: minHeight)
 #endif
             }
     }

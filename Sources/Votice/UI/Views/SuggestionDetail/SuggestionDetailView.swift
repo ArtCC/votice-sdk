@@ -71,7 +71,7 @@ struct SuggestionDetailView: View {
         }
         .voticeAlert(
             isPresented: $viewModel.isShowingAlert,
-            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)
         )
 #endif
     }
@@ -364,15 +364,7 @@ private extension SuggestionDetailView {
                 }
             }
             if viewModel.isLoadingPaginationComments && viewModel.comments.count > 0 {
-                HStack {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                    Text(TextManager.shared.texts.loadingMore)
-                        .font(theme.typography.caption)
-                        .foregroundColor(theme.colors.secondary)
-                }
-                .padding(theme.spacing.md)
-                .frame(maxWidth: .infinity)
+                LoadingPaginationView()
             }
         }
     }
