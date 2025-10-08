@@ -259,18 +259,17 @@ private extension SuggestionListView {
             tvOSFilterMenuButton
         }
         .padding(.vertical, theme.spacing.md)
-        .padding(.horizontal, theme.spacing.lg)
+        .padding(.horizontal, theme.spacing.llg)
         .zIndex(1)
     }
 
     var tvOSFilterMenuButton: some View {
-        TVOSFilterMenuView(
+        FilterMenuView(
             isExpanded: $viewModel.isFilterMenuExpanded,
             selectedFilter: viewModel.selectedFilter
         ) { filter in
             viewModel.setFilter(filter)
         }
-        .padding(.trailing, theme.spacing.xl)
     }
 
     var tvOSSegmentedControl: some View {
@@ -314,7 +313,7 @@ private extension SuggestionListView {
                 Spacer()
                     .frame(height: 30)
             }
-            .padding(.horizontal, theme.spacing.lg)
+            .padding(.horizontal, theme.spacing.llg)
         }
     }
 }

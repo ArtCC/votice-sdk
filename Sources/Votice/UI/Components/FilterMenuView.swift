@@ -50,21 +50,18 @@ struct FilterMenuView: View {
         return result
     }
 
-    let width: CGFloat
+    private var width: CGFloat {
+#if os(tvOS)
+        280
+#else
+        150
+#endif
+    }
+
     let selectedFilter: SuggestionStatusEntity?
     let onFilterSelected: (SuggestionStatusEntity?) -> Void
 
     // MARK: - Init
-
-    init(isExpanded: Binding<Bool>,
-         width: CGFloat = 150,
-         selectedFilter: SuggestionStatusEntity?,
-         onFilterSelected: @escaping (SuggestionStatusEntity?) -> Void) {
-        self._isExpanded = isExpanded
-        self.width = width
-        self.selectedFilter = selectedFilter
-        self.onFilterSelected = onFilterSelected
-    }
 
     // MARK: - View
 
@@ -119,7 +116,11 @@ private extension FilterMenuView {
                     .fill(theme.colors.primary.opacity(0.1))
             )
         }
+#if os(tvOS)
+        .buttonStyle(.card)
+#else
         .buttonStyle(.plain)
+#endif
     }
 
     var filterDropdown: some View {
@@ -177,6 +178,10 @@ private extension FilterMenuView {
             .contentShape(Rectangle())
             .background(selectedFilter == filter ? theme.colors.primary.opacity(0.1) : Color.clear)
         }
+#if os(tvOS)
+        .buttonStyle(.card)
+#else
         .buttonStyle(.plain)
+#endif
     }
 }
