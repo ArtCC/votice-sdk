@@ -22,82 +22,77 @@ struct TVOSSuggestionCard: View {
     // MARK: - View
 
     var body: some View {
-        Button {
-            onTap()
-        } label: {
-            HStack(alignment: .top, spacing: 20) {
-                VStack(spacing: 12.5) {
-                    VStack(spacing: 5) {
-                        Image(systemName: currentVote != nil ? "hand.thumbsup.fill" : "hand.thumbsup")
+        HStack(alignment: .top, spacing: 20) {
+            VStack(spacing: 12.5) {
+                VStack(spacing: 5) {
+                    Image(systemName: currentVote != nil ? "hand.thumbsup.fill" : "hand.thumbsup")
+                        .font(theme.typography.subheadline)
+                        .foregroundColor(currentVote != nil ? theme.colors.primary : theme.colors.secondary)
+                    Text("\(max(0, suggestion.voteCount ?? 0))")
+                        .font(theme.typography.body)
+                        .fontWeight(.semibold)
+                        .foregroundColor(currentVote != nil ? theme.colors.primary : theme.colors.onSurface)
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    // swiftlint:disable line_length
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(currentVote != nil ? theme.colors.primary.opacity(0.15) : theme.colors.surface.opacity(0.5))
+                    // swiftlint:enable line_length
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(currentVote != nil ? theme.colors.primary.opacity(0.2) : Color.clear, lineWidth: 1)
+                )
+                if ConfigurationManager.shared.commentIsEnabled, suggestion.commentCount ?? 0 > 0 {
+                    VStack(spacing: 4) {
+                        Image(systemName: "bubble.left.fill")
                             .font(theme.typography.subheadline)
-                            .foregroundColor(currentVote != nil ? theme.colors.primary : theme.colors.secondary)
-                        Text("\(max(0, suggestion.voteCount ?? 0))")
+                            .foregroundColor(theme.colors.accent)
+                        Text("\(suggestion.commentCount ?? 0)")
                             .font(theme.typography.body)
-                            .fontWeight(.semibold)
-                            .foregroundColor(currentVote != nil ? theme.colors.primary : theme.colors.onSurface)
+                            .fontWeight(.medium)
+                            .foregroundColor(theme.colors.accent)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(
-                        // swiftlint:disable line_length
-                        RoundedRectangle(cornerRadius: 6)
-                            .fill(currentVote != nil ? theme.colors.primary.opacity(0.15) : theme.colors.surface.opacity(0.5))
-                        // swiftlint:enable line_length
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(currentVote != nil ? theme.colors.primary.opacity(0.2) : Color.clear, lineWidth: 1)
-                    )
-                    if ConfigurationManager.shared.commentIsEnabled, suggestion.commentCount ?? 0 > 0 {
-                        VStack(spacing: 4) {
-                            Image(systemName: "bubble.left.fill")
-                                .font(theme.typography.subheadline)
-                                .foregroundColor(theme.colors.accent)
-                            Text("\(suggestion.commentCount ?? 0)")
-                                .font(theme.typography.body)
-                                .fontWeight(.medium)
-                                .foregroundColor(theme.colors.accent)
-                        }
-                        .padding(.top, 8)
-                    }
-                }
-                .frame(minWidth: 80)
-                VStack(alignment: .leading, spacing: 12.5) {
-                    titleView
-                    HStack {
-                        authorView
-                        Spacer()
-                        createdAtView
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                VStack {
-                    StatusBadge(status: suggestion.status ?? .pending)
-                    Spacer()
+                    .padding(.top, 8)
                 }
             }
-            .padding(20)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(theme.colors.surface)
-                    .shadow(
-                        color: isFocused ? theme.colors.primary.opacity(0.2) : Color.black.opacity(0.1),
-                        radius: isFocused ? 12 : 4,
-                        x: 0,
-                        y: isFocused ? 6 : 2
-                    )
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(
-                        isFocused ? theme.colors.primary.opacity(0.4) : Color.clear,
-                        lineWidth: isFocused ? 2 : 0
-                    )
-            )
-            .scaleEffect(isFocused ? 1.02 : 1.0)
-            .animation(.easeInOut(duration: 0.15), value: isFocused)
+            .frame(minWidth: 80)
+            VStack(alignment: .leading, spacing: 12.5) {
+                titleView
+                HStack {
+                    authorView
+                    Spacer()
+                    createdAtView
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            VStack {
+                StatusBadge(status: suggestion.status ?? .pending)
+                Spacer()
+            }
         }
-        .buttonStyle(.plain)
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(theme.colors.surface)
+                .shadow(
+                    color: isFocused ? theme.colors.primary.opacity(0.2) : Color.black.opacity(0.1),
+                    radius: isFocused ? 12 : 4,
+                    x: 0,
+                    y: isFocused ? 6 : 2
+                )
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(
+                    isFocused ? theme.colors.primary.opacity(0.4) : Color.clear,
+                    lineWidth: isFocused ? 2 : 0
+                )
+        )
+        .scaleEffect(isFocused ? 1.02 : 1.0)
+        .animation(.easeInOut(duration: 0.15), value: isFocused)
     }
 }
 

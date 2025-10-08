@@ -207,7 +207,7 @@ private extension SuggestionListView {
 
 private extension SuggestionListView {
     var tvOSView: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 10) {
             if viewModel.isLoading && viewModel.currentSuggestionsList.isEmpty {
                 LoadingView(message: TextManager.shared.texts.loadingSuggestions)
             } else {
@@ -229,6 +229,15 @@ private extension SuggestionListView {
             isPresented: $viewModel.isShowingAlert,
             alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)
         )
+        .sheet(item: $viewModel.selectedSuggestion) { suggestion in
+            SuggestionDetailView(suggestion: suggestion) { updatedSuggestion in
+                viewModel.updateSuggestion(updatedSuggestion)
+            } onReload: {
+                Task {
+                    await viewModel.loadSuggestions()
+                }
+            }
+        }
     }
 
     var tvOSHeaderView: some View {
@@ -247,15 +256,23 @@ private extension SuggestionListView {
         ScrollView(showsIndicators: false) {
             LazyVStack(spacing: 20) {
                 ForEach(Array(viewModel.currentSuggestionsList.enumerated()), id: \.element.id) { index, suggestion in
-                    TVOSSuggestionCard(
-                        suggestion: suggestion,
-                        currentVote: viewModel.getCurrentVote(for: suggestion.id),
-                        onVote: { _ in
-                        },
-                        onTap: {
-                        }
-                    )
-                    .focusable(true)
+                    Button {
+                        viewModel.selectSuggestion(suggestion)
+                    } label: {
+                        TVOSSuggestionCard(
+                            suggestion: suggestion,
+                            currentVote: viewModel.getCurrentVote(for: suggestion.id),
+                            onVote: { voteType in
+                                Task {
+                                    await viewModel.vote(on: suggestion.id, type: voteType)
+                                }
+                            },
+                            onTap: {
+                                viewModel.selectSuggestion(suggestion)
+                            }
+                        )
+                    }
+                    .buttonStyle(.card)
                     .onAppear {
                         if index >= viewModel.currentSuggestionsList.count - 3
                             && viewModel.hasMoreSuggestions &&
@@ -270,7 +287,7 @@ private extension SuggestionListView {
                     LoadingPaginationView()
                 }
                 Spacer()
-                    .frame(height: 60)
+                    .frame(height: 30)
             }
             .padding(.horizontal, 60)
         }
