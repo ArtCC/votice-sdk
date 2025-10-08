@@ -256,9 +256,21 @@ private extension SuggestionListView {
                 .fontWeight(.medium)
                 .foregroundColor(theme.colors.onBackground)
             Spacer()
+            tvOSFilterMenuButton
         }
         .padding(.vertical, theme.spacing.md)
         .padding(.horizontal, theme.spacing.lg)
+        .zIndex(1)
+    }
+
+    var tvOSFilterMenuButton: some View {
+        TVOSFilterMenuView(
+            isExpanded: $viewModel.isFilterMenuExpanded,
+            selectedFilter: viewModel.selectedFilter
+        ) { filter in
+            viewModel.setFilter(filter)
+        }
+        .padding(.trailing, theme.spacing.xl)
     }
 
     var tvOSSegmentedControl: some View {

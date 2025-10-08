@@ -116,7 +116,7 @@ private extension CustomSegmentedControl {
         }
         .frame(height: controlHeight)
         .padding(.vertical, theme.spacing.sm)
-        .padding(.horizontal, theme.spacing.xxl)
+        .padding(.horizontal, theme.spacing.xl)
     }
 }
 #endif
