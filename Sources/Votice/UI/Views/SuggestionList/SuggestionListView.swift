@@ -262,15 +262,7 @@ private extension SuggestionListView {
                     } label: {
                         TVOSSuggestionCard(
                             suggestion: suggestion,
-                            currentVote: viewModel.getCurrentVote(for: suggestion.id),
-                            onVote: { voteType in
-                                Task {
-                                    await viewModel.vote(on: suggestion.id, type: voteType)
-                                }
-                            },
-                            onTap: {
-                                viewModel.selectSuggestion(suggestion)
-                            }
+                            currentVote: viewModel.getCurrentVote(for: suggestion.id)
                         )
                     }
                     .buttonStyle(.card)

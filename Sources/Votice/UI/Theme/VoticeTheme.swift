@@ -162,11 +162,11 @@ extension Color {
         Color(UIColor { traitCollection in
             switch traitCollection.userInterfaceStyle {
             case .dark:
-                return UIColor.black
+                return UIColor.clear
             case .light:
-                return UIColor.white
+                return UIColor.clear
             default:
-                return UIColor.black // Default to dark for tvOS
+                return UIColor.clear // Default to dark for tvOS
             }
         })
     }
@@ -176,11 +176,11 @@ extension Color {
         Color(UIColor { traitCollection in
             switch traitCollection.userInterfaceStyle {
             case .dark:
-                return UIColor.black
+                return UIColor.clear
             case .light:
-                return UIColor.white
+                return UIColor.clear
             default:
-                return UIColor.black // Default to dark for tvOS
+                return UIColor.clear // Default to dark for tvOS
             }
         })
     }

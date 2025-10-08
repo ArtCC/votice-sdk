@@ -14,10 +14,15 @@ struct TVOSSuggestionCard: View {
     @Environment(\.voticeTheme) private var theme
     @Environment(\.isFocused) private var isFocused
 
+    private var hasVoted: Bool {
+        currentVote != nil
+    }
+    private var voteColor: Color {
+        hasVoted ? theme.colors.primary : theme.colors.secondary.opacity(0.6)
+    }
+
     let suggestion: SuggestionEntity
     let currentVote: VoteType?
-    let onVote: (VoteType) -> Void
-    let onTap: () -> Void
 
     // MARK: - View
 
@@ -25,25 +30,22 @@ struct TVOSSuggestionCard: View {
         HStack(alignment: .top, spacing: 20) {
             VStack(spacing: 12.5) {
                 VStack(spacing: 5) {
-                    Image(systemName: currentVote != nil ? "hand.thumbsup.fill" : "hand.thumbsup")
+                    Image(systemName: hasVoted ? "hand.thumbsup.fill" : "hand.thumbsup")
                         .font(theme.typography.subheadline)
-                        .foregroundColor(currentVote != nil ? theme.colors.primary : theme.colors.secondary)
+                        .foregroundColor(voteColor)
                     Text("\(max(0, suggestion.voteCount ?? 0))")
                         .font(theme.typography.body)
                         .fontWeight(.semibold)
-                        .foregroundColor(currentVote != nil ? theme.colors.primary : theme.colors.onSurface)
+                        .foregroundColor(hasVoted ? theme.colors.primary : theme.colors.onSurface)
                 }
                 .padding(.horizontal, 12)
-                .padding(.vertical, 8)
                 .background(
-                    // swiftlint:disable line_length
                     RoundedRectangle(cornerRadius: 6)
-                        .fill(currentVote != nil ? theme.colors.primary.opacity(0.15) : theme.colors.surface.opacity(0.5))
-                    // swiftlint:enable line_length
+                        .fill(hasVoted ? theme.colors.primary.opacity(0.15) : theme.colors.surface.opacity(0.5))
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 6)
-                        .stroke(currentVote != nil ? theme.colors.primary.opacity(0.2) : Color.clear, lineWidth: 1)
+                        .stroke(hasVoted ? theme.colors.primary.opacity(0.2) : Color.clear, lineWidth: 1)
                 )
                 if ConfigurationManager.shared.commentIsEnabled, suggestion.commentCount ?? 0 > 0 {
                     VStack(spacing: 4) {
@@ -55,7 +57,6 @@ struct TVOSSuggestionCard: View {
                             .fontWeight(.medium)
                             .foregroundColor(theme.colors.accent)
                     }
-                    .padding(.top, 8)
                 }
             }
             .frame(minWidth: 80)
