@@ -278,7 +278,7 @@ private extension SuggestionListView {
             LazyVStack(spacing: 20) {
                 ForEach(Array(viewModel.currentSuggestionsList.enumerated()), id: \.element.id) { index, suggestion in
                     Button {
-                        viewModel.selectSuggestion(suggestion)
+                        // viewModel.selectSuggestion(suggestion)
                     } label: {
                         TVOSSuggestionCard(
                             suggestion: suggestion,

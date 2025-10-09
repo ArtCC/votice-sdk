@@ -92,7 +92,7 @@ struct TVOSSuggestionCard: View {
                     lineWidth: isFocused ? 2 : 0
                 )
         )
-        .scaleEffect(isFocused ? 1.02 : 1.0)
+        .scaleEffect(isFocused ? 1.05 : 1.0)
         .animation(.easeInOut(duration: 0.15), value: isFocused)
     }
 }

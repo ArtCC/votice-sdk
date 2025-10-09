@@ -30,7 +30,7 @@ struct TVOSSegmentButton: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: theme.cornerRadius.md)
-                    .fill(backgroundColor)
+                    .fill(.clear)
                     .shadow(
                         color: shadowColor,
                         radius: isFocused ? 12 : 4,

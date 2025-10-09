@@ -34,15 +34,18 @@ struct SuggestionDetailView: View {
 
     var body: some View {
 #if os(tvOS)
-        VStack {
-            Spacer()
-            Text("Votice SDK is not available on tvOS.")
-                .font(theme.typography.headline)
-                .foregroundColor(theme.colors.onBackground)
-                .padding()
-            Spacer()
-        }
+        tvOSView
 #else
+        standardView
+#endif
+    }
+}
+
+// MARK: - Private
+// MARK: - Standard Platforms (iOS, iPadOS, macOS)
+
+private extension SuggestionDetailView {
+    var standardView: some View {
         ZStack {
             LinearGradient(
                 colors: [
@@ -73,13 +76,8 @@ struct SuggestionDetailView: View {
             isPresented: $viewModel.isShowingAlert,
             alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)
         )
-#endif
     }
-}
 
-// MARK: - Private
-
-private extension SuggestionDetailView {
     var headerView: some View {
         ZStack {
             HStack {
@@ -521,3 +519,20 @@ private extension SuggestionDetailView {
         .scrollDismissesKeyboard(.immediately)
     }
 }
+
+// MARK: - tvOS
+
+#if os(tvOS)
+private extension SuggestionDetailView {
+    var tvOSView: some View {
+        VStack {
+            Spacer()
+            Text("Votice SDK is not available on tvOS.")
+                .font(theme.typography.headline)
+                .foregroundColor(theme.colors.onBackground)
+                .padding()
+            Spacer()
+        }
+    }
+}
+#endif
