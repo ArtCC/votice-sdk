@@ -24,7 +24,7 @@ struct LoadingView: View {
             ZStack {
                 Circle()
                     .fill(theme.colors.primary.opacity(0.1))
-                    .frame(width: 50, height: 50)
+                    .frame(width: 35, height: 35)
                     .scaleEffect(isAnimating ? 1.15 : 1.0)
                     .opacity(isAnimating ? 0.3 : 0.6)
                 ProgressView()
@@ -38,7 +38,7 @@ struct LoadingView: View {
                 }
             }
             Text(message)
-                .font(theme.typography.body)
+                .font(theme.typography.subheadline)
                 .foregroundColor(theme.colors.onBackground)
                 .multilineTextAlignment(.center)
         }

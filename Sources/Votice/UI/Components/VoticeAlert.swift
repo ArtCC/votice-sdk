@@ -66,7 +66,7 @@ private extension VoticeAlert {
             }
             Text(alert.title)
                 .font(theme.typography.title3)
-                .fontWeight(.semibold)
+                .fontWeight(.medium)
                 .foregroundColor(theme.colors.onSurface)
                 .multilineTextAlignment(.center)
         }

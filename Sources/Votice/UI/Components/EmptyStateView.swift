@@ -102,8 +102,8 @@ private extension EmptyStateView {
     var contentTextView: some View {
         VStack(spacing: theme.spacing.md) {
             Text(title)
-                .font(theme.typography.title2)
-                .fontWeight(.semibold)
+                .font(theme.typography.title3)
+                .fontWeight(.medium)
                 .foregroundColor(theme.colors.onBackground)
                 .multilineTextAlignment(.center)
             Text(message)

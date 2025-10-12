@@ -107,8 +107,8 @@ private extension SuggestionListView {
             }
             Spacer()
             Text(TextManager.shared.texts.featureRequests)
-                .font(theme.typography.title2)
-                .fontWeight(.medium)
+                .font(theme.typography.title3)
+                .fontWeight(.regular)
                 .foregroundColor(theme.colors.onBackground)
             Spacer()
             filterMenuButton
@@ -203,7 +203,7 @@ private extension SuggestionListView {
                     LoadingPaginationView()
                 }
                 Spacer()
-                    .frame(height: 10)
+                    .frame(height: viewModel.liquidGlassEnabled ? 10 : 30)
             }
             .padding(.top, theme.spacing.md)
             .padding(.horizontal, theme.spacing.md)
@@ -294,8 +294,8 @@ private extension SuggestionListView {
     var tvOSHeaderView: some View {
         HStack {
             Text(TextManager.shared.texts.featureRequests)
-                .font(theme.typography.title2)
-                .fontWeight(.medium)
+                .font(theme.typography.title3)
+                .fontWeight(.regular)
                 .foregroundColor(theme.colors.onBackground)
             Spacer()
         }

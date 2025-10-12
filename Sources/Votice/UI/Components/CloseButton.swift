@@ -23,12 +23,11 @@ struct CloseButton: View {
             onClose()
         } label: {
             Image(systemName: isNavigation ? "chevron.left" : "xmark")
-                .font(.system(size: 23.5, weight: .medium))
+                .font(.system(size: 18, weight: .medium))
                 .foregroundColor(theme.colors.primary)
-                .padding(.horizontal, theme.spacing.sm)
-                .padding(.vertical, theme.spacing.xs)
+                .padding(theme.spacing.sm)
                 .background(
-                    RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                    Circle()
                         .fill(theme.colors.primary.opacity(0.1))
                 )
         }

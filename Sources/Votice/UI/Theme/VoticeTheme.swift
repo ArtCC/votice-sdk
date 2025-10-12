@@ -209,7 +209,7 @@ public struct VoticeTypography {
         title: FontManager.shared.font(for: .bold, size: 28),
         title2: FontManager.shared.font(for: .bold, size: 22),
         title3: FontManager.shared.font(for: .semiBold, size: 20),
-        headline: FontManager.shared.font(for: .semiBold, size: 17),
+        headline: FontManager.shared.font(for: .medium, size: 17),
         subheadline: FontManager.shared.font(for: .regular, size: 15),
         body: FontManager.shared.font(for: .regular, size: 17),
         callout: FontManager.shared.font(for: .regular, size: 16),

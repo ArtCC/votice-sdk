@@ -49,6 +49,24 @@ struct FilterMenuView: View {
 
         return result
     }
+    private var statusColor: Color {
+        switch selectedFilter {
+        case .accepted:
+            return theme.colors.accepted
+        case .blocked:
+            return theme.colors.rejected
+        case .completed:
+            return theme.colors.completed
+        case .inProgress:
+            return theme.colors.inProgress
+        case .pending:
+            return theme.colors.pending
+        case .rejected:
+            return theme.colors.rejected
+        case .none:
+            return theme.colors.accent
+        }
+    }
 
     let selectedFilter: SuggestionStatusEntity?
     let onFilterSelected: (SuggestionStatusEntity?) -> Void
@@ -97,7 +115,7 @@ private extension FilterMenuView {
                     .foregroundColor(theme.colors.primary)
                 if selectedFilter != nil {
                     Circle()
-                        .fill(theme.colors.accent)
+                        .fill(statusColor)
                         .frame(width: 8, height: 8)
                 }
             }
@@ -124,6 +142,7 @@ private extension FilterMenuView {
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.md)
                 .fill(theme.colors.surface)
+                .strokeBorder(theme.colors.primary.opacity(0.15), lineWidth: 1)
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
         .padding(.top, theme.spacing.xs)

@@ -124,8 +124,8 @@ private extension SuggestionDetailView {
             HStack {
                 Spacer()
                 Text(TextManager.shared.texts.suggestionTitle)
-                    .font(theme.typography.headline)
-                    .fontWeight(.medium)
+                    .font(theme.typography.title3)
+                    .fontWeight(.regular)
                     .foregroundColor(theme.colors.onBackground)
                 Spacer()
             }
@@ -282,7 +282,7 @@ private extension SuggestionDetailView {
             HStack {
                 Text(TextManager.shared.texts.commentsSection)
                     .font(theme.typography.title3)
-                    .fontWeight(.semibold)
+                    .fontWeight(.regular)
                     .foregroundColor(theme.colors.onBackground)
                 Spacer()
                 Button {
@@ -475,8 +475,8 @@ private extension SuggestionDetailView {
             HStack(alignment: .center) {
                 Spacer()
                 Text(TextManager.shared.texts.newComment)
-                    .font(theme.typography.headline)
-                    .fontWeight(.medium)
+                    .font(theme.typography.title3)
+                    .fontWeight(.regular)
                     .foregroundColor(theme.colors.onBackground)
                 Spacer()
             }
