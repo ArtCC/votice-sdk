@@ -80,7 +80,7 @@ struct SuggestionCard: View {
                         lineWidth: isPressed ? 1 : 0
                     )
             )
-            .scaleEffect(isPressed ? 0.98 : 1.0)
+            .scaleEffect(isPressed ? 1.005 : 1.0)
             StatusBadge(status: suggestion.status ?? .pending, useLiquidGlass: useLiquidGlass)
                 .padding(theme.spacing.sm)
         }

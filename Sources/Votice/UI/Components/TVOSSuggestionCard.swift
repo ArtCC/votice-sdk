@@ -23,6 +23,7 @@ struct TVOSSuggestionCard: View {
 
     let suggestion: SuggestionEntity
     let currentVote: VoteType?
+    let useLiquidGlass: Bool
 
     // MARK: - View
 
@@ -69,7 +70,7 @@ struct TVOSSuggestionCard: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             VStack {
-                StatusBadge(status: suggestion.status ?? .pending, useLiquidGlass: false)
+                StatusBadge(status: suggestion.status ?? .pending, useLiquidGlass: useLiquidGlass)
                 Spacer()
             }
         }
@@ -91,7 +92,7 @@ struct TVOSSuggestionCard: View {
                     lineWidth: isFocused ? 1 : 0
                 )
         )
-        .scaleEffect(isFocused ? 1.05 : 1.0)
+        .scaleEffect(isFocused ? 1.0005 : 1.0)
         .animation(.easeInOut(duration: 0.15), value: isFocused)
     }
 }

@@ -328,7 +328,8 @@ private extension SuggestionListView {
                     } label: {
                         TVOSSuggestionCard(
                             suggestion: suggestion,
-                            currentVote: viewModel.getCurrentVote(for: suggestion.id)
+                            currentVote: viewModel.getCurrentVote(for: suggestion.id),
+                            useLiquidGlass: viewModel.liquidGlassEnabled
                         )
                     }
                     .buttonStyle(.card)
