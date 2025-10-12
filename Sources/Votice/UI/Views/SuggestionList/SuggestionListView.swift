@@ -52,15 +52,19 @@ private extension SuggestionListView {
                 VStack(spacing: 0) {
                     headerView
                     if viewModel.showCompletedSeparately {
-                        segmentedControl
-                    }
-                    if viewModel.currentSuggestionsList.isEmpty && !viewModel.isLoading {
-                        EmptyStateView(
-                            title: TextManager.shared.texts.noSuggestionsYet,
-                            message: TextManager.shared.texts.beFirstToSuggest
-                        )
+                        if viewModel.liquidGlassEnabled {
+#if os(iOS)
+                            tabView
+#else
+                            segmentedControl
+                            standardContentView
+#endif
+                        } else {
+                            segmentedControl
+                            standardContentView
+                        }
                     } else {
-                        suggestionsList
+                        standardContentView
                     }
                 }
                 VStack {
@@ -134,6 +138,49 @@ private extension SuggestionListView {
         }
     }
 
+    var segmentedControl: some View {
+        SegmentedControl(
+            selection: $viewModel.selectedTab,
+            segments: [
+                .init(id: 0, title: TextManager.shared.texts.activeTab),
+                .init(id: 1, title: TextManager.shared.texts.completedTab)
+            ]
+        )
+        .transition(.opacity.combined(with: .move(edge: .top)))
+        .animation(.easeInOut, value: viewModel.selectedTab)
+    }
+
+    var tabView: some View {
+        TabView(selection: $viewModel.selectedTab) {
+            VStack {
+                standardContentView
+            }
+            .tabItem {
+                Label(TextManager.shared.texts.activeTab, systemImage: "list.bullet")
+            }
+            .tag(0)
+            VStack {
+                standardContentView
+            }
+            .tabItem {
+                Label(TextManager.shared.texts.completedTab, systemImage: "checkmark.circle")
+            }
+            .tag(1)
+        }
+    }
+
+    @ViewBuilder
+    var standardContentView: some View {
+        if viewModel.currentSuggestionsList.isEmpty && !viewModel.isLoading {
+            EmptyStateView(
+                title: TextManager.shared.texts.noSuggestionsYet,
+                message: TextManager.shared.texts.beFirstToSuggest
+            )
+        } else {
+            suggestionsList
+        }
+    }
+
     var suggestionsList: some View {
         ScrollView(showsIndicators: false) {
             LazyVStack(spacing: theme.spacing.md) {
@@ -195,17 +242,6 @@ private extension SuggestionListView {
         .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
         .buttonStyle(.plain)
     }
-
-    var segmentedControl: some View {
-        CustomSegmentedControl(
-            selection: $viewModel.selectedTab,
-            segments: [
-                .init(id: 0, title: TextManager.shared.texts.activeTab),
-                .init(id: 1, title: TextManager.shared.texts.completedTab)
-            ]
-        )
-        .transition(.opacity.combined(with: .move(edge: .top)))
-    }
 }
 
 // MARK: - tvOS
@@ -263,7 +299,7 @@ private extension SuggestionListView {
     }
 
     var tvOSSegmentedControl: some View {
-        CustomSegmentedControl(
+        SegmentedControl(
             selection: $viewModel.selectedTab,
             segments: [
                 .init(id: 0, title: TextManager.shared.texts.activeTab),

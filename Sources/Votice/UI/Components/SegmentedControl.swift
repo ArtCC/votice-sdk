@@ -1,5 +1,5 @@
 //
-//  CustomSegmentedControl.swift
+//  SegmentedControl.swift
 //  Votice
 //
 //  Created by Arturo Carretero Calvo on 7/9/25.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CustomSegmentedControl: View {
+struct SegmentedControl: View {
     // MARK: - Types
 
     struct Segment: Identifiable, Hashable {
@@ -45,7 +45,7 @@ struct CustomSegmentedControl: View {
 
 // MARK: - Standard Platforms (iOS, iPadOS, macOS)
 
-private extension CustomSegmentedControl {
+private extension SegmentedControl {
     var standardBody: some View {
         HStack(spacing: segmentSpacing) {
             ForEach(segments) { segment in
@@ -95,7 +95,7 @@ private extension CustomSegmentedControl {
 // MARK: - tvOS
 
 #if os(tvOS)
-private extension CustomSegmentedControl {
+private extension SegmentedControl {
     var tvOSBody: some View {
         HStack(spacing: segmentSpacing) {
             ForEach(segments) { segment in

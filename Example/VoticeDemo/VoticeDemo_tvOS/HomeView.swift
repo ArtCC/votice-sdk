@@ -78,6 +78,7 @@ private extension HomeView {
             Votice.setShowCompletedSeparately(enabled: true)
             Votice.setVisibleOptionalStatuses(accepted: true, blocked: true, rejected: true)
             Votice.setUserIsPremium(isPremium: false)
+            Votice.setLiquidGlassEnabled(true)
 
             isConfigured = Votice.isConfigured
 
