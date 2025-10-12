@@ -32,7 +32,7 @@ struct TVOSSegmentButton: View {
                 RoundedRectangle(cornerRadius: theme.cornerRadius.md)
                     .fill(.clear)
                     .shadow(
-                        color: shadowColor,
+                        color: .black.opacity(0.1),
                         radius: isFocused ? 12 : 4,
                         x: 0,
                         y: isFocused ? 6 : 2
@@ -65,16 +65,6 @@ private extension TVOSSegmentButton {
             return theme.colors.primary
         } else {
             return theme.colors.surface
-        }
-    }
-
-    var shadowColor: Color {
-        if isFocused {
-            return theme.colors.primary.opacity(0.3)
-        } else if isSelected {
-            return theme.colors.primary.opacity(0.2)
-        } else {
-            return Color.black.opacity(0.1)
         }
     }
 

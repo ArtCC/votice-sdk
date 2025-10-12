@@ -79,7 +79,7 @@ struct TVOSSuggestionCard: View {
             RoundedRectangle(cornerRadius: 12)
                 .fill(theme.colors.surface)
                 .shadow(
-                    color: isFocused ? theme.colors.primary.opacity(0.2) : Color.black.opacity(0.1),
+                    color: isFocused ? .black.opacity(0.2) : .black.opacity(0.1),
                     radius: isFocused ? 12 : 4,
                     x: 0,
                     y: isFocused ? 6 : 2

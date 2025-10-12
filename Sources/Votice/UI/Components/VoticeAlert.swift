@@ -48,7 +48,7 @@ private extension VoticeAlert {
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
-                .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 10)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
         .padding(theme.spacing.md)
         .frame(maxWidth: 320)

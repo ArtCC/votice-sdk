@@ -191,7 +191,7 @@ private extension CreateSuggestionView {
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
-                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
     }
 
@@ -206,7 +206,7 @@ private extension CreateSuggestionView {
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
-                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
     }
 

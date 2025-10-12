@@ -59,7 +59,7 @@ struct SuggestionCard: View {
                 RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                     .fill(theme.colors.surface)
                     .shadow(
-                        color: theme.colors.primary.opacity(isPressed ? 0.2 : 0.08),
+                        color: .black.opacity(isPressed ? 0.15 : 0.05),
                         radius: isPressed ? 12 : 6,
                         x: 0,
                         y: isPressed ? 6 : 3

@@ -188,7 +188,7 @@ private extension SuggestionListView {
                 .padding()
                 .background(theme.colors.primary)
                 .clipShape(Circle())
-                .shadow(radius: 4)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         }
         .scaleEffect(showCreateButton ? 1.0 : 0.9)
         .opacity(showCreateButton ? 1.0 : 0.7)
