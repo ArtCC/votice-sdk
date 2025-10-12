@@ -20,8 +20,6 @@ struct SuggestionDetailView: View {
 
     @FocusState private var isCommentFocused: Bool
 
-    // MARK: - Private computed property
-
     private var currentSuggestion: SuggestionEntity {
         viewModel.suggestionEntity ?? suggestion
     }
@@ -34,15 +32,18 @@ struct SuggestionDetailView: View {
 
     var body: some View {
 #if os(tvOS)
-        VStack {
-            Spacer()
-            Text("Votice SDK is not available on tvOS.")
-                .font(theme.typography.headline)
-                .foregroundColor(theme.colors.onBackground)
-                .padding()
-            Spacer()
-        }
+        tvOSView
 #else
+        standardView
+#endif
+    }
+}
+
+// MARK: - Private
+// MARK: - Standard Platforms (iOS, iPadOS, macOS)
+
+private extension SuggestionDetailView {
+    var standardView: some View {
         ZStack {
             LinearGradient(
                 colors: [
@@ -71,15 +72,10 @@ struct SuggestionDetailView: View {
         }
         .voticeAlert(
             isPresented: $viewModel.isShowingAlert,
-            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)
         )
-#endif
     }
-}
 
-// MARK: - Private
-
-private extension SuggestionDetailView {
     var headerView: some View {
         ZStack {
             HStack {
@@ -125,9 +121,10 @@ private extension SuggestionDetailView {
             }
             HStack {
                 Spacer()
-                Text(TextManager.shared.texts.suggestionTitle)
-                    .font(theme.typography.headline)
-                    .fontWeight(.medium)
+                let isIssue = currentSuggestion.issue ?? false
+                Text(isIssue ? TextManager.shared.texts.issueTitle : TextManager.shared.texts.suggestionTitle)
+                    .font(theme.typography.title3)
+                    .fontWeight(.regular)
                     .foregroundColor(theme.colors.onBackground)
                 Spacer()
             }
@@ -173,7 +170,6 @@ private extension SuggestionDetailView {
                         }
                         Text(currentSuggestion.displayText)
                             .font(theme.typography.headline)
-                            .fontWeight(.semibold)
                             .foregroundColor(theme.colors.onSurface)
                             .multilineTextAlignment(.leading)
                         Spacer()
@@ -199,9 +195,9 @@ private extension SuggestionDetailView {
             .background(
                 RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                     .fill(theme.colors.surface)
-                    .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+                    .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
             )
-            StatusBadge(status: currentSuggestion.status ?? .pending)
+            StatusBadge(status: currentSuggestion.status ?? .pending, useLiquidGlass: viewModel.liquidGlassEnabled)
                 .padding(theme.spacing.sm)
         }
     }
@@ -275,7 +271,7 @@ private extension SuggestionDetailView {
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
-                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
     }
 
@@ -284,7 +280,7 @@ private extension SuggestionDetailView {
             HStack {
                 Text(TextManager.shared.texts.commentsSection)
                     .font(theme.typography.title3)
-                    .fontWeight(.semibold)
+                    .fontWeight(.regular)
                     .foregroundColor(theme.colors.onBackground)
                 Spacer()
                 Button {
@@ -364,15 +360,7 @@ private extension SuggestionDetailView {
                 }
             }
             if viewModel.isLoadingPaginationComments && viewModel.comments.count > 0 {
-                HStack {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                    Text(TextManager.shared.texts.loadingMore)
-                        .font(theme.typography.caption)
-                        .foregroundColor(theme.colors.secondary)
-                }
-                .padding(theme.spacing.md)
-                .frame(maxWidth: .infinity)
+                LoadingPaginationView()
             }
         }
     }
@@ -385,7 +373,6 @@ private extension SuggestionDetailView {
                     .font(.headline)
                 Text(TextManager.shared.texts.titleIssueImage)
                     .font(theme.typography.headline)
-                    .fontWeight(.semibold)
                     .foregroundColor(theme.colors.onSurface)
                 Spacer()
             }
@@ -417,10 +404,27 @@ private extension SuggestionDetailView {
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
-                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
     }
 }
+
+// MARK: - tvOS
+
+#if os(tvOS)
+private extension SuggestionDetailView {
+    var tvOSView: some View {
+        VStack {
+            Spacer()
+            Text("Votice SDK is not available on tvOS.")
+                .font(theme.typography.headline)
+                .foregroundColor(theme.colors.onBackground)
+                .padding()
+            Spacer()
+        }
+    }
+}
+#endif
 
 // MARK: - Create comment
 
@@ -485,8 +489,8 @@ private extension SuggestionDetailView {
             HStack(alignment: .center) {
                 Spacer()
                 Text(TextManager.shared.texts.newComment)
-                    .font(theme.typography.headline)
-                    .fontWeight(.medium)
+                    .font(theme.typography.title3)
+                    .fontWeight(.regular)
                     .foregroundColor(theme.colors.onBackground)
                 Spacer()
             }

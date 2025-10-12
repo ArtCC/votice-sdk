@@ -70,6 +70,26 @@ public struct Votice {
         ConfigurationManager.shared.showCompletedSeparately = enabled
     }
 
+    /// Enable or disable Liquid Glass design for UI components
+    /// - Parameter enabled: Whether to use Liquid Glass material effects throughout the SDK
+    /// - Note: Liquid Glass provides a modern, fluid design with dynamic blur and light reflection effects.
+    /// Only available on iOS 26+, iPadOS 26+, macOS 26+ (Tahoe), and tvOS 26+.
+    /// Disabled by default for maximum compatibility.
+    public static func setLiquidGlassEnabled(_ enabled: Bool) {
+        if #available(iOS 26.0, macOS 26.0, tvOS 26.0, *) {
+            ConfigurationManager.shared.useLiquidGlass = enabled
+        } else {
+            ConfigurationManager.shared.useLiquidGlass = false
+
+            if enabled {
+                LogManager.shared.devLog(
+                    .warning,
+                    "Votice: Liquid Glass requires iOS 26+, macOS 26+, or tvOS 26+. Falling back to classic design."
+                )
+            }
+        }
+    }
+
     /// Configure optional visible statuses for suggestions
     /// - Parameter statuses: Array of `SuggestionStatusEntity` representing the statuses to be visible
     /// - Note: This can be used to customize which suggestion statuses are shown in the UI
@@ -98,25 +118,37 @@ extension Votice {
     /// Present the Votice feedback interface
     /// - Parameters:
     ///   - theme: Custom theme for the UI (optional)
+    ///   - minWidth: Minimum width for macOS (default 800)
+    ///   - minHeight: Minimum height for macOS (default 600)
     /// - Returns: A SwiftUI View that can be presented modally or embedded
-    public static func feedbackNavigationView(theme: VoticeTheme? = nil) -> some View {
+    public static func feedbackNavigationView(
+        theme: VoticeTheme? = nil,
+        minWidth: CGFloat = 800,
+        minHeight: CGFloat = 600
+    ) -> some View {
         SuggestionListView(isNavigation: true)
             .voticeTheme(theme ?? .default)
-#if os(macOS)
-            .frame(minWidth: 800, minHeight: 600)
+#if os(macOS) || os(tvOS)
+            .frame(minWidth: minWidth, minHeight: minHeight)
 #endif
     }
 
     /// Present the Votice feedback interface as a standalone view
     /// - Parameters:
     ///  - theme: Custom theme for the UI (optional)
+    ///  - minWidth: Minimum width for macOS (default 800)
+    ///  - minHeight: Minimum height for macOS (default 600)
     ///  - Returns: A SwiftUI View that can be used in any context
     ///  - Note: This view is suitable for embedding in your app's UI or presenting as a full-screen cover
-    public static func feedbackView(theme: VoticeTheme? = nil) -> some View {
+    public static func feedbackView(
+        theme: VoticeTheme? = nil,
+        minWidth: CGFloat = 800,
+        minHeight: CGFloat = 600
+    ) -> some View {
         SuggestionListView(isNavigation: false)
             .voticeTheme(theme ?? .default)
-#if os(macOS)
-            .frame(minWidth: 800, minHeight: 600)
+#if os(macOS) || os(tvOS)
+            .frame(minWidth: minWidth, minHeight: minHeight)
 #endif
     }
 
@@ -124,13 +156,22 @@ extension Votice {
     /// - Parameters:
     ///   - isPresented: Binding to control the presentation
     ///   - theme: Custom theme for the UI (optional)
-    public static func feedbackSheet(isPresented: Binding<Bool>, theme: VoticeTheme? = nil) -> some View {
+    ///   - minWidth: Minimum width for macOS (default 800)
+    ///   - minHeight: Minimum height for macOS (default 600)
+    ///   - Returns: A SwiftUI View that presents the feedback interface as a sheet
+    ///   - Note: This view is suitable for presenting modally over existing content
+    public static func feedbackSheet(
+        isPresented: Binding<Bool>,
+        theme: VoticeTheme? = nil,
+        minWidth: CGFloat = 800,
+        minHeight: CGFloat = 600
+    ) -> some View {
         EmptyView()
             .sheet(isPresented: isPresented) {
                 SuggestionListView(isNavigation: false)
                     .voticeTheme(theme ?? .default)
-#if os(macOS)
-                    .frame(minWidth: 800, minHeight: 600)
+#if os(macOS) || os(tvOS)
+                    .frame(minWidth: minWidth, minHeight: minHeight)
 #endif
             }
     }

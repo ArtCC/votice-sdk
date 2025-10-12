@@ -24,15 +24,18 @@ struct SuggestionListView: View {
 
     var body: some View {
 #if os(tvOS)
-        VStack {
-            Spacer()
-            Text("Votice SDK is not available on tvOS. Soon you will be able to view your suggestions here.")
-                .font(theme.typography.headline)
-                .foregroundColor(theme.colors.onBackground)
-                .padding()
-            Spacer()
-        }
+        tvOSView
 #else
+        standardView
+#endif
+    }
+}
+
+// MARK: - Private
+// MARK: - Standard Platforms (iOS, iPadOS, macOS)
+
+private extension SuggestionListView {
+    var standardView: some View {
         ZStack {
             LinearGradient(
                 colors: [
@@ -42,33 +45,29 @@ struct SuggestionListView: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .ignoresSafeArea()
+            .ignoresSafeArea(.all)
             if viewModel.isLoading && viewModel.currentSuggestionsList.isEmpty {
                 LoadingView(message: TextManager.shared.texts.loadingSuggestions)
             } else {
                 VStack(spacing: 0) {
                     headerView
-                    if viewModel.showCompletedSeparately {
-                        segmentedControl
-                    }
-                    if viewModel.currentSuggestionsList.isEmpty && !viewModel.isLoading {
-                        EmptyStateView(
-                            title: TextManager.shared.texts.noSuggestionsYet,
-                            message: TextManager.shared.texts.beFirstToSuggest
-                        )
+                    if viewModel.showCompletedSeparately, !viewModel.suggestionsIsEmpty {
+                        if viewModel.liquidGlassEnabled {
+#if os(iOS)
+                            tabView
+#else
+                            segmentedControl
+                            standardContentView
+#endif
+                        } else {
+                            segmentedControl
+                            standardContentView
+                        }
                     } else {
-                        suggestionsList
+                        standardContentView
                     }
                 }
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        floatingActionButton
-                    }
-                    .padding(.trailing, theme.spacing.md)
-                    .padding(.bottom, theme.spacing.md)
-                }
+                floatingActionButton
             }
         }
         .navigationBarBackButtonHidden()
@@ -77,7 +76,7 @@ struct SuggestionListView: View {
         }
         .voticeAlert(
             isPresented: $viewModel.isShowingAlert,
-            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)
         )
         .sheet(isPresented: $viewModel.showingCreateSuggestion) {
             CreateSuggestionView { suggestion in
@@ -99,13 +98,8 @@ struct SuggestionListView: View {
             .frame(minWidth: 800, minHeight: 600)
 #endif
         }
-#endif
     }
-}
 
-// MARK: - Private
-
-private extension SuggestionListView {
     var headerView: some View {
         HStack {
             CloseButton(isNavigation: isNavigation) {
@@ -113,8 +107,8 @@ private extension SuggestionListView {
             }
             Spacer()
             Text(TextManager.shared.texts.featureRequests)
-                .font(theme.typography.title2)
-                .fontWeight(.medium)
+                .font(theme.typography.title3)
+                .fontWeight(.regular)
                 .foregroundColor(theme.colors.onBackground)
             Spacer()
             filterMenuButton
@@ -136,6 +130,48 @@ private extension SuggestionListView {
         }
     }
 
+    var segmentedControl: some View {
+        SegmentedControl(
+            selection: $viewModel.selectedTab,
+            segments: [
+                .init(id: 0, title: TextManager.shared.texts.activeTab),
+                .init(id: 1, title: TextManager.shared.texts.completedTab)
+            ]
+        )
+        .animation(.easeInOut, value: viewModel.selectedTab)
+    }
+
+    var tabView: some View {
+        TabView(selection: $viewModel.selectedTab) {
+            VStack {
+                standardContentView
+            }
+            .tabItem {
+                Label(TextManager.shared.texts.activeTab, systemImage: "list.bullet")
+            }
+            .tag(0)
+            VStack {
+                standardContentView
+            }
+            .tabItem {
+                Label(TextManager.shared.texts.completedTab, systemImage: "checkmark.circle")
+            }
+            .tag(1)
+        }
+    }
+
+    @ViewBuilder
+    var standardContentView: some View {
+        if viewModel.currentSuggestionsList.isEmpty && !viewModel.isLoading {
+            EmptyStateView(
+                title: TextManager.shared.texts.noSuggestionsYet,
+                message: TextManager.shared.texts.beFirstToSuggest
+            )
+        } else {
+            suggestionsList
+        }
+    }
+
     var suggestionsList: some View {
         ScrollView(showsIndicators: false) {
             LazyVStack(spacing: theme.spacing.md) {
@@ -143,6 +179,7 @@ private extension SuggestionListView {
                     SuggestionCard(
                         suggestion: suggestion,
                         currentVote: viewModel.getCurrentVote(for: suggestion.id),
+                        useLiquidGlass: viewModel.liquidGlassEnabled,
                         onVote: { voteType in
                             Task {
                                 await viewModel.vote(on: suggestion.id, type: voteType)
@@ -163,17 +200,10 @@ private extension SuggestionListView {
                     }
                 }
                 if viewModel.isLoadingPagination && viewModel.currentSuggestionsList.count > 0 {
-                    HStack {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                        Text(TextManager.shared.texts.loadingMore)
-                            .font(theme.typography.caption)
-                            .foregroundColor(theme.colors.secondary)
-                    }
-                    .padding(theme.spacing.md)
+                    LoadingPaginationView()
                 }
                 Spacer()
-                    .frame(height: 80)
+                    .frame(height: viewModel.liquidGlassEnabled ? 10 : 30)
             }
             .padding(.top, theme.spacing.md)
             .padding(.horizontal, theme.spacing.md)
@@ -186,27 +216,100 @@ private extension SuggestionListView {
     }
 
     var floatingActionButton: some View {
-        Button {
-            HapticManager.shared.lightImpact()
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button {
+                    HapticManager.shared.lightImpact()
 
-            viewModel.presentCreateSuggestionSheet()
-        } label: {
-            Image(systemName: "plus")
-                .font(.system(size: 22, weight: .semibold))
-                .foregroundColor(.white)
-                .padding()
-                .background(theme.colors.primary)
-                .clipShape(Circle())
-                .shadow(radius: 4)
+                    viewModel.presentCreateSuggestionSheet()
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundColor(.white)
+                        .padding()
+                        .adaptiveCircularGlassBackground(
+                            useLiquidGlass: viewModel.liquidGlassEnabled,
+                            fillColor: theme.colors.primary,
+                            shadowColor: .black.opacity(0.1),
+                            shadowRadius: 2,
+                            shadowX: 0,
+                            shadowY: 1,
+                            isInteractive: true
+                        )
+                }
+                .scaleEffect(showCreateButton ? 1.0 : 0.9)
+                .opacity(showCreateButton ? 1.0 : 0.7)
+                .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
+                .buttonStyle(.plain)
+            }
+            .padding(.trailing, theme.spacing.md)
+#if os(iOS)
+            .padding(.bottom, hasNotchOrDynamicIsland ? -10 : theme.spacing.lg)
+#elseif os(macOS)
+            .padding(.bottom, theme.spacing.md)
+#endif
         }
-        .scaleEffect(showCreateButton ? 1.0 : 0.9)
-        .opacity(showCreateButton ? 1.0 : 0.7)
-        .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
-        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - tvOS
+
+#if os(tvOS)
+private extension SuggestionListView {
+    var tvOSView: some View {
+        VStack(spacing: 10) {
+            if viewModel.isLoading && viewModel.currentSuggestionsList.isEmpty {
+                LoadingView(message: TextManager.shared.texts.loadingSuggestions)
+            } else {
+                tvOSHeaderView
+                if viewModel.showCompletedSeparately {
+                    tvOSSegmentedControl
+                }
+                if viewModel.currentSuggestionsList.isEmpty && !viewModel.isLoading {
+                    EmptyStateView(
+                        title: TextManager.shared.texts.noSuggestionsYet,
+                        message: TextManager.shared.texts.beFirstToSuggest
+                    )
+                } else {
+                    tvOSSuggestionsList
+                }
+            }
+        }
+        .task {
+            await viewModel.loadSuggestions()
+        }
+        .voticeAlert(
+            isPresented: $viewModel.isShowingAlert,
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)
+        )
+        .sheet(item: $viewModel.selectedSuggestion) { suggestion in
+            SuggestionDetailView(suggestion: suggestion) { updatedSuggestion in
+                viewModel.updateSuggestion(updatedSuggestion)
+            } onReload: {
+                Task {
+                    await viewModel.loadSuggestions()
+                }
+            }
+        }
     }
 
-    var segmentedControl: some View {
-        CustomSegmentedControl(
+    var tvOSHeaderView: some View {
+        HStack {
+            Text(TextManager.shared.texts.featureRequests)
+                .font(theme.typography.title3)
+                .fontWeight(.regular)
+                .foregroundColor(theme.colors.onBackground)
+            Spacer()
+        }
+        .padding(.vertical, theme.spacing.md)
+        .padding(.horizontal, theme.spacing.llg)
+        .zIndex(1)
+    }
+
+    var tvOSSegmentedControl: some View {
+        SegmentedControl(
             selection: $viewModel.selectedTab,
             segments: [
                 .init(id: 0, title: TextManager.shared.texts.activeTab),
@@ -215,4 +318,40 @@ private extension SuggestionListView {
         )
         .transition(.opacity.combined(with: .move(edge: .top)))
     }
+
+    var tvOSSuggestionsList: some View {
+        ScrollView(showsIndicators: false) {
+            LazyVStack(spacing: 20) {
+                ForEach(Array(viewModel.currentSuggestionsList.enumerated()), id: \.element.id) { index, suggestion in
+                    Button {
+                        // viewModel.selectSuggestion(suggestion)
+                    } label: {
+                        TVOSSuggestionCard(
+                            suggestion: suggestion,
+                            currentVote: viewModel.getCurrentVote(for: suggestion.id),
+                            useLiquidGlass: viewModel.liquidGlassEnabled
+                        )
+                    }
+                    .buttonStyle(.card)
+                    .padding(.top, index == 0 ? 30 : 0)
+                    .onAppear {
+                        if index >= viewModel.currentSuggestionsList.count - 3
+                            && viewModel.hasMoreSuggestions &&
+                            !viewModel.isLoadingPagination {
+                            Task {
+                                await viewModel.loadMoreSuggestions()
+                            }
+                        }
+                    }
+                }
+                if viewModel.isLoadingPagination && viewModel.currentSuggestionsList.count > 0 {
+                    LoadingPaginationView()
+                }
+                Spacer()
+                    .frame(height: 30)
+            }
+            .padding(.horizontal, theme.spacing.llg)
+        }
+    }
 }
+#endif

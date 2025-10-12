@@ -34,6 +34,9 @@ final class SuggestionDetailViewModel: ObservableObject {
     var isCommentFormValid: Bool {
         !newComment.isEmpty
     }
+    var liquidGlassEnabled: Bool {
+        ConfigurationManager.shared.shouldUseLiquidGlass
+    }
 
     // MARK: - Init
 

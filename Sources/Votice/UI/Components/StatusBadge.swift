@@ -49,6 +49,7 @@ struct StatusBadge: View {
     }
 
     let status: SuggestionStatusEntity
+    let useLiquidGlass: Bool
 
     // MARK: - View
 
@@ -58,7 +59,10 @@ struct StatusBadge: View {
             .foregroundColor(.white)
             .padding(.horizontal, theme.spacing.sm)
             .padding(.vertical, theme.spacing.xs)
-            .background(statusColor)
-            .cornerRadius(theme.cornerRadius.sm)
+            .adaptiveGlassBackground(
+                useLiquidGlass: useLiquidGlass,
+                cornerRadius: theme.cornerRadius.sm,
+                fillColor: statusColor
+            )
     }
 }

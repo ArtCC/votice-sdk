@@ -144,6 +144,7 @@ struct VoticeTests {
             let tapPlusToGetStarted = "Mock Tap Plus"
             let loadingMore = "Mock Loading More"
             let suggestionTitle = "Mock Suggestion Title"
+            let issueTitle = "Mock Issue Title"
             let close = "Mock Close"
             let deleteSuggestionTitle = "Mock Delete Title"
             let deleteSuggestionMessage = "Mock Delete Message"

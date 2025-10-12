@@ -6,12 +6,12 @@
 //  Copyright © 2025 ArtCC. All rights reserved.
 //
 
-import SwiftUI
-#if canImport(UIKit)
-import UIKit
-#elseif canImport(AppKit)
+#if canImport(AppKit)
 import AppKit
+#elseif canImport(UIKit)
+import UIKit
 #endif
+import SwiftUI
 
 // MARK: - Votice Theme
 
@@ -33,15 +33,15 @@ public struct VoticeTheme {
     // MARK: - Init
 
     public init(
-        colors: VoticeColors,
-        typography: VoticeTypography,
-        spacing: VoticeSpacing,
-        cornerRadius: VoticeCornerRadius
+        colors: VoticeColors? = nil,
+        typography: VoticeTypography? = nil,
+        spacing: VoticeSpacing? = nil,
+        cornerRadius: VoticeCornerRadius? = nil
     ) {
-        self.colors = colors
-        self.typography = typography
-        self.spacing = spacing
-        self.cornerRadius = cornerRadius
+        self.colors = colors ?? .default
+        self.typography = typography ?? .default
+        self.spacing = spacing ?? .default
+        self.cornerRadius = cornerRadius ?? .default
     }
 }
 
@@ -176,11 +176,11 @@ extension Color {
         Color(UIColor { traitCollection in
             switch traitCollection.userInterfaceStyle {
             case .dark:
-                return UIColor.black
+                return UIColor.clear
             case .light:
-                return UIColor.white
+                return UIColor.clear
             default:
-                return UIColor.black // Default to dark for tvOS
+                return UIColor.clear // Default to dark for tvOS
             }
         })
     }
@@ -209,7 +209,7 @@ public struct VoticeTypography {
         title: FontManager.shared.font(for: .bold, size: 28),
         title2: FontManager.shared.font(for: .bold, size: 22),
         title3: FontManager.shared.font(for: .semiBold, size: 20),
-        headline: FontManager.shared.font(for: .semiBold, size: 17),
+        headline: FontManager.shared.font(for: .medium, size: 17),
         subheadline: FontManager.shared.font(for: .regular, size: 15),
         body: FontManager.shared.font(for: .regular, size: 17),
         callout: FontManager.shared.font(for: .regular, size: 16),
@@ -255,7 +255,7 @@ public struct VoticeTypography {
             title: FontManager.shared.font(for: .bold, size: 28),
             title2: FontManager.shared.font(for: .bold, size: 22),
             title3: FontManager.shared.font(for: .semiBold, size: 20),
-            headline: FontManager.shared.font(for: .semiBold, size: 17),
+            headline: FontManager.shared.font(for: .medium, size: 17),
             subheadline: FontManager.shared.font(for: .regular, size: 15),
             body: FontManager.shared.font(for: .regular, size: 17),
             callout: FontManager.shared.font(for: .regular, size: 16),

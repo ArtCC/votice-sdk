@@ -49,9 +49,29 @@ struct FilterMenuView: View {
 
         return result
     }
+    private var statusColor: Color {
+        switch selectedFilter {
+        case .accepted:
+            return theme.colors.accepted
+        case .blocked:
+            return theme.colors.rejected
+        case .completed:
+            return theme.colors.completed
+        case .inProgress:
+            return theme.colors.inProgress
+        case .pending:
+            return theme.colors.pending
+        case .rejected:
+            return theme.colors.rejected
+        case .none:
+            return theme.colors.accent
+        }
+    }
 
     let selectedFilter: SuggestionStatusEntity?
     let onFilterSelected: (SuggestionStatusEntity?) -> Void
+
+    // MARK: - Init
 
     // MARK: - View
 
@@ -95,15 +115,15 @@ private extension FilterMenuView {
                     .foregroundColor(theme.colors.primary)
                 if selectedFilter != nil {
                     Circle()
-                        .fill(theme.colors.accent)
+                        .fill(statusColor)
                         .frame(width: 8, height: 8)
                 }
             }
-            .padding(.horizontal, theme.spacing.sm)
             .padding(.vertical, theme.spacing.xs)
+            .padding(.horizontal, theme.spacing.sm)
             .background(
                 RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                    .fill(theme.colors.primary.opacity(0.1))
+                    .fill(theme.colors.primary.opacity(0.15))
             )
         }
         .buttonStyle(.plain)
@@ -113,7 +133,8 @@ private extension FilterMenuView {
         VStack(alignment: .leading, spacing: 0) {
             filterOption(title: TextManager.shared.texts.all, filter: nil)
             ForEach(Array(orderedVisibleStatuses.enumerated()), id: \.element) { _, status in
-                Divider().background(theme.colors.secondary.opacity(0.05))
+                Divider()
+                    .background(theme.colors.secondary.opacity(0.1))
 
                 filterOption(title: title(for: status), filter: status)
             }
@@ -121,7 +142,8 @@ private extension FilterMenuView {
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.md)
                 .fill(theme.colors.surface)
-                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+                .strokeBorder(theme.colors.primary.opacity(0.15), lineWidth: 1)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
         .padding(.top, theme.spacing.xs)
         .frame(width: 150)
@@ -131,12 +153,18 @@ private extension FilterMenuView {
 
     func title(for status: SuggestionStatusEntity) -> String {
         switch status {
-        case .accepted: return TextManager.shared.texts.accepted
-        case .blocked: return TextManager.shared.texts.blocked
-        case .completed: return TextManager.shared.texts.completed
-        case .inProgress: return TextManager.shared.texts.inProgress
-        case .pending: return TextManager.shared.texts.pending
-        case .rejected: return TextManager.shared.texts.rejected
+        case .accepted:
+            return TextManager.shared.texts.accepted
+        case .blocked:
+            return TextManager.shared.texts.blocked
+        case .completed:
+            return TextManager.shared.texts.completed
+        case .inProgress:
+            return TextManager.shared.texts.inProgress
+        case .pending:
+            return TextManager.shared.texts.pending
+        case .rejected:
+            return TextManager.shared.texts.rejected
         }
     }
 
@@ -162,7 +190,8 @@ private extension FilterMenuView {
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
             .contentShape(Rectangle())
-            .background(selectedFilter == filter ? theme.colors.primary.opacity(0.1) : Color.clear)
+            .background(selectedFilter == filter ? theme.colors.primary.opacity(0.15) : Color.clear)
+            .cornerRadius(theme.cornerRadius.sm)
         }
         .buttonStyle(.plain)
     }

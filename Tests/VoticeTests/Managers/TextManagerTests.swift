@@ -47,6 +47,7 @@ struct MockVoticeTexts: VoticeTextsProtocol {
     // MARK: - Suggestion Detail
 
     let suggestionTitle = "Test Suggestion"
+    let issueTitle = "Test Issue"
     let close = "Test Close"
     let deleteSuggestionTitle = "Test Delete Suggestion"
     let deleteSuggestionMessage = "Test Delete Message"
@@ -268,6 +269,7 @@ func testTextManagerMultipleUpdates() async {
         let tapPlusToGetStarted = "Appuyez sur + pour commencer"
         let loadingMore = "Charger plus..."
         let suggestionTitle = "Suggestion"
+        let issueTitle = "Problème"
         let close = "Fermer"
         let deleteSuggestionTitle = "Supprimer la suggestion"
         let deleteSuggestionMessage = "Êtes-vous sûr de vouloir supprimer cette suggestion?"
@@ -367,6 +369,7 @@ func testDefaultVoticeTexts() async {
 
     // Suggestion Detail
     #expect(texts.suggestionTitle == "Suggestion")
+    #expect(texts.issueTitle == "Issue")
     #expect(texts.close == "Close")
     #expect(texts.deleteSuggestionTitle == "Delete Suggestion")
     #expect(texts.deleteSuggestionMessage == "Are you sure you want to delete this suggestion?")

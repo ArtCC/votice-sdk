@@ -94,7 +94,7 @@ private extension EmptyStateView {
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
-                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
         .padding(.horizontal, theme.spacing.md)
     }
@@ -102,8 +102,8 @@ private extension EmptyStateView {
     var contentTextView: some View {
         VStack(spacing: theme.spacing.md) {
             Text(title)
-                .font(theme.typography.title2)
-                .fontWeight(.semibold)
+                .font(theme.typography.title3)
+                .fontWeight(.medium)
                 .foregroundColor(theme.colors.onBackground)
                 .multilineTextAlignment(.center)
             Text(message)

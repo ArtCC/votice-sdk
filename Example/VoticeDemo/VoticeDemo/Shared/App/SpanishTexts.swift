@@ -46,6 +46,7 @@ struct SpanishTexts: VoticeTextsProtocol {
     // MARK: - Suggestion Detail
 
     let suggestionTitle = "Sugerencia"
+    let issueTitle = "Incidencia"
     let close = "Cerrar"
     let deleteSuggestionTitle = "Eliminar sugerencia"
     let deleteSuggestionMessage = "¿Seguro que quieres eliminar esta sugerencia?"

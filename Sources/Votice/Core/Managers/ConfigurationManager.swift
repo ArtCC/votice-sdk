@@ -18,6 +18,7 @@ protocol ConfigurationManagerProtocol: Sendable {
     var appId: String { get }
     var commentIsEnabled: Bool { get set }
     var showCompletedSeparately: Bool { get set }
+    var useLiquidGlass: Bool { get set }
     var user: UserEntity { get set }
     var optionalVisibleStatuses: Set<SuggestionStatusEntity> { get }
     var version: String { get }
@@ -41,13 +42,14 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     private var _isConfigured = false
     private var _commentIsEnabled = true
     private var _showCompletedSeparately = false
+    private var _useLiquidGlass = true
     private var _user = UserEntity(isPremium: false)
     private var _optionalVisibleStatuses: Set<SuggestionStatusEntity> = [.accepted, .blocked, .rejected]
 
     private let lock = NSLock()
     private let _baseURL = "https://api.votice.app/api"
     private let _configurationId = UUID().uuidString
-    private let _version = "1.0.11"
+    private let _version = "1.0.12"
     private let _buildNumber = "1"
 
     // MARK: - Public properties
@@ -94,6 +96,15 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
         }
     }
 
+    var useLiquidGlass: Bool {
+        get {
+            lock.withLock { _useLiquidGlass }
+        }
+        set {
+            lock.withLock { _useLiquidGlass = newValue }
+        }
+    }
+
     var user: UserEntity {
         get {
             lock.withLock { _user }
@@ -115,6 +126,20 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
 
     var buildNumber: String {
         _buildNumber
+    }
+
+    /// Shorthand to check if Liquid Glass should be used
+    /// Takes into account both the configuration flag and OS availability
+    var shouldUseLiquidGlass: Bool {
+        if #available(iOS 26.0, macOS 26.0, tvOS 26.0, *) {
+#if !os(tvOS)
+            return useLiquidGlass
+#else
+            return false
+#endif
+        } else {
+            return false
+        }
     }
 
     // MARK: - Init
@@ -194,6 +219,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
             _isConfigured = false
             _commentIsEnabled = true
             _showCompletedSeparately = false
+            _useLiquidGlass = false
             _optionalVisibleStatuses = [.accepted, .blocked, .rejected]
 
             LogManager.shared.devLog(.info, "ConfigurationManager: reset")

@@ -11,10 +11,15 @@ import Foundation
 public struct VoticeFontConfiguration: Sendable {
     // MARK: - Properties
 
-    public let fontFamily: String?
-    public let weights: [FontWeight: String]
+    /// Check if custom fonts are configured
+    public var hasCustomFonts: Bool {
+        return fontFamily != nil && !weights.isEmpty
+    }
 
     public static let system = VoticeFontConfiguration(fontFamily: nil, weights: [:])
+
+    public let fontFamily: String?
+    public let weights: [FontWeight: String]
 
     // MARK: - Init
 
@@ -43,10 +48,5 @@ public struct VoticeFontConfiguration: Sendable {
 
         // Final fallback to font family name
         return fontFamily
-    }
-
-    /// Check if custom fonts are configured
-    public var hasCustomFonts: Bool {
-        return fontFamily != nil && !weights.isEmpty
     }
 }

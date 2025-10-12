@@ -34,16 +34,6 @@ struct CreateSuggestionView: View {
     // MARK: - View
 
     var body: some View {
-#if os(tvOS)
-        VStack {
-            Spacer()
-            Text("Votice SDK is not available on tvOS.")
-                .font(theme.typography.headline)
-                .foregroundColor(theme.colors.onBackground)
-                .padding()
-            Spacer()
-        }
-#else
         ZStack {
             LinearGradient(
                 colors: [
@@ -65,9 +55,8 @@ struct CreateSuggestionView: View {
         }
         .voticeAlert(
             isPresented: $viewModel.isShowingAlert,
-            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: "Unknown error")
+            alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)
         )
-#endif
     }
 }
 
@@ -143,7 +132,7 @@ private extension CreateSuggestionView {
             VStack(alignment: .leading, spacing: theme.spacing.xl) {
                 headerCard
                 formCard
-                Spacer(minLength: theme.spacing.xl)
+                Spacer(minLength: theme.spacing.md)
             }
             .padding(theme.spacing.md)
         }
@@ -185,7 +174,6 @@ private extension CreateSuggestionView {
                         TextManager.shared.texts.reportIssue : TextManager.shared.texts.shareYourIdea
                     )
                     .font(theme.typography.headline)
-                    .fontWeight(.semibold)
                     .foregroundColor(theme.colors.onSurface)
                     Text(
                         viewModel.isIssue ?
@@ -202,7 +190,7 @@ private extension CreateSuggestionView {
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
-                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
     }
 
@@ -217,7 +205,7 @@ private extension CreateSuggestionView {
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
-                .shadow(color: theme.colors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
     }
 
@@ -229,7 +217,6 @@ private extension CreateSuggestionView {
                     .font(.headline)
                 Text(TextManager.shared.texts.title)
                     .font(theme.typography.headline)
-                    .fontWeight(.semibold)
                     .foregroundColor(theme.colors.onSurface)
             }
             TextField(
@@ -261,7 +248,6 @@ private extension CreateSuggestionView {
                     .font(.headline)
                 Text(TextManager.shared.texts.descriptionOptional)
                     .font(theme.typography.headline)
-                    .fontWeight(.semibold)
                     .foregroundColor(theme.colors.onSurface)
                 Spacer()
                 Text(TextManager.shared.texts.optional)
@@ -303,7 +289,6 @@ private extension CreateSuggestionView {
                         .font(.headline)
                     Text(TextManager.shared.texts.reportIssue)
                         .font(theme.typography.headline)
-                        .fontWeight(.semibold)
                         .foregroundColor(theme.colors.onSurface)
                 }
             }
@@ -396,7 +381,6 @@ private extension CreateSuggestionView {
                     .font(.headline)
                 Text(TextManager.shared.texts.yourNameOptionalCreate)
                     .font(theme.typography.headline)
-                    .fontWeight(.semibold)
                     .foregroundColor(theme.colors.onSurface)
                 Spacer()
                 Text(TextManager.shared.texts.optional)

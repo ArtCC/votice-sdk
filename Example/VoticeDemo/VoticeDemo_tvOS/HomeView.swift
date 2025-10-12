@@ -25,7 +25,7 @@ struct HomeView: View {
             Button {
                 showingFeedbackSheet = true
             } label: {
-                Text("Open Feedback")
+                Text("Show Feedback Sheet")
                     .font(.poppins(.medium, size: 16))
                     .foregroundColor(.white)
                     .padding()
@@ -46,7 +46,7 @@ struct HomeView: View {
             // configureText()
         }
         .sheet(isPresented: $showingFeedbackSheet) {
-            Votice.feedbackView()
+            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
         }
     }
 }
@@ -57,9 +57,9 @@ private extension HomeView {
     func configureVotice() {
         do {
             try Votice.configure(
-                apiKey: "4ba07799d26239935babbbc0",
-                apiSecret: "417aa14c866d213c243a2f43414505b431dbe59050bd5c2c",
-                appId: "uPf6A96Mn3MX6uOkwsFz"
+                apiKey: Constants.Votice.apiKey,
+                apiSecret: Constants.Votice.apiSecret,
+                appId: Constants.Votice.appId
             )
 
             // Configure Poppins fonts for the SDK
@@ -75,9 +75,10 @@ private extension HomeView {
             Votice.setFonts(poppinsConfig)
             Votice.setDebugLogging(enabled: true)
             Votice.setCommentIsEnabled(enabled: true)
-            Votice.setShowCompletedSeparately(enabled: false)
+            Votice.setShowCompletedSeparately(enabled: true)
             Votice.setVisibleOptionalStatuses(accepted: true, blocked: true, rejected: true)
             Votice.setUserIsPremium(isPremium: false)
+            Votice.setLiquidGlassEnabled(true)
 
             isConfigured = Votice.isConfigured
 
@@ -93,10 +94,4 @@ private extension HomeView {
         // Set custom texts for the Votice SDK, isn't necessary but can be useful for localization (default is English)
         Votice.setTexts(SpanishTexts())
     }
-}
-
-// MARK: - Preview
-
-#Preview {
-    HomeView()
 }

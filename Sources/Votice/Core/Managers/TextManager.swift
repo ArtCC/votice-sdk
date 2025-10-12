@@ -47,6 +47,7 @@ public protocol VoticeTextsProtocol: Sendable {
     // MARK: - Suggestion Detail
 
     var suggestionTitle: String { get }
+    var issueTitle: String { get }
     var close: String { get }
     var deleteSuggestionTitle: String { get }
     var deleteSuggestionMessage: String { get }
@@ -137,6 +138,7 @@ public struct DefaultVoticeTexts: VoticeTextsProtocol {
     // MARK: - Suggestion Detail
 
     public let suggestionTitle = "Suggestion"
+    public let issueTitle = "Issue"
     public let close = "Close"
     public let deleteSuggestionTitle = "Delete Suggestion"
     public let deleteSuggestionMessage = "Are you sure you want to delete this suggestion?"

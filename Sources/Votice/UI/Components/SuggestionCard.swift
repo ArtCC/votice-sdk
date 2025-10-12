@@ -17,6 +17,7 @@ struct SuggestionCard: View {
 
     let suggestion: SuggestionEntity
     let currentVote: VoteType?
+    let useLiquidGlass: Bool
     let onVote: (VoteType) -> Void
     let onTap: () -> Void
 
@@ -59,7 +60,7 @@ struct SuggestionCard: View {
                 RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                     .fill(theme.colors.surface)
                     .shadow(
-                        color: theme.colors.primary.opacity(isPressed ? 0.2 : 0.08),
+                        color: .black.opacity(isPressed ? 0.15 : 0.05),
                         radius: isPressed ? 12 : 6,
                         x: 0,
                         y: isPressed ? 6 : 3
@@ -76,11 +77,11 @@ struct SuggestionCard: View {
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
-                        lineWidth: isPressed ? 2 : 1
+                        lineWidth: isPressed ? 1 : 0
                     )
             )
-            .scaleEffect(isPressed ? 0.98 : 1.0)
-            StatusBadge(status: suggestion.status ?? .pending)
+            .scaleEffect(isPressed ? 1.005 : 1.0)
+            StatusBadge(status: suggestion.status ?? .pending, useLiquidGlass: useLiquidGlass)
                 .padding(theme.spacing.sm)
         }
         .onTapGesture {
