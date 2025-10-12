@@ -51,7 +51,7 @@ private extension SuggestionListView {
             } else {
                 VStack(spacing: 0) {
                     headerView
-                    if viewModel.showCompletedSeparately {
+                    if viewModel.showCompletedSeparately, !viewModel.suggestionsIsEmpty {
                         if viewModel.liquidGlassEnabled {
 #if os(iOS)
                             tabView

@@ -40,6 +40,9 @@ final class SuggestionListViewModel: ObservableObject {
     var liquidGlassEnabled: Bool {
         ConfigurationManager.shared.shouldUseLiquidGlass
     }
+    var suggestionsIsEmpty: Bool {
+        suggestions.isEmpty
+    }
     var currentSuggestionsList: [SuggestionEntity] {
         if showCompletedSeparately {
             return selectedTab == 0 ? suggestions : completedSuggestions
