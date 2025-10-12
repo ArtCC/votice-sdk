@@ -11,16 +11,16 @@ import SwiftUI
 struct SuggestionDetailView: View {
     // MARK: - Properties
 
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.voticeTheme) private var theme
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.voticeTheme) var theme
 
-    @StateObject private var viewModel = SuggestionDetailViewModel()
+    @StateObject var viewModel = SuggestionDetailViewModel()
 
-    @State private var showingAddComment = false
+    @State var showingAddComment = false
 
-    @FocusState private var isCommentFocused: Bool
+    @FocusState var isCommentFocused: Bool
 
-    private var currentSuggestion: SuggestionEntity {
+    var currentSuggestion: SuggestionEntity {
         viewModel.suggestionEntity ?? suggestion
     }
 
@@ -55,10 +55,26 @@ private extension SuggestionDetailView {
             )
             .ignoresSafeArea()
             VStack(spacing: 0) {
+#if os(iOS)
+                if !viewModel.liquidGlassEnabled {
+                    headerView
+                }
+#elseif os(macOS)
                 headerView
+#endif
                 mainContent
             }
         }
+#if os(iOS)
+        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(viewModel.liquidGlassEnabled ? .hidden : .automatic, for: .navigationBar)
+        .toolbar {
+            if viewModel.liquidGlassEnabled {
+                headerGlassView
+            }
+        }
+#endif
         .task {
             await viewModel.loadInitialData(for: currentSuggestion)
         }
@@ -68,7 +84,9 @@ private extension SuggestionDetailView {
             }
         }
         .sheet(isPresented: $showingAddComment) {
-            addCommentSheet
+            NavigationStack {
+                addCommentSheet
+            }
         }
         .voticeAlert(
             isPresented: $viewModel.isShowingAlert,
@@ -79,53 +97,17 @@ private extension SuggestionDetailView {
     var headerView: some View {
         ZStack {
             HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(theme.colors.secondary)
-                        .padding(8)
-                        .background(
-                            Circle()
-                                .fill(theme.colors.secondary.opacity(0.1))
-                        )
-                }
-                .buttonStyle(.plain)
+                closeButton
                 Spacer()
                 HStack(spacing: theme.spacing.sm) {
                     if currentSuggestion.deviceId == DeviceManager.shared.deviceId {
-                        Button(role: .destructive) {
-                            HapticManager.shared.warning()
-
-                            viewModel.showDeleteSuggestionConfirmation(for: currentSuggestion) {
-                                HapticManager.shared.heavyImpact()
-
-                                onReload()
-
-                                dismiss()
-                            }
-                        } label: {
-                            ZStack {
-                                Circle()
-                                    .fill(theme.colors.error.opacity(0.1))
-                                    .frame(width: 32, height: 32)
-                                Image(systemName: "trash.fill")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(theme.colors.error)
-                            }
-                        }
-                        .buttonStyle(.plain)
+                        deleteButton
                     }
                 }
             }
             HStack {
                 Spacer()
-                let isIssue = currentSuggestion.issue ?? false
-                Text(isIssue ? TextManager.shared.texts.issueTitle : TextManager.shared.texts.suggestionTitle)
-                    .font(theme.typography.title3)
-                    .fontWeight(.regular)
-                    .foregroundColor(theme.colors.onBackground)
+                title
                 Spacer()
             }
         }
@@ -134,6 +116,73 @@ private extension SuggestionDetailView {
             theme.colors.background
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
+    }
+
+#if os(iOS)
+    var headerGlassView: some ToolbarContent {
+        Group {
+            ToolbarItem(placement: .navigationBarLeading) {
+                closeButton
+            }
+            ToolbarItem(placement: .principal) {
+                title
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                deleteButton
+            }
+        }
+    }
+#endif
+
+    var closeButton: some View {
+        Button {
+            dismiss()
+        } label: {
+            Image(systemName: "xmark")
+                .font(.system(size: 18, weight: .medium))
+                .foregroundColor(theme.colors.secondary)
+                .padding(8)
+                .background(
+                    Circle()
+                        .fill(viewModel.liquidGlassEnabled ? .clear : theme.colors.secondary.opacity(0.1))
+                )
+        }
+        .buttonStyle(.plain)
+    }
+
+    var title: some View {
+        Text(
+            currentSuggestion.issue ?? false ?
+            TextManager.shared.texts.issueTitle :
+                TextManager.shared.texts.suggestionTitle
+        )
+        .font(theme.typography.title3)
+        .fontWeight(.regular)
+        .foregroundColor(theme.colors.onBackground)
+    }
+
+    var deleteButton: some View {
+        Button(role: .destructive) {
+            HapticManager.shared.warning()
+
+            viewModel.showDeleteSuggestionConfirmation(for: currentSuggestion) {
+                HapticManager.shared.heavyImpact()
+
+                onReload()
+
+                dismiss()
+            }
+        } label: {
+            ZStack {
+                Circle()
+                    .fill(viewModel.liquidGlassEnabled ? .clear : theme.colors.error.opacity(0.1))
+                    .frame(width: 32, height: 32)
+                Image(systemName: "trash.fill")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(theme.colors.error)
+            }
+        }
+        .buttonStyle(.plain)
     }
 
     var mainContent: some View {
@@ -425,111 +474,3 @@ private extension SuggestionDetailView {
     }
 }
 #endif
-
-// MARK: - Create comment
-
-private extension SuggestionDetailView {
-    var addCommentSheet: some View {
-        VStack(alignment: .leading, spacing: theme.spacing.md) {
-            headerCommentSheet
-            contentCommentSheet
-        }
-        .background(theme.colors.background)
-        .onAppear {
-            isCommentFocused = true
-        }
-    }
-
-    var headerCommentSheet: some View {
-        ZStack {
-            HStack {
-                Button {
-                    showingAddComment = false
-
-                    viewModel.resetCommentForm()
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(theme.colors.secondary)
-                        .padding(8)
-                        .background(
-                            Circle()
-                                .fill(theme.colors.secondary.opacity(0.1))
-                        )
-                }
-                .buttonStyle(.plain)
-                Spacer()
-                Button {
-                    Task {
-                        await viewModel.submitComment(for: currentSuggestion.id) {
-                            showingAddComment = false
-                        }
-                    }
-                } label: {
-                    Image(systemName: "paperplane.fill")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundColor(
-                            viewModel.isCommentFormValid &&
-                            !viewModel.isSubmittingComment ?
-                                .white : theme.colors.secondary
-                        )
-                        .padding(8)
-                        .background(
-                            Circle()
-                                .fill(
-                                    viewModel.isCommentFormValid && !viewModel.isSubmittingComment
-                                    ? theme.colors.primary
-                                    : theme.colors.secondary.opacity(0.1)
-                                )
-                        )
-                }
-                .disabled(!viewModel.isCommentFormValid || viewModel.isSubmittingComment)
-                .buttonStyle(.plain)
-            }
-            HStack(alignment: .center) {
-                Spacer()
-                Text(TextManager.shared.texts.newComment)
-                    .font(theme.typography.title3)
-                    .fontWeight(.regular)
-                    .foregroundColor(theme.colors.onBackground)
-                Spacer()
-            }
-        }
-        .padding(theme.spacing.md)
-        .background(
-            theme.colors.background
-                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-        )
-    }
-
-    var contentCommentSheet: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: theme.spacing.md) {
-                VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                    Text(TextManager.shared.texts.yourComment)
-                        .font(theme.typography.headline)
-                        .foregroundColor(theme.colors.onBackground)
-                    TextField(
-                        TextManager.shared.texts.shareYourThoughts,
-                        text: $viewModel.newComment,
-                        axis: .vertical
-                    )
-                    .textFieldStyle(VoticeTextFieldStyle())
-                    .lineLimit(3...8)
-                    .focused($isCommentFocused)
-                }
-                VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                    Text(TextManager.shared.texts.yourNameOptional)
-                        .font(theme.typography.headline)
-                        .foregroundColor(theme.colors.onBackground)
-                    TextField(TextManager.shared.texts.enterYourName, text: $viewModel.commentNickname)
-                        .textFieldStyle(VoticeTextFieldStyle())
-                }
-                Spacer()
-            }
-            .padding(.horizontal, theme.spacing.md)
-        }
-        .scrollBounceBehavior(.basedOnSize)
-        .scrollDismissesKeyboard(.immediately)
-    }
-}

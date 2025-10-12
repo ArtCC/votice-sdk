@@ -48,11 +48,27 @@ struct CreateSuggestionView: View {
                 LoadingView(message: TextManager.shared.texts.submit)
             } else {
                 VStack(spacing: 0) {
+#if os(iOS)
+                    if !viewModel.liquidGlassEnabled {
+                        headerView
+                    }
+#elseif os(macOS)
                     headerView
+#endif
                     mainContent
                 }
             }
         }
+#if os(iOS)
+        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(viewModel.liquidGlassEnabled ? .hidden : .automatic, for: .navigationBar)
+        .toolbar {
+            if viewModel.liquidGlassEnabled {
+                headerGlassView
+            }
+        }
+#endif
         .voticeAlert(
             isPresented: $viewModel.isShowingAlert,
             alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)
@@ -66,57 +82,13 @@ private extension CreateSuggestionView {
     var headerView: some View {
         ZStack {
             HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(theme.colors.secondary)
-                        .padding(8)
-                        .background(
-                            Circle()
-                                .fill(theme.colors.secondary.opacity(0.1))
-                        )
-                }
-                .buttonStyle(.plain)
+                closeButton
                 Spacer()
-                Button {
-                    HapticManager.shared.mediumImpact()
-
-                    Task {
-                        await viewModel.submitSuggestion { suggestion in
-                            HapticManager.shared.success()
-
-                            onSuggestionCreated(suggestion)
-
-                            dismiss()
-                        }
-                    }
-                } label: {
-                    Image(systemName: "paperplane.fill")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundColor(
-                            viewModel.isFormValid && !viewModel.isSubmitting ? .white : theme.colors.secondary
-                        )
-                        .padding(8)
-                        .background(
-                            Circle()
-                                .fill(
-                                    viewModel.isFormValid && !viewModel.isSubmitting
-                                    ? theme.colors.primary
-                                    : theme.colors.secondary.opacity(0.1)
-                                )
-                        )
-                }
-                .disabled(!viewModel.isFormValid || viewModel.isSubmitting)
-                .buttonStyle(.plain)
+                submitButton
             }
             HStack(alignment: .center) {
                 Spacer()
-                Text(viewModel.isIssue ? TextManager.shared.texts.reportIssue : TextManager.shared.texts.newSuggestion)
-                    .font(theme.typography.headline)
-                    .fontWeight(.medium)
-                    .foregroundColor(theme.colors.onBackground)
+                title
                 Spacer()
             }
         }
@@ -125,6 +97,92 @@ private extension CreateSuggestionView {
             theme.colors.background
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
+    }
+
+#if os(iOS)
+    var headerGlassView: some ToolbarContent {
+        Group {
+            ToolbarItem(placement: .navigationBarLeading) {
+                closeButton
+            }
+            ToolbarItem(placement: .principal) {
+                title
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                submitButton
+            }
+        }
+    }
+#endif
+
+    var closeButton: some View {
+        Button {
+            dismiss()
+        } label: {
+            Image(systemName: "xmark")
+                .font(.system(size: 18, weight: .medium))
+                .foregroundColor(theme.colors.secondary)
+                .padding(8)
+                .background(
+                    Circle()
+                        .fill(viewModel.liquidGlassEnabled ? .clear : theme.colors.secondary.opacity(0.1))
+                )
+        }
+        .buttonStyle(.plain)
+    }
+
+    var title: some View {
+        Text(viewModel.isIssue ? TextManager.shared.texts.reportIssue : TextManager.shared.texts.newSuggestion)
+            .font(theme.typography.headline)
+            .fontWeight(.medium)
+            .foregroundColor(theme.colors.onBackground)
+    }
+
+    var submitButton: some View {
+        Button {
+            HapticManager.shared.mediumImpact()
+
+            Task {
+                await viewModel.submitSuggestion { suggestion in
+                    HapticManager.shared.success()
+
+                    onSuggestionCreated(suggestion)
+
+                    dismiss()
+                }
+            }
+        } label: {
+            Image(systemName: "paperplane.fill")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(submitButtonForegroundColor)
+                .padding(8)
+                .background(
+                    Circle()
+                        .fill(
+                            viewModel.liquidGlassEnabled ? .clear : viewModel.isFormValid && !viewModel.isSubmitting
+                            ? theme.colors.primary
+                            : theme.colors.secondary.opacity(0.1)
+                        )
+                )
+        }
+        .disabled(!viewModel.isFormValid || viewModel.isSubmitting)
+        .buttonStyle(.plain)
+    }
+
+    var submitButtonForegroundColor: Color {
+        if viewModel.liquidGlassEnabled {
+            if viewModel.isFormValid && !viewModel.isSubmitting {
+                return theme.colors.primary
+            } else {
+                return theme.colors.secondary
+            }
+        } else {
+            if viewModel.isFormValid && !viewModel.isSubmitting {
+                return .white
+            } else {
+                return theme.colors.secondary
+            }
+        }
     }
 
     var mainContent: some View {

@@ -14,6 +14,7 @@ struct CloseButton: View {
     @Environment(\.voticeTheme) private var theme
 
     let isNavigation: Bool
+    let useLiquidGlass: Bool
     let onClose: () -> Void
 
     // MARK: - View
@@ -28,7 +29,7 @@ struct CloseButton: View {
                 .padding(theme.spacing.sm)
                 .background(
                     Circle()
-                        .fill(theme.colors.primary.opacity(0.1))
+                        .fill(useLiquidGlass ? .clear : theme.colors.primary.opacity(0.1))
                 )
         }
         .buttonStyle(.plain)

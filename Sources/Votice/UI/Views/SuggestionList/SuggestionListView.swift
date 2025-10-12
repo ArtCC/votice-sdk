@@ -50,7 +50,13 @@ private extension SuggestionListView {
                 LoadingView(message: TextManager.shared.texts.loadingSuggestions)
             } else {
                 VStack(spacing: 0) {
+#if os(iOS)
+                    if !viewModel.liquidGlassEnabled {
+                        headerView
+                    }
+#elseif os(macOS)
                     headerView
+#endif
                     if viewModel.showCompletedSeparately, !viewModel.suggestionsIsEmpty {
                         if viewModel.liquidGlassEnabled {
 #if os(iOS)
@@ -70,7 +76,16 @@ private extension SuggestionListView {
                 floatingActionButton
             }
         }
+#if os(iOS)
         .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(viewModel.liquidGlassEnabled ? .hidden : .automatic, for: .navigationBar)
+        .toolbar {
+            if viewModel.liquidGlassEnabled {
+                headerGlassView
+            }
+        }
+#endif
         .task {
             await viewModel.loadSuggestions()
         }
@@ -79,30 +94,34 @@ private extension SuggestionListView {
             alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)
         )
         .sheet(isPresented: $viewModel.showingCreateSuggestion) {
-            CreateSuggestionView { suggestion in
-                viewModel.addSuggestion(suggestion)
-            }
+            NavigationStack {
+                CreateSuggestionView { suggestion in
+                    viewModel.addSuggestion(suggestion)
+                }
 #if os(macOS)
-            .frame(minWidth: 800, minHeight: 600)
+                .frame(minWidth: 800, minHeight: 600)
 #endif
+            }
         }
         .sheet(item: $viewModel.selectedSuggestion) { suggestion in
-            SuggestionDetailView(suggestion: suggestion) { updatedSuggestion in
-                viewModel.updateSuggestion(updatedSuggestion)
-            } onReload: {
-                Task {
-                    await viewModel.loadSuggestions()
+            NavigationStack {
+                SuggestionDetailView(suggestion: suggestion) { updatedSuggestion in
+                    viewModel.updateSuggestion(updatedSuggestion)
+                } onReload: {
+                    Task {
+                        await viewModel.loadSuggestions()
+                    }
                 }
-            }
 #if os(macOS)
-            .frame(minWidth: 800, minHeight: 600)
+                .frame(minWidth: 800, minHeight: 600)
 #endif
+            }
         }
     }
 
     var headerView: some View {
         HStack {
-            CloseButton(isNavigation: isNavigation) {
+            CloseButton(isNavigation: isNavigation, useLiquidGlass: viewModel.liquidGlassEnabled) {
                 presentationMode.wrappedValue.dismiss()
             }
             Spacer()
@@ -121,10 +140,32 @@ private extension SuggestionListView {
         .zIndex(1)
     }
 
+#if os(iOS)
+    var headerGlassView: some ToolbarContent {
+        Group {
+            ToolbarItem(placement: .navigationBarLeading) {
+                CloseButton(isNavigation: isNavigation, useLiquidGlass: viewModel.liquidGlassEnabled) {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
+            ToolbarItem(placement: .principal) {
+                Text(TextManager.shared.texts.featureRequests)
+                    .font(theme.typography.title3)
+                    .fontWeight(.regular)
+                    .foregroundColor(theme.colors.onBackground)
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                filterMenuButton
+            }
+        }
+    }
+#endif
+
     var filterMenuButton: some View {
         FilterMenuView(
             isExpanded: $viewModel.isFilterMenuExpanded,
-            selectedFilter: viewModel.selectedFilter
+            selectedFilter: viewModel.selectedFilter,
+            useLiquidGlass: viewModel.liquidGlassEnabled
         ) { filter in
             viewModel.setFilter(filter)
         }
@@ -348,7 +389,7 @@ private extension SuggestionListView {
                     LoadingPaginationView()
                 }
                 Spacer()
-                    .frame(height: 30)
+                    .frame(height: 15)
             }
             .padding(.horizontal, theme.spacing.llg)
         }

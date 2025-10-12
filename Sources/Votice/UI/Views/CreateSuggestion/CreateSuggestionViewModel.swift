@@ -29,6 +29,9 @@ final class CreateSuggestionViewModel: ObservableObject {
 
     private let suggestionUseCase: SuggestionUseCaseProtocol
 
+    var liquidGlassEnabled: Bool {
+        ConfigurationManager.shared.shouldUseLiquidGlass
+    }
     var isFormValid: Bool {
         !title.isEmpty
     }
