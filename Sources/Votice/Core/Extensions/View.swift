@@ -11,6 +11,22 @@ import SwiftUI
 // MARK: - View Extensions
 
 extension View {
+    // MARK: - Properties
+
+    var hasNotchOrDynamicIsland: Bool {
+        guard let window = UIApplication
+            .shared
+            .connectedScenes
+            .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+            .first else {
+            return false
+        }
+
+        return window.safeAreaInsets.top >= 44
+    }
+
+    // MARK: - Public functions
+
     func voticeAlert(isPresented: Binding<Bool>, alert: VoticeAlertEntity) -> some View {
         self.overlay(
             VoticeAlert(alert: alert, isPresented: isPresented)
@@ -133,7 +149,7 @@ extension View {
 #if !os(tvOS)
             self.background {
                 Circle()
-                    .fill(fillColor.opacity(0.9)) // Mantener el color con algo de transparencia
+                    .fill(fillColor.opacity(0.75))
                     .glassEffect(
                         isInteractive ? .regular.interactive() : .regular,
                         in: .circle

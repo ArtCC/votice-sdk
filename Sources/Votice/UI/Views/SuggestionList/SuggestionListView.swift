@@ -67,15 +67,7 @@ private extension SuggestionListView {
                         standardContentView
                     }
                 }
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        floatingActionButton
-                    }
-                    .padding(.trailing, theme.spacing.md)
-                    .padding(.bottom, theme.spacing.md)
-                }
+                floatingActionButton
             }
         }
         .navigationBarBackButtonHidden()
@@ -211,7 +203,7 @@ private extension SuggestionListView {
                     LoadingPaginationView()
                 }
                 Spacer()
-                    .frame(height: 80)
+                    .frame(height: 10)
             }
             .padding(.top, theme.spacing.md)
             .padding(.horizontal, theme.spacing.md)
@@ -224,23 +216,37 @@ private extension SuggestionListView {
     }
 
     var floatingActionButton: some View {
-        Button {
-            HapticManager.shared.lightImpact()
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button {
+                    HapticManager.shared.lightImpact()
 
-            viewModel.presentCreateSuggestionSheet()
-        } label: {
-            Image(systemName: "plus")
-                .font(.system(size: 22, weight: .semibold))
-                .foregroundColor(.white)
-                .padding()
-                .background(theme.colors.primary)
-                .clipShape(Circle())
-                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    viewModel.presentCreateSuggestionSheet()
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundColor(.white)
+                        .padding()
+                        .adaptiveCircularGlassBackground(
+                            useLiquidGlass: viewModel.liquidGlassEnabled,
+                            fillColor: theme.colors.primary,
+                            shadowColor: .black.opacity(0.1),
+                            shadowRadius: 2,
+                            shadowX: 0,
+                            shadowY: 1,
+                            isInteractive: true
+                        )
+                }
+                .scaleEffect(showCreateButton ? 1.0 : 0.9)
+                .opacity(showCreateButton ? 1.0 : 0.7)
+                .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
+                .buttonStyle(.plain)
+            }
+            .padding(.trailing, theme.spacing.md)
+            .padding(.bottom, hasNotchOrDynamicIsland ? -10 : theme.spacing.lg)
         }
-        .scaleEffect(showCreateButton ? 1.0 : 0.9)
-        .opacity(showCreateButton ? 1.0 : 0.7)
-        .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showCreateButton)
-        .buttonStyle(.plain)
     }
 }
 
