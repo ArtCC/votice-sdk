@@ -143,7 +143,7 @@ private extension HomeView {
             Votice.setDebugLogging(enabled: true)
             Votice.setCommentIsEnabled(enabled: true)
             Votice.setShowCompletedSeparately(enabled: true)
-            Votice.setVisibleOptionalStatuses(accepted: true, blocked: false, rejected: false)
+            Votice.setVisibleOptionalStatuses(accepted: true, blocked: true, rejected: true)
             Votice.setUserIsPremium(isPremium: true)
             Votice.setLiquidGlassEnabled(true)
 
