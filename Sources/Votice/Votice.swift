@@ -70,6 +70,26 @@ public struct Votice {
         ConfigurationManager.shared.showCompletedSeparately = enabled
     }
 
+    /// Enable or disable Liquid Glass design for UI components
+    /// - Parameter enabled: Whether to use Liquid Glass material effects throughout the SDK
+    /// - Note: Liquid Glass provides a modern, fluid design with dynamic blur and light reflection effects.
+    /// Only available on iOS 26+, iPadOS 26+, macOS 26+ (Tahoe), and tvOS 26+.
+    /// Disabled by default for maximum compatibility.
+    public static func setLiquidGlassEnabled(_ enabled: Bool) {
+        if #available(iOS 26.0, macOS 26.0, tvOS 26.0, *) {
+            ConfigurationManager.shared.useLiquidGlass = enabled
+        } else {
+            ConfigurationManager.shared.useLiquidGlass = false
+
+            if enabled {
+                LogManager.shared.devLog(
+                    .warning,
+                    "Votice: Liquid Glass requires iOS 26+, macOS 26+, or tvOS 26+. Falling back to classic design."
+                )
+            }
+        }
+    }
+
     /// Configure optional visible statuses for suggestions
     /// - Parameter statuses: Array of `SuggestionStatusEntity` representing the statuses to be visible
     /// - Note: This can be used to customize which suggestion statuses are shown in the UI

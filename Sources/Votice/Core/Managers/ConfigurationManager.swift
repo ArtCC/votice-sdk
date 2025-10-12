@@ -18,6 +18,7 @@ protocol ConfigurationManagerProtocol: Sendable {
     var appId: String { get }
     var commentIsEnabled: Bool { get set }
     var showCompletedSeparately: Bool { get set }
+    var useLiquidGlass: Bool { get set }
     var user: UserEntity { get set }
     var optionalVisibleStatuses: Set<SuggestionStatusEntity> { get }
     var version: String { get }
@@ -41,6 +42,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     private var _isConfigured = false
     private var _commentIsEnabled = true
     private var _showCompletedSeparately = false
+    private var _useLiquidGlass = false
     private var _user = UserEntity(isPremium: false)
     private var _optionalVisibleStatuses: Set<SuggestionStatusEntity> = [.accepted, .blocked, .rejected]
 
@@ -91,6 +93,15 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
         }
         set {
             lock.withLock { _showCompletedSeparately = newValue }
+        }
+    }
+
+    var useLiquidGlass: Bool {
+        get {
+            lock.withLock { _useLiquidGlass }
+        }
+        set {
+            lock.withLock { _useLiquidGlass = newValue }
         }
     }
 
@@ -194,6 +205,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
             _isConfigured = false
             _commentIsEnabled = true
             _showCompletedSeparately = false
+            _useLiquidGlass = false
             _optionalVisibleStatuses = [.accepted, .blocked, .rejected]
 
             LogManager.shared.devLog(.info, "ConfigurationManager: reset")

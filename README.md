@@ -358,6 +358,37 @@ Use cases:
 
 > Note: Calling this method multiple times replaces the previous configuration entirely.
 
+### 10. Enable Liquid Glass design (Optional)
+
+You can opt-in to use **Liquid Glass**, Apple's modern design material that combines dynamic blur with light reflection effects, creating a fluid and immersive glass-like interface. When enabled, UI components like dropdowns, cards, and sheets will adopt this new visual style.
+
+Enable Liquid Glass:
+```swift
+Votice.setLiquidGlassEnabled(true)
+```
+
+Disable (returns to the classic design):
+```swift
+Votice.setLiquidGlassEnabled(false)
+```
+
+**Platform requirements:**
+- iOS 26+ / iPadOS 26+ / macOS 26+ (Tahoe) / tvOS 26+
+- On older OS versions, the SDK will automatically fall back to the classic design even if enabled
+
+**Benefits of Liquid Glass:**
+- Modern, fluid glass-like visual design
+- Dynamic blur that adapts to content behind
+- Light and color reflection from surrounding elements
+- Interactive effects that respond to touch and pointer interactions
+
+**Default behavior:**
+- Disabled by default for maximum compatibility
+- Developers must explicitly opt-in to use Liquid Glass
+- Works seamlessly with custom themes
+
+> Note: Liquid Glass is a cutting-edge design feature introduced in Apple's latest OS versions. Test thoroughly with your app's design system before shipping to production.
+
 ---
 
 ## 🔧 Advanced: Using Use Cases Programmatically (Optional)
