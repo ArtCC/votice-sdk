@@ -3,8 +3,8 @@
 | <img src="assets/light_icon.png" alt="Votice Icon" width="120" /> | 🗳️ A lightweight native Swift SDK to collect suggestions, feedback and votes directly within your iOS, iPadOS, macOS and tvOS app. |
 |:---:|:---|
 
-[![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org/)
-[![Platforms](https://img.shields.io/badge/Platforms-iOS%2017%2B%20%7C%20iPadOS%2017%2B-lightgrey)](#)
+[![Swift](https://img.shields.io/badge/Swift-6-orange.svg)](https://swift.org/)
+[![Platforms](https://img.shields.io/badge/Platforms-iOS%2017%2B%20%7C%20iPadOS%2017%2B%20%7C%20macOS%2014%2B-lightgrey)](#)
 [![SPM](https://img.shields.io/badge/SPM-compatible-brightgreen)](https://swift.org/package-manager/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -24,14 +24,14 @@ The Votice management app for handling suggestions or issues and apps is availab
 
 [![Download on the App Store](https://img.shields.io/badge/Download-App%20Store-blue)](https://apps.apple.com/us/app/id6673904950)
 
-**Available for:** iOS, iPadOS and macOS (tvOS coming soon)
+**Available for:** iOS, iPadOS and macOS.
 
 ---
 
 ## ✅ Requirements
 
 - iOS 17+ / iPadOS 17+ / macOS 14+ / tvOS 17+
-- Swift 5.9+
+- Swift 5.0+
 - SwiftUI-based project
 - Votice backend properly configured (API key + secret)
 
