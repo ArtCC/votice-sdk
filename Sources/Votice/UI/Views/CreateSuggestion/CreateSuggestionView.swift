@@ -132,7 +132,7 @@ private extension CreateSuggestionView {
             VStack(alignment: .leading, spacing: theme.spacing.xl) {
                 headerCard
                 formCard
-                Spacer(minLength: theme.spacing.xl)
+                Spacer(minLength: theme.spacing.md)
             }
             .padding(theme.spacing.md)
         }

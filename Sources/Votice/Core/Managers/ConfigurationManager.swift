@@ -42,7 +42,7 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     private var _isConfigured = false
     private var _commentIsEnabled = true
     private var _showCompletedSeparately = false
-    private var _useLiquidGlass = false
+    private var _useLiquidGlass = true
     private var _user = UserEntity(isPremium: false)
     private var _optionalVisibleStatuses: Set<SuggestionStatusEntity> = [.accepted, .blocked, .rejected]
 

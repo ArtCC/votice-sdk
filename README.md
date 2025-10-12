@@ -360,7 +360,7 @@ Use cases:
 
 ### 10. Enable Liquid Glass design (Optional)
 
-You can opt-in to use **Liquid Glass**, Apple's modern design material that combines dynamic blur with light reflection effects, creating a fluid and immersive glass-like interface. When enabled, UI components like dropdowns, cards, and sheets will adopt this new visual style.
+You can opt-in to use **Liquid Glass**, Apple's modern design material that combines dynamic blur with light reflection effects, creating a fluid and immersive glass-like interface. When enabled, UI components like dropdowns, cards, and sheets will adopt this new visual style (Default is enabled).
 
 Enable Liquid Glass:
 ```swift

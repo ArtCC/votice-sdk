@@ -77,7 +77,7 @@ struct SuggestionCard: View {
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
-                        lineWidth: isPressed ? 2 : 1
+                        lineWidth: isPressed ? 1 : 0
                     )
             )
             .scaleEffect(isPressed ? 0.98 : 1.0)

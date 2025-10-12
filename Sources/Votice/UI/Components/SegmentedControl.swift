@@ -80,10 +80,6 @@ private extension SegmentedControl {
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
                 .fill(theme.colors.surface)
-                .overlay(
-                    RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                        .stroke(theme.colors.primary.opacity(0.1), lineWidth: 1)
-                )
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
         .padding(.top, theme.spacing.md)

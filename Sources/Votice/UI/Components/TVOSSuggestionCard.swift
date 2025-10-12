@@ -87,8 +87,8 @@ struct TVOSSuggestionCard: View {
         .overlay(
             RoundedRectangle(cornerRadius: 12)
                 .stroke(
-                    isFocused ? theme.colors.primary.opacity(0.4) : Color.clear,
-                    lineWidth: isFocused ? 2 : 0
+                    isFocused ? theme.colors.primary.opacity(0.35) : Color.clear,
+                    lineWidth: isFocused ? 1 : 0
                 )
         )
         .scaleEffect(isFocused ? 1.05 : 1.0)

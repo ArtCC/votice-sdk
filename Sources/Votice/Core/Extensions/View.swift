@@ -13,6 +13,7 @@ import SwiftUI
 extension View {
     // MARK: - Properties
 
+#if os(iOS)
     var hasNotchOrDynamicIsland: Bool {
         guard let window = UIApplication
             .shared
@@ -24,6 +25,7 @@ extension View {
 
         return window.safeAreaInsets.top >= 44
     }
+#endif
 
     // MARK: - Public functions
 

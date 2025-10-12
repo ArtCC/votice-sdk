@@ -138,7 +138,6 @@ private extension SuggestionListView {
                 .init(id: 1, title: TextManager.shared.texts.completedTab)
             ]
         )
-        .transition(.opacity.combined(with: .move(edge: .top)))
         .animation(.easeInOut, value: viewModel.selectedTab)
     }
 
@@ -246,7 +245,11 @@ private extension SuggestionListView {
                 .buttonStyle(.plain)
             }
             .padding(.trailing, theme.spacing.md)
+#if os(iOS)
             .padding(.bottom, hasNotchOrDynamicIsland ? -10 : theme.spacing.lg)
+#elseif os(macOS)
+            .padding(.bottom, theme.spacing.md)
+#endif
         }
     }
 }
