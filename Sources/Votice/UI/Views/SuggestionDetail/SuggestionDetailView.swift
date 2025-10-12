@@ -55,13 +55,17 @@ private extension SuggestionDetailView {
             )
             .ignoresSafeArea()
             VStack(spacing: 0) {
+#if os(iOS)
                 if !viewModel.liquidGlassEnabled {
                     headerView
                 }
+#elseif os(macOS)
+                headerView
+#endif
                 mainContent
             }
         }
-#if os(iOS) || os(macOS)
+#if os(iOS)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(viewModel.liquidGlassEnabled ? .hidden : .automatic, for: .navigationBar)
@@ -114,6 +118,7 @@ private extension SuggestionDetailView {
         )
     }
 
+#if os(iOS)
     var headerGlassView: some ToolbarContent {
         Group {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -127,6 +132,7 @@ private extension SuggestionDetailView {
             }
         }
     }
+#endif
 
     var closeButton: some View {
         Button {

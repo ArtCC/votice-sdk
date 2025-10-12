@@ -13,16 +13,20 @@ import SwiftUI
 extension SuggestionDetailView {
     var addCommentSheet: some View {
         VStack(alignment: .leading, spacing: theme.spacing.md) {
+#if os(iOS)
             if !viewModel.liquidGlassEnabled {
                 headerCommentSheet
             }
+#elseif os(macOS)
+            headerCommentSheet
+#endif
             contentCommentSheet
         }
         .background(theme.colors.background)
         .onAppear {
             isCommentFocused = true
         }
-#if os(iOS) || os(macOS)
+#if os(iOS)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(viewModel.liquidGlassEnabled ? .hidden : .automatic, for: .navigationBar)
@@ -54,6 +58,7 @@ extension SuggestionDetailView {
         )
     }
 
+#if os(iOS)
     var headerCommentGlassView: some ToolbarContent {
         Group {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -67,6 +72,7 @@ extension SuggestionDetailView {
             }
         }
     }
+#endif
 
     var commentCloseButton: some View {
         Button {

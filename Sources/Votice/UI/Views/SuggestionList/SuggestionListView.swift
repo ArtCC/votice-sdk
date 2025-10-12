@@ -50,9 +50,13 @@ private extension SuggestionListView {
                 LoadingView(message: TextManager.shared.texts.loadingSuggestions)
             } else {
                 VStack(spacing: 0) {
+#if os(iOS)
                     if !viewModel.liquidGlassEnabled {
                         headerView
                     }
+#elseif os(macOS)
+                    headerView
+#endif
                     if viewModel.showCompletedSeparately, !viewModel.suggestionsIsEmpty {
                         if viewModel.liquidGlassEnabled {
 #if os(iOS)
@@ -72,7 +76,7 @@ private extension SuggestionListView {
                 floatingActionButton
             }
         }
-#if os(iOS) || os(macOS)
+#if os(iOS)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(viewModel.liquidGlassEnabled ? .hidden : .automatic, for: .navigationBar)
@@ -136,6 +140,7 @@ private extension SuggestionListView {
         .zIndex(1)
     }
 
+#if os(iOS)
     var headerGlassView: some ToolbarContent {
         Group {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -154,6 +159,7 @@ private extension SuggestionListView {
             }
         }
     }
+#endif
 
     var filterMenuButton: some View {
         FilterMenuView(

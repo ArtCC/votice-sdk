@@ -48,14 +48,18 @@ struct CreateSuggestionView: View {
                 LoadingView(message: TextManager.shared.texts.submit)
             } else {
                 VStack(spacing: 0) {
+#if os(iOS)
                     if !viewModel.liquidGlassEnabled {
                         headerView
                     }
+#elseif os(macOS)
+                    headerView
+#endif
                     mainContent
                 }
             }
         }
-#if os(iOS) || os(macOS)
+#if os(iOS)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(viewModel.liquidGlassEnabled ? .hidden : .automatic, for: .navigationBar)
@@ -95,6 +99,7 @@ private extension CreateSuggestionView {
         )
     }
 
+#if os(iOS)
     var headerGlassView: some ToolbarContent {
         Group {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -108,6 +113,7 @@ private extension CreateSuggestionView {
             }
         }
     }
+#endif
 
     var closeButton: some View {
         Button {
