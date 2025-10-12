@@ -145,11 +145,13 @@ extension Votice {
         minWidth: CGFloat = 800,
         minHeight: CGFloat = 600
     ) -> some View {
-        SuggestionListView(isNavigation: false)
-            .voticeTheme(theme ?? .default)
+        NavigationStack {
+            SuggestionListView(isNavigation: false)
+                .voticeTheme(theme ?? .default)
 #if os(macOS) || os(tvOS)
-            .frame(minWidth: minWidth, minHeight: minHeight)
+                .frame(minWidth: minWidth, minHeight: minHeight)
 #endif
+        }
     }
 
     /// Present the Votice feedback interface as a sheet/modal
@@ -168,11 +170,13 @@ extension Votice {
     ) -> some View {
         EmptyView()
             .sheet(isPresented: isPresented) {
-                SuggestionListView(isNavigation: false)
-                    .voticeTheme(theme ?? .default)
+                NavigationStack {
+                    SuggestionListView(isNavigation: false)
+                        .voticeTheme(theme ?? .default)
 #if os(macOS) || os(tvOS)
-                    .frame(minWidth: minWidth, minHeight: minHeight)
+                        .frame(minWidth: minWidth, minHeight: minHeight)
 #endif
+                }
             }
     }
 }

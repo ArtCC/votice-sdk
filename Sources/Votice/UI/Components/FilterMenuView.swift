@@ -69,6 +69,7 @@ struct FilterMenuView: View {
     }
 
     let selectedFilter: SuggestionStatusEntity?
+    let useLiquidGlass: Bool
     let onFilterSelected: (SuggestionStatusEntity?) -> Void
 
     // MARK: - Init
@@ -76,25 +77,50 @@ struct FilterMenuView: View {
     // MARK: - View
 
     var body: some View {
-        filterButton
-            .overlay(alignment: .topTrailing) {
-                if isExpanded {
-                    filterDropdown
-                        .offset(y: 40)
-                        .transition(.asymmetric(
-                            insertion: .scale(scale: 0.95, anchor: .topTrailing).combined(with: .opacity),
-                            removal: .scale(scale: 0.95, anchor: .topTrailing).combined(with: .opacity)
-                        ))
-                        .zIndex(1)
+        if useLiquidGlass {
+            Menu {
+                Button(TextManager.shared.texts.all) {
+                    onFilterSelected(nil)
                 }
-            }
-            .onTapGesture {
-                if isExpanded {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        isExpanded = false
+                Divider()
+                ForEach(orderedVisibleStatuses, id: \.self) { status in
+                    Button(title(for: status)) {
+                        onFilterSelected(status)
+                    }
+                }
+            } label: {
+                HStack(spacing: theme.spacing.xs) {
+                    Image(systemName: "line.3.horizontal.decrease.circle.fill")
+                        .font(.system(size: 20, weight: .medium))
+                        .foregroundColor(theme.colors.primary)
+                    if selectedFilter != nil {
+                        Circle()
+                            .fill(statusColor)
+                            .frame(width: 8, height: 8)
                     }
                 }
             }
+        } else {
+            filterButton
+                .overlay(alignment: .topTrailing) {
+                    if isExpanded {
+                        filterDropdown
+                            .offset(y: 40)
+                            .transition(.asymmetric(
+                                insertion: .scale(scale: 0.95, anchor: .topTrailing).combined(with: .opacity),
+                                removal: .scale(scale: 0.95, anchor: .topTrailing).combined(with: .opacity)
+                            ))
+                            .zIndex(1)
+                    }
+                }
+                .onTapGesture {
+                    if isExpanded {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isExpanded = false
+                        }
+                    }
+                }
+        }
     }
 }
 
@@ -135,7 +161,6 @@ private extension FilterMenuView {
             ForEach(Array(orderedVisibleStatuses.enumerated()), id: \.element) { _, status in
                 Divider()
                     .background(theme.colors.secondary.opacity(0.1))
-
                 filterOption(title: title(for: status), filter: status)
             }
         }
