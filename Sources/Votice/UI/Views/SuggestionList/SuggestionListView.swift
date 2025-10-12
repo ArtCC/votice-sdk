@@ -72,6 +72,7 @@ private extension SuggestionListView {
                 floatingActionButton
             }
         }
+#if os(iOS) || os(macOS)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(viewModel.liquidGlassEnabled ? .hidden : .automatic, for: .navigationBar)
@@ -80,6 +81,7 @@ private extension SuggestionListView {
                 headerGlassView
             }
         }
+#endif
         .task {
             await viewModel.loadSuggestions()
         }
@@ -381,7 +383,7 @@ private extension SuggestionListView {
                     LoadingPaginationView()
                 }
                 Spacer()
-                    .frame(height: 30)
+                    .frame(height: 15)
             }
             .padding(.horizontal, theme.spacing.llg)
         }

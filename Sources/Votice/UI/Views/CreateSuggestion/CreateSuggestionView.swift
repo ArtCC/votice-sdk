@@ -55,6 +55,7 @@ struct CreateSuggestionView: View {
                 }
             }
         }
+#if os(iOS) || os(macOS)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(viewModel.liquidGlassEnabled ? .hidden : .automatic, for: .navigationBar)
@@ -63,6 +64,7 @@ struct CreateSuggestionView: View {
                 headerGlassView
             }
         }
+#endif
         .voticeAlert(
             isPresented: $viewModel.isShowingAlert,
             alert: viewModel.currentAlert ?? VoticeAlertEntity.error(message: TextManager.shared.texts.genericError)

@@ -22,6 +22,7 @@ extension SuggestionDetailView {
         .onAppear {
             isCommentFocused = true
         }
+#if os(iOS) || os(macOS)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(viewModel.liquidGlassEnabled ? .hidden : .automatic, for: .navigationBar)
@@ -30,6 +31,7 @@ extension SuggestionDetailView {
                 headerCommentGlassView
             }
         }
+#endif
     }
 
     var headerCommentSheet: some View {

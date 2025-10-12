@@ -126,11 +126,7 @@ extension Votice {
         minWidth: CGFloat = 800,
         minHeight: CGFloat = 600
     ) -> some View {
-        SuggestionListView(isNavigation: true)
-            .voticeTheme(theme ?? .default)
-#if os(macOS) || os(tvOS)
-            .frame(minWidth: minWidth, minHeight: minHeight)
-#endif
+        open(isNavigation: true, theme: theme, minWidth: minWidth, minHeight: minHeight)
     }
 
     /// Present the Votice feedback interface as a standalone view
@@ -145,39 +141,13 @@ extension Votice {
         minWidth: CGFloat = 800,
         minHeight: CGFloat = 600
     ) -> some View {
+#if os(iOS) || os(macOS)
         NavigationStack {
-            SuggestionListView(isNavigation: false)
-                .voticeTheme(theme ?? .default)
-#if os(macOS) || os(tvOS)
-                .frame(minWidth: minWidth, minHeight: minHeight)
-#endif
+            open(isNavigation: false, theme: theme, minWidth: minWidth, minHeight: minHeight)
         }
-    }
-
-    /// Present the Votice feedback interface as a sheet/modal
-    /// - Parameters:
-    ///   - isPresented: Binding to control the presentation
-    ///   - theme: Custom theme for the UI (optional)
-    ///   - minWidth: Minimum width for macOS (default 800)
-    ///   - minHeight: Minimum height for macOS (default 600)
-    ///   - Returns: A SwiftUI View that presents the feedback interface as a sheet
-    ///   - Note: This view is suitable for presenting modally over existing content
-    public static func feedbackSheet(
-        isPresented: Binding<Bool>,
-        theme: VoticeTheme? = nil,
-        minWidth: CGFloat = 800,
-        minHeight: CGFloat = 600
-    ) -> some View {
-        EmptyView()
-            .sheet(isPresented: isPresented) {
-                NavigationStack {
-                    SuggestionListView(isNavigation: false)
-                        .voticeTheme(theme ?? .default)
-#if os(macOS) || os(tvOS)
-                        .frame(minWidth: minWidth, minHeight: minHeight)
+#elseif os(tvOS)
+        open(isNavigation: false, theme: theme, minWidth: minWidth, minHeight: minHeight)
 #endif
-                }
-            }
     }
 }
 
@@ -408,5 +378,22 @@ extension Votice {
     /// Get an instance of CommentUseCase to manage comments programmatically
     public static func getCommentUseCase() -> CommentUseCaseProtocol {
         CommentUseCase()
+    }
+}
+
+// MARK: - Private
+
+private extension Votice {
+    static func open(
+        isNavigation: Bool,
+        theme: VoticeTheme? = nil,
+        minWidth: CGFloat = 800,
+        minHeight: CGFloat = 600
+    ) -> some View {
+        SuggestionListView(isNavigation: isNavigation)
+            .voticeTheme(theme ?? .default)
+#if os(macOS) || os(tvOS)
+            .frame(minWidth: minWidth, minHeight: minHeight)
+#endif
     }
 }

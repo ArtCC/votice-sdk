@@ -61,6 +61,7 @@ private extension SuggestionDetailView {
                 mainContent
             }
         }
+#if os(iOS) || os(macOS)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(viewModel.liquidGlassEnabled ? .hidden : .automatic, for: .navigationBar)
@@ -69,6 +70,7 @@ private extension SuggestionDetailView {
                 headerGlassView
             }
         }
+#endif
         .task {
             await viewModel.loadInitialData(for: currentSuggestion)
         }
