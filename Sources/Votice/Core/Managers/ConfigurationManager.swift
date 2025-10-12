@@ -128,6 +128,20 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
         _buildNumber
     }
 
+    /// Shorthand to check if Liquid Glass should be used
+    /// Takes into account both the configuration flag and OS availability
+    var shouldUseLiquidGlass: Bool {
+        if #available(iOS 26.0, macOS 26.0, tvOS 26.0, *) {
+#if !os(tvOS)
+            return useLiquidGlass
+#else
+            return false
+#endif
+        } else {
+            return false
+        }
+    }
+
     // MARK: - Init
 
     internal init() {}
