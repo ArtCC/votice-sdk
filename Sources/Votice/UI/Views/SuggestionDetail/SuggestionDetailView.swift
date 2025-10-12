@@ -20,8 +20,6 @@ struct SuggestionDetailView: View {
 
     @FocusState private var isCommentFocused: Bool
 
-    // MARK: - Private computed property
-
     private var currentSuggestion: SuggestionEntity {
         viewModel.suggestionEntity ?? suggestion
     }
@@ -123,7 +121,8 @@ private extension SuggestionDetailView {
             }
             HStack {
                 Spacer()
-                Text(TextManager.shared.texts.suggestionTitle)
+                let isIssue = currentSuggestion.issue ?? false
+                Text(isIssue ? TextManager.shared.texts.issueTitle : TextManager.shared.texts.suggestionTitle)
                     .font(theme.typography.title3)
                     .fontWeight(.regular)
                     .foregroundColor(theme.colors.onBackground)
@@ -171,7 +170,6 @@ private extension SuggestionDetailView {
                         }
                         Text(currentSuggestion.displayText)
                             .font(theme.typography.headline)
-                            .fontWeight(.semibold)
                             .foregroundColor(theme.colors.onSurface)
                             .multilineTextAlignment(.leading)
                         Spacer()
@@ -199,7 +197,7 @@ private extension SuggestionDetailView {
                     .fill(theme.colors.surface)
                     .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
             )
-            StatusBadge(status: currentSuggestion.status ?? .pending)
+            StatusBadge(status: currentSuggestion.status ?? .pending, useLiquidGlass: viewModel.liquidGlassEnabled)
                 .padding(theme.spacing.sm)
         }
     }
@@ -375,7 +373,6 @@ private extension SuggestionDetailView {
                     .font(.headline)
                 Text(TextManager.shared.texts.titleIssueImage)
                     .font(theme.typography.headline)
-                    .fontWeight(.semibold)
                     .foregroundColor(theme.colors.onSurface)
                 Spacer()
             }
@@ -411,6 +408,23 @@ private extension SuggestionDetailView {
         )
     }
 }
+
+// MARK: - tvOS
+
+#if os(tvOS)
+private extension SuggestionDetailView {
+    var tvOSView: some View {
+        VStack {
+            Spacer()
+            Text("Votice SDK is not available on tvOS.")
+                .font(theme.typography.headline)
+                .foregroundColor(theme.colors.onBackground)
+                .padding()
+            Spacer()
+        }
+    }
+}
+#endif
 
 // MARK: - Create comment
 
@@ -519,20 +533,3 @@ private extension SuggestionDetailView {
         .scrollDismissesKeyboard(.immediately)
     }
 }
-
-// MARK: - tvOS
-
-#if os(tvOS)
-private extension SuggestionDetailView {
-    var tvOSView: some View {
-        VStack {
-            Spacer()
-            Text("Votice SDK is not available on tvOS.")
-                .font(theme.typography.headline)
-                .foregroundColor(theme.colors.onBackground)
-                .padding()
-            Spacer()
-        }
-    }
-}
-#endif

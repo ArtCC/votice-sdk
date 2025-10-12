@@ -35,7 +35,6 @@ struct TVOSSuggestionCard: View {
                         .foregroundColor(voteColor)
                     Text("\(max(0, suggestion.voteCount ?? 0))")
                         .font(theme.typography.body)
-                        .fontWeight(.semibold)
                         .foregroundColor(hasVoted ? theme.colors.primary : theme.colors.onSurface)
                 }
                 .padding(.horizontal, 12)
@@ -70,7 +69,7 @@ struct TVOSSuggestionCard: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             VStack {
-                StatusBadge(status: suggestion.status ?? .pending)
+                StatusBadge(status: suggestion.status ?? .pending, useLiquidGlass: false)
                 Spacer()
             }
         }
@@ -110,7 +109,6 @@ private extension TVOSSuggestionCard {
                 }
                 Text(suggestion.displayText)
                     .font(theme.typography.headline)
-                    .fontWeight(.semibold)
                     .foregroundColor(theme.colors.onSurface)
                     .multilineTextAlignment(.leading)
                     .lineLimit(2)

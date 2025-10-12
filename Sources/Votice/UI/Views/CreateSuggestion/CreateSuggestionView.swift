@@ -174,7 +174,6 @@ private extension CreateSuggestionView {
                         TextManager.shared.texts.reportIssue : TextManager.shared.texts.shareYourIdea
                     )
                     .font(theme.typography.headline)
-                    .fontWeight(.semibold)
                     .foregroundColor(theme.colors.onSurface)
                     Text(
                         viewModel.isIssue ?
@@ -218,7 +217,6 @@ private extension CreateSuggestionView {
                     .font(.headline)
                 Text(TextManager.shared.texts.title)
                     .font(theme.typography.headline)
-                    .fontWeight(.semibold)
                     .foregroundColor(theme.colors.onSurface)
             }
             TextField(
@@ -250,7 +248,6 @@ private extension CreateSuggestionView {
                     .font(.headline)
                 Text(TextManager.shared.texts.descriptionOptional)
                     .font(theme.typography.headline)
-                    .fontWeight(.semibold)
                     .foregroundColor(theme.colors.onSurface)
                 Spacer()
                 Text(TextManager.shared.texts.optional)
@@ -292,7 +289,6 @@ private extension CreateSuggestionView {
                         .font(.headline)
                     Text(TextManager.shared.texts.reportIssue)
                         .font(theme.typography.headline)
-                        .fontWeight(.semibold)
                         .foregroundColor(theme.colors.onSurface)
                 }
             }
@@ -385,7 +381,6 @@ private extension CreateSuggestionView {
                     .font(.headline)
                 Text(TextManager.shared.texts.yourNameOptionalCreate)
                     .font(theme.typography.headline)
-                    .fontWeight(.semibold)
                     .foregroundColor(theme.colors.onSurface)
                 Spacer()
                 Text(TextManager.shared.texts.optional)

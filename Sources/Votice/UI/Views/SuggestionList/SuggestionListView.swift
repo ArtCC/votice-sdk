@@ -180,6 +180,7 @@ private extension SuggestionListView {
                     SuggestionCard(
                         suggestion: suggestion,
                         currentVote: viewModel.getCurrentVote(for: suggestion.id),
+                        useLiquidGlass: viewModel.liquidGlassEnabled,
                         onVote: { voteType in
                             Task {
                                 await viewModel.vote(on: suggestion.id, type: voteType)

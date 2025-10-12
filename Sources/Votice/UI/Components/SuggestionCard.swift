@@ -17,6 +17,7 @@ struct SuggestionCard: View {
 
     let suggestion: SuggestionEntity
     let currentVote: VoteType?
+    let useLiquidGlass: Bool
     let onVote: (VoteType) -> Void
     let onTap: () -> Void
 
@@ -80,7 +81,7 @@ struct SuggestionCard: View {
                     )
             )
             .scaleEffect(isPressed ? 0.98 : 1.0)
-            StatusBadge(status: suggestion.status ?? .pending)
+            StatusBadge(status: suggestion.status ?? .pending, useLiquidGlass: useLiquidGlass)
                 .padding(theme.spacing.sm)
         }
         .onTapGesture {

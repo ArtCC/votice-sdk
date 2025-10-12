@@ -59,6 +59,7 @@ extension View {
 #if !os(tvOS)
             self.background {
                 RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(fillColor)
                     .glassEffect(
                         isInteractive ? .regular.interactive() : .regular,
                         in: .rect(cornerRadius: cornerRadius)
@@ -104,6 +105,7 @@ extension View {
 #if !os(tvOS)
             self.background {
                 RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(fillColor)
                     .glassEffect(
                         isInteractive ? .regular.interactive() : .regular,
                         in: .rect(cornerRadius: cornerRadius)
@@ -193,6 +195,7 @@ extension View {
 #if !os(tvOS)
             self.background {
                 Rectangle()
+                    .fill(fillColor)
                     .glassEffect(.regular, in: .rect)
             }
 #else
