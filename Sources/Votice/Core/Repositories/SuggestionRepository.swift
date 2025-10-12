@@ -42,6 +42,10 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
             path += "&pageLimit=\(pageLimit)"
         }
 
+        if let status = request.status {
+            path += "&status=\(status.rawValue)"
+        }
+
         let endpoint = NetworkEndpoint(path: path, method: .GET, body: nil)
 
         return try await networkManager.request(endpoint: endpoint, responseType: SuggestionsResponse.self)
