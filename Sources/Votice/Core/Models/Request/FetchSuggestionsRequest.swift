@@ -9,6 +9,17 @@
 import Foundation
 
 struct FetchSuggestionsRequest: Codable, Sendable {
+    // MARK: - Properties
+
     let appId: String
+    let status: SuggestionStatusEntity?
     let pagination: PaginationRequest
+
+    // MARK: - Init
+
+    init(appId: String, status: SuggestionStatusEntity? = nil, pagination: PaginationRequest) {
+        self.appId = appId
+        self.status = status
+        self.pagination = pagination
+    }
 }

@@ -12,7 +12,10 @@ public protocol SuggestionUseCaseProtocol: Sendable {
     func fetchFilterApplied() throws -> SuggestionStatusEntity?
     func setFilterApplied(_ status: SuggestionStatusEntity?) throws
     func clearFilterApplied() throws
-    func fetchSuggestions(pagination: PaginationRequest) async throws -> SuggestionsResponse
+    func fetchSuggestions(
+        status: SuggestionStatusEntity?,
+        pagination: PaginationRequest
+    ) async throws -> SuggestionsResponse
     func createSuggestion(request: CreateSuggestionRequest) async throws -> CreateSuggestionResponse
     func deleteSuggestion(suggestionId: String) async throws -> DeleteSuggestionResponse
     func fetchVoteStatus(suggestionId: String) async throws -> VoteStatusEntity
@@ -54,10 +57,13 @@ public final class SuggestionUseCase: SuggestionUseCaseProtocol {
         try storageManager.delete(forKey: StorageKey.filterApplied.rawValue)
     }
 
-    public func fetchSuggestions(pagination: PaginationRequest) async throws -> SuggestionsResponse {
+    public func fetchSuggestions(
+        status: SuggestionStatusEntity?,
+        pagination: PaginationRequest
+    ) async throws -> SuggestionsResponse {
         try configurationManager.validateConfiguration()
 
-        let request = FetchSuggestionsRequest(appId: configurationManager.appId, pagination: pagination)
+        let request = FetchSuggestionsRequest(appId: configurationManager.appId, status: status, pagination: pagination)
 
         return try await suggestionRepository.fetchSuggestions(request: request)
     }
