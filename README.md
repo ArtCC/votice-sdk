@@ -11,11 +11,11 @@
 Votice is a native Swift SDK that allows you to integrate user feedback, suggestion boards, issues, and voting mechanisms in your app with a clean UI and a simple setup. It connects to a custom backend using HMAC authentication and does not require Firebase or other configurations.
 
 <p align="leading">
-  <img src="assets/ios_1.png" alt="Votice iOS Screenshot 1" width="150" style="margin-right:5px;" />
-  <img src="assets/ios_2.png" alt="Votice iOS Screenshot 2" width="150" style="margin-right:5px;" />
-  <img src="assets/ios_3.png" alt="Votice iOS Screenshot 3" width="150" style="margin-right:5px;" />
-  <img src="assets/ios_4.png" alt="Votice iOS Screenshot 4" width="150" style="margin-right:5px;" />
-  <img src="assets/ios_5.png" alt="Votice iOS Screenshot 5" width="150" />
+  <img src="assets/ios_light_1.png" alt="Votice iOS Screenshot 1" width="150" style="margin-right:5px;" />
+  <img src="assets/ios_light_2.png" alt="Votice iOS Screenshot 2" width="150" style="margin-right:5px;" />
+  <img src="assets/ios_light_3.png" alt="Votice iOS Screenshot 3" width="150" style="margin-right:5px;" />
+  <img src="assets/ios_light_4.png" alt="Votice iOS Screenshot 4" width="150" style="margin-right:5px;" />
+  <img src="assets/ios_light_5.png" alt="Votice iOS Screenshot 5" width="150" />
 </p>
 
 ## 📱 Management App
