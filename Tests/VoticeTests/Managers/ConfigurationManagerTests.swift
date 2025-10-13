@@ -31,7 +31,7 @@ struct ConfigurationManagerTests {
         #expect(manager.showCompletedSeparately == false)
         #expect(manager.user.isPremium == false)
         #expect(manager.optionalVisibleStatuses == [.accepted, .blocked, .rejected])
-        #expect(manager.version == "1.0.15")
+        #expect(manager.version == "1.0.14")
         #expect(manager.buildNumber == "1")
     }
 
@@ -137,7 +137,7 @@ struct ConfigurationManagerTests {
 
         // ConfigurationId, version, and buildNumber should remain unchanged
         #expect(!manager.configurationId.isEmpty)
-        #expect(manager.version == "1.0.15")
+        #expect(manager.version == "1.0.14")
         #expect(manager.buildNumber == "1")
     }
 
@@ -324,7 +324,7 @@ struct ConfigurationManagerTests {
 
         // Test immutable properties
         #expect(manager.baseURL == "https://api.votice.app/api")
-        #expect(manager.version == "1.0.15")
+        #expect(manager.version == "1.0.14")
         #expect(manager.buildNumber == "1")
 
         // Configuration ID should be consistent for same instance
