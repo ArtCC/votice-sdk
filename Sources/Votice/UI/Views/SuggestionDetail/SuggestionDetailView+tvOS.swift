@@ -18,8 +18,12 @@ extension SuggestionDetailView {
         ScrollView {
             Color.clear.focusable(true)
             VStack(alignment: .leading, spacing: theme.spacing.lg) {
-                tvOSHeaderSection
-                tvOSStatsCard
+                customContentCard {
+                    VStack(alignment: .leading, spacing: theme.spacing.lg) {
+                        tvOSHeaderSection
+                        tvOSStatsCard
+                    }
+                }
                 if let issue = currentSuggestion.issue,
                    let urlImage = currentSuggestion.urlImage,
                    issue && !urlImage.isEmpty {
@@ -58,7 +62,7 @@ extension SuggestionDetailView {
                         .foregroundColor(theme.colors.pending)
                 }
                 Text(currentSuggestion.displayText)
-                    .font(theme.typography.title2)
+                    .font(theme.typography.title3)
                     .foregroundColor(theme.colors.onSurface)
                     .multilineTextAlignment(.leading)
                 Spacer()
@@ -108,17 +112,16 @@ extension SuggestionDetailView {
                 }
             }
         }
-        .padding(.top, theme.spacing.md)
     }
 
     var tvOSStatsCard: some View {
         HStack(spacing: theme.spacing.lg) {
-            VStack(spacing: theme.spacing.sm) {
+            HStack(spacing: theme.spacing.sm) {
                 Image(systemName: "hand.thumbsup.fill")
                     .font(.system(size: 24))
                     .foregroundColor(theme.colors.primary)
                 Text("\(max(0, currentSuggestion.voteCount ?? 0))")
-                    .font(theme.typography.title)
+                    .font(theme.typography.title3)
                     .foregroundColor(theme.colors.onSurface)
                 Text(TextManager.shared.texts.votes)
                     .font(theme.typography.subheadline)
@@ -126,12 +129,12 @@ extension SuggestionDetailView {
             }
             if ConfigurationManager.shared.commentIsEnabled {
                 Divider()
-                VStack(spacing: theme.spacing.sm) {
+                HStack(spacing: theme.spacing.sm) {
                     Image(systemName: "bubble.left.fill")
                         .font(.system(size: 24))
                         .foregroundColor(theme.colors.accent)
                     Text("\(viewModel.comments.count)")
-                        .font(theme.typography.title)
+                        .font(theme.typography.title3)
                         .foregroundColor(theme.colors.onSurface)
                     Text(TextManager.shared.texts.comments)
                         .font(theme.typography.subheadline)
@@ -140,8 +143,8 @@ extension SuggestionDetailView {
             }
             Spacer()
         }
-        .padding(theme.spacing.md)
-        .frame(width: 350)
+        .padding(.horizontal, theme.spacing.lg)
+        .padding(.bottom, theme.spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
                 .fill(theme.colors.surface)
@@ -150,23 +153,20 @@ extension SuggestionDetailView {
     }
 
     var tvOSIssueImageCard: some View {
-        VStack(alignment: .leading, spacing: theme.spacing.lg) {
-            HStack(spacing: theme.spacing.md) {
-                Image(systemName: "photo")
-                    .foregroundColor(theme.colors.primary)
-                    .font(.system(size: 22, weight: .semibold))
-                Text(TextManager.shared.texts.titleIssueImage)
-                    .font(theme.typography.title2)
-                    .foregroundColor(theme.colors.onSurface)
-                    .multilineTextAlignment(.leading)
-                Spacer()
-            }
-            if let urlString = currentSuggestion.urlImage, let url = URL(string: urlString) {
-                let imageCorner: CGFloat = theme.cornerRadius.lg
-
-                AsyncImage(url: url) { phase in
-                    ZStack {
-                        theme.colors.surface
+        customContentCard {
+            VStack(alignment: .leading, spacing: theme.spacing.lg) {
+                HStack(spacing: theme.spacing.md) {
+                    Image(systemName: "photo")
+                        .foregroundColor(theme.colors.primary)
+                        .font(.system(size: 22, weight: .semibold))
+                    Text(TextManager.shared.texts.titleIssueImage)
+                        .font(theme.typography.title3)
+                        .foregroundColor(theme.colors.onSurface)
+                        .multilineTextAlignment(.leading)
+                    Spacer()
+                }
+                if let urlString = currentSuggestion.urlImage, let url = URL(string: urlString) {
+                    AsyncImage(url: url) { phase in
                         switch phase {
                         case .success(let image):
                             image
@@ -174,58 +174,60 @@ extension SuggestionDetailView {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                         case .empty:
-                            VStack(spacing: theme.spacing.md) {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                                Text(TextManager.shared.texts.loadingImage)
-                                    .font(.system(size: 22))
-                                    .foregroundColor(theme.colors.secondary)
+                            HStack {
+                                Spacer()
+                                VStack(spacing: theme.spacing.md) {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
+                                    Text(TextManager.shared.texts.loadingImage)
+                                        .font(.system(size: 22))
+                                        .foregroundColor(theme.colors.secondary)
+                                }
+                                Spacer()
                             }
                         case .failure:
-                            Image(systemName: "photo")
-                                .foregroundColor(theme.colors.primary)
-                                .font(.system(size: 22, weight: .semibold))
+                            HStack {
+                                Spacer()
+                                Image(systemName: "photo")
+                                    .foregroundColor(theme.colors.primary)
+                                    .font(.system(size: 150, weight: .semibold))
+                                Spacer()
+                            }
                         }
                     }
                     .frame(height: 350)
-                    .compositingGroup()
-                    .mask(
-                        RoundedRectangle(cornerRadius: imageCorner, style: .continuous)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: imageCorner, style: .continuous)
-                            .stroke(theme.colors.secondary.opacity(0.15), lineWidth: 0.5)
-                    )
                 }
             }
+            .padding(theme.spacing.lg)
+            .background(
+                RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
+                    .fill(theme.colors.surface)
+                    .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+            )
         }
-        .padding(theme.spacing.lg)
-        .background(
-            RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
-                .fill(theme.colors.surface)
-                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-        )
     }
 
     var tvOSCommentsSection: some View {
-        VStack(alignment: .leading, spacing: theme.spacing.xl) {
-            HStack(spacing: theme.spacing.md) {
-                Image(systemName: "bubble.left.and.bubble.right.fill")
-                    .foregroundColor(theme.colors.primary)
-                    .font(.system(size: 22, weight: .semibold))
-                Text(TextManager.shared.texts.commentsSection)
-                    .font(theme.typography.title2)
-                    .foregroundColor(theme.colors.onSurface)
-                Spacer()
+        customContentCard {
+            VStack(alignment: .leading, spacing: theme.spacing.xl) {
+                HStack(spacing: theme.spacing.md) {
+                    Image(systemName: "bubble.left.and.bubble.right.fill")
+                        .foregroundColor(theme.colors.primary)
+                        .font(.system(size: 22, weight: .semibold))
+                    Text(TextManager.shared.texts.commentsSection)
+                        .font(theme.typography.title3)
+                        .foregroundColor(theme.colors.onSurface)
+                    Spacer()
+                }
+                if viewModel.isLoadingComments && viewModel.comments.isEmpty {
+                    tvOSCommentsLoadingView
+                } else if viewModel.comments.isEmpty && !viewModel.isLoadingComments {
+                    tvOSCommentsEmptyState
+                } else {
+                    tvOSCommentsList
+                }
             }
-            .padding(.horizontal, theme.spacing.lg)
-            if viewModel.isLoadingComments && viewModel.comments.isEmpty {
-                tvOSCommentsLoadingView
-            } else if viewModel.comments.isEmpty && !viewModel.isLoadingComments {
-                tvOSCommentsEmptyState
-            } else {
-                tvOSCommentsList
-            }
+            .padding(theme.spacing.lg)
         }
     }
 
@@ -238,7 +240,6 @@ extension SuggestionDetailView {
                 .foregroundColor(theme.colors.secondary)
         }
         .frame(maxWidth: .infinity)
-        .padding(theme.spacing.xl)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
                 .fill(theme.colors.surface)
@@ -320,11 +321,23 @@ extension SuggestionDetailView {
                 .foregroundColor(theme.colors.onSurface)
                 .multilineTextAlignment(.leading)
         }
-        .padding(theme.spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
                 .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+        )
+    }
+
+    @ViewBuilder
+    func customContentCard<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        content().background(
+            ZStack { theme.colors.surface }
+                .compositingGroup()
+                .mask(RoundedRectangle(cornerRadius: theme.cornerRadius.lg, style: .continuous))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.cornerRadius.lg, style: .continuous)
+                .stroke(theme.colors.secondary.opacity(0.25), lineWidth: 1)
         )
     }
 }

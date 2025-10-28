@@ -9,8 +9,6 @@
 import Foundation
 import VoticeSDK
 
-// MARK: - Custom Spanish Implementation
-
 struct Texts: VoticeTextsProtocol {
     // MARK: - General
 
