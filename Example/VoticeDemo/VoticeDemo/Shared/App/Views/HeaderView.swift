@@ -24,9 +24,3 @@ struct HeaderView: View {
         }
     }
 }
-
-// MARK: - Preview
-
-#Preview {
-    HeaderView()
-}

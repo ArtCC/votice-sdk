@@ -1,0 +1,237 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Accepted" : {
+
+    },
+    "Active" : {
+
+    },
+    "Add a comment" : {
+
+    },
+    "All" : {
+
+    },
+    "Anonymous" : {
+
+    },
+    "Are you sure you want to delete this comment?" : {
+
+    },
+    "Are you sure you want to delete this suggestion?" : {
+
+    },
+    "Attach image (optional)" : {
+
+    },
+    "Be the first to suggest something!" : {
+
+    },
+    "Blocked" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Close" : {
+
+    },
+    "comments" : {
+
+    },
+    "Comments" : {
+
+    },
+    "Completed" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Delete comment" : {
+
+    },
+    "Delete suggestion" : {
+
+    },
+    "Describe the issue in detail..." : {
+
+    },
+    "Describe your suggestion in detail..." : {
+
+    },
+    "Description (optional)" : {
+
+    },
+    "Drag and drop an image here" : {
+
+    },
+    "Enter a short title for the issue" : {
+
+    },
+    "Enter a short title for your suggestion" : {
+
+    },
+    "Enter your name" : {
+
+    },
+    "Error" : {
+
+    },
+    "Explain why this feature would be useful" : {
+
+    },
+    "Feedback with Custom Theme" : {
+
+    },
+    "Found a bug or problem?" : {
+
+    },
+    "Help us improve by suggesting new features or enhancements." : {
+
+    },
+    "In progress" : {
+
+    },
+    "Info" : {
+
+    },
+    "Issue" : {
+
+    },
+    "Issue image" : {
+
+    },
+    "Keep it short and descriptive" : {
+
+    },
+    "Leave empty to send anonymously" : {
+
+    },
+    "Loading comments..." : {
+
+    },
+    "Loading image..." : {
+
+    },
+    "Loading more..." : {
+
+    },
+    "Loading suggestions..." : {
+
+    },
+    "Navigate to Feedback" : {
+
+    },
+    "New comment" : {
+
+    },
+    "New suggestion" : {
+
+    },
+    "No comments yet. Be the first to comment!" : {
+
+    },
+    "No suggestions yet." : {
+
+    },
+    "OK" : {
+
+    },
+    "Open Feedback" : {
+
+    },
+    "Option 1: Modal Presentation" : {
+
+    },
+    "Option 2: Navigation Push" : {
+
+    },
+    "Option 3: Custom Theme" : {
+
+    },
+    "Optional" : {
+
+    },
+    "or" : {
+
+    },
+    "Pending" : {
+
+    },
+    "Post" : {
+
+    },
+    "Ready to collect feedback!" : {
+
+    },
+    "Rejected" : {
+
+    },
+    "Report an issue" : {
+
+    },
+    "SDK Configuration:" : {
+
+    },
+    "Share your idea" : {
+
+    },
+    "Share your thoughts..." : {
+
+    },
+    "Show Feedback Sheet" : {
+
+    },
+    "Something went wrong. Please try again." : {
+
+    },
+    "Submit" : {
+
+    },
+    "Success" : {
+
+    },
+    "Suggested anonymously" : {
+
+    },
+    "Suggested by" : {
+
+    },
+    "Suggestion" : {
+
+    },
+    "Suggestions" : {
+
+    },
+    "Tap + to get started" : {
+
+    },
+    "Test all the feedback features" : {
+
+    },
+    "Title (Minimum 3 characters)" : {
+
+    },
+    "votes" : {
+
+    },
+    "Votice Demo" : {
+
+    },
+    "Votice SDK Demo" : {
+
+    },
+    "Warning" : {
+
+    },
+    "Your comment" : {
+
+    },
+    "Your name (optional)" : {
+
+    }
+  },
+  "version" : "1.1"
+}

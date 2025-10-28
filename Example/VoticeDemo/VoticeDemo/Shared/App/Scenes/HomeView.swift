@@ -19,6 +19,21 @@ struct HomeView: View {
     // MARK: - View
 
     var body: some View {
+#if os(iOS)
+        mobile
+#elseif os(macOS)
+        desktop
+#elseif os(tvOS)
+        television
+#endif
+    }
+}
+
+// MARK: - Private
+
+private extension HomeView {
+#if os(iOS)
+    var mobile: some View {
         NavigationView {
             GeometryReader { proxy in
                 ScrollView(showsIndicators: false) {
@@ -83,9 +98,6 @@ struct HomeView: View {
         }
         .onAppear {
             configureVotice()
-
-            // Optional: Configure custom texts for localization.
-            // configureText()
         }
         .sheet(isPresented: $showingFeedbackSheet) {
             Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
@@ -116,9 +128,67 @@ struct HomeView: View {
             Votice.feedbackView(theme: customTheme)
         }
     }
-}
+#endif
 
-// MARK: - Private
+#if os(macOS)
+    var desktop: some View {
+        VStack(spacing: 30) {
+            Spacer()
+            HeaderView()
+            Divider()
+            Button {
+                showingFeedbackSheet = true
+            } label: {
+                Text("Open Feedback")
+                    .font(.poppins(.medium, size: 16))
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(.brand)
+                    .cornerRadius(15)
+            }
+            .buttonStyle(.plain)
+            Spacer()
+            ReadyView(isConfigured: $isConfigured)
+                .padding(.bottom, 20)
+        }
+        .onAppear {
+            configureVotice()
+        }
+        .sheet(isPresented: $showingFeedbackSheet) {
+            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
+        }
+    }
+#endif
+
+#if os(tvOS)
+    var television: some View {
+        VStack(spacing: 30) {
+            Spacer()
+            HeaderView()
+            Divider()
+            Button {
+                showingFeedbackSheet = true
+            } label: {
+                Text("Show Feedback Sheet")
+                    .font(.poppins(.medium, size: 16))
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(.brand)
+                    .cornerRadius(15)
+            }
+            .buttonStyle(.card)
+            Spacer()
+            ReadyView(isConfigured: $isConfigured)
+        }
+        .onAppear {
+            configureVotice()
+        }
+        .sheet(isPresented: $showingFeedbackSheet) {
+            Votice.feedbackView(theme: Votice.systemThemeWithCurrentFonts())
+        }
+    }
+#endif
+}
 
 private extension HomeView {
     func configureVotice() {
@@ -129,8 +199,7 @@ private extension HomeView {
                 appId: Constants.Votice.appId
             )
 
-            // Configure Poppins fonts for the SDK
-            let poppinsConfig = VoticeFontConfiguration(
+            let customFonts = VoticeFontConfiguration(
                 fontFamily: "Poppins",
                 weights: [
                     .regular: "Poppins-Regular",
@@ -139,7 +208,8 @@ private extension HomeView {
                     .bold: "Poppins-Bold"
                 ]
             )
-            Votice.setFonts(poppinsConfig)
+            Votice.setTexts(Texts())
+            Votice.setFonts(customFonts)
             Votice.setDebugLogging(enabled: true)
             Votice.setCommentIsEnabled(enabled: true)
             Votice.setShowCompletedSeparately(enabled: true)
@@ -149,16 +219,11 @@ private extension HomeView {
 
             isConfigured = Votice.isConfigured
 
-            debugPrint("Votice SDK configured successfully with Poppins fonts!")
+            debugPrint("Votice SDK configured successfully!")
         } catch {
             isConfigured = false
 
             debugPrint("Configuration failed: \(error)")
         }
-    }
-
-    func configureText() {
-        // Set custom texts for the Votice SDK, isn't necessary but can be useful for localization (default is English)
-        Votice.setTexts(SpanishTexts())
     }
 }
