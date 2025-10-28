@@ -28,8 +28,7 @@ extension SuggestionDetailView {
                 }
                 Spacer()
             }
-            .padding(.vertical, 40)
-            .padding(.horizontal, 60)
+            .padding(40)
         }
         .background(
             LinearGradient(
@@ -125,7 +124,7 @@ extension SuggestionDetailView {
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight: 400)
+                        .frame(maxHeight: 350)
                         .cornerRadius(theme.cornerRadius.lg)
                 } placeholder: {
                     RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
@@ -135,7 +134,6 @@ extension SuggestionDetailView {
                             VStack(spacing: theme.spacing.md) {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                                    .scaleEffect(1.5)
                                 Text(TextManager.shared.texts.loadingImage)
                                     .font(.system(size: 22))
                                     .foregroundColor(theme.colors.secondary)
@@ -156,35 +154,35 @@ extension SuggestionDetailView {
         HStack(spacing: 60) {
             VStack(spacing: theme.spacing.md) {
                 Image(systemName: "hand.thumbsup.fill")
-                    .font(.system(size: 48))
+                    .font(.system(size: 26))
                     .foregroundColor(theme.colors.primary)
-
                 Text("\(max(0, currentSuggestion.voteCount ?? 0))")
-                    .font(.system(size: 56, weight: .bold))
+                    .font(theme.typography.title)
                     .foregroundColor(theme.colors.onSurface)
 
                 Text(TextManager.shared.texts.votes)
-                    .font(.system(size: 24))
+                    .font(theme.typography.body)
                     .foregroundColor(theme.colors.secondary)
             }
             .frame(maxWidth: .infinity)
             if ConfigurationManager.shared.commentIsEnabled {
                 Divider()
-                    .frame(height: 120)
+                    .frame(height: 80)
                 VStack(spacing: theme.spacing.md) {
                     Image(systemName: "bubble.left.fill")
-                        .font(.system(size: 48))
+                        .font(.system(size: 26))
                         .foregroundColor(theme.colors.accent)
                     Text("\(viewModel.comments.count)")
-                        .font(.system(size: 56, weight: .bold))
+                        .font(theme.typography.title)
                         .foregroundColor(theme.colors.onSurface)
                     Text(TextManager.shared.texts.comments)
-                        .font(.system(size: 24))
+                        .font(theme.typography.body)
                         .foregroundColor(theme.colors.secondary)
                 }
                 .frame(maxWidth: .infinity)
             }
         }
+        .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
                 .fill(theme.colors.surface)
@@ -195,7 +193,7 @@ extension SuggestionDetailView {
     var tvOSCommentsSection: some View {
         VStack(alignment: .leading, spacing: theme.spacing.xl) {
             Text(TextManager.shared.texts.commentsSection)
-                .font(.system(size: 36, weight: .semibold))
+                .font(theme.typography.title)
                 .foregroundColor(theme.colors.onBackground)
                 .padding(.horizontal, 40)
             if viewModel.isLoadingComments && viewModel.comments.isEmpty {
@@ -212,9 +210,8 @@ extension SuggestionDetailView {
         VStack(spacing: theme.spacing.lg) {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                .scaleEffect(1.5)
             Text(TextManager.shared.texts.loadingComments)
-                .font(.system(size: 24))
+                .font(theme.typography.body)
                 .foregroundColor(theme.colors.secondary)
         }
         .padding(60)
@@ -229,10 +226,10 @@ extension SuggestionDetailView {
     var tvOSCommentsEmptyState: some View {
         VStack(spacing: theme.spacing.xl) {
             Image(systemName: "bubble.left")
-                .font(.system(size: 80))
+                .font(.system(size: 60))
                 .foregroundColor(theme.colors.secondary.opacity(0.5))
             Text(TextManager.shared.texts.noComments)
-                .font(.system(size: 28))
+                .font(theme.typography.title2)
                 .foregroundColor(theme.colors.secondary)
                 .multilineTextAlignment(.center)
         }
@@ -265,7 +262,6 @@ extension SuggestionDetailView {
             if viewModel.isLoadingPaginationComments && viewModel.comments.count > 0 {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                    .scaleEffect(1.5)
                     .padding(40)
             }
         }
@@ -276,26 +272,27 @@ extension SuggestionDetailView {
             HStack {
                 HStack(spacing: 10) {
                     Image(systemName: "person.circle.fill")
-                        .font(.system(size: 24))
+                        .font(.system(size: 18))
                         .foregroundColor(theme.colors.secondary.opacity(0.7))
                     Text(comment.displayName)
-                        .font(.system(size: 24))
+                        .font(theme.typography.subheadline)
                         .foregroundColor(theme.colors.secondary.opacity(0.7))
+                    Spacer()
                 }
                 Spacer()
                 if let createdAt = comment.createdAt, let date = Date.formatFromISOString(createdAt) {
                     HStack(spacing: 8) {
                         Image(systemName: "clock")
-                            .font(.system(size: 20))
+                            .font(.system(size: 18))
                             .foregroundColor(theme.colors.secondary.opacity(0.6))
                         Text(date)
-                            .font(.system(size: 20))
+                            .font(theme.typography.subheadline)
                             .foregroundColor(theme.colors.secondary.opacity(0.6))
                     }
                 }
             }
             Text(comment.text)
-                .font(.system(size: 28))
+                .font(theme.typography.body)
                 .foregroundColor(theme.colors.onSurface)
                 .multilineTextAlignment(.leading)
         }
