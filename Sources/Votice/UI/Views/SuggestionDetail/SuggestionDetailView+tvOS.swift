@@ -19,12 +19,12 @@ extension SuggestionDetailView {
             Color.clear.focusable(true)
             VStack(alignment: .leading, spacing: theme.spacing.lg) {
                 tvOSHeaderSection
+                tvOSStatsCard
                 if let issue = currentSuggestion.issue,
                    let urlImage = currentSuggestion.urlImage,
                    issue && !urlImage.isEmpty {
                     tvOSIssueImageCard
                 }
-                tvOSStatsCard
                 if ConfigurationManager.shared.commentIsEnabled {
                     tvOSCommentsSection
                 }
@@ -111,6 +111,44 @@ extension SuggestionDetailView {
         .padding(.top, theme.spacing.md)
     }
 
+    var tvOSStatsCard: some View {
+        HStack(spacing: theme.spacing.lg) {
+            VStack(spacing: theme.spacing.sm) {
+                Image(systemName: "hand.thumbsup.fill")
+                    .font(.system(size: 24))
+                    .foregroundColor(theme.colors.primary)
+                Text("\(max(0, currentSuggestion.voteCount ?? 0))")
+                    .font(theme.typography.title)
+                    .foregroundColor(theme.colors.onSurface)
+                Text(TextManager.shared.texts.votes)
+                    .font(theme.typography.subheadline)
+                    .foregroundColor(theme.colors.secondary)
+            }
+            if ConfigurationManager.shared.commentIsEnabled {
+                Divider()
+                VStack(spacing: theme.spacing.sm) {
+                    Image(systemName: "bubble.left.fill")
+                        .font(.system(size: 24))
+                        .foregroundColor(theme.colors.accent)
+                    Text("\(viewModel.comments.count)")
+                        .font(theme.typography.title)
+                        .foregroundColor(theme.colors.onSurface)
+                    Text(TextManager.shared.texts.comments)
+                        .font(theme.typography.subheadline)
+                        .foregroundColor(theme.colors.secondary)
+                }
+            }
+            Spacer()
+        }
+        .padding(theme.spacing.md)
+        .frame(width: 350)
+        .background(
+            RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
+                .fill(theme.colors.surface)
+                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+        )
+    }
+
     var tvOSIssueImageCard: some View {
         VStack(alignment: .leading, spacing: theme.spacing.lg) {
             HStack(spacing: theme.spacing.md) {
@@ -147,46 +185,6 @@ extension SuggestionDetailView {
             }
         }
         .padding(theme.spacing.lg)
-        .background(
-            RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
-                .fill(theme.colors.surface)
-                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-        )
-    }
-
-    var tvOSStatsCard: some View {
-        HStack(spacing: 60) {
-            VStack(spacing: theme.spacing.md) {
-                Image(systemName: "hand.thumbsup.fill")
-                    .font(.system(size: 26))
-                    .foregroundColor(theme.colors.primary)
-                Text("\(max(0, currentSuggestion.voteCount ?? 0))")
-                    .font(theme.typography.title)
-                    .foregroundColor(theme.colors.onSurface)
-                Text(TextManager.shared.texts.votes)
-                    .font(theme.typography.body)
-                    .foregroundColor(theme.colors.secondary)
-            }
-            .frame(maxWidth: .infinity)
-            if ConfigurationManager.shared.commentIsEnabled {
-                Divider()
-                    .frame(height: 80)
-                VStack(spacing: theme.spacing.md) {
-                    Image(systemName: "bubble.left.fill")
-                        .font(.system(size: 26))
-                        .foregroundColor(theme.colors.accent)
-                    Text("\(viewModel.comments.count)")
-                        .font(theme.typography.title)
-                        .foregroundColor(theme.colors.onSurface)
-                    Text(TextManager.shared.texts.comments)
-                        .font(theme.typography.body)
-                        .foregroundColor(theme.colors.secondary)
-                }
-                .frame(maxWidth: .infinity)
-            }
-        }
-        .padding(theme.spacing.lg)
-        .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
                 .fill(theme.colors.surface)
