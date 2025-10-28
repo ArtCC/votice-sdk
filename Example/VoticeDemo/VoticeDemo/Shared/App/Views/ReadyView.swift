@@ -34,9 +34,3 @@ struct ReadyView: View {
         }
     }
 }
-
-// MARK: - Preview
-
-#Preview {
-    ReadyView(isConfigured: .constant(true))
-}

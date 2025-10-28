@@ -1,8 +1,8 @@
 //
 //  AppVoticeDemo.swift
-//  VoticeDemo_tvOS
+//  VoticeDemo
 //
-//  Created by Arturo Carretero Calvo on 29/6/25.
+//  Created by Arturo Carretero Calvo on 27/6/25.
 //  Copyright © 2025 ArtCC. All rights reserved.
 //
 
@@ -15,6 +15,9 @@ struct AppVoticeDemo: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
+#if os(macOS)
+                .frame(minWidth: 1200, minHeight: 720)
+#endif
         }
     }
 }

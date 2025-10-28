@@ -102,10 +102,7 @@ private extension SegmentedControl {
                         selection = segment.id
                     }
                 } label: {
-                    TVOSSegmentButton(
-                        title: segment.title,
-                        isSelected: isSelected
-                    )
+                    TVOSSegmentButton(title: segment.title, isSelected: isSelected)
                 }
                 .buttonStyle(.card)
             }
