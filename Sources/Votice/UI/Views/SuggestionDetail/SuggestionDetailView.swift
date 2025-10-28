@@ -457,20 +457,3 @@ private extension SuggestionDetailView {
         )
     }
 }
-
-// MARK: - tvOS
-
-#if os(tvOS)
-private extension SuggestionDetailView {
-    var tvOSView: some View {
-        VStack {
-            Spacer()
-            Text("Votice SDK is not available on tvOS.")
-                .font(theme.typography.headline)
-                .foregroundColor(theme.colors.onBackground)
-                .padding()
-            Spacer()
-        }
-    }
-}
-#endif

@@ -35,8 +35,6 @@ The Votice management app for handling suggestions or issues and apps is availab
 - SwiftUI-based project
 - Votice backend properly configured (API key + secret)
 
-> ⚠️ Support for tvOS will be available in future releases.
-
 ## 🛠 Installation
 
 Add this line to your `Package.swift` dependencies:

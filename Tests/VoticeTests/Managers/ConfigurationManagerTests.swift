@@ -1,3 +1,4 @@
+//
 //  ConfigurationManagerTests.swift
 //  Votice
 //
