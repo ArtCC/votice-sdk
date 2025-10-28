@@ -31,6 +31,7 @@ extension SuggestionListView {
                 }
             }
         }
+        .frame(width: 1250)
         .task {
             await viewModel.loadSuggestions()
         }
@@ -57,8 +58,7 @@ extension SuggestionListView {
                 .foregroundColor(theme.colors.onBackground)
             Spacer()
         }
-        .padding(.vertical, theme.spacing.md)
-        .padding(.horizontal, theme.spacing.llg)
+        .padding(theme.spacing.llg)
         .zIndex(1)
     }
 

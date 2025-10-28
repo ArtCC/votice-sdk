@@ -12,6 +12,8 @@ import SwiftUI
 
 #if os(tvOS)
 extension SuggestionDetailView {
+    // MARK: - Properties
+
     var tvOSView: some View {
         ScrollView {
             Color.clear.focusable(true)
@@ -19,17 +21,18 @@ extension SuggestionDetailView {
                 tvOSHeaderSection
                 if let issue = currentSuggestion.issue,
                    let urlImage = currentSuggestion.urlImage,
-                   issue,
-                   !urlImage.isEmpty {
-                    tvOSImageCard
+                   issue && !urlImage.isEmpty {
+                    tvOSIssueImageCard
                 }
                 tvOSStatsCard
                 if ConfigurationManager.shared.commentIsEnabled {
                     tvOSCommentsSection
                 }
             }
+            .padding(.horizontal, 20)
             Color.clear.focusable(true)
         }
+        .frame(width: 1250)
         .background(
             LinearGradient(
                 colors: [
@@ -48,57 +51,27 @@ extension SuggestionDetailView {
 
     var tvOSHeaderSection: some View {
         VStack(alignment: .leading, spacing: theme.spacing.sm) {
-            HStack(alignment: .top, spacing: theme.spacing.lg) {
-                VStack(alignment: .leading, spacing: theme.spacing.md) {
-                    HStack(spacing: 8) {
-                        if let issue = suggestion.issue, issue {
-                            Image(systemName: "ladybug.fill")
-                                .font(.system(size: 22, weight: .semibold))
-                                .foregroundColor(theme.colors.pending)
-                        }
-                        Text(currentSuggestion.displayText)
-                            .font(theme.typography.title2)
-                            .foregroundColor(theme.colors.onSurface)
-                            .multilineTextAlignment(.leading)
-                        Spacer()
-                        StatusBadge(status: currentSuggestion.status ?? .pending, useLiquidGlass: false)
-                    }
-                    if let description = currentSuggestion.description, description != currentSuggestion.title {
-                        Text(description)
-                            .font(theme.typography.body)
-                            .foregroundColor(theme.colors.onSurface.opacity(0.7))
-                            .multilineTextAlignment(.leading)
-                            .padding(.top, theme.spacing.sm)
-                    }
+            HStack(alignment: .top, spacing: 8) {
+                if let issue = currentSuggestion.issue, issue {
+                    Image(systemName: "ladybug.fill")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundColor(theme.colors.pending)
                 }
+                Text(currentSuggestion.displayText)
+                    .font(theme.typography.title2)
+                    .foregroundColor(theme.colors.onSurface)
+                    .multilineTextAlignment(.leading)
+                Spacer()
+                StatusBadge(status: currentSuggestion.status ?? .pending, useLiquidGlass: false)
             }
-            VStack(alignment: .leading, spacing: theme.spacing.md) {
-                HStack(spacing: 10) {
-                    Image(systemName: currentSuggestion.nickname != nil ? "person.circle.fill" : "person.circle")
-                        .foregroundColor(theme.colors.secondary.opacity(0.7))
-                        .font(.system(size: 18))
-                    if let nickname = currentSuggestion.nickname {
-                        Text("\(TextManager.shared.texts.suggestedBy) \(nickname)")
-                            .font(theme.typography.subheadline)
-                            .foregroundColor(theme.colors.secondary.opacity(0.7))
-                    } else {
-                        Text(TextManager.shared.texts.suggestedAnonymously)
-                            .font(theme.typography.subheadline)
-                            .foregroundColor(theme.colors.secondary.opacity(0.7))
-                    }
-                }
-                if let createdAt = currentSuggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
-                    HStack(spacing: 8) {
-                        Image(systemName: "clock")
-                            .font(.system(size: 18))
-                            .foregroundColor(theme.colors.secondary.opacity(0.7))
-                        Text(date)
-                            .font(theme.typography.subheadline)
-                            .foregroundColor(theme.colors.secondary.opacity(0.7))
-                    }
-                }
+            if let description = currentSuggestion.description, description != currentSuggestion.title {
+                Text(description)
+                    .font(theme.typography.body)
+                    .foregroundColor(theme.colors.onSurface.opacity(0.7))
+                    .multilineTextAlignment(.leading)
+                    .padding(.top, theme.spacing.sm)
             }
-            .padding(.top, theme.spacing.md)
+            authorInfoView
         }
         .padding(theme.spacing.lg)
         .background(
@@ -108,7 +81,37 @@ extension SuggestionDetailView {
         )
     }
 
-    var tvOSImageCard: some View {
+    var authorInfoView: some View {
+        VStack(alignment: .leading, spacing: theme.spacing.md) {
+            HStack(spacing: 10) {
+                Image(systemName: currentSuggestion.nickname != nil ? "person.circle.fill" : "person.circle")
+                    .foregroundColor(theme.colors.secondary.opacity(0.7))
+                    .font(.system(size: 18))
+                if let nickname = currentSuggestion.nickname {
+                    Text("\(TextManager.shared.texts.suggestedBy) \(nickname)")
+                        .font(theme.typography.subheadline)
+                        .foregroundColor(theme.colors.secondary.opacity(0.7))
+                } else {
+                    Text(TextManager.shared.texts.suggestedAnonymously)
+                        .font(theme.typography.subheadline)
+                        .foregroundColor(theme.colors.secondary.opacity(0.7))
+                }
+            }
+            if let createdAt = currentSuggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
+                HStack(spacing: 8) {
+                    Image(systemName: "clock")
+                        .font(.system(size: 18))
+                        .foregroundColor(theme.colors.secondary.opacity(0.7))
+                    Text(date)
+                        .font(theme.typography.subheadline)
+                        .foregroundColor(theme.colors.secondary.opacity(0.7))
+                }
+            }
+        }
+        .padding(.top, theme.spacing.md)
+    }
+
+    var tvOSIssueImageCard: some View {
         VStack(alignment: .leading, spacing: theme.spacing.lg) {
             HStack(spacing: theme.spacing.md) {
                 Image(systemName: "photo")
@@ -120,25 +123,27 @@ extension SuggestionDetailView {
                     .multilineTextAlignment(.leading)
                 Spacer()
             }
-            AsyncImage(url: URL(string: currentSuggestion.urlImage ?? "")) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxHeight: 350)
-                    .cornerRadius(theme.cornerRadius.lg)
-            } placeholder: {
-                RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
-                    .fill(theme.colors.secondary.opacity(0.1))
-                    .frame(height: 300)
-                    .overlay(
-                        VStack(spacing: theme.spacing.md) {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                            Text(TextManager.shared.texts.loadingImage)
-                                .font(.system(size: 22))
-                                .foregroundColor(theme.colors.secondary)
-                        }
-                    )
+            if let urlString = currentSuggestion.urlImage, let url = URL(string: urlString) {
+                AsyncImage(url: url) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxHeight: 350)
+                        .cornerRadius(theme.cornerRadius.lg)
+                } placeholder: {
+                    RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                        .fill(theme.colors.secondary.opacity(0.1))
+                        .frame(height: 300)
+                        .overlay(
+                            VStack(spacing: theme.spacing.md) {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
+                                Text(TextManager.shared.texts.loadingImage)
+                                    .font(.system(size: 22))
+                                    .foregroundColor(theme.colors.secondary)
+                            }
+                        )
+                }
             }
         }
         .padding(theme.spacing.lg)
@@ -158,7 +163,6 @@ extension SuggestionDetailView {
                 Text("\(max(0, currentSuggestion.voteCount ?? 0))")
                     .font(theme.typography.title)
                     .foregroundColor(theme.colors.onSurface)
-
                 Text(TextManager.shared.texts.votes)
                     .font(theme.typography.body)
                     .foregroundColor(theme.colors.secondary)
@@ -272,6 +276,8 @@ extension SuggestionDetailView {
             }
         }
     }
+
+    // MARK: - Functions
 
     func tvOSCommentCard(comment: CommentEntity) -> some View {
         VStack(alignment: .leading, spacing: theme.spacing.md) {

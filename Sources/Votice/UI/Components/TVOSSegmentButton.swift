@@ -22,15 +22,14 @@ struct TVOSSegmentButton: View {
     var body: some View {
         Text(title)
             .font(theme.typography.callout)
-            .fontWeight(.medium)
             .lineLimit(1)
-            .foregroundColor(isSelected ? .white : theme.colors.onBackground)
+            .foregroundColor(textColor)
             .padding(.vertical, 10)
             .padding(.horizontal, 40)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: theme.cornerRadius.md)
-                    .fill(.clear)
+                    .fill(backgroundColor)
                     .shadow(
                         color: .black.opacity(0.1),
                         radius: isFocused ? 12 : 4,
@@ -38,12 +37,6 @@ struct TVOSSegmentButton: View {
                         y: isFocused ? 6 : 2
                     )
             )
-            .overlay(
-                RoundedRectangle(cornerRadius: theme.cornerRadius.md)
-                    .stroke(borderColor, lineWidth: isFocused ? 4 : (isSelected ? 2 : 0))
-            )
-            .scaleEffect(isFocused ? 1.05 : 1.0)
-            .animation(.easeInOut(duration: 0.15), value: isFocused)
     }
 }
 
@@ -54,7 +47,7 @@ private extension TVOSSegmentButton {
         if isSelected {
             return .white
         } else if isFocused {
-            return theme.colors.primary
+            return .white
         } else {
             return theme.colors.onSurface
         }
@@ -63,18 +56,10 @@ private extension TVOSSegmentButton {
     var backgroundColor: Color {
         if isSelected {
             return theme.colors.primary
+        } else if isFocused {
+            return theme.colors.primary.opacity(0.35)
         } else {
             return theme.colors.surface
-        }
-    }
-
-    var borderColor: Color {
-        if isFocused {
-            return theme.colors.primary.opacity(0.6)
-        } else if isSelected {
-            return theme.colors.primary.opacity(0.3)
-        } else {
-            return Color.clear
         }
     }
 }
