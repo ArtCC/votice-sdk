@@ -162,17 +162,18 @@ extension SuggestionDetailView {
                 Spacer()
             }
             if let urlString = currentSuggestion.urlImage, let url = URL(string: urlString) {
-                AsyncImage(url: url) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight: 350)
-                        .cornerRadius(theme.cornerRadius.lg)
-                } placeholder: {
-                    RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
-                        .fill(theme.colors.secondary.opacity(0.1))
-                        .frame(height: 300)
-                        .overlay(
+                let imageCorner: CGFloat = theme.cornerRadius.lg
+
+                AsyncImage(url: url) { phase in
+                    ZStack {
+                        theme.colors.surface
+                        switch phase {
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        case .empty:
                             VStack(spacing: theme.spacing.md) {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
@@ -180,7 +181,21 @@ extension SuggestionDetailView {
                                     .font(.system(size: 22))
                                     .foregroundColor(theme.colors.secondary)
                             }
-                        )
+                        case .failure:
+                            Image(systemName: "photo")
+                                .foregroundColor(theme.colors.primary)
+                                .font(.system(size: 22, weight: .semibold))
+                        }
+                    }
+                    .frame(height: 350)
+                    .compositingGroup()
+                    .mask(
+                        RoundedRectangle(cornerRadius: imageCorner, style: .continuous)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: imageCorner, style: .continuous)
+                            .stroke(theme.colors.secondary.opacity(0.15), lineWidth: 0.5)
+                    )
                 }
             }
         }
@@ -237,7 +252,7 @@ extension SuggestionDetailView {
                 .font(.system(size: 60))
                 .foregroundColor(theme.colors.secondary.opacity(0.5))
             Text(TextManager.shared.texts.noComments)
-                .font(theme.typography.title2)
+                .font(theme.typography.title3)
                 .foregroundColor(theme.colors.secondary)
                 .multilineTextAlignment(.center)
         }
