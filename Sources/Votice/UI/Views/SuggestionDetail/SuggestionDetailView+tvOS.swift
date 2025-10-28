@@ -14,6 +14,7 @@ import SwiftUI
 extension SuggestionDetailView {
     var tvOSView: some View {
         ScrollView {
+            Color.clear.focusable(true)
             VStack(alignment: .leading, spacing: theme.spacing.lg) {
                 tvOSHeaderSection
                 if let issue = currentSuggestion.issue,
@@ -26,9 +27,8 @@ extension SuggestionDetailView {
                 if ConfigurationManager.shared.commentIsEnabled {
                     tvOSCommentsSection
                 }
-                Spacer()
             }
-            .padding(40)
+            Color.clear.focusable(true)
         }
         .background(
             LinearGradient(
@@ -100,6 +100,7 @@ extension SuggestionDetailView {
             }
             .padding(.top, theme.spacing.md)
         }
+        .padding(theme.spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
                 .fill(theme.colors.surface)
@@ -119,30 +120,28 @@ extension SuggestionDetailView {
                     .multilineTextAlignment(.leading)
                 Spacer()
             }
-            HStack {
-                AsyncImage(url: URL(string: currentSuggestion.urlImage ?? "")) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight: 350)
-                        .cornerRadius(theme.cornerRadius.lg)
-                } placeholder: {
-                    RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
-                        .fill(theme.colors.secondary.opacity(0.1))
-                        .frame(height: 300)
-                        .overlay(
-                            VStack(spacing: theme.spacing.md) {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                                Text(TextManager.shared.texts.loadingImage)
-                                    .font(.system(size: 22))
-                                    .foregroundColor(theme.colors.secondary)
-                            }
-                        )
-                }
-                Spacer()
+            AsyncImage(url: URL(string: currentSuggestion.urlImage ?? "")) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxHeight: 350)
+                    .cornerRadius(theme.cornerRadius.lg)
+            } placeholder: {
+                RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                    .fill(theme.colors.secondary.opacity(0.1))
+                    .frame(height: 300)
+                    .overlay(
+                        VStack(spacing: theme.spacing.md) {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
+                            Text(TextManager.shared.texts.loadingImage)
+                                .font(.system(size: 22))
+                                .foregroundColor(theme.colors.secondary)
+                        }
+                    )
             }
         }
+        .padding(theme.spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
                 .fill(theme.colors.surface)
@@ -182,6 +181,7 @@ extension SuggestionDetailView {
                 .frame(maxWidth: .infinity)
             }
         }
+        .padding(theme.spacing.lg)
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
@@ -192,10 +192,16 @@ extension SuggestionDetailView {
 
     var tvOSCommentsSection: some View {
         VStack(alignment: .leading, spacing: theme.spacing.xl) {
-            Text(TextManager.shared.texts.commentsSection)
-                .font(theme.typography.title)
-                .foregroundColor(theme.colors.onBackground)
-                .padding(.horizontal, 40)
+            HStack(spacing: theme.spacing.md) {
+                Image(systemName: "bubble.left.and.bubble.right.fill")
+                    .foregroundColor(theme.colors.primary)
+                    .font(.system(size: 22, weight: .semibold))
+                Text(TextManager.shared.texts.commentsSection)
+                    .font(theme.typography.title2)
+                    .foregroundColor(theme.colors.onSurface)
+                Spacer()
+            }
+            .padding(.horizontal, theme.spacing.lg)
             if viewModel.isLoadingComments && viewModel.comments.isEmpty {
                 tvOSCommentsLoadingView
             } else if viewModel.comments.isEmpty && !viewModel.isLoadingComments {
@@ -214,8 +220,8 @@ extension SuggestionDetailView {
                 .font(theme.typography.body)
                 .foregroundColor(theme.colors.secondary)
         }
-        .padding(60)
         .frame(maxWidth: .infinity)
+        .padding(theme.spacing.xl)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
                 .fill(theme.colors.surface)
@@ -233,8 +239,8 @@ extension SuggestionDetailView {
                 .foregroundColor(theme.colors.secondary)
                 .multilineTextAlignment(.center)
         }
-        .padding(60)
         .frame(maxWidth: .infinity)
+        .padding(theme.spacing.xl)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
                 .fill(theme.colors.surface.opacity(0.5))
@@ -277,7 +283,6 @@ extension SuggestionDetailView {
                     Text(comment.displayName)
                         .font(theme.typography.subheadline)
                         .foregroundColor(theme.colors.secondary.opacity(0.7))
-                    Spacer()
                 }
                 Spacer()
                 if let createdAt = comment.createdAt, let date = Date.formatFromISOString(createdAt) {
@@ -296,7 +301,7 @@ extension SuggestionDetailView {
                 .foregroundColor(theme.colors.onSurface)
                 .multilineTextAlignment(.leading)
         }
-        .padding(40)
+        .padding(theme.spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
                 .fill(theme.colors.surface)
