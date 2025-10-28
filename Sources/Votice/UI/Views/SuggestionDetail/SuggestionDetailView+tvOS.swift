@@ -13,7 +13,25 @@ import SwiftUI
 #if os(tvOS)
 extension SuggestionDetailView {
     var tvOSView: some View {
-        ZStack {
+        ScrollView {
+            VStack(alignment: .leading, spacing: theme.spacing.lg) {
+                tvOSHeaderSection
+                if let issue = currentSuggestion.issue,
+                   let urlImage = currentSuggestion.urlImage,
+                   issue,
+                   !urlImage.isEmpty {
+                    tvOSImageCard
+                }
+                tvOSStatsCard
+                if ConfigurationManager.shared.commentIsEnabled {
+                    tvOSCommentsSection
+                }
+                Spacer()
+            }
+            .padding(.vertical, 40)
+            .padding(.horizontal, 60)
+        }
+        .background(
             LinearGradient(
                 colors: [
                     theme.colors.background,
@@ -23,86 +41,66 @@ extension SuggestionDetailView {
                 endPoint: .bottom
             )
             .ignoresSafeArea()
-            ScrollView(showsIndicators: true) {
-                VStack(alignment: .leading, spacing: theme.spacing.xxxl) {
-                    tvOSHeaderSection
-                    if let issue = currentSuggestion.issue,
-                       let urlImage = currentSuggestion.urlImage,
-                       issue,
-                       !urlImage.isEmpty {
-                        tvOSImageCard
-                    }
-                    tvOSStatsCard
-                    if ConfigurationManager.shared.commentIsEnabled {
-                        tvOSCommentsSection
-                    }
-                    Spacer(minLength: theme.spacing.xxxl)
-                }
-                .padding(.horizontal, 60)
-                .padding(.vertical, 40)
-            }
-        }
+        )
         .task {
             await viewModel.loadInitialData(for: currentSuggestion)
         }
     }
 
     var tvOSHeaderSection: some View {
-        VStack(alignment: .leading, spacing: theme.spacing.xl) {
+        VStack(alignment: .leading, spacing: theme.spacing.sm) {
             HStack(alignment: .top, spacing: theme.spacing.lg) {
                 VStack(alignment: .leading, spacing: theme.spacing.md) {
                     HStack(spacing: 8) {
                         if let issue = suggestion.issue, issue {
                             Image(systemName: "ladybug.fill")
-                                .font(.system(size: 28, weight: .semibold))
+                                .font(.system(size: 22, weight: .semibold))
                                 .foregroundColor(theme.colors.pending)
                         }
                         Text(currentSuggestion.displayText)
-                            .font(.system(size: 42, weight: .bold))
+                            .font(theme.typography.title2)
                             .foregroundColor(theme.colors.onSurface)
                             .multilineTextAlignment(.leading)
+                        Spacer()
+                        StatusBadge(status: currentSuggestion.status ?? .pending, useLiquidGlass: false)
                     }
                     if let description = currentSuggestion.description, description != currentSuggestion.title {
                         Text(description)
-                            .font(.system(size: 28))
-                            .foregroundColor(theme.colors.onSurface.opacity(0.8))
+                            .font(theme.typography.body)
+                            .foregroundColor(theme.colors.onSurface.opacity(0.7))
                             .multilineTextAlignment(.leading)
                             .padding(.top, theme.spacing.sm)
                     }
                 }
-                Spacer()
-                StatusBadge(status: currentSuggestion.status ?? .pending, useLiquidGlass: false)
-                    .scaleEffect(1.5)
             }
             VStack(alignment: .leading, spacing: theme.spacing.md) {
                 HStack(spacing: 10) {
                     Image(systemName: currentSuggestion.nickname != nil ? "person.circle.fill" : "person.circle")
                         .foregroundColor(theme.colors.secondary.opacity(0.7))
-                        .font(.system(size: 24))
+                        .font(.system(size: 18))
                     if let nickname = currentSuggestion.nickname {
                         Text("\(TextManager.shared.texts.suggestedBy) \(nickname)")
-                            .font(.system(size: 24))
+                            .font(theme.typography.subheadline)
                             .foregroundColor(theme.colors.secondary.opacity(0.7))
                     } else {
                         Text(TextManager.shared.texts.suggestedAnonymously)
-                            .font(.system(size: 24))
+                            .font(theme.typography.subheadline)
                             .foregroundColor(theme.colors.secondary.opacity(0.7))
                     }
                 }
                 if let createdAt = currentSuggestion.createdAt, let date = Date.formatFromISOString(createdAt) {
                     HStack(spacing: 8) {
                         Image(systemName: "clock")
-                            .font(.system(size: 24))
+                            .font(.system(size: 18))
                             .foregroundColor(theme.colors.secondary.opacity(0.7))
                         Text(date)
-                            .font(.system(size: 24))
+                            .font(theme.typography.subheadline)
                             .foregroundColor(theme.colors.secondary.opacity(0.7))
                     }
                 }
             }
             .padding(.top, theme.spacing.md)
         }
-        .padding(40)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
                 .fill(theme.colors.surface)
@@ -115,35 +113,38 @@ extension SuggestionDetailView {
             HStack(spacing: theme.spacing.md) {
                 Image(systemName: "photo")
                     .foregroundColor(theme.colors.primary)
-                    .font(.system(size: 32, weight: .semibold))
+                    .font(.system(size: 22, weight: .semibold))
                 Text(TextManager.shared.texts.titleIssueImage)
-                    .font(.system(size: 32, weight: .semibold))
+                    .font(theme.typography.title2)
                     .foregroundColor(theme.colors.onSurface)
+                    .multilineTextAlignment(.leading)
                 Spacer()
             }
-            AsyncImage(url: URL(string: currentSuggestion.urlImage ?? "")) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxHeight: 800)
-                    .cornerRadius(theme.cornerRadius.lg)
-            } placeholder: {
-                RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
-                    .fill(theme.colors.secondary.opacity(0.1))
-                    .frame(height: 400)
-                    .overlay(
-                        VStack(spacing: theme.spacing.md) {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
-                                .scaleEffect(1.5)
-                            Text(TextManager.shared.texts.loadingImage)
-                                .font(.system(size: 24))
-                                .foregroundColor(theme.colors.secondary)
-                        }
-                    )
+            HStack {
+                AsyncImage(url: URL(string: currentSuggestion.urlImage ?? "")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxHeight: 400)
+                        .cornerRadius(theme.cornerRadius.lg)
+                } placeholder: {
+                    RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                        .fill(theme.colors.secondary.opacity(0.1))
+                        .frame(height: 300)
+                        .overlay(
+                            VStack(spacing: theme.spacing.md) {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: theme.colors.primary))
+                                    .scaleEffect(1.5)
+                                Text(TextManager.shared.texts.loadingImage)
+                                    .font(.system(size: 22))
+                                    .foregroundColor(theme.colors.secondary)
+                            }
+                        )
+                }
+                Spacer()
             }
         }
-        .padding(40)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
                 .fill(theme.colors.surface)
@@ -184,7 +185,6 @@ extension SuggestionDetailView {
                 .frame(maxWidth: .infinity)
             }
         }
-        .padding(40)
         .background(
             RoundedRectangle(cornerRadius: theme.cornerRadius.xl)
                 .fill(theme.colors.surface)
