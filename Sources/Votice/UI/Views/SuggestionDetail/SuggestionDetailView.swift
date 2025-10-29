@@ -127,8 +127,10 @@ private extension SuggestionDetailView {
             ToolbarItem(placement: .principal) {
                 title
             }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                deleteButton
+            if currentSuggestion.deviceId == DeviceManager.shared.deviceId {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    deleteButton
+                }
             }
         }
     }
