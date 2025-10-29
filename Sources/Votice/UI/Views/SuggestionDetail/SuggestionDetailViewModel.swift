@@ -27,7 +27,7 @@ final class SuggestionDetailViewModel: ObservableObject {
 
     private var lastLoadedCreatedAt: String?
 
-    private let pageSize = 10
+    private let pageSize = 20
     private let commentUseCase: CommentUseCaseProtocol
     private let suggestionUseCase: SuggestionUseCaseProtocol
 

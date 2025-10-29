@@ -34,10 +34,11 @@ final class SuggestionListViewModel: ObservableObject {
     private var completedFeed: [SuggestionEntity] = []
     private var loadingTask: Task<Void, Never>?
 
+    private var currentGeneration = 0
     private var hasMoreActive = true
     private var hasMoreCompleted = true
 
-    private let pageSize = 10
+    private let pageSize = 20
     private let suggestionUseCase: SuggestionUseCaseProtocol
     private let versionUseCase: VersionUseCaseProtocol
 
@@ -79,14 +80,25 @@ final class SuggestionListViewModel: ObservableObject {
     func loadSuggestions() async {
         loadingTask?.cancel()
 
+        isLoading = true
+        // Clear projections so loading is visible immediately
+        suggestions = []
+        completedSuggestions = []
+
+        currentGeneration &+= 1
+
+        let generation = currentGeneration
+
+        isLoadingPagination = false
+
         loadingTask = Task { @MainActor in
             resetLoadingState()
 
             do {
                 if !showCompletedSeparately {
-                    try await fetchSingleFeed()
+                    try await fetchSingleFeed(generation: generation)
                 } else {
-                    try await fetchSeparatedFeeds()
+                    try await fetchSeparatedFeeds(generation: generation)
                 }
 
                 // Fire-and-forget version reporting
@@ -145,6 +157,11 @@ extension SuggestionListViewModel {
         }
 
         selectedFilter = status
+
+        // Force loading state and clear current projections so the UI always shows loading on filter change
+        isLoading = true
+        isLoadingPagination = false
+        suggestions = []
 
         // Reload suggestions with the new filter.
         Task {
@@ -226,11 +243,12 @@ extension SuggestionListViewModel {
 private extension SuggestionListViewModel {
     func resetLoadingState() {
         isLoading = true
-
+        isLoadingPagination = false
         hasMoreSuggestions = true
     }
 
-    func fetchSingleFeed() async throws {
+    func fetchSingleFeed(generation: Int = 0) async throws {
+        let gen = generation == 0 ? currentGeneration : generation
         let pagination = PaginationRequest(startAfter: nil, pageLimit: pageSize)
         let response = try await suggestionUseCase.fetchSuggestions(
             status: selectedFilter,
@@ -244,6 +262,11 @@ private extension SuggestionListViewModel {
             return
         }
 
+        // Drop results if a new load has started
+        guard gen == currentGeneration else {
+            return
+        }
+
         singleFeed = response.suggestions
 
         await loadVoteStatusForSuggestions(response.suggestions)
@@ -253,7 +276,9 @@ private extension SuggestionListViewModel {
         hasMoreSuggestions = response.suggestions.count == pageSize
     }
 
-    func fetchSeparatedFeeds() async throws {
+    func fetchSeparatedFeeds(generation: Int = 0) async throws {
+        let gen = generation == 0 ? currentGeneration : generation
+
         // Reset pagination flags for both feeds
         hasMoreActive = true
         hasMoreCompleted = true
@@ -278,6 +303,11 @@ private extension SuggestionListViewModel {
         guard !Task.isCancelled else {
             isLoading = false
 
+            return
+        }
+
+        // Drop results if a new load has started
+        guard gen == currentGeneration else {
             return
         }
 
@@ -324,6 +354,8 @@ private extension SuggestionListViewModel {
     }
 
     func paginateSingleFeed() async {
+        let generation = currentGeneration
+
         guard !isLoadingPagination && hasMoreSuggestions else {
             return
         }
@@ -339,6 +371,13 @@ private extension SuggestionListViewModel {
             )
 
             guard !Task.isCancelled else {
+                isLoadingPagination = false
+
+                return
+            }
+
+            // Abort if a new load has started
+            guard generation == currentGeneration else {
                 isLoadingPagination = false
 
                 return
@@ -366,7 +405,9 @@ private extension SuggestionListViewModel {
         isLoadingPagination = false
     }
 
+    // swiftlint:disable function_body_length
     func paginateSeparatedFeed(isCompletedTab: Bool) async {
+        let generation = currentGeneration
         guard canPaginate(forCompleted: isCompletedTab) else {
             return
         }
@@ -384,6 +425,14 @@ private extension SuggestionListViewModel {
 
                 guard !Task.isCancelled else {
                     isLoadingPagination = false
+
+                    return
+                }
+
+                // Abort if a new load has started
+                guard generation == currentGeneration else {
+                    isLoadingPagination = false
+
                     return
                 }
 
@@ -403,6 +452,13 @@ private extension SuggestionListViewModel {
                 )
 
                 guard !Task.isCancelled else {
+                    isLoadingPagination = false
+
+                    return
+                }
+
+                // Abort if a new load has started
+                guard generation == currentGeneration else {
                     isLoadingPagination = false
 
                     return
@@ -434,6 +490,7 @@ private extension SuggestionListViewModel {
 
         isLoadingPagination = false
     }
+    // swiftlint:enable function_body_length
 }
 
 private extension SuggestionListViewModel {
@@ -478,29 +535,37 @@ private extension SuggestionListViewModel {
     }
 
     func loadVoteStatusForSuggestions(_ suggestions: [SuggestionEntity]) async {
-        // Limit concurrency to avoid saturating the backend
-        let maxConcurrent = 5
+        // Bounded concurrency using a worker pool and an index cursor actor
+        actor IndexCursor {
+            private var i = 0
+
+            func next(max: Int) -> Int? {
+                guard i < max else {
+                    return nil
+                }
+
+                defer {
+                    i += 1
+                }
+
+                return i
+            }
+        }
+
+        let ids = suggestions.map { $0.id }
+        let maxWorkers = min(pageSize, max(1, 6))
+        let cursor = IndexCursor()
 
         await withTaskGroup(of: Void.self) { group in
-            var inFlight = 0
-            var iterator = suggestions.makeIterator()
-
-            func enqueueNextIfNeeded() {
-                while inFlight < maxConcurrent, let next = iterator.next() {
-                    inFlight += 1
-
-                    group.addTask { [weak self] in
-                        defer { inFlight -= 1 }
-                        await self?.loadVoteStatus(for: next.id)
+            for _ in 0..<min(maxWorkers, ids.count) {
+                group.addTask { [weak self] in
+                    while let idx = await cursor.next(max: ids.count) {
+                        await self?.loadVoteStatus(for: ids[idx])
                     }
                 }
             }
 
-            enqueueNextIfNeeded()
-
-            for await _ in group {
-                enqueueNextIfNeeded()
-            }
+            await group.waitForAll()
         }
     }
 

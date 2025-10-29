@@ -120,17 +120,24 @@ private extension SuggestionListView {
     }
 
     var headerView: some View {
-        HStack {
-            CloseButton(isNavigation: isNavigation, useLiquidGlass: viewModel.liquidGlassEnabled) {
-                dismiss()
+        ZStack {
+            HStack {
+                CloseButton(isNavigation: isNavigation, useLiquidGlass: viewModel.liquidGlassEnabled) {
+                    dismiss()
+                }
+                Spacer()
+                if viewModel.selectedTab == 0 {
+                    filterMenuButton
+                }
             }
-            Spacer()
-            Text(TextManager.shared.texts.featureRequests)
-                .font(theme.typography.title3)
-                .fontWeight(.regular)
-                .foregroundColor(theme.colors.onBackground)
-            Spacer()
-            filterMenuButton
+            HStack {
+                Spacer()
+                Text(TextManager.shared.texts.featureRequests)
+                    .font(theme.typography.title3)
+                    .fontWeight(.regular)
+                    .foregroundColor(theme.colors.onBackground)
+                Spacer()
+            }
         }
         .padding(theme.spacing.md)
         .background(
@@ -154,8 +161,10 @@ private extension SuggestionListView {
                     .fontWeight(.regular)
                     .foregroundColor(theme.colors.onBackground)
             }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                filterMenuButton
+            if viewModel.selectedTab == 0 {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    filterMenuButton
+                }
             }
         }
     }
