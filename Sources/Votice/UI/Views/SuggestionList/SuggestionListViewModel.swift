@@ -337,22 +337,6 @@ extension SuggestionListViewModel {
         await loadSuggestions()
     }
 
-    func fetchFilterApplied() {
-        do {
-            if let selectedFilter = try suggestionUseCase.fetchFilterApplied() {
-                self.selectedFilter = selectedFilter
-
-                LogManager.shared.devLog(
-                    .info, "SuggestionListViewModel: fetched applied filter: \(String(describing: selectedFilter))"
-                )
-            } else {
-                LogManager.shared.devLog(.info, "SuggestionListViewModel: no filter applied")
-            }
-        } catch {
-            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to fetch applied filter: \(error)")
-        }
-    }
-
     func setFilter(_ status: SuggestionStatusEntity?) {
         do {
             if let status {
@@ -448,6 +432,22 @@ extension SuggestionListViewModel {
 // MARK: - Private
 
 private extension SuggestionListViewModel {
+    func fetchFilterApplied() {
+        do {
+            if let selectedFilter = try suggestionUseCase.fetchFilterApplied() {
+                self.selectedFilter = selectedFilter
+
+                LogManager.shared.devLog(
+                    .info, "SuggestionListViewModel: fetched applied filter: \(String(describing: selectedFilter))"
+                )
+            } else {
+                LogManager.shared.devLog(.info, "SuggestionListViewModel: no filter applied")
+            }
+        } catch {
+            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to fetch applied filter: \(error)")
+        }
+    }
+
     func applyVisibilityFilter() {
         if showCompletedSeparately {
             // Direct projection from separated feeds
