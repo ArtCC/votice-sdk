@@ -57,7 +57,7 @@ private extension SuggestionListView {
 #elseif os(macOS)
                     headerView
 #endif
-                    if viewModel.showCompletedSeparately, !viewModel.suggestionsIsEmpty {
+                    if viewModel.showCompletedSeparately {
                         if viewModel.liquidGlassEnabled {
 #if os(iOS)
                             tabView

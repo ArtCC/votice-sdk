@@ -46,6 +46,12 @@ final class SuggestionRepository: SuggestionRepositoryProtocol {
             path += "&status=\(status.rawValue)"
         }
 
+        if request.status == nil && request.excludeCompleted {
+            path += "&excludeCompleted=true"
+        } else {
+            path += "&excludeCompleted=false"
+        }
+
         let endpoint = NetworkEndpoint(path: path, method: .GET, body: nil)
 
         return try await networkManager.request(endpoint: endpoint, responseType: SuggestionsResponse.self)

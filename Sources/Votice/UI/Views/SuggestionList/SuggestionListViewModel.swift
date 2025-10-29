@@ -30,7 +30,7 @@ final class SuggestionListViewModel: ObservableObject {
     private var currentOffset = 0
     private var loadingTask: Task<Void, Never>?
 
-    private let pageSize = 10
+    private let pageSize = 25
     private let suggestionUseCase: SuggestionUseCaseProtocol
     private let versionUseCase: VersionUseCaseProtocol
 
@@ -81,6 +81,7 @@ final class SuggestionListViewModel: ObservableObject {
                 let pagination = PaginationRequest(startAfter: nil, pageLimit: pageSize)
                 let response = try await suggestionUseCase.fetchSuggestions(
                     status: selectedFilter,
+                    excludeCompleted: false,
                     pagination: pagination
                 )
 
@@ -142,6 +143,7 @@ final class SuggestionListViewModel: ObservableObject {
             let pagination = PaginationRequest(startAfter: startAfter, pageLimit: pageSize)
             let response = try await suggestionUseCase.fetchSuggestions(
                 status: selectedFilter,
+                excludeCompleted: false,
                 pagination: pagination
             )
 
