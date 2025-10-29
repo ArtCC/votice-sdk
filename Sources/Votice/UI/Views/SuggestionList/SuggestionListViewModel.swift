@@ -11,6 +11,7 @@ import Foundation
 final class SuggestionListViewModel: ObservableObject {
     // MARK: - Properties
 
+    // Published projections for UI consumption
     @Published var suggestions: [SuggestionEntity] = []
     @Published var completedSuggestions: [SuggestionEntity] = []
     @Published var selectedTab = 0
@@ -25,12 +26,19 @@ final class SuggestionListViewModel: ObservableObject {
     @Published var currentAlert: VoticeAlertEntity?
     @Published var isShowingAlert = false
 
-    private var allSuggestions: [SuggestionEntity] = []
-    private var allCompletedSuggestions: [SuggestionEntity] = []
-    private var currentOffset = 0
+    // Single-feed buffer used when showCompletedSeparately == false
+    private var singleFeed: [SuggestionEntity] = []
+    // Active feed buffer used when showCompletedSeparately == true
+    private var activeFeed: [SuggestionEntity] = []
+    // Completed feed buffer used when showCompletedSeparately == true
+    private var completedFeed: [SuggestionEntity] = []
     private var loadingTask: Task<Void, Never>?
 
-    private let pageSize = 10
+    private var currentGeneration = 0
+    private var hasMoreActive = true
+    private var hasMoreCompleted = true
+
+    private let pageSize = 20
     private let suggestionUseCase: SuggestionUseCaseProtocol
     private let versionUseCase: VersionUseCaseProtocol
 
@@ -72,43 +80,29 @@ final class SuggestionListViewModel: ObservableObject {
     func loadSuggestions() async {
         loadingTask?.cancel()
 
+        isLoading = true
+        // Clear projections so loading is visible immediately
+        suggestions = []
+        completedSuggestions = []
+
+        currentGeneration &+= 1
+
+        let generation = currentGeneration
+
+        isLoadingPagination = false
+
         loadingTask = Task { @MainActor in
-            isLoading = true
-            hasMoreSuggestions = true
-            currentOffset = 0
+            resetLoadingState()
 
             do {
-                let pagination = PaginationRequest(startAfter: nil, pageLimit: pageSize)
-                let response = try await suggestionUseCase.fetchSuggestions(
-                    status: selectedFilter,
-                    pagination: pagination
-                )
-
-                guard !Task.isCancelled else {
-                    isLoading = false
-
-                    return
+                if !showCompletedSeparately {
+                    try await fetchSingleFeed(generation: generation)
+                } else {
+                    try await fetchSeparatedFeeds(generation: generation)
                 }
 
-                allSuggestions = response.suggestions
-
-                await loadVoteStatusForSuggestions(response.suggestions)
-
-                applyVisibilityFilter()
-
-                currentOffset = response.suggestions.count
-
-                hasMoreSuggestions = response.suggestions.count == pageSize
-
-                Task {
-                    do {
-                        _ = try await versionUseCase.report()
-                    } catch {
-                        LogManager.shared.devLog(
-                            .error, "SuggestionListViewModel: failed to report version usage: \(error)"
-                        )
-                    }
-                }
+                // Fire-and-forget version reporting
+                reportVersionUsage()
             } catch {
                 guard !Task.isCancelled else {
                     isLoading = false
@@ -128,73 +122,23 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func loadMoreSuggestions() async {
-        guard !isLoadingPagination && hasMoreSuggestions else {
+        if showCompletedSeparately {
+            let isCompletedTab = (selectedTab != 0)
+
+            await paginateSeparatedFeed(isCompletedTab: isCompletedTab)
+
             return
         }
 
-        isLoadingPagination = true
-
-        do {
-            let last = allSuggestions.last
-            let startAfter = last != nil ?
-            StartAfterRequest(voteCount: last?.voteCount, createdAt: last?.createdAt ?? "") :
-            nil
-            let pagination = PaginationRequest(startAfter: startAfter, pageLimit: pageSize)
-            let response = try await suggestionUseCase.fetchSuggestions(
-                status: selectedFilter,
-                pagination: pagination
-            )
-
-            guard !Task.isCancelled else {
-                isLoadingPagination = false
-
-                return
-            }
-
-            allSuggestions.append(contentsOf: response.suggestions)
-
-            await loadVoteStatusForSuggestions(response.suggestions)
-
-            applyVisibilityFilter()
-
-            currentOffset += response.suggestions.count
-
-            hasMoreSuggestions = response.suggestions.count == pageSize
-        } catch {
-            guard !Task.isCancelled else {
-                isLoadingPagination = false
-
-                return
-            }
-
-            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to load more suggestions: \(error)")
-
-            showError()
-        }
-
-        isLoadingPagination = false
+        await paginateSingleFeed()
     }
+}
 
+extension SuggestionListViewModel {
     func refresh() async {
         isFilterMenuExpanded = false
 
         await loadSuggestions()
-    }
-
-    func fetchFilterApplied() {
-        do {
-            if let selectedFilter = try suggestionUseCase.fetchFilterApplied() {
-                self.selectedFilter = selectedFilter
-
-                LogManager.shared.devLog(
-                    .info, "SuggestionListViewModel: fetched applied filter: \(String(describing: selectedFilter))"
-                )
-            } else {
-                LogManager.shared.devLog(.info, "SuggestionListViewModel: no filter applied")
-            }
-        } catch {
-            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to fetch applied filter: \(error)")
-        }
     }
 
     func setFilter(_ status: SuggestionStatusEntity?) {
@@ -214,6 +158,11 @@ final class SuggestionListViewModel: ObservableObject {
 
         selectedFilter = status
 
+        // Force loading state and clear current projections so the UI always shows loading on filter change
+        isLoading = true
+        isLoadingPagination = false
+        suggestions = []
+
         // Reload suggestions with the new filter.
         Task {
             await loadSuggestions()
@@ -229,9 +178,9 @@ final class SuggestionListViewModel: ObservableObject {
             currentVotes[suggestionId] = response.vote != nil ? type : nil
 
             if let updatedSuggestion = response.suggestion,
-               let index = allSuggestions.firstIndex(where: { $0.id == suggestionId }) {
+               let index = singleFeed.firstIndex(where: { $0.id == suggestionId }) {
 
-                allSuggestions[index] = updatedSuggestion
+                singleFeed[index] = updatedSuggestion
 
                 applyVisibilityFilter()
             }
@@ -251,8 +200,8 @@ final class SuggestionListViewModel: ObservableObject {
     }
 
     func updateSuggestion(_ suggestion: SuggestionEntity) {
-        if let allIndex = allSuggestions.firstIndex(where: { $0.id == suggestion.id }) {
-            allSuggestions[allIndex] = suggestion
+        if let allIndex = singleFeed.firstIndex(where: { $0.id == suggestion.id }) {
+            singleFeed[allIndex] = suggestion
         }
 
         if let filteredIndex = suggestions.firstIndex(where: { $0.id == suggestion.id }) {
@@ -292,52 +241,331 @@ final class SuggestionListViewModel: ObservableObject {
 // MARK: - Private
 
 private extension SuggestionListViewModel {
-    func applyVisibilityFilter() {
-        // If user has selected a specific filter, trust the backend results completely
-        // No need to filter by visibility because user explicitly chose this status
-        if selectedFilter != nil {
-            // Just split completed/active if needed, but don't filter out any status
-            if showCompletedSeparately {
-                let completed = allSuggestions.filter { $0.status == .completed }
-                let active = allSuggestions.filter { $0.status != .completed }
+    func resetLoadingState() {
+        isLoading = true
+        isLoadingPagination = false
+        hasMoreSuggestions = true
+    }
 
-                allCompletedSuggestions = completed
-                completedSuggestions = completed
-                suggestions = active
-            } else {
-                suggestions = allSuggestions
-            }
+    func fetchSingleFeed(generation: Int = 0) async throws {
+        let gen = generation == 0 ? currentGeneration : generation
+        let pagination = PaginationRequest(startAfter: nil, pageLimit: pageSize)
+        let response = try await suggestionUseCase.fetchSuggestions(
+            status: selectedFilter,
+            excludeCompleted: false,
+            pagination: pagination
+        )
+
+        guard !Task.isCancelled else {
+            isLoading = false
+
             return
         }
 
-        // No filter selected: apply visibility filter based on configuration
+        // Drop results if a new load has started
+        guard gen == currentGeneration else {
+            return
+        }
+
+        singleFeed = response.suggestions
+
+        await loadVoteStatusForSuggestions(response.suggestions)
+
+        applyVisibilityFilter()
+
+        hasMoreSuggestions = response.suggestions.count == pageSize
+    }
+
+    func fetchSeparatedFeeds(generation: Int = 0) async throws {
+        let gen = generation == 0 ? currentGeneration : generation
+
+        // Reset pagination flags for both feeds
+        hasMoreActive = true
+        hasMoreCompleted = true
+
+        let activePagination = PaginationRequest(startAfter: nil, pageLimit: pageSize)
+        let completedPagination = PaginationRequest(startAfter: nil, pageLimit: pageSize)
+
+        async let activeResp = suggestionUseCase.fetchSuggestions(
+            status: selectedFilter,
+            excludeCompleted: true,
+            pagination: activePagination
+        )
+        async let completedResp = suggestionUseCase.fetchSuggestions(
+            status: .some(.completed),
+            excludeCompleted: false,
+            pagination: completedPagination
+        )
+
+        let activeResponse = try await activeResp
+        let completedResponse = try await completedResp
+
+        guard !Task.isCancelled else {
+            isLoading = false
+
+            return
+        }
+
+        // Drop results if a new load has started
+        guard gen == currentGeneration else {
+            return
+        }
+
+        activeFeed = activeResponse.suggestions
+        completedFeed = completedResponse.suggestions
+
+        await loadVoteStatusForSuggestions(activeFeed)
+        await loadVoteStatusForSuggestions(completedFeed)
+
+        // Projection
+        suggestions = activeFeed
+        completedSuggestions = completedFeed
+
+        // Update pagination flags
+        hasMoreActive = activeFeed.count == pageSize
+        hasMoreCompleted = completedFeed.count == pageSize
+    }
+
+    func reportVersionUsage() {
+        Task.detached { [versionUseCase] in
+            do { _ = try await versionUseCase.report() } catch {
+                LogManager.shared.devLog(
+                    .error,
+                    "SuggestionListViewModel: failed to report version usage: \(error)"
+                )
+            }
+        }
+    }
+
+    func canPaginate(forCompleted: Bool) -> Bool {
+        if forCompleted {
+            return !isLoadingPagination && hasMoreCompleted
+        } else {
+            return !isLoadingPagination && hasMoreActive
+        }
+    }
+
+    func startAfter(for feed: [SuggestionEntity]) -> StartAfterRequest? {
+        guard let last = feed.last, let createdAt = last.createdAt else {
+            return nil
+        }
+
+        return StartAfterRequest(voteCount: last.voteCount, createdAt: createdAt)
+    }
+
+    func paginateSingleFeed() async {
+        let generation = currentGeneration
+
+        guard !isLoadingPagination && hasMoreSuggestions else {
+            return
+        }
+
+        isLoadingPagination = true
+
+        do {
+            let pagination = PaginationRequest(startAfter: startAfter(for: singleFeed), pageLimit: pageSize)
+            let response = try await suggestionUseCase.fetchSuggestions(
+                status: selectedFilter,
+                excludeCompleted: false,
+                pagination: pagination
+            )
+
+            guard !Task.isCancelled else {
+                isLoadingPagination = false
+
+                return
+            }
+
+            // Abort if a new load has started
+            guard generation == currentGeneration else {
+                isLoadingPagination = false
+
+                return
+            }
+
+            singleFeed.append(contentsOf: response.suggestions)
+
+            await loadVoteStatusForSuggestions(response.suggestions)
+
+            applyVisibilityFilter()
+
+            hasMoreSuggestions = response.suggestions.count == pageSize
+        } catch {
+            guard !Task.isCancelled else {
+                isLoadingPagination = false
+
+                return
+            }
+
+            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to load more suggestions: \(error)")
+
+            showError()
+        }
+
+        isLoadingPagination = false
+    }
+
+    // swiftlint:disable function_body_length
+    func paginateSeparatedFeed(isCompletedTab: Bool) async {
+        let generation = currentGeneration
+        guard canPaginate(forCompleted: isCompletedTab) else {
+            return
+        }
+
+        isLoadingPagination = true
+
+        do {
+            if isCompletedTab {
+                let pagination = PaginationRequest(startAfter: startAfter(for: completedFeed), pageLimit: pageSize)
+                let response = try await suggestionUseCase.fetchSuggestions(
+                    status: .some(.completed),
+                    excludeCompleted: false,
+                    pagination: pagination
+                )
+
+                guard !Task.isCancelled else {
+                    isLoadingPagination = false
+
+                    return
+                }
+
+                // Abort if a new load has started
+                guard generation == currentGeneration else {
+                    isLoadingPagination = false
+
+                    return
+                }
+
+                completedFeed.append(contentsOf: response.suggestions)
+
+                await loadVoteStatusForSuggestions(response.suggestions)
+
+                completedSuggestions = completedFeed
+
+                hasMoreCompleted = response.suggestions.count == pageSize
+            } else {
+                let pagination = PaginationRequest(startAfter: startAfter(for: activeFeed), pageLimit: pageSize)
+                let response = try await suggestionUseCase.fetchSuggestions(
+                    status: selectedFilter,
+                    excludeCompleted: true,
+                    pagination: pagination
+                )
+
+                guard !Task.isCancelled else {
+                    isLoadingPagination = false
+
+                    return
+                }
+
+                // Abort if a new load has started
+                guard generation == currentGeneration else {
+                    isLoadingPagination = false
+
+                    return
+                }
+
+                activeFeed.append(contentsOf: response.suggestions)
+
+                await loadVoteStatusForSuggestions(response.suggestions)
+
+                suggestions = activeFeed
+
+                hasMoreActive = response.suggestions.count == pageSize
+            }
+        } catch {
+            guard !Task.isCancelled else {
+                isLoadingPagination = false
+
+                return
+            }
+
+            let scope = isCompletedTab ? "completed" : "active"
+            LogManager.shared.devLog(
+                .error,
+                "SuggestionListViewModel: failed to load more \(scope) suggestions: \(error)"
+            )
+
+            showError()
+        }
+
+        isLoadingPagination = false
+    }
+    // swiftlint:enable function_body_length
+}
+
+private extension SuggestionListViewModel {
+    func fetchFilterApplied() {
+        do {
+            if let selectedFilter = try suggestionUseCase.fetchFilterApplied() {
+                self.selectedFilter = selectedFilter
+
+                LogManager.shared.devLog(
+                    .info, "SuggestionListViewModel: fetched applied filter: \(String(describing: selectedFilter))"
+                )
+            } else {
+                LogManager.shared.devLog(.info, "SuggestionListViewModel: no filter applied")
+            }
+        } catch {
+            LogManager.shared.devLog(.error, "SuggestionListViewModel: failed to fetch applied filter: \(error)")
+        }
+    }
+
+    func applyVisibilityFilter() {
+        if showCompletedSeparately {
+            // Direct projection from separated feeds
+            suggestions = activeFeed
+            completedSuggestions = completedFeed
+
+            return
+        }
+
+        // Single-feed mode: trust backend filtering when a filter is selected
+        if selectedFilter != nil {
+            suggestions = singleFeed
+
+            return
+        }
+
+        // No filter selected: apply visibility based on configuration
         let visibleOptional = ConfigurationManager.shared.optionalVisibleStatuses
         let mandatory: Set<SuggestionStatusEntity> = [.inProgress, .pending, .completed]
         let allowed: Set<SuggestionStatusEntity> = visibleOptional.union(mandatory)
 
-        // Filter suggestions based on allowed statuses
-        let baseAll = allSuggestions.filter { allowed.contains($0.status ?? .pending) }
-
-        // If showing completed separately, split the suggestions
-        if showCompletedSeparately {
-            let completed = baseAll.filter { $0.status == .completed }
-            let active = baseAll.filter { $0.status != .completed }
-
-            allCompletedSuggestions = completed
-            completedSuggestions = completed
-            suggestions = active
-        } else {
-            suggestions = baseAll
-        }
+        suggestions = singleFeed.filter { allowed.contains($0.status ?? .pending) }
     }
 
     func loadVoteStatusForSuggestions(_ suggestions: [SuggestionEntity]) async {
+        // Bounded concurrency using a worker pool and an index cursor actor
+        actor IndexCursor {
+            private var i = 0
+
+            func next(max: Int) -> Int? {
+                guard i < max else {
+                    return nil
+                }
+
+                defer {
+                    i += 1
+                }
+
+                return i
+            }
+        }
+
+        let ids = suggestions.map { $0.id }
+        let maxWorkers = min(pageSize, max(1, 6))
+        let cursor = IndexCursor()
+
         await withTaskGroup(of: Void.self) { group in
-            for suggestion in suggestions {
+            for _ in 0..<min(maxWorkers, ids.count) {
                 group.addTask { [weak self] in
-                    await self?.loadVoteStatus(for: suggestion.id)
+                    while let idx = await cursor.next(max: ids.count) {
+                        await self?.loadVoteStatus(for: ids[idx])
+                    }
                 }
             }
+
+            await group.waitForAll()
         }
     }
 

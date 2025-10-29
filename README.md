@@ -40,7 +40,7 @@ The Votice management app for handling suggestions or issues and apps is availab
 Add this line to your `Package.swift` dependencies:
 
 ```swift
-.package(url: "https://github.com/artcc/votice-sdk", from: "1.0.15"),
+.package(url: "https://github.com/artcc/votice-sdk", from: "1.0.16"),
 ```
 
 Or via Xcode:

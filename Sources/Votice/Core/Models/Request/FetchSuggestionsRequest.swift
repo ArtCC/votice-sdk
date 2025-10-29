@@ -13,13 +13,18 @@ struct FetchSuggestionsRequest: Codable, Sendable {
 
     let appId: String
     let status: SuggestionStatusEntity?
+    let excludeCompleted: Bool
     let pagination: PaginationRequest
 
     // MARK: - Init
 
-    init(appId: String, status: SuggestionStatusEntity? = nil, pagination: PaginationRequest) {
+    init(appId: String,
+         status: SuggestionStatusEntity? = nil,
+         excludeCompleted: Bool = false,
+         pagination: PaginationRequest) {
         self.appId = appId
         self.status = status
+        self.excludeCompleted = excludeCompleted
         self.pagination = pagination
     }
 }
