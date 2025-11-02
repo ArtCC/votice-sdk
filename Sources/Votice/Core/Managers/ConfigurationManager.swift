@@ -45,11 +45,13 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     private var _useLiquidGlass = true
     private var _user = UserEntity(isPremium: false)
     private var _optionalVisibleStatuses: Set<SuggestionStatusEntity> = [.accepted, .blocked, .rejected]
+    private var _width: CGFloat = 800
+    private var _height: CGFloat = 600
 
     private let lock = NSLock()
     private let _baseURL = "https://api.votice.app/api"
     private let _configurationId = UUID().uuidString
-    private let _version = "1.0.16"
+    private let _version = "1.0.17"
     private let _buildNumber = "1"
 
     // MARK: - Public properties
@@ -117,6 +119,24 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
     var optionalVisibleStatuses: Set<SuggestionStatusEntity> {
         lock.withLock {
             _optionalVisibleStatuses
+        }
+    }
+
+    var width: CGFloat {
+        get {
+            lock.withLock { _width }
+        }
+        set {
+            lock.withLock { _width = newValue }
+        }
+    }
+
+    var height: CGFloat {
+        get {
+            lock.withLock { _height }
+        }
+        set {
+            lock.withLock { _height = newValue }
         }
     }
 
@@ -221,6 +241,8 @@ final class ConfigurationManager: ConfigurationManagerProtocol, @unchecked Senda
             _showCompletedSeparately = false
             _useLiquidGlass = false
             _optionalVisibleStatuses = [.accepted, .blocked, .rejected]
+            _width = 800
+            _height = 600
 
             LogManager.shared.devLog(.info, "ConfigurationManager: reset")
         }

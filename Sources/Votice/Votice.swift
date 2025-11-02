@@ -9,12 +9,6 @@
 import Foundation
 import SwiftUI
 
-// swiftlint:disable line_length
-#if os(tvOS)
-#warning("Votice SDK is currently only supported on iOS, iPadOS and macOS. Support for tvOS will be available in future releases.")
-#endif
-// swiftlint:enable line_length
-
 // MARK: - Configuration
 
 public struct Votice {
@@ -118,35 +112,35 @@ extension Votice {
     /// Present the Votice feedback interface
     /// - Parameters:
     ///   - theme: Custom theme for the UI (optional)
-    ///   - minWidth: Minimum width for macOS (default 800)
-    ///   - minHeight: Minimum height for macOS (default 600)
+    ///   - width: width for macOS (default 800)
+    ///   - height: height for macOS (default 600)
     /// - Returns: A SwiftUI View that can be presented modally or embedded
     public static func feedbackNavigationView(
         theme: VoticeTheme? = nil,
-        minWidth: CGFloat = 800,
-        minHeight: CGFloat = 600
+        width: CGFloat = 800,
+        height: CGFloat = 600
     ) -> some View {
-        open(isNavigation: true, theme: theme, minWidth: minWidth, minHeight: minHeight)
+        open(isNavigation: true, theme: theme, width: width, height: height)
     }
 
     /// Present the Votice feedback interface as a standalone view
     /// - Parameters:
     ///  - theme: Custom theme for the UI (optional)
-    ///  - minWidth: Minimum width for macOS (default 800)
-    ///  - minHeight: Minimum height for macOS (default 600)
+    ///  - width: width for macOS (default 800)
+    ///  - height: height for macOS (default 600)
     ///  - Returns: A SwiftUI View that can be used in any context
     ///  - Note: This view is suitable for embedding in your app's UI or presenting as a full-screen cover
     public static func feedbackView(
         theme: VoticeTheme? = nil,
-        minWidth: CGFloat = 800,
-        minHeight: CGFloat = 600
+        width: CGFloat = 800,
+        height: CGFloat = 600
     ) -> some View {
 #if os(iOS) || os(macOS)
         NavigationStack {
-            open(isNavigation: false, theme: theme, minWidth: minWidth, minHeight: minHeight)
+            open(isNavigation: false, theme: theme, width: width, height: height)
         }
 #elseif os(tvOS)
-        open(isNavigation: false, theme: theme, minWidth: minWidth, minHeight: minHeight)
+        open(isNavigation: false, theme: theme, width: width, height: height)
 #endif
     }
 }
@@ -165,11 +159,7 @@ extension Votice {
         surfaceColor: Color? = nil
     ) -> VoticeTheme {
         // Use smart defaults if no colors are provided
-        createAdvancedTheme(
-            primaryColor: primaryColor,
-            backgroundColor: backgroundColor,
-            surfaceColor: surfaceColor
-        )
+        createAdvancedTheme(primaryColor: primaryColor, backgroundColor: backgroundColor, surfaceColor: surfaceColor)
     }
 
     /// Get a system theme that automatically adapts to the user's appearance preference
@@ -387,13 +377,20 @@ private extension Votice {
     static func open(
         isNavigation: Bool,
         theme: VoticeTheme? = nil,
-        minWidth: CGFloat = 800,
-        minHeight: CGFloat = 600
+        width: CGFloat = 800,
+        height: CGFloat = 600
     ) -> some View {
-        SuggestionListView(isNavigation: isNavigation)
+        let widthValue = max(width, 800)
+        let heightValue = max(height, 600)
+
+        return SuggestionListView(isNavigation: isNavigation)
             .voticeTheme(theme ?? .default)
+            .task {
+                ConfigurationManager.shared.width = widthValue
+                ConfigurationManager.shared.height = heightValue
+            }
 #if os(macOS) || os(tvOS)
-            .frame(minWidth: minWidth, minHeight: minHeight)
+            .frame(width: widthValue, height: heightValue)
 #endif
     }
 }

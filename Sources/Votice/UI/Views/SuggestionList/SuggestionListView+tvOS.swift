@@ -31,7 +31,7 @@ extension SuggestionListView {
                 }
             }
         }
-        .frame(width: 1250)
+        .frame(width: ConfigurationManager.shared.width, height: ConfigurationManager.shared.height)
         .task {
             await viewModel.loadSuggestions()
         }

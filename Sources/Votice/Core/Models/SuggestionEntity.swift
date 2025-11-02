@@ -25,6 +25,7 @@ public struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
     public let createdBy: String?
     public let deviceId: String?
     public let status: SuggestionStatusEntity?
+    public let progress: Int?
     public let source: SuggestionSource?
     public let voteCount: Int?
     public let language: String?
@@ -47,6 +48,7 @@ public struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
         createdBy: String? = nil,
         deviceId: String? = nil,
         status: SuggestionStatusEntity? = nil,
+        progress: Int? = nil,
         source: SuggestionSource? = nil,
         commentCount: Int? = nil,
         voteCount: Int? = nil,
@@ -67,6 +69,7 @@ public struct SuggestionEntity: Codable, Equatable, Identifiable, Sendable {
         self.createdBy = createdBy
         self.deviceId = deviceId
         self.status = status
+        self.progress = progress
         self.source = source
         self.commentCount = commentCount
         self.voteCount = voteCount
@@ -108,6 +111,7 @@ extension SuggestionEntity {
         createdBy: String? = nil,
         deviceId: String? = nil,
         status: SuggestionStatusEntity? = nil,
+        progress: Int? = nil,
         source: SuggestionSource? = nil,
         commentCount: Int? = nil,
         voteCount: Int? = nil,
@@ -129,6 +133,7 @@ extension SuggestionEntity {
             createdBy: createdBy ?? self.createdBy,
             deviceId: deviceId ?? self.deviceId,
             status: status ?? self.status,
+            progress: progress ?? self.progress,
             source: source ?? self.source,
             commentCount: commentCount ?? self.commentCount,
             voteCount: voteCount ?? self.voteCount,
