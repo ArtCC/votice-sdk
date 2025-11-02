@@ -16,7 +16,7 @@ struct AppVoticeDemo: App {
         WindowGroup {
             HomeView()
 #if os(macOS)
-                .frame(minWidth: 1200, minHeight: 720)
+                .frame(minWidth: 1280, minHeight: 720)
 #endif
         }
     }

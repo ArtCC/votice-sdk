@@ -99,7 +99,7 @@ private extension SuggestionListView {
                     viewModel.addSuggestion(suggestion)
                 }
 #if os(macOS)
-                .frame(minWidth: 800, minHeight: 600)
+                .frame(width: ConfigurationManager.shared.width, height: ConfigurationManager.shared.height)
 #endif
             }
         }
@@ -113,7 +113,7 @@ private extension SuggestionListView {
                     }
                 }
 #if os(macOS)
-                .frame(minWidth: 800, minHeight: 600)
+                .frame(width: ConfigurationManager.shared.width, height: ConfigurationManager.shared.height)
 #endif
             }
         }

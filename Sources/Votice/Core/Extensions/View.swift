@@ -153,7 +153,7 @@ extension View {
 #if !os(tvOS)
             self.background {
                 Circle()
-                    .fill(fillColor.opacity(0.75))
+                    .fill(fillColor)
                     .glassEffect(
                         isInteractive ? .regular.interactive() : .regular,
                         in: .circle

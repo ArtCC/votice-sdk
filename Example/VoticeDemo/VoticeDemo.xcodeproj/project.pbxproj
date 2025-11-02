@@ -86,7 +86,7 @@
 		802F7E8B2E0F1A2500F1BDF6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		802F7E8C2E0F1A2500F1BDF6 /* AppVoticeDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVoticeDemo.swift; sourceTree = "<group>"; };
 		8055AAC42EB0AB6300FF6DAE /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
-		805C23CB2E19684E00AB56D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		805C23CB2E19684E00AB56D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		805C23CC2E19685B00AB56D0 /* VoticeDemo-macOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoticeDemo-macOS-Info.plist"; sourceTree = SOURCE_ROOT; };
 		805C23CD2E19686400AB56D0 /* VoticeDemo-tvOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoticeDemo-tvOS-Info.plist"; sourceTree = SOURCE_ROOT; };
 		805C23CF2E1968CC00AB56D0 /* Poppins-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Black.ttf"; sourceTree = "<group>"; };
@@ -194,8 +194,7 @@
 		802F7E8D2E0F1A2500F1BDF6 /* VoticeDemo */ = {
 			isa = PBXGroup;
 			children = (
-				802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */,
-				805C23CB2E19684E00AB56D0 /* Info.plist */,
+				808BBED02EB7621800262E3E /* Resources */,
 				805C23CE2E1968BD00AB56D0 /* Shared */,
 			);
 			path = VoticeDemo;
@@ -256,6 +255,15 @@
 				802C373F2E3A84E400A8DD52 /* Views */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		808BBED02EB7621800262E3E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				802F7E8A2E0F1A2500F1BDF6 /* Assets.xcassets */,
+				805C23CB2E19684E00AB56D0 /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -808,7 +816,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = VoticeDemo/Info.plist;
+				INFOPLIST_FILE = VoticeDemo/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -842,7 +850,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = VoticeDemo/Info.plist;
+				INFOPLIST_FILE = VoticeDemo/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VoticeDemo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

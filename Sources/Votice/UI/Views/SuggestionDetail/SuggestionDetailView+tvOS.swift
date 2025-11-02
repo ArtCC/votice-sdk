@@ -36,7 +36,7 @@ extension SuggestionDetailView {
             .padding(.horizontal, 20)
             Color.clear.focusable(true)
         }
-        .frame(width: 1250)
+        .frame(width: ConfigurationManager.shared.width, height: ConfigurationManager.shared.height)
         .background(
             LinearGradient(
                 colors: [
