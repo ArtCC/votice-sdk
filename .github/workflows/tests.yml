@@ -35,9 +35,22 @@ jobs:
     - name: Build iOS Example
       run: |
         cd Example/VoticeDemo
+        
+        DEVICE=$(xcrun simctl list devices available --json | \
+          jq -r '.devices | to_entries[] | select(.key | contains("iOS")) | .value[] | select(.name | startswith("iPhone")) | .name' | \
+          head -n1)
+        
+        if [ -z "$DEVICE" ]; then
+          echo "❌ No iPhone simulators found, using generic platform"
+          DESTINATION="generic/platform=iOS Simulator"
+        else
+          echo "✅ Using simulator: $DEVICE"
+          DESTINATION="platform=iOS Simulator,name=$DEVICE"
+        fi
+        
         xcodebuild -project VoticeDemo.xcodeproj \
                    -scheme VoticeDemo \
-                   -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.0' \
+                   -destination "$DESTINATION" \
                    build \
                    CODE_SIGN_IDENTITY="" \
                    CODE_SIGNING_REQUIRED=NO
