@@ -21,42 +21,9 @@ struct StatusBadge: View {
 
     var body: some View {
         if status == .inProgress, let progress {
-            Text(statusText)
-                .font(theme.typography.caption)
-                .foregroundColor(.white)
-                .padding(.vertical, theme.spacing.xs)
-                .padding(.horizontal, theme.spacing.sm)
-                .background {
-                    GeometryReader { geometry in
-                        ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                                .fill(statusColor.opacity(0.3))
-                            RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                                .fill(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [
-                                            statusColor,
-                                            statusColor.opacity(0.7)
-                                        ]),
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    )
-                                )
-                                .frame(width: geometry.size.width * CGFloat(progress) / 100.0)
-                        }
-                    }
-                }
+            inProgressTagView(with: progress)
         } else {
-            Text(statusText)
-                .font(theme.typography.caption)
-                .foregroundColor(.white)
-                .padding(.vertical, theme.spacing.xs)
-                .padding(.horizontal, theme.spacing.sm)
-                .adaptiveGlassBackground(
-                    useLiquidGlass: useLiquidGlass,
-                    cornerRadius: theme.cornerRadius.sm,
-                    fillColor: statusColor
-                )
+            defaultTagView
         }
     }
 }
@@ -64,6 +31,8 @@ struct StatusBadge: View {
 // MARK: - Private
 
 private extension StatusBadge {
+    // MARK: - Properties
+
     var statusColor: Color {
         switch status {
         case .accepted:
@@ -104,21 +73,47 @@ private extension StatusBadge {
         }
     }
 
-    @ViewBuilder
-    var backgroundView: some View {
-        if status == .inProgress, let progress {
-            GeometryReader { geometry in
-                ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                        .fill(statusColor.opacity(0.3))
-                    RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                        .fill(statusColor)
-                        .frame(width: geometry.size.width * CGFloat(progress) / 100.0)
+    var defaultTagView: some View {
+        Text(statusText)
+            .font(theme.typography.caption)
+            .foregroundColor(.white)
+            .padding(.vertical, theme.spacing.xs)
+            .padding(.horizontal, theme.spacing.sm)
+            .adaptiveGlassBackground(
+                useLiquidGlass: useLiquidGlass,
+                cornerRadius: theme.cornerRadius.sm,
+                fillColor: statusColor
+            )
+    }
+
+    // MARK: - Functions
+
+    func inProgressTagView(with progress: Int) -> some View {
+        let fullText = statusText
+        let splitIndex = Int(Double(fullText.count) * Double(progress) / 100.0)
+        let completedPart = String(fullText.prefix(splitIndex))
+        let remainingPart = String(fullText.dropFirst(splitIndex))
+
+        return Text("\(Text(completedPart).foregroundStyle(.white))\(Text(remainingPart).foregroundStyle(statusColor))")
+            .font(theme.typography.caption)
+            .padding(.vertical, theme.spacing.xs)
+            .padding(.horizontal, theme.spacing.sm)
+            .background {
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(statusColor.opacity(0.3))
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [statusColor, statusColor.opacity(0.7)]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .frame(width: geometry.size.width * CGFloat(progress) / 100.0)
+                    }
                 }
             }
-        } else {
-            RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
-                .fill(statusColor)
-        }
     }
 }
