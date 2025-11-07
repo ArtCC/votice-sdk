@@ -13,7 +13,58 @@ struct StatusBadge: View {
 
     @Environment(\.voticeTheme) private var theme
 
-    private var statusColor: Color {
+    let status: SuggestionStatusEntity
+    let progress: Int?
+    let useLiquidGlass: Bool
+
+    // MARK: - View
+
+    var body: some View {
+        if status == .inProgress, let progress {
+            Text(statusText)
+                .font(theme.typography.caption)
+                .foregroundColor(.white)
+                .padding(.vertical, theme.spacing.xs)
+                .padding(.horizontal, theme.spacing.sm)
+                .background {
+                    GeometryReader { geometry in
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                                .fill(statusColor.opacity(0.3))
+                            RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                                .fill(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            statusColor,
+                                            statusColor.opacity(0.7)
+                                        ]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .frame(width: geometry.size.width * CGFloat(progress) / 100.0)
+                        }
+                    }
+                }
+        } else {
+            Text(statusText)
+                .font(theme.typography.caption)
+                .foregroundColor(.white)
+                .padding(.vertical, theme.spacing.xs)
+                .padding(.horizontal, theme.spacing.sm)
+                .adaptiveGlassBackground(
+                    useLiquidGlass: useLiquidGlass,
+                    cornerRadius: theme.cornerRadius.sm,
+                    fillColor: statusColor
+                )
+        }
+    }
+}
+
+// MARK: - Private
+
+private extension StatusBadge {
+    var statusColor: Color {
         switch status {
         case .accepted:
             return theme.colors.accepted
@@ -29,7 +80,8 @@ struct StatusBadge: View {
             return theme.colors.rejected
         }
     }
-    private var statusText: String {
+
+    var statusText: String {
         let texts = TextManager.shared.texts
 
         switch status {
@@ -40,6 +92,10 @@ struct StatusBadge: View {
         case .completed:
             return texts.completed
         case .inProgress:
+            if let progress {
+                return "\(texts.inProgress) \(progress)%"
+            }
+
             return texts.inProgress
         case .pending:
             return texts.pending
@@ -48,22 +104,21 @@ struct StatusBadge: View {
         }
     }
 
-    let status: SuggestionStatusEntity
-    let progress: Int?
-    let useLiquidGlass: Bool
-
-    // MARK: - View
-
-    var body: some View {
-        Text(statusText)
-            .font(theme.typography.caption)
-            .foregroundColor(.white)
-            .padding(.vertical, theme.spacing.xs)
-            .padding(.horizontal, theme.spacing.sm)
-            .adaptiveGlassBackground(
-                useLiquidGlass: useLiquidGlass,
-                cornerRadius: theme.cornerRadius.sm,
-                fillColor: statusColor
-            )
+    @ViewBuilder
+    var backgroundView: some View {
+        if status == .inProgress, let progress {
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                        .fill(statusColor.opacity(0.3))
+                    RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                        .fill(statusColor)
+                        .frame(width: geometry.size.width * CGFloat(progress) / 100.0)
+                }
+            }
+        } else {
+            RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                .fill(statusColor)
+        }
     }
 }
