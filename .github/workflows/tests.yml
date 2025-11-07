@@ -36,42 +36,29 @@ jobs:
       run: |
         cd Example/VoticeDemo
 
-        SIMULATOR_INFO=$(python3 - <<'PY'
-import json
-import subprocess
-import sys
-
-try:
-    data = json.loads(subprocess.check_output([
-        "xcrun", "simctl", "list", "devices", "available", "--json"
-    ]))
-except subprocess.CalledProcessError:
-    sys.exit(0)
-
-candidates = []
-for runtime_identifier, devices in data.get("devices", {}).items():
-    if "iOS" not in runtime_identifier:
-        continue
-    version_str = runtime_identifier.split("iOS-")[-1].replace("-", ".")
-    try:
-        version_tuple = tuple(int(part) for part in version_str.split("."))
-    except ValueError:
-        continue
-    for device in devices:
-        name = device.get("name", "")
-        udid = device.get("udid")
-        if not name.startswith("iPhone") or not udid:
-            continue
-        candidates.append((version_tuple, version_str, name, udid))
-
-if not candidates:
-    sys.exit(0)
-
-candidates.sort(reverse=True)
-version_tuple, version_str, name, udid = candidates[0]
-print(f"{version_str}|{name}|{udid}")
-PY
-        )
+        SIMULATOR_INFO=$(xcrun simctl list devices available --json | \
+          jq -r '
+            [
+              .devices
+              | to_entries[]
+              | select(.key | contains("iOS")) as $entry
+              | $entry.value[]
+              | select(.name | startswith("iPhone"))
+              | (
+                  $entry.key as $runtime
+                  | {
+                      name: .name,
+                      udid: .udid,
+                      version_parts: (try($runtime | capture("iOS-(?<ver>[0-9-]+)") | .ver | split("-") | map(tonumber)) // []),
+                      version_str: (try($runtime | capture("iOS-(?<ver>[0-9-]+)") | .ver | gsub("-"; ".")) // "")
+                    }
+                )
+            ]
+            | sort_by(.version_parts)
+            | last
+            | select(. != null)
+            | "\(.version_str)|\(.name)|\(.udid)"
+          ')
 
         if [ -z "$SIMULATOR_INFO" ]; then
           echo "❌ No iPhone simulators found, trying generic platform"
