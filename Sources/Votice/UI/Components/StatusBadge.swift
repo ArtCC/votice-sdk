@@ -13,7 +13,27 @@ struct StatusBadge: View {
 
     @Environment(\.voticeTheme) private var theme
 
-    private var statusColor: Color {
+    let status: SuggestionStatusEntity
+    let progress: Int?
+    let useLiquidGlass: Bool
+
+    // MARK: - View
+
+    var body: some View {
+        if status == .inProgress, let progress {
+            inProgressTagView(with: progress)
+        } else {
+            defaultTagView
+        }
+    }
+}
+
+// MARK: - Private
+
+private extension StatusBadge {
+    // MARK: - Properties
+
+    var statusColor: Color {
         switch status {
         case .accepted:
             return theme.colors.accepted
@@ -29,7 +49,8 @@ struct StatusBadge: View {
             return theme.colors.rejected
         }
     }
-    private var statusText: String {
+
+    var statusText: String {
         let texts = TextManager.shared.texts
 
         switch status {
@@ -40,6 +61,10 @@ struct StatusBadge: View {
         case .completed:
             return texts.completed
         case .inProgress:
+            if let progress {
+                return "\(texts.inProgress) \(progress)%"
+            }
+
             return texts.inProgress
         case .pending:
             return texts.pending
@@ -48,21 +73,47 @@ struct StatusBadge: View {
         }
     }
 
-    let status: SuggestionStatusEntity
-    let useLiquidGlass: Bool
-
-    // MARK: - View
-
-    var body: some View {
+    var defaultTagView: some View {
         Text(statusText)
             .font(theme.typography.caption)
             .foregroundColor(.white)
-            .padding(.horizontal, theme.spacing.sm)
             .padding(.vertical, theme.spacing.xs)
+            .padding(.horizontal, theme.spacing.sm)
             .adaptiveGlassBackground(
                 useLiquidGlass: useLiquidGlass,
                 cornerRadius: theme.cornerRadius.sm,
                 fillColor: statusColor
             )
+    }
+
+    // MARK: - Functions
+
+    func inProgressTagView(with progress: Int) -> some View {
+        let fullText = statusText
+        let splitIndex = Int(Double(fullText.count) * Double(progress) / 100.0) + 1
+        let completedPart = String(fullText.prefix(splitIndex))
+        let remainingPart = String(fullText.dropFirst(splitIndex))
+
+        return Text("\(Text(completedPart).foregroundStyle(.white))\(Text(remainingPart).foregroundStyle(statusColor))")
+            .font(theme.typography.caption)
+            .padding(.vertical, theme.spacing.xs)
+            .padding(.horizontal, theme.spacing.sm)
+            .background {
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(statusColor.opacity(0.3))
+                        RoundedRectangle(cornerRadius: theme.cornerRadius.sm)
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [statusColor, statusColor.opacity(0.7)]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .frame(width: geometry.size.width * CGFloat(progress) / 100.0)
+                    }
+                }
+            }
     }
 }

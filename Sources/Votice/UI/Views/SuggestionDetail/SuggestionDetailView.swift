@@ -248,8 +248,12 @@ private extension SuggestionDetailView {
                     .fill(theme.colors.surface)
                     .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
             )
-            StatusBadge(status: currentSuggestion.status ?? .pending, useLiquidGlass: viewModel.liquidGlassEnabled)
-                .padding(theme.spacing.sm)
+            StatusBadge(
+                status: currentSuggestion.status ?? .pending,
+                progress: suggestion.progress,
+                useLiquidGlass: viewModel.liquidGlassEnabled
+            )
+            .padding(theme.spacing.sm)
         }
     }
 

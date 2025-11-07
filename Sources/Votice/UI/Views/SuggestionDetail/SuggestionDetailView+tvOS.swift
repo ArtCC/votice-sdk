@@ -66,7 +66,11 @@ extension SuggestionDetailView {
                     .foregroundColor(theme.colors.onSurface)
                     .multilineTextAlignment(.leading)
                 Spacer()
-                StatusBadge(status: currentSuggestion.status ?? .pending, useLiquidGlass: false)
+                StatusBadge(
+                    status: currentSuggestion.status ?? .pending,
+                    progress: currentSuggestion.progress,
+                    useLiquidGlass: false)
+
             }
             if let description = currentSuggestion.description, description != currentSuggestion.title {
                 Text(description)

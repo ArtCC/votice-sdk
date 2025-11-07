@@ -81,8 +81,12 @@ struct SuggestionCard: View {
                     )
             )
             .scaleEffect(isPressed ? 1.005 : 1.0)
-            StatusBadge(status: suggestion.status ?? .pending, useLiquidGlass: useLiquidGlass)
-                .padding(theme.spacing.sm)
+            StatusBadge(
+                status: suggestion.status ?? .pending,
+                progress: suggestion.progress,
+                useLiquidGlass: useLiquidGlass
+            )
+            .padding(theme.spacing.sm)
         }
         .onTapGesture {
             isPressed = true
