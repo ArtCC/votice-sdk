@@ -24,7 +24,18 @@ struct SuggestionCard: View {
     // MARK: - View
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        VStack(spacing: 5) {
+            HStack {
+                Spacer()
+                StatusBadge(
+                    status: suggestion.status ?? .pending,
+                    progress: suggestion.progress,
+                    useLiquidGlass: useLiquidGlass
+                )
+                .padding(.top, theme.spacing.sm)
+                .padding(.trailing, theme.spacing.sm)
+
+            }
             HStack(alignment: .center, spacing: theme.spacing.md) {
                 VStack(spacing: theme.spacing.sm) {
                     VotingButtons(
@@ -49,45 +60,40 @@ struct SuggestionCard: View {
                     authorView
                     createdAtView
                 }
-                .padding(.trailing, theme.spacing.md)
+                .padding(.trailing, theme.spacing.xs)
                 Image(systemName: "chevron.right")
                     .font(.caption)
                     .foregroundColor(theme.colors.secondary.opacity(0.5))
                     .scaleEffect(isPressed ? 1.2 : 1.0)
             }
-            .padding(theme.spacing.md)
-            .background(
-                RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
-                    .fill(theme.colors.surface)
-                    .shadow(
-                        color: .black.opacity(isPressed ? 0.15 : 0.05),
-                        radius: isPressed ? 12 : 6,
-                        x: 0,
-                        y: isPressed ? 6 : 3
-                    )
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
-                    .stroke(
-                        LinearGradient(
-                            colors: [
-                                theme.colors.primary.opacity(isPressed ? 0.3 : 0.1),
-                                theme.colors.accent.opacity(isPressed ? 0.2 : 0.05)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: isPressed ? 1 : 0
-                    )
-            )
-            .scaleEffect(isPressed ? 1.005 : 1.0)
-            StatusBadge(
-                status: suggestion.status ?? .pending,
-                progress: suggestion.progress,
-                useLiquidGlass: useLiquidGlass
-            )
-            .padding(theme.spacing.sm)
+            .padding(.horizontal, theme.spacing.md)
+            .padding(.bottom, theme.spacing.md)
         }
+        .background(
+            RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                .fill(theme.colors.surface)
+                .shadow(
+                    color: .black.opacity(isPressed ? 0.15 : 0.05),
+                    radius: isPressed ? 12 : 6,
+                    x: 0,
+                    y: isPressed ? 6 : 3
+                )
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                .stroke(
+                    LinearGradient(
+                        colors: [
+                            theme.colors.primary.opacity(isPressed ? 0.3 : 0.1),
+                            theme.colors.accent.opacity(isPressed ? 0.2 : 0.05)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: isPressed ? 1 : 0
+                )
+        )
+        .scaleEffect(isPressed ? 1.005 : 1.0)
         .onTapGesture {
             isPressed = true
 
@@ -121,7 +127,6 @@ private extension SuggestionCard {
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer()
             }
-            .padding(.trailing, theme.spacing.llg)
             if let description = suggestion.description {
                 HStack {
                     Text(description)
