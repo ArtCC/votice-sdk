@@ -49,6 +49,7 @@ struct StatusBadge: View {
     }
 
     let status: SuggestionStatusEntity
+    let progress: Int?
     let useLiquidGlass: Bool
 
     // MARK: - View
@@ -57,8 +58,8 @@ struct StatusBadge: View {
         Text(statusText)
             .font(theme.typography.caption)
             .foregroundColor(.white)
-            .padding(.horizontal, theme.spacing.sm)
             .padding(.vertical, theme.spacing.xs)
+            .padding(.horizontal, theme.spacing.sm)
             .adaptiveGlassBackground(
                 useLiquidGlass: useLiquidGlass,
                 cornerRadius: theme.cornerRadius.sm,

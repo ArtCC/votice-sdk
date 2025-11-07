@@ -70,7 +70,11 @@ struct TVOSSuggestionCard: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             VStack {
-                StatusBadge(status: suggestion.status ?? .pending, useLiquidGlass: useLiquidGlass)
+                StatusBadge(
+                    status: suggestion.status ?? .pending,
+                    progress: suggestion.progress,
+                    useLiquidGlass: useLiquidGlass
+                )
                 Spacer()
             }
         }
