@@ -20,6 +20,27 @@ jobs:
       with:
         xcode-version: 'latest-stable'
 
+    - name: Ensure matching iOS Simulator runtime is installed
+      run: |
+        set -eo pipefail
+        XCODE_VERSION=$(xcodebuild -version | awk 'NR==1 { print $2 }')
+        DESIRED_RUNTIME=$(echo "$XCODE_VERSION" | cut -d'.' -f1,2)
+        if xcrun simctl list runtimes | grep -q "iOS ${DESIRED_RUNTIME}"; then
+          echo "✅ iOS ${DESIRED_RUNTIME} runtime already installed"
+          exit 0
+        fi
+
+        echo "ℹ️  iOS ${DESIRED_RUNTIME} runtime missing. Downloading..."
+        sudo xcodebuild -license accept
+        sudo xcodebuild -runFirstLaunch || true
+        sudo xcodebuild -downloadPlatform iOS
+
+        if ! xcrun simctl list runtimes | grep -q "iOS ${DESIRED_RUNTIME}"; then
+          echo "❌ Failed to install iOS ${DESIRED_RUNTIME} runtime"
+          exit 1
+        fi
+        echo "✅ Installed iOS ${DESIRED_RUNTIME} runtime"
+
     - name: List available simulators
       run: |
         echo "=== Xcode version ==="
