@@ -90,7 +90,7 @@ private extension StatusBadge {
 
     func inProgressTagView(with progress: Int) -> some View {
         let fullText = statusText
-        let splitIndex = Int(Double(fullText.count) * Double(progress) / 100.0)
+        let splitIndex = Int(Double(fullText.count) * Double(progress) / 100.0) + 1
         let completedPart = String(fullText.prefix(splitIndex))
         let remainingPart = String(fullText.dropFirst(splitIndex))
 
