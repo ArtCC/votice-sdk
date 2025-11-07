@@ -210,7 +210,17 @@ private extension SuggestionDetailView {
     }
 
     var suggestionHeaderCard: some View {
-        ZStack(alignment: .topTrailing) {
+        VStack(spacing: 5) {
+            HStack {
+                Spacer()
+                StatusBadge(
+                    status: currentSuggestion.status ?? .pending,
+                    progress: suggestion.progress,
+                    useLiquidGlass: viewModel.liquidGlassEnabled
+                )
+                .padding(.top, theme.spacing.sm)
+                .padding(.trailing, theme.spacing.sm)
+            }
             VStack(alignment: .leading, spacing: theme.spacing.sm) {
                 VStack(spacing: theme.spacing.sm) {
                     HStack(spacing: 5) {
@@ -226,8 +236,7 @@ private extension SuggestionDetailView {
                         Spacer()
                     }
                     .padding(.top, theme.spacing.md)
-                    .padding(.leading, theme.spacing.md)
-                    .padding(.trailing, theme.spacing.xxxxl)
+                    .padding(.horizontal, theme.spacing.md)
                     if let description = currentSuggestion.description, description != currentSuggestion.title {
                         HStack {
                             Text(description)
@@ -236,25 +245,18 @@ private extension SuggestionDetailView {
                                 .multilineTextAlignment(.leading)
                             Spacer()
                         }
-                        .padding(.leading, theme.spacing.md)
-                        .padding(.trailing, theme.spacing.xl)
+                        .padding(.horizontal, theme.spacing.md)
                         .padding(.bottom, theme.spacing.md)
                     }
                 }
                 authorInfoSection
             }
-            .background(
-                RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
-                    .fill(theme.colors.surface)
-                    .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-            )
-            StatusBadge(
-                status: currentSuggestion.status ?? .pending,
-                progress: suggestion.progress,
-                useLiquidGlass: viewModel.liquidGlassEnabled
-            )
-            .padding(theme.spacing.sm)
         }
+        .background(
+            RoundedRectangle(cornerRadius: theme.cornerRadius.lg)
+                .fill(theme.colors.surface)
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+        )
     }
 
     var authorInfoSection: some View {
