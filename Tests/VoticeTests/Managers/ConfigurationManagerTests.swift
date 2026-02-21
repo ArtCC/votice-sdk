@@ -21,7 +21,7 @@ struct ConfigurationManagerTests {
 
         // Then
         #expect(manager.isConfigured == false)
-        #expect(manager.baseURL == "https://api-svdrkzyfhq-uc.a.run.app/api")
+        #expect(manager.baseURL == "https://api.votice.app/api")
         #expect(manager.apiKey.isEmpty)
         #expect(manager.apiSecret.isEmpty)
         #expect(manager.appId.isEmpty)
@@ -129,7 +129,7 @@ struct ConfigurationManagerTests {
         #expect(manager.apiKey.isEmpty)
         #expect(manager.apiSecret.isEmpty)
         #expect(manager.appId.isEmpty)
-        #expect(manager.baseURL == "https://api-svdrkzyfhq-uc.a.run.app/api") // baseURL should remain
+        #expect(manager.baseURL == "https://api.votice.app/api") // baseURL should remain
 
         // Settings should be reset to defaults
         #expect(manager.commentIsEnabled == true)
@@ -324,7 +324,7 @@ struct ConfigurationManagerTests {
         let manager = ConfigurationManager()
 
         // Test immutable properties
-        #expect(manager.baseURL == "https://api-svdrkzyfhq-uc.a.run.app/api")
+        #expect(manager.baseURL == "https://api.votice.app/api")
         #expect(manager.version == "1.0.20")
         #expect(manager.buildNumber == "1")
 
